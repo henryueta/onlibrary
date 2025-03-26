@@ -1,0 +1,7 @@
+
+.sliderContainer{
+  background-color: var(--blue_var);
+   height: 26.5rem;
+   width: 100%;
+   border-radius: calc(var(--borderRadius_var) + 0.2rem);
+}
