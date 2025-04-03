@@ -1,6 +1,6 @@
 import './Home.route.css'
-import Nav from '../../components/nav/Nav.component'
-import Footer from '../../components/footer/Footer.component'
+import NavHome from '../../components/nav/main/NavHome.component'
+import FooterHome from '../../components/footer/home/FooterHome.component'
 import List from '../../components/list/List.component'
 import Slider from '../../components/slider/Slider.component'
 import Main from '../../components/main/Main.component'
@@ -37,7 +37,7 @@ function Home() {
 
   return (
     <section className='homeSection'>
-      <Nav/>
+      <NavHome/>
         <Main contentStyle={{
           flexDirection:"column",
           width:"var(--mainContainerWidth)",
@@ -49,7 +49,7 @@ function Home() {
           <List title="Livros em destaque" itemList={livros}/>
           <List title="Livros em destaque" itemList={livros}/>
         </Main>
-      <Footer/>
+      <FooterHome/>
     </section>
   )
 }

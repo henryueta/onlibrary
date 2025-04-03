@@ -1,0 +1,77 @@
+
+.loginContainer{
+   width: 650px;
+   height: 600px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+
+.loginTitleContainer{
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.loginContainer .formContainer{
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.loginContainer     .formContainer p{
+    margin-top: 2rem;
+}
+
+.loginContainer .formContainer>form{
+    width: 60%;
+}
+
+.loginContainer .formContainer>form>label{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.loginContainer .formContainer>label>p{
+    margin-top: 2rem;
+}
+
+.loginContainer .formContainer input{
+    width: 100%;
+    height: 2rem;
+    padding: 0.2rem;
+    border: none;
+    border-radius: var(--borderRadius_var);
+    outline: none;
+    margin-top: 1rem;
+}
+
+.loginOptionsContainer{
+    margin-top:4rem;
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+}
+
+.loginOptionsContainer>button{
+    padding: 0.8rem;
+    width: 150px;
+    border: none;
+    border-radius: var(--borderRadius_var);
+    font-weight: bold;
+}
+
+.loginOptionsContainer>button:first-child{
+   color: white;
+   border:0.15rem solid white;
+   background: none;
+}
+
+.loginOptionsContainer>button:last-child{
+    color: var(--blue_var);
+    background-color: white;
+}

@@ -1,0 +1,22 @@
+
+.navFormBar{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 20px;
+    padding:2.5rem;
+    background-color:var(--blue_var);
+    --navItemsHeight_var:2.9rem;
+    font-family: arial;
+}
+
+.navFormBar .logoContainer{
+    margin-left: 4rem;
+}
+
+.navFormBar img{
+    width: 255px;
+    height: 36px;
+}
+
+
