@@ -5,27 +5,16 @@ import { Link, useNavigate } from "react-router-dom";
 import "../global/global.component.css"
 import "./Login.component.css";
 
-const Login = () => {
+interface LoginProps{
 
-    const onNavigate = useNavigate();
+    children:React.ReactNode
+    handleLogin:()=>void
 
-    const schema = z.object({
-        usernameOrEmail:z.string().refine((val)=>val.trim().length > 0,{
-            message:"campo username ou senha deve ser preenchido"
-        }),
-        password:z.string().refine((val)=>val.trim().length > 0,{
-            message:"campo senha deve ser preenchido"
-        })
-    })
+}
 
-    type LoginProps = z.infer<typeof schema>
-
-    const {register,formState,handleSubmit} = useForm<LoginProps>({
-        resolver:zodResolver(schema),
-        reValidateMode:"onSubmit",
-        mode:"all"
-    });
-    const {errors} = formState;
+const Login = ({children,handleLogin}:LoginProps) => {
+    
+      const onNavigate = useNavigate();
 
     return (
     <section className="formSection">
@@ -37,29 +26,11 @@ const Login = () => {
             </div>
             <div className="formContainer">
                 <form>
-                    <label htmlFor="">
-                        <p>Username ou email</p>
-                        <input type="text" {...register("usernameOrEmail",{
-                            required:true
-                        })}/>
-                        <p>{errors.usernameOrEmail?.message}</p>
-                    </label>
-                    <label htmlFor="">
-                        <p>Senha</p>
-                        <input type="password" {...register("password",{
-                            required:true
-                        })}/>
-                        <Link to={""}>
-                            <span>
-                                Esqueceu sua senha?
-                            </span>
-                        </Link>
-                        <p>{errors.password?.message}</p>
-                    </label>
+                    {children}
                 </form>
             </div>
             <div className="loginOptionsContainer">
-                <button type="submit" onClick={()=>handleSubmit}>
+                <button type="submit" onClick={handleLogin}>
                     Entrar
                 </button>
                 <button type="button" onClick={()=>onNavigate("/register/step/name")}>

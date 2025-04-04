@@ -18,3 +18,9 @@
 ::-webkit-scrollbar-thumb{
   background-color: rgb(80, 121, 187);
 }
+
+@media (max-width:1024px)  {
+  body{
+    background-color: red;
+  }
+}

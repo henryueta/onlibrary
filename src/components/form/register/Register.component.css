@@ -46,14 +46,14 @@
     border: none;
 }
 
-/* .stepSection>button:first-child::after{
+.stepSection>button:first-child::after{
     content: "";
     position: relative;
     top: 70px;
     left: -203px;
     height: 50px;
     width: 0.10rem;
-    background-color: rgb(255, 255, 255);
+    border-right: 0.1rem solid white;
 }
 
 .stepSection>button:nth-child(2):after{
@@ -63,14 +63,22 @@
     left: -215px;
     height: 50px;
     width: 0.10rem;
-    background-color: rgb(255, 255, 255);
-} */
+    border-right: 0.1rem solid white;
+}
 
-.stepSection img{
+.stepSection button>div{
     border-radius: 100%;
     width: 50px;
     height: 50px;
-    background-color: white;
+    border: 1px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.stepSection button>div>img{
+    width: 50%;
+    height: 50%;
 }
 
 

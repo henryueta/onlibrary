@@ -42,8 +42,8 @@ function Home() {
           flexDirection:"column",
           width:"var(--mainContainerWidth)",
           gap:"3.5rem",
-          padding:"3.5rem 0px 3.5rem 0px",
-          marginTop:"5rem"
+          padding:"3.5rem 2rem 3.5rem 2rem",
+          marginTop:"5rem",
         }}>
         <Slider/>
           <List title="Livros em destaque" itemList={livros}/>

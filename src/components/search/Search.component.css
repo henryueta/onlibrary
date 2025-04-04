@@ -8,7 +8,7 @@
 .searchContainer>input{
     border: none;
     height: var(--searchWidth_var);
-    width: 750px;
+    width: 700px;
     padding: 0.5rem;
     outline: none;
     font-size: 1.1rem;

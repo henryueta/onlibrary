@@ -1,8 +1,11 @@
 import Register from "../../../../components/form/register/Register.component"
+import NavForm from "../../../../components/nav/form/NavForm.component"
 
 const SecondRegisterStep = () => {
   return (
-    <Register registerStep={2}>
+    <>
+      <NavForm/>
+      <Register registerStep={2}>
         <label htmlFor="">
           <p>Username:</p>
           <input type="text" />
@@ -15,7 +18,8 @@ const SecondRegisterStep = () => {
           <p>Telefone(opcional):</p>
           <input type="text" />
         </label>
-    </Register>
+      </Register>
+    </>
 
   )
 }

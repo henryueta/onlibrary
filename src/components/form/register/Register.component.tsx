@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "../global/global.component.css"
 import "./Register.component.css";
+import teste from "../../../assets/imgs/icons/image.png";
 
 type RegisterStepProps = 1 | 2 | 3;
 
@@ -23,6 +24,13 @@ const Register = ({children,registerStep}:RegisterProps) => {
 
     const onNavigate = useNavigate();
 
+    const onSelectedStep = (current_step:number,selector_step:number):React.CSSProperties=>{
+
+        return current_step === selector_step 
+        ? {backgroundColor:"rgb(17, 104, 155)"}
+        : {backgroundColor:"white"}
+    }
+
   return (
     <section className="formSection">
        <div className="registerContainer">
@@ -31,20 +39,35 @@ const Register = ({children,registerStep}:RegisterProps) => {
             </div>
             <div className="registerDetailsContainer">
                 <section className="stepSection">
-                    <button>
-                            <img src="" alt="" className="selectedStep"/>
+                    <button >
+                        <div style={
+                                onSelectedStep(registerStep,1)
+                            }>
+                            <img src={teste} alt="" 
+                            />
+                        </div>
                         <span>
                             Informações pessoais
                         </span>
                     </button>
                     <button>
-                            <img src="" alt="" />
+                        <div style={
+                                onSelectedStep(registerStep,2)
+                            }>
+                            <img src={teste} alt="" 
+                            />
+                        </div>
                         <span>
                             Informações de contato
                         </span>
                     </button>
                     <button>
-                            <img src="" alt="" />
+                        <div style={
+                                onSelectedStep(registerStep,3)
+                            }>
+                            <img src={teste} alt="" 
+                            />
+                        </div>
                         <span>
                             Criação de senha
                         </span>

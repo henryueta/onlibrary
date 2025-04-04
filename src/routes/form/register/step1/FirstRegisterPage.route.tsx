@@ -20,7 +20,7 @@ const FirstRegisterStep = () => {
             <input type="text"/>
         </label> 
       </Register> 
-      </>
+  </>
   )
 }
 
