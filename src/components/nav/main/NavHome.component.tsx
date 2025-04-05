@@ -23,11 +23,9 @@ const NavHome = () => {
           <button>
               <img src={favorite_icon} alt="favorite_icon" />
           </button>
-          <Link to="">
+          <Link to="/login">
               <img src={user_icon} alt="user_icon" />
-              <Link to={"/login"}>
                 Entre ou cadastre-se
-              </Link>
           </Link>         
         </div>
     </nav>

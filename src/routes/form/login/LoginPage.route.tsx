@@ -10,10 +10,10 @@ const LoginPage = () => {
 
 
   const schema = z.object({
-      usernameOrEmail:z.string().refine((val)=>val.trim().length > 0,{
+      usernameOrEmail_login:z.string().refine((val)=>val.trim().length > 0,{
           message:"campo username ou senha deve ser preenchido"
       }),
-      password:z.string().refine((val)=>val.trim().length > 0,{
+      password_login:z.string().refine((val)=>val.trim().length > 0,{
           message:"campo senha deve ser preenchido"
       })
   })
@@ -34,16 +34,16 @@ const LoginPage = () => {
         <label htmlFor="">
           <p>Username ou email</p>
           <input type="text" 
-          {...register("usernameOrEmail",
+          {...register("usernameOrEmail_login",
             {required:true}
             )
           }/>
-          <p>{errors.usernameOrEmail?.message}</p>
+          <p>{errors.usernameOrEmail_login?.message}</p>
         </label>
         <label htmlFor="">
           <p>Senha</p>
           <input type="password" 
-          {...register("password",
+          {...register("password_login",
             {required:true}
             )
           }/>
@@ -52,7 +52,7 @@ const LoginPage = () => {
               Esqueceu sua senha?
             </span>
           </Link>
-          <p>{errors.password?.message}</p>
+          <p>{errors.password_login?.message}</p>
         </label>
       </Login>
     </>

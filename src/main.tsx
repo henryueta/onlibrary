@@ -8,12 +8,12 @@ import SecondRegisterStep from './routes/form/register/step2/SecondRegisterPage.
 import ThirdRegisterStep from './routes/form/register/step3/ThirdRegisterPage..route.tsx'
 import LoginPage from './routes/form/login/LoginPage.route.tsx'
 import BookPage from './routes/book/BookPage.route.tsx'
-
+import AppProvider from './context/index.tsx'
 
 const router = createBrowserRouter([
   {
     path:"/",
-    element:<Home />
+    element:<Home/>
   },
   {
     path:"/book/",
@@ -39,6 +39,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router}/>
-  </StrictMode>,
+    <AppProvider>
+      <RouterProvider router={router}/>
+    </AppProvider>
+  </StrictMode>
 )

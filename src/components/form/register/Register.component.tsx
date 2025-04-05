@@ -2,14 +2,17 @@ import { useNavigate } from "react-router-dom";
 import "../global/global.component.css"
 import "./Register.component.css";
 import teste from "../../../assets/imgs/icons/image.png";
+import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useRegisterContext } from "../../../context/RegisterContext";
 
 type RegisterStepProps = 1 | 2 | 3;
 
-interface RegisterProps {
+interface RegisterProps <T extends object>{
 
     children:React.ReactNode,
     registerStep:RegisterStepProps
-
+    handleRegister:()=>void
 }
 
 const registerSteps = ["/register/step/name","/register/step/contact","/register/step/password"]
@@ -20,16 +23,20 @@ const onRegisterNavigate = (step:number,type:"previous"|"next")=>{
     : step === 2 ? "/" : registerSteps[step+1];
 }
 
-const Register = ({children,registerStep}:RegisterProps) => {
+const Register = <T extends object>({children,registerStep,handleRegister}:RegisterProps<T>) => {
 
     const onNavigate = useNavigate();
+    const [isComplete,setIsComplete] = useState(false);
 
     const onSelectedStep = (current_step:number,selector_step:number):React.CSSProperties=>{
-
         return current_step === selector_step 
         ? {backgroundColor:"rgb(17, 104, 155)"}
         : {backgroundColor:"white"}
     }
+
+    useEffect(()=>{
+        
+    },[])
 
   return (
     <section className="formSection">
@@ -74,7 +81,7 @@ const Register = ({children,registerStep}:RegisterProps) => {
                     </button>
                 </section>
                 <div className="formContainer">
-                    <form>
+                    <form> 
                         {children}
                     </form>
                 </div>
@@ -83,12 +90,16 @@ const Register = ({children,registerStep}:RegisterProps) => {
                 <button onClick={()=>onNavigate(onRegisterNavigate(registerStep-1,"previous"))}>
                     Voltar
                 </button>
-                <button onClick={()=>onNavigate(onRegisterNavigate(registerStep-1,"next"))}>
+                <button onClick={()=>{
+                    handleRegister()
+                    return true == true ? onNavigate(onRegisterNavigate(registerStep-1,"next")) : console.log("AA")
+                }}>
                     Próximo
                 </button>
             </div>
        </div>
     </section>
+    //
   )
 }
 
