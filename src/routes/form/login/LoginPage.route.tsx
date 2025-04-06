@@ -10,11 +10,11 @@ const LoginPage = () => {
 
 
   const schema = z.object({
-      usernameOrEmail_login:z.string().refine((val)=>val.trim().length > 0,{
-          message:"campo username ou senha deve ser preenchido"
+      usernameOrEmail_login:z.string().refine((val)=>val.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) || val.match(/^[a-zA-Z0-9]{5,20}$/) && val.trim().length > 0,{
+          message:"Campo username/email inválido"
       }),
-      password_login:z.string().refine((val)=>val.trim().length > 0,{
-          message:"campo senha deve ser preenchido"
+      password_login:z.string().refine((val)=>val.trim().length >= 8,{
+          message:"Campo senha inválido"
       })
   })
 

@@ -1,20 +1,19 @@
 import "./FirstRegisterPage.route.css";
 import Register from "../../../../components/form/register/Register.component";
 import NavForm from "../../../../components/nav/form/NavForm.component";
-import {useForm} from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef, useState } from "react";
 import { useRegisterContext } from "../../../../context/RegisterContext";
+import { PatternFormat } from "react-number-format";
 
 const schema = z.object({
-    name_reg:z.string().refine((val)=>{
-      return val.trim().length > 0,{
-      message:"Campo nome deve ser preenchido"
-    }
+    name_reg:z.string().refine((val)=>val.match(/[A-Z]{1}[a-z]/) && val.trim().length > 0,{
+      message:"Campo nome inválido"
     }),
-    lastName_reg:z.string().refine((val)=>val.trim().length > 0,{
-      message:"Campo sobrenome deve ser preenchido"
+    lastName_reg:z.string().refine((val)=>val.match(/[A-Z]{1}[a-z]/) && val.trim().length > 0,{
+      message:"Campo sobrenome inválido"
     }),
     cpf_reg:z.string().refine((val)=>val.match(/[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}/),{
       message:"Campo CPF inválido"
@@ -30,12 +29,11 @@ const FirstRegisterStep = () => {
   const [isComplete,setIsComplete] = useState(false);
   useEffect(()=>{
     nameInput.current?.focus();
-
   },[])
 
 
 
-  const {register,formState,handleSubmit} = useForm<RegisterStep1Props>({
+  const {register,control,formState,handleSubmit} = useForm<RegisterStep1Props>({
     mode:"all",
     reValidateMode:"onSubmit",
     resolver:zodResolver(schema),
@@ -46,20 +44,29 @@ const FirstRegisterStep = () => {
     }
   });
 
-  const {errors} = formState;
+  const {errors,isValid} = formState;
 
   // const teste = (data:RegisterStep1Props)=>{
   //     setIsComplete(!!data)
   //     console.log(isComplete)
   // }
-
+    // "@rollup/rollup-linux-x64-gnu": "^4.39.0",
 
   return (
    <>
     <NavForm/>
-    <Register registerStep={1} handleRegister={handleSubmit((data)=>{
-      onStep(1,data)
-    })}>
+    <Register registerStep={1} handleRegister={()=>{
+      return isValid 
+      ? (()=>{
+        handleSubmit((data)=>{
+          return onStep(1,data)
+        })()
+        return true
+      })()
+      : (()=>{
+        return false
+      })()
+    }}>
         <label htmlFor="">
           <p>Nome:</p>
           <input type="text"
@@ -77,9 +84,15 @@ const FirstRegisterStep = () => {
         </label>
         <label htmlFor="">
             <p>CPF:</p>
-            <input type="text" {...register("cpf_reg",{
-              required:true
-            })}/>
+            <Controller
+              name="cpf_reg"
+              control={control}
+              render={({field})=>(
+              <PatternFormat {...field} format="###.###.###-##" mask="_" />
+            )}
+            >
+            </Controller>
+            {/* <input type="text" /> */}
             <p>{errors.cpf_reg?.message}</p>
         </label> 
       </Register> 

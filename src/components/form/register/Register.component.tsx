@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import "../global/global.component.css"
 import "./Register.component.css";
 import teste from "../../../assets/imgs/icons/image.png";
-import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useRegisterContext } from "../../../context/RegisterContext";
 
@@ -12,19 +11,22 @@ interface RegisterProps <T extends object>{
 
     children:React.ReactNode,
     registerStep:RegisterStepProps
-    handleRegister:()=>void
+    handleRegister:()=>boolean
 }
 
 const registerSteps = ["/register/step/name","/register/step/contact","/register/step/password"]
 
 const onRegisterNavigate = (step:number,type:"previous"|"next")=>{
     return type === "previous" 
-    ? step === 0 ? "/login" : registerSteps[step-1]
+    ? step === 0 ? "/login" : (()=>{
+        
+       return registerSteps[step-1]
+    })()
     : step === 2 ? "/" : registerSteps[step+1];
 }
 
 const Register = <T extends object>({children,registerStep,handleRegister}:RegisterProps<T>) => {
-
+    const {formData} = useRegisterContext()
     const onNavigate = useNavigate();
     const [isComplete,setIsComplete] = useState(false);
 
@@ -33,10 +35,6 @@ const Register = <T extends object>({children,registerStep,handleRegister}:Regis
         ? {backgroundColor:"rgb(17, 104, 155)"}
         : {backgroundColor:"white"}
     }
-
-    useEffect(()=>{
-        
-    },[])
 
   return (
     <section className="formSection">
@@ -91,8 +89,7 @@ const Register = <T extends object>({children,registerStep,handleRegister}:Regis
                     Voltar
                 </button>
                 <button onClick={()=>{
-                    handleRegister()
-                    return true == true ? onNavigate(onRegisterNavigate(registerStep-1,"next")) : console.log("AA")
+                    return handleRegister() && onNavigate(onRegisterNavigate(registerStep-1,"next")) 
                 }}>
                     Próximo
                 </button>

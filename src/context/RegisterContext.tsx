@@ -3,8 +3,7 @@ import { createContext,useContext,useEffect,useState } from "react"
 type StepIndex = 1|2|3;
 
 
-
-   type FirstDataProps = Record<"name_reg"|"lastName_reg"|"cpf_reg",string>
+   type FirstDataProps = Record<"name_reg"|"lastName_reg"|"cpf_reg",string> 
    type SecondDataProps = Record<"username_reg"|"email_reg"|"telephone_reg",string>
    type ThirdDataProps = Record<"password_reg",string>
 
@@ -16,12 +15,21 @@ interface RegisterStepsProps{
 
 
 interface RegisterFormProps {
-
-    isValidated:boolean;
+    isValidated:boolean,
     steps:[
-        RegisterStepsProps,
-        RegisterStepsProps,
-        RegisterStepsProps
+        {
+            isValidated:boolean,
+            data:FirstDataProps | null
+        },
+        {
+            isValidated:boolean,
+            data:SecondDataProps | null
+        },
+        {
+            isValidated:boolean,
+            data:ThirdDataProps | null
+        }
+        
     ]
 
 }
@@ -29,13 +37,31 @@ interface RegisterFormProps {
 const RegisterContext = createContext({} as RegisterProps)
 
 interface RegisterProps {
-    teste:FormDataProps
+    teste:FormDataProps | null
     onStep:(step:StepIndex,data:any)=>void
+    formData:RegisterFormProps
 } 
 
 const RegisterProvider = ({children}:{children:React.ReactNode}) => {
 
     const [teste,setTeste] = useState<FormDataProps>(null);
+    const [formData,setFormData] = useState<RegisterFormProps>({
+        isValidated:false,
+        steps:[
+            {
+                isValidated:false,
+                data:null
+            },
+            {
+                isValidated:false,
+                data:null
+            },
+            {
+                isValidated:false,
+                data:null
+            }
+        ]
+    })
 
     useEffect(()=>{
         console.log(teste)
@@ -71,16 +97,24 @@ const RegisterProvider = ({children}:{children:React.ReactNode}) => {
                         lastName_reg:data?.lastName_reg ,
                         cpf_reg: data?.cpf_reg } as FormDataProps
                 )
+                setFormData({...formData,
+                    steps:formData.steps.map((item,num)=>{
+                        if(num === 0){
+                            return {...item,data:data,isValidated:true}
+                        }
+                    })  } as RegisterFormProps)
             },
             2:(data:FormDataProps)=>{
-                setTeste({...teste,
-                    email_reg:data?.email_reg,
-                    username_reg:data?.username_reg,
-                    telephone_reg: data?.telephone_reg} as FormDataProps
-            )
+                    setTeste({...teste,
+                        email_reg:data?.email_reg,
+                        username_reg:data?.username_reg,
+                        telephone_reg: data?.telephone_reg} as FormDataProps
+                )
             },
-            3:(data:DataProps)=>{
-                
+            3:(data:FormDataProps)=>{
+                setTeste({...teste,
+                    password_reg:data?.password_reg
+                } as FormDataProps)
             }
         }
 
@@ -90,9 +124,8 @@ const RegisterProvider = ({children}:{children:React.ReactNode}) => {
             //step:number
             //isValidated:boolean
             //}
-            console.log(data)
-
-              checkStep[step](data)
+            // console.log(data)
+            checkStep[step](data)
         }   
 
         // !!searchStep
@@ -116,7 +149,7 @@ const RegisterProvider = ({children}:{children:React.ReactNode}) => {
     }
 
   return (
-    <RegisterContext.Provider value={{teste,onStep}}>
+    <RegisterContext.Provider value={{formData,teste,onStep}}>
         {children}
     </RegisterContext.Provider>
   )

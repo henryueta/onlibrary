@@ -3,6 +3,8 @@ import NavForm from "../../../../components/nav/form/NavForm.component"
 import {useForm} from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRegisterContext } from "../../../../context/RegisterContext";
+import { useEffect } from "react";
 
 const schema = z.object({
     password_reg:z.string()
@@ -16,20 +18,31 @@ const schema = z.object({
 type RegisterStep3Props = z.infer<typeof schema>;
 
 const ThirdRegisterStep = () => {
-  
+
+  const {onStep} = useRegisterContext();
   const {register,formState,handleSubmit} = useForm<RegisterStep3Props>({
     mode:"all",
     reValidateMode:"onSubmit",
     resolver:zodResolver(schema)
   });
 
-  const {errors} = formState
-  
+  const {isValid,errors} = formState
 
   return (
     <>
       <NavForm/>
-      <Register registerStep={3}>
+      <Register registerStep={3} handleRegister={()=>{
+      return isValid 
+      ? (()=>{
+        handleSubmit((data)=>{
+          return onStep(3,data)
+        })()
+        return true
+      })()
+      : (()=>{
+        return false
+      })()
+    }}>
         <label htmlFor="">
           <p>Senha:</p>
           <input type="password" 
