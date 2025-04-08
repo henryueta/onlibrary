@@ -1,18 +1,14 @@
 import { createContext,useContext,useEffect,useState } from "react"
+import Cookies from "js-cookie";
+import useHandleAuth from "../hooks/usehandleAuth";
 
 type StepIndex = 1|2|3;
-
 
    type FirstDataProps = Record<"name_reg"|"lastName_reg"|"cpf_reg",string> 
    type SecondDataProps = Record<"username_reg"|"email_reg"|"telephone_reg",string>
    type ThirdDataProps = Record<"password_reg",string>
 
    type FormDataProps = Record<"name_reg"|"lastName_reg"|"cpf_reg"|"username_reg"|"email_reg"|"telephone_reg"|"password_reg",string> | null
-
-interface RegisterStepsProps{
-    isValidated:boolean,
-}
-
 
 interface RegisterFormProps {
     isValidated:boolean,
@@ -62,33 +58,13 @@ const RegisterProvider = ({children}:{children:React.ReactNode}) => {
             }
         ]
     })
+    const {context,onHandleStatus} = useHandleAuth();
 
     useEffect(()=>{
         console.log(teste)
     },[teste])
 
-    // const [registerForm,setRegisterForm] = useState<RegisterFormProps>({
-    //     isValidated:false,
-    //     steps:[
-    //         {
-    //             isValidated:false,
-    //         },
-    //         {
-    //             isValidated:false,
-    //         },
-    //         {
-    //             isValidated:false,
-    //         }
-    //     ]
-    // })
-    type DataProps =  FirstDataProps|SecondDataProps|ThirdDataProps
-
-
     const onStep = (step:StepIndex,data:FormDataProps)=>{
-        
-        // const searchStep = registerForm.steps.find((item,number)=>{
-        //     return number+1 === step
-        // })
 
         const checkStep = {
             1:(data:FormDataProps)=>{
@@ -112,40 +88,28 @@ const RegisterProvider = ({children}:{children:React.ReactNode}) => {
                 )
             },
             3:(data:FormDataProps)=>{
+                
                 setTeste({...teste,
                     password_reg:data?.password_reg
                 } as FormDataProps)
+                Cookies.set("userStatus",JSON.stringify({
+                  errorStatus:{
+                    hasError:false,
+                    errorValue:""
+                  },
+                  authStatus:{
+                    hasAuth:true,
+                    authValue:"KJK1"
+                  } 
+                }))
+                context.setUserStatus(onHandleStatus())
             }
         }
 
         if( !!data){
-            //requisição que devolverá true ou false
-            //{
-            //step:number
-            //isValidated:boolean
-            //}
-            // console.log(data)
             checkStep[step](data)
-        }   
-
-        // !!searchStep
-        // && (
-        //     setRegisterForm((prev)=>{
-        //         return {
-        //             ...prev,steps:{...prev.steps,
-        //                 ...prev.steps
-        //                 // prev.steps.map((item)=>{
-        //                 //     return item.index === step 
-        //                 //     ?  {item,data}
-        //                 //     : item
-        //                 // })
-        //             }
-        //         }
-        //     })
-        // )
+        }  
         
-        
-
     }
 
   return (

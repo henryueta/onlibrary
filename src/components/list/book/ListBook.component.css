@@ -1,0 +1,44 @@
+
+.listBookSection{
+  width: 100%;
+  font-family: arial;
+  color: var(--blackFont_var);
+  background-color: white;
+  border-radius: calc(var(--borderRadius_var) + 0.2rem);
+}
+
+.listBookSection>*{
+  display: block;
+  margin-top: 2rem;
+  padding: 0px 3rem 0px 3rem;
+}
+
+.listBookTitleContainer{
+   font-size: 1.6rem;
+}
+
+.itemContainer{
+  padding: 1rem;
+  display: flex;
+  justify-content: start;
+  justify-content: space-evenly;
+  gap: 2rem;
+  align-items: center;
+}
+
+.itemContainer>div{
+  /* border: 1px solid var(--blackFont_var);  */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;  
+  cursor: pointer;
+}
+
+.itemContainer>div:hover{
+  transform: scale(1.1);
+}
+
+.itemContainer>div>p{
+  padding: 0.5rem;
+}

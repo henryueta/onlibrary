@@ -1,7 +1,7 @@
 import './Home.route.css'
-import NavHome from '../../components/nav/main/NavHome.component'
+import NavHome from '../../components/nav/home/NavHome.component'
 import FooterHome from '../../components/footer/home/FooterHome.component'
-import List from '../../components/list/List.component'
+import ListBook from '../../components/list/book/ListBook.component'
 import Slider from '../../components/slider/Slider.component'
 import Main from '../../components/main/Main.component'
 import teste from "../../assets/imgs/teste.webp"
@@ -46,8 +46,8 @@ function Home() {
           marginTop:"5rem",
         }}>
         <Slider/>
-          <List title="Livros em destaque" itemList={livros}/>
-          <List title="Livros em destaque" itemList={livros}/>
+          <ListBook title="Livros em destaque" itemList={livros}/>
+          <ListBook title="Livros em destaque" itemList={livros}/>
         </Main>
       <FooterHome/>
     </section>

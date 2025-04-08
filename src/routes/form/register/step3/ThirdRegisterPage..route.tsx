@@ -1,4 +1,4 @@
-import Register from "../../../../components/form/register/Register.component"
+import Register from "../../../../components/form/register/user/Register.component"
 import NavForm from "../../../../components/nav/form/NavForm.component"
 import {useForm} from "react-hook-form";
 import z from "zod";

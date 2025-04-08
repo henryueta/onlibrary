@@ -1,0 +1,9 @@
+
+.managementSection{
+    display: flex;
+    flex-direction: row;
+}
+
+.dataContentSection{
+    width: 100vw;
+}

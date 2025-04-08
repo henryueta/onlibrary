@@ -9,6 +9,8 @@ import ThirdRegisterStep from './routes/form/register/step3/ThirdRegisterPage..r
 import LoginPage from './routes/form/login/LoginPage.route.tsx'
 import BookPage from './routes/book/BookPage.route.tsx'
 import AppProvider from './context/index.tsx'
+import Management from './routes/admin/Management.route.tsx'
+import Private from './routes/private/Private.route.tsx'
 
 const router = createBrowserRouter([
   {
@@ -34,6 +36,14 @@ const router = createBrowserRouter([
   {
     path:"/register/step/password",
     element:<ThirdRegisterStep/>
+  },
+  {
+    path:"/a",
+    element:<></>
+  },
+  {
+    path:"/management/library",
+    element:<Private><Management/></Private>
   }
 ])
 

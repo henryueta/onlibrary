@@ -1,10 +1,13 @@
 import { RegisterProvider } from "./RegisterContext"
+import { AuthProvider } from "./AuthContext"
 
 const AppProvider = ({children}:{children:React.ReactNode}) => {
   return (
-    <RegisterProvider>
-        {children}
-    </RegisterProvider>
+    <AuthProvider>
+        <RegisterProvider>
+            {children}
+        </RegisterProvider>
+    </AuthProvider>
   )
 }
 
