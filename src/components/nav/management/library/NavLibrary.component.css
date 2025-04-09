@@ -24,15 +24,18 @@
 
 .libraryOptionsContainer details{
     font-size: 1.2rem;
-    padding: 0.3rem;
     color: white;
+    width: 100%;
 }
 
-
 .libraryOptionsContainer img{
-    border: 2px solid red;
+    border: 2px solid rgb(18, 103, 156);
     height: 2rem;
     width: 2rem;
+}
+
+.libraryOptionsContainer li>img{
+    margin-left: 10px;
 }
 
 .libraryOptionsContainer summary{
@@ -40,31 +43,48 @@
     cursor: pointer;
     display: flex;
     align-items:center;
-    padding: 0rem 0.6rem 0rem 0.6rem;
     gap: 0.5rem;
+    padding: 0.6rem;
 }
 
-.libraryOptionsContainer details[open] summary{
-    list-style-type: '';
+.libraryOptionsContainer details[open]>summary{
+    background-color: var(--selectedBlue_var);
 }
+
 
 .libraryOptionsContainer ul{
     /* border: 2px solid red; */
     list-style: none;
+    display: flex;
+    flex-direction: column;
 }
 
 .libraryOptionsContainer li{
-    /* border: 2px solid white; */
     display: flex;
     align-items:center;
-    padding: 0rem 0.6rem 0rem 0.6rem;
     gap: 0.5rem;
     margin-top: 1rem;
+}
+
+.libraryOptionsContainer li:has(:not(a)){
+    /* padding: 0.5rem; */
+}
+
+.libraryOptionsContainer details details{
+}
+
+
+.libraryOptionsContainer li> span{
+    display: flex;
+}
+
+.libraryOptionsContainer a {
 }
 
 .libraryOptionsContainer a{
     text-decoration: none;
     color: white;
+    flex: 1;
 }
 
 summary::after {

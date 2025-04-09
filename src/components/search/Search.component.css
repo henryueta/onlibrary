@@ -2,19 +2,6 @@
 .searchContainer{
     display: flex;
     --searchWidth_var:calc(var(--navItemsHeight_var) - 0.3rem);
-   
-}
-
-.searchContainer>input{
-    border: none;
-    height: var(--searchWidth_var);
-    width: 700px;
-    padding: 0.5rem;
-    outline: none;
-    font-size: 1.1rem;
-    border-top-left-radius: var(--borderRadius_var);
-    border-bottom-left-radius: var(--borderRadius_var);
-    color: var(--blackFont_var);
 }
 
 .searchContainer>button{

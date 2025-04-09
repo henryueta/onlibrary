@@ -11,6 +11,7 @@ import BookPage from './routes/book/BookPage.route.tsx'
 import AppProvider from './context/index.tsx'
 import Management from './routes/admin/Management.route.tsx'
 import Private from './routes/private/Private.route.tsx'
+import Table from './components/table/Table.component.tsx'
 
 const router = createBrowserRouter([
   {
@@ -43,7 +44,14 @@ const router = createBrowserRouter([
   },
   {
     path:"/management/library",
-    element:<Private><Management/></Private>
+    element:
+    <Private>
+      <Management hasListTableButton={true}>
+        <>
+          <Table type='book'></Table>
+        </>
+      </Management>
+    </Private>
   }
 ])
 

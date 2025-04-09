@@ -3,6 +3,7 @@
   margin: 0;
   box-sizing: border-box;
   --blue_var: rgb(23, 146, 218);
+  --selectedBlue_var:rgb(7, 119, 184);
   --white_var:white;
   --gray_var:rgb(209, 209, 209);
   --whiteHover_var:rgb(150, 204, 238);
