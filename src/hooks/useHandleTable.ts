@@ -4,7 +4,7 @@ export type TableType = "book" | "user" | "loan" | "reservation" | "amerce" | "e
 
 interface TableProps{
     headerList:string[],
-    dataList:string[]
+    dataList:string[][]
 }
 
 const useHandleTable = <T>()=>{
@@ -34,15 +34,28 @@ const useHandleTable = <T>()=>{
         setTable({
             headerList:tableTypeList[0].headers,
             dataList:[
-                "A névoa da floresta",
-                "Endrick",
-                "ACJ",
-                "Adulto",
-                "Suspense",
-                "3",
-                "1",
-                "C",
-                "Suspense"
+                [
+                    "A névoa da floresta",
+                    "Endrick",
+                    "ACJ",
+                    "Adulto",
+                    "Suspense",
+                    "3",
+                    "1",
+                    "C",
+                    "Suspense"
+                ],
+                [
+                    "A névoa da floresta",
+                    "Endrick",
+                    "ACJ",
+                    "Adulto",
+                    "Suspense",
+                    "3",
+                    "1",
+                    "C",
+                    "Suspense"
+                ]
             ]
         })
 

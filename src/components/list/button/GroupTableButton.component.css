@@ -9,7 +9,7 @@
 
 .buttonTableListContainer a{
     text-decoration: none;
-    border: 0.15rem solid var(--gray_var);
+    border: 0.15rem solid var(--grayLine_var);
     border-radius: calc(var(--borderRadius_var) + 0.5rem);
     display: flex;
     flex: 1;

@@ -39,19 +39,22 @@ const router = createBrowserRouter([
     element:<ThirdRegisterStep/>
   },
   {
-    path:"/a",
-    element:<></>
-  },
-  {
     path:"/management/library",
     element:
     <Private>
-      <Management hasListTableButton={true}>
-        <>
-          <Table type='book'></Table>
-        </>
+      <Management hasGroupTableButton={true}>
+        <></>
       </Management>
     </Private>
+  },
+  {
+    path:"/management/library/books",
+    element:
+    <Private>
+    <Management hasGroupTableButton={true}>
+        <Table type='book'></Table>
+    </Management>
+  </Private>
   }
 ])
 

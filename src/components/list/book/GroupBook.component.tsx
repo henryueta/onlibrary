@@ -1,18 +1,18 @@
 import { useState } from "react";
-import "./ListBook.component.css";
+import "./GroupBook.component.css";
 
 
 type ItemProps = Record<'image'|'title',string>
 
-interface ListBookProps{
+interface GroupBookProps{
     title:string,
     itemList:ItemProps[]
 }
 
-const ListBook = ({
+const GroupBook = ({
     title,
     itemList
-}:ListBookProps) => {
+}:GroupBookProps) => {
   return (
     <section className="listBookSection">
         <div className="listBookTitleContainer">
@@ -32,4 +32,4 @@ const ListBook = ({
     </section>
   )
 }
-export default ListBook
+export default GroupBook

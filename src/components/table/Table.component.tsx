@@ -1,7 +1,7 @@
 import Search from "../search/Search.component"
 import "./Table.component.css"
 import useHandleTable, { TableType } from "../../hooks/useHandleTable"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 interface TableProps {
 
@@ -12,6 +12,7 @@ interface TableProps {
 const Table = ({type}:TableProps) => {
 
   const {onQueryData,table} = useHandleTable();
+  const [maxOfData,setMaxOfData] = useState<number>(15);
 
   useEffect(()=>{
     onQueryData(type,15)
@@ -30,10 +31,18 @@ const Table = ({type}:TableProps) => {
             <Search/>
         <div className="tableOptionsContainer">
            <span>
-                Exibir
-                <input type="number" />
+                Exibir 
+            </span>
+            <input type="number" value={maxOfData} onChange={(e)=>{
+              let current_value = parseInt(e.target.value)
+              !!e.target.value && current_value > 0
+              ? setMaxOfData(current_value)
+              : setMaxOfData(1);
+            }}/>
+            <span>
                 Registros
-           </span>
+            </span> 
+          
            <button>
                 Cadastrar Livro
            </button>
@@ -45,17 +54,41 @@ const Table = ({type}:TableProps) => {
       <tr>
         {
           table?.headerList.map((item,index)=>
-            <th key={index}>{item}</th>
+            <th key={index}>
+              {item}
+            </th>
           )
         }
-       </tr>
-        <tr>
-          {
+            <th>
+              Action
+            </th>
+       </tr>       
+            {
+              table?.dataList.map((item,index)=>
+                <tr key={index}>                   
+                      {
+                        item.map((item,index)=>
+                          <td>
+                            {item.slice(0,15).concat("...")}
+                          </td>
+                        )
+                      }
+                          <td>
+                            <button>
+                              Editar
+                            </button>
+                          </td>    
+                </tr>
+              )
+            }
+      
+        {/* {
             table?.dataList.map((item,index)=>
-              <td key={index}>{item}</td>
+              <td key={index}>
+                {item}
+              </td>
             )
-          }
-        </tr>
+          } */}
       </thead>
         </table>
       </div>

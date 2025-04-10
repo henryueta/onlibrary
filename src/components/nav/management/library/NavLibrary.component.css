@@ -6,10 +6,6 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.navLibrary>*{
-    /* border: 2px solid red; */
-}
-
 .navLibrary .logoContainer{
     padding: 1.2rem;
     display: flex;
@@ -23,7 +19,7 @@
 }
 
 .libraryOptionsContainer details{
-    font-size: 1.2rem;
+    
     color: white;
     width: 100%;
 }
@@ -57,6 +53,7 @@
     list-style: none;
     display: flex;
     flex-direction: column;
+    font-size: 1.2rem;
 }
 
 .libraryOptionsContainer li{
@@ -64,6 +61,8 @@
     align-items:center;
     gap: 0.5rem;
     margin-top: 1rem;
+    color: white;
+    cursor: pointer;
 }
 
 .libraryOptionsContainer li:has(:not(a)){

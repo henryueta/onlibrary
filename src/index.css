@@ -5,7 +5,9 @@
   --blue_var: rgb(23, 146, 218);
   --selectedBlue_var:rgb(7, 119, 184);
   --white_var:white;
-  --gray_var:rgb(209, 209, 209);
+  --grayContainer_var:rgb(235, 235, 235);
+  --grayLine_var:rgb(209, 209, 209);
+  --grayFont_var:rgb(122, 122, 122);
   --whiteHover_var:rgb(150, 204, 238);
   --blackFont_var: rgb(51, 51, 51);
   --borderRadius_var:0.2rem;

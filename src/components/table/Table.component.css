@@ -2,7 +2,7 @@
 .tableSection{
     margin-top: 5rem;
     padding: 0.5rem 0rem 0.5rem 0rem;
-    border: 0.15rem solid var(--gray_var);
+    border: 0.12rem solid var(--grayLine_var);
     border-radius: calc(var(--borderRadius_var) + 0.5rem);
     width: 95%;
     display: flex;
@@ -13,8 +13,9 @@
 .tableSection .titleContainer{
     display: flex;
     gap: 0.3rem;
-    padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+    padding: 1rem 1.5rem 1rem 1.5rem;
     font-size: 1.25rem;
+    margin-bottom: 0.5rem;
 }
 
 .tableSection .titleContainer>img{
@@ -30,20 +31,101 @@
 }
 
 
-.tableSection .managementContainer>*{
+.tableSection .searchContainer{
     /* border: 2px solid red; */
+    display: flex;
+    align-items: center;
+}
+
+.managementContainer{    width: 100%;
 }
 
 .managementContainer .searchContainer>input{
     width: 35rem;
-    height: 2rem;
+    height: 2.5rem;
+    padding: 0.3rem;
+    font-size: 1rem;
+    outline: none;
 }
 
 .managementContainer .searchContainer>button{
     width: 2rem;
+    height: 2.5rem;
+}
+
+.tableOptionsContainer {
+    color: var(--grayFont_var);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0px 0.5rem 0px 0.5rem;
+}
+
+.tableOptionsContainer span{
+    margin: 0px 0.5rem 0px 0.5rem;
+}
+
+.tableOptionsContainer input[type=number]{
+    width: 5rem;
+    height: 3rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    outline: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button {
+cursor: pointer;
+  width: 0.8rem;
+  height: 2.5rem;
+}
+
+.tableOptionsContainer button{
+    cursor: pointer;
+    background-color: var(--blue_var);
+    border: none;
+    border-radius: var(--borderRadius_var);
+    color: white;
+    padding: 1.3rem 1.8rem 1.3rem 1.8rem;
+    margin-left: 2rem;
 }
 
 .tableContainer{
     margin-top: 1.8rem;
-    border: 2px solid red;
+}
+
+.tableContainer>table{
+    display: flex;
+    }
+
+.tableContainer>table thead{
+    flex: 1;
+}
+
+.tableContainer>table tr{
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    padding: 0.5rem;
+}
+
+.tableContainer>table tr:has(th){
+    background-color: var(--grayContainer_var);
+}
+
+.tableContainer>table th{
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: start;
+    font-weight: 400;
+
+}
+
+
+.tableContainer>table td{
+    display: flex;
+    padding: 0.5rem 0rem 0.5rem 0rem;
+    flex: 1;
+    align-items: center;
+    justify-content: start;
 }

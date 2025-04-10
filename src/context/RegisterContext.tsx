@@ -38,7 +38,7 @@ interface RegisterProps {
     formData:RegisterFormProps
 } 
 
-const RegisterProvider = ({children}:{children:React.ReactNode}) => {
+const RegisterProvider = ({children}:{children:React.ReactElement}) => {
 
     const [teste,setTeste] = useState<FormDataProps>(null);
     const [formData,setFormData] = useState<RegisterFormProps>({

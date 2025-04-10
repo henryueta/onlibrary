@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
-import "./ListTableButton.component.css";
+import "./GroupTableButton.component.css";
 
 
 type ButtonProps = Record<'icon'|'title'|'quantity'|'redirectTo',string>;
 
-interface ListTableButtonProps {
+interface GroupTableButtonProps {
   buttonList:ButtonProps[]
 }
 
-const ListTableButton = ({buttonList}:ListTableButtonProps) => {
+const GroupTableButton = ({buttonList}:GroupTableButtonProps) => {
   return (
     <div className="buttonTableListContainer">
       {
@@ -32,4 +32,4 @@ const ListTableButton = ({buttonList}:ListTableButtonProps) => {
   )
 }
 
-export default ListTableButton
+export default GroupTableButton

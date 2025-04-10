@@ -3,6 +3,7 @@ import { useState } from "react"
 type ItemIdentityProps = Record<'title'|'icon',string>
 
 interface ItemContentProps{
+    onClickProp?:()=>void
     hasIcon:boolean,
     hasRedirectTo:boolean,
     redirectTo?:string,
@@ -13,42 +14,28 @@ type ItemDetailsProps = Partial<ItemIdentityProps> & ItemContentProps
 
 type DetailsProps = ItemIdentityProps & Record<'list',ItemDetailsProps[]> & ItemContentProps
 
-const Details = ({hasIcon,hasRedirectTo,redirectTo,title,icon,list}:DetailsProps) => {
-    const [summary,setSummary] = useState<React.ReactElement>(<summary>
-        
-        {
-            hasIcon &&(
-                <img src={icon} alt={title+"_icon"} />
-            )
-        }
-        {title}
-    </summary>);
+const Details = ({onClickProp,hasIcon,hasRedirectTo,redirectTo,title,icon,list}:DetailsProps) => {
   return (
-    <details>
-        {summary}
+    <details >
+        <summary onClick={onClickProp}>  
+            {
+                hasIcon &&(
+                    <img src={icon} alt={title+"_icon"} />
+                )
+            }
+            {title}
+        </summary>
         <ul>
          {
             list.map((item,index)=>
                 <li key={index}>
-                    {item.hasIcon &&
-                    (
-                    <img src={item.icon} alt={item.title+"_icon"}/>
-                    )
+                    {item.hasIcon 
+                        &&(
+                            <img src={item.icon} alt={item.title+"_icon"}/>
+                        )
                     }
                     {
-                        hasRedirectTo 
-                        ? <a href={item.redirectTo}>
-                        {
-                            item?.title
-                            &&
-                            (
-                            <span>
-                                {item.title}
-                            </span>
-                            )
-                        }
-                        </a>
-                        : item?.title
+                        item?.title
                         &&
                         (
                         <span>

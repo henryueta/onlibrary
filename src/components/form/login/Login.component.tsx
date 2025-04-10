@@ -7,7 +7,7 @@ import "./Login.component.css";
 
 interface LoginProps{
 
-    children:React.ReactNode
+    children:React.ReactElement
     handleLogin:()=>void
 
 }

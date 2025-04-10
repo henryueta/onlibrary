@@ -3,7 +3,7 @@
    display: flex;
    justify-content: end;
    padding: 1.6rem;
-   box-shadow: 0px 5px 10px rgb(0, 0, 0,0.2);
+   box-shadow: 0px 5px 30px rgb(0, 0, 0,0.1);
 }
 
 .navAdmin .adminOptionsContainer{

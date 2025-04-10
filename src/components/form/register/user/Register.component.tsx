@@ -11,7 +11,7 @@ type RegisterStepProps = 1 | 2 | 3;
 
 interface RegisterProps <T extends object>{
 
-    children:React.ReactNode,
+    children:React.ReactElement,
     registerStep:RegisterStepProps
     handleRegister:()=>boolean
 }
