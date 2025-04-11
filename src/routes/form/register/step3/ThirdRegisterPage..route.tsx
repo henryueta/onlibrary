@@ -43,15 +43,15 @@ const ThirdRegisterStep = () => {
         return false
       })()
     }}>
-        <label htmlFor="">
+        <label htmlFor="password_id">
           <p>Senha:</p>
-          <input type="password" 
+          <input type="password" id="password_id"
           {...register("password_reg")}/>
           <p>{errors.password_reg?.message}</p>
         </label>
-        <label htmlFor="">
+        <label htmlFor="repeatPassword_id">
           <p>Repita sua senha:</p>
-          <input type="password" 
+          <input type="password" id="repeatPassword_id"
           {...register("repeatPassword_reg")}/>
           <p>{errors.repeatPassword_reg?.message}</p>
         </label>

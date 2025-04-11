@@ -12,9 +12,6 @@ import { PatternFormat } from "react-number-format";
     }),
     email_reg:z.string().refine((val)=>val.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) && val.trim().length > 0,{
       message:"Campo email inválido"
-    }),
-    telephone_reg:z.string().refine((val)=>val.trim().length > 0,{
-      message:"Campo telefone deve ser preenchido"
     })
   })
 
@@ -29,8 +26,7 @@ const SecondRegisterStep = () => {
     resolver:zodResolver(schema),
     defaultValues:{
       email_reg:teste?.email_reg,
-      username_reg:teste?.username_reg ,
-      telephone_reg:teste?.telephone_reg
+      username_reg:teste?.username_reg 
     }
   });
 
@@ -51,31 +47,19 @@ const SecondRegisterStep = () => {
         return false
       })()
     }}>
-        <label htmlFor="">
+        <label htmlFor="username_id">
           <p>Username:</p>
-          <input type="text" {...register("username_reg",{
+          <input type="text" id="username_id" {...register("username_reg",{
             required:true
           })}/>
           <p>{errors.username_reg?.message}</p>
         </label>
-        <label htmlFor="">
+        <label htmlFor="email_id">
           <p>Email:</p>
-          <input type="email" {...register("email_reg",{
+          <input type="email" id="email_id" {...register("email_reg",{
             required:true
           })}/>
           <p>{errors.email_reg?.message}</p>
-        </label>
-        <label htmlFor="">
-          <p>Telefone(opcional):</p>
-            <Controller
-              name="telephone_reg"
-              control={control}
-              render={({field})=>(
-              <PatternFormat {...field} format="+55 ## #####-####" mask="_" />
-            )}
-            >
-            </Controller>
-          <p>{errors.telephone_reg?.message}</p>
         </label>
       </Register>
     </>

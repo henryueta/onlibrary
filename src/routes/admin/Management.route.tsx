@@ -1,12 +1,12 @@
 import "./Management.route.css";
 import NavAdmin from "../../components/nav/management/admin/NavAdmin.component"
 import NavLibrary from "../../components/nav/management/library/NavLibrary.component"
-import GroupTableButton from "../../components/list/button/GroupTableButton.component";
+import GroupTableButton from "../../components/group/button/GroupTableButton.component";
 import cube_icon from "../../assets/imgs/icons/cube_icon.png"
 
 interface ManagementProps {
 hasGroupTableButton:boolean,
-children:React.ReactElement
+children:React.ReactNode
 }
 
 const Management = ({children,hasGroupTableButton}:ManagementProps) => {

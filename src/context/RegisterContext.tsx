@@ -5,10 +5,10 @@ import useHandleAuth from "../hooks/usehandleAuth";
 type StepIndex = 1|2|3;
 
    type FirstDataProps = Record<"name_reg"|"lastName_reg"|"cpf_reg",string> 
-   type SecondDataProps = Record<"username_reg"|"email_reg"|"telephone_reg",string>
+   type SecondDataProps = Record<"username_reg"|"email_reg",string>
    type ThirdDataProps = Record<"password_reg",string>
 
-   type FormDataProps = Record<"name_reg"|"lastName_reg"|"cpf_reg"|"username_reg"|"email_reg"|"telephone_reg"|"password_reg",string> | null
+   type FormDataProps = Record<"name_reg"|"lastName_reg"|"cpf_reg"|"username_reg"|"email_reg"|"password_reg",string> | null
 
 interface RegisterFormProps {
     isValidated:boolean,
@@ -38,7 +38,7 @@ interface RegisterProps {
     formData:RegisterFormProps
 } 
 
-const RegisterProvider = ({children}:{children:React.ReactElement}) => {
+const RegisterProvider = ({children}:{children:React.ReactNode}) => {
 
     const [teste,setTeste] = useState<FormDataProps>(null);
     const [formData,setFormData] = useState<RegisterFormProps>({
@@ -83,8 +83,7 @@ const RegisterProvider = ({children}:{children:React.ReactElement}) => {
             2:(data:FormDataProps)=>{
                     setTeste({...teste,
                         email_reg:data?.email_reg,
-                        username_reg:data?.username_reg,
-                        telephone_reg: data?.telephone_reg} as FormDataProps
+                        username_reg:data?.username_reg} as FormDataProps
                 )
             },
             3:(data:FormDataProps)=>{

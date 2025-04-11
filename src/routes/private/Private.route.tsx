@@ -1,7 +1,7 @@
 import useHandleAuth from "../../hooks/usehandleAuth"
 import { Navigate } from "react-router-dom";
 
-const Private = ({children}:{children:React.ReactElement}) => {
+const Private = ({children}:{children:React.ReactNode}) => {
     const {context} = useHandleAuth();
     
 

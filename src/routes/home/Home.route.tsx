@@ -1,7 +1,7 @@
 import './Home.route.css'
 import NavHome from '../../components/nav/home/NavHome.component'
 import FooterHome from '../../components/footer/home/FooterHome.component'
-import GroupBook from '../../components/list/book/GroupBook.component'
+import GroupBook from '../../components/group/book/GroupBook.component'
 import Slider from '../../components/slider/Slider.component'
 import Main from '../../components/main/Main.component'
 import teste from "../../assets/imgs/teste.webp"

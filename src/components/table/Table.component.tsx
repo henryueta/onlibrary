@@ -68,7 +68,7 @@ const Table = ({type}:TableProps) => {
                 <tr key={index}>                   
                       {
                         item.map((item,index)=>
-                          <td>
+                          <td key={index}>
                             {item.slice(0,15).concat("...")}
                           </td>
                         )

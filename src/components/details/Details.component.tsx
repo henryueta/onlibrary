@@ -1,25 +1,26 @@
 import { useState } from "react"
+import ListItem from "../listItem/ListItem.component"
 
-type ItemIdentityProps = Record<'title'|'icon',string>
+type ItemIdentityProps = {
+    title?:string,
+    icon?:string
+}
 
 interface ItemContentProps{
-    onClickProp?:()=>void
-    hasIcon:boolean,
-    hasRedirectTo:boolean,
-    redirectTo?:string,
-    children?:React.ReactElement
+    onClick?:()=>void
+    children?:React.ReactNode
 }
 
 type ItemDetailsProps = Partial<ItemIdentityProps> & ItemContentProps
 
 type DetailsProps = ItemIdentityProps & Record<'list',ItemDetailsProps[]> & ItemContentProps
 
-const Details = ({onClickProp,hasIcon,hasRedirectTo,redirectTo,title,icon,list}:DetailsProps) => {
+const Details = ({onClick,title,icon,list}:DetailsProps) => {
   return (
     <details >
-        <summary onClick={onClickProp}>  
+        <summary onClick={onClick}>  
             {
-                hasIcon &&(
+                !!icon &&(
                     <img src={icon} alt={title+"_icon"} />
                 )
             }
@@ -28,23 +29,9 @@ const Details = ({onClickProp,hasIcon,hasRedirectTo,redirectTo,title,icon,list}:
         <ul>
          {
             list.map((item,index)=>
-                <li key={index}>
-                    {item.hasIcon 
-                        &&(
-                            <img src={item.icon} alt={item.title+"_icon"}/>
-                        )
-                    }
-                    {
-                        item?.title
-                        &&
-                        (
-                        <span>
-                            {item.title}
-                        </span>
-                        )
-                    }
-                    {item.children}
-                </li>
+                <ListItem icon={item.icon} title={item.title} key={index} onClick={item.onClick}> 
+                     {item.children}
+                </ListItem>
             )
          }
         </ul>

@@ -46,12 +46,6 @@ const FirstRegisterStep = () => {
 
   const {errors,isValid} = formState;
 
-  // const teste = (data:RegisterStep1Props)=>{
-  //     setIsComplete(!!data)
-  //     console.log(isComplete)
-  // }
-    // "@rollup/rollup-linux-x64-gnu": "^4.39.0",
-
   return (
    <>
     <NavForm/>
@@ -67,28 +61,28 @@ const FirstRegisterStep = () => {
         return false
       })()
     }}>
-        <label htmlFor="">
+        <label htmlFor="name_id">
           <p>Nome:</p>
-          <input type="text"
+          <input type="text" id="name_id"
           {...register("name_reg",{
           })}
           />
           <p>{errors.name_reg?.message}</p>
         </label>
-        <label htmlFor="">
+        <label htmlFor="lastName_id">
             <p>Sobrenome:</p>
-            <input type="text" {...register("lastName_reg",{
+            <input type="text" id="lastName_id" {...register("lastName_reg",{
               required:true
             })} />
             <p>{errors.lastName_reg?.message}</p>
         </label>
-        <label htmlFor="">
+        <label htmlFor="cpf_id">
             <p>CPF:</p>
             <Controller
               name="cpf_reg"
               control={control}
               render={({field})=>(
-              <PatternFormat {...field} format="###.###.###-##" mask="_" />
+              <PatternFormat {...field} format="###.###.###-##" mask="_" id="cpf_id"/>
             )}
             >
             </Controller>

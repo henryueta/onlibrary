@@ -18,76 +18,47 @@ const NavLibrary = () => {
           <ListItem title="Dashboard" icon="a" onClick={()=>onNavigate("/management/library")}/> 
           <ListItem title="Minha Biblioteca" icon="a"/> 
           <li>
-            <Details title="Gestão" hasIcon={true} hasRedirectTo={false} redirectTo="" icon="" list={[
+            <Details title="Gestão" icon="a" list={[
               {
-                hasRedirectTo:true,
                 title:"Usuários",
-                hasIcon:true,
-                icon:"",
-                redirectTo:"#",
+                icon:"a",
+                onClick:()=>onNavigate("/management/library/users")
               },
               {
-                hasRedirectTo:true,
-                hasIcon:false,
-                redirectTo:"#",
-                children:<Details onClickProp={()=>onNavigate("/management/library/books")} hasIcon={true} hasRedirectTo={true} redirectTo="#" title="Livros" icon="" list={[
+                children:<Details onClick={()=>onNavigate("/management/library/books")} title="Livros" icon="a" list={[
                   {
-                    hasRedirectTo:true,
                     title:"Exemplares",
-                    hasIcon:true,
-                    icon:"",
-                    redirectTo:"#",
+                    icon:"a",
                   },
                   {
-                    hasRedirectTo:true,
                     title:"Autores",
-                    hasIcon:true,
-                    icon:"",
-                    redirectTo:"#",
+                    icon:"a",
                   },
                   {
-                    hasRedirectTo:true,
                     title:"Editoras",
-                    hasIcon:true,
-                    icon:"",
-                    redirectTo:"#",
+                    icon:"a",
                   },
                   {
-                    hasRedirectTo:true,
                     title:"Categorias",
-                    hasIcon:true,
-                    icon:"",
-                    redirectTo:"#",
+                    icon:"a",
                   },
                   {
-                    hasRedirectTo:true,
                     title:"Gêneros",
-                    hasIcon:true,
-                    icon:"",
-                    redirectTo:"#",
+                    icon:"a",
                   }
                 ]}/>
               },
               {
-                hasRedirectTo:true,
                 title:"Empréstimos",
-                hasIcon:true,
-                icon:"",
-                redirectTo:"#",
+                icon:"a",
               },
               {
-                hasRedirectTo:true,
                 title:"Reservas",
-                hasIcon:true,
-                icon:"",
-                redirectTo:"#",
+                icon:"a",
               },
               {
-                hasRedirectTo:true,
                 title:"Multas",
-                hasIcon:true,
-                icon:"",
-                redirectTo:"#",
+                icon:"a",
               }
             ]}>
             </Details>

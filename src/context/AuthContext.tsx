@@ -22,7 +22,7 @@ interface AuthContextProps{
 const AuthContext = createContext({} as AuthContextProps);
 
 
-const AuthProvider = ({children}:{children:React.ReactElement})=>{
+const AuthProvider = ({children}:{children:React.ReactNode})=>{
     
     const {onHandleStatus,onHandleToken} = useHandleAuth();
     const [userStatus,setUserStatus] = useState<UserStatus | null>(onHandleStatus());

@@ -4,7 +4,7 @@ interface ListItemProps{
 icon?:string
 title?:string    
 key?:Key
-children?:React.ReactElement
+children?:React.ReactNode
 onClick?:()=>void
 }
 
