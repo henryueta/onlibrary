@@ -55,11 +55,11 @@ const tableTypeList:TableTypeProps[] = [
         path: onPath("book_management"),
         headers:
         [
-            tableTitleList[onFindTitleIndex("Exemplares")],
-            tableTitleList[onFindTitleIndex("Autores")],
-            tableTitleList[onFindTitleIndex("Editoras")],
-            tableTitleList[onFindTitleIndex("Categorias")],
-            tableTitleList[onFindTitleIndex("Gêneros")],
+            "Título",
+            "Autores",
+            "Editoras",
+            "Categorias",
+            "Gêneros",
             "Quantidade",
             "Estante",
             "Prateleira",
@@ -108,7 +108,7 @@ const onSetDataQuantity = ()=>{
     
     tableTypeList.forEach(async (item,index)=>{
         try{
-            const response = await axios.get("http://localhost:5000/count?type="+item.type)
+            const response = await axios.get("http://localhost:5100/count?type="+item.type)
             const data = response.data;
             const {quantity} = data;
             item.quantity = quantity

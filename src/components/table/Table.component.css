@@ -37,15 +37,27 @@
     align-items: center;
 }
 
-.managementContainer{    width: 100%;
+.managementContainer{
+    width: 100%;
 }
 
 .managementContainer .searchContainer>input{
-    width: 35rem;
+    width: 28rem;
     height: 2.5rem;
     padding: 0.3rem;
     font-size: 1rem;
     outline: none;
+}
+
+.managementContainer .searchContainer>select{
+    height: 2.5rem;
+    outline: none;
+    font-size: 0.9rem;
+    padding: 0.1rem;
+}
+
+.managementContainer .searchContainer>select>option{
+    background-color: #ffffff;
 }
 
 .managementContainer .searchContainer>button{

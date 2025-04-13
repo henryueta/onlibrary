@@ -25,7 +25,7 @@ const Management = ({children,item_management,hasGroupTableButton}:ManagementPro
     
     buttonList.forEach(async (button,index)=>{
       try{
-          const response = await axios.get("http://localhost:5000/count?type="+button.type).then((res)=>{
+          const response = await axios.get("http://localhost:5100/count?type="+button.type).then((res)=>{
             setButtonList((prev)=>{
              return prev.map((item,index)=>{
                 if(item.type === button.type){

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { pathList,onFindPathIndex } from "../routes/global/path.global";
-import { TableType, tableTypeList } from "../components/table/global/table.global";
+import { onFindTableIndex, TableType, tableTypeList } from "../components/table/global/table.global";
+import axios from "axios";
 
 interface TableProps{
     headerList:string[],
@@ -24,40 +25,26 @@ const useHandleTable = <T>()=>{
     }
 
 
-
     const [table,setTable] = useState<TableProps | null>(null);
+    const [tableData,setTableData] = useState<string[]>([]);
     const [tableList,setTableList] = useState<TableProps[] | null>(null)
 
-    const onQueryTable = (type:TableType,total:number)=>{
 
-        setTable({
-            headerList:tableTypeList[0].headers,
-            dataList:[
-                [
-                    "A névoa da floresta",
-                    "Endrick",
-                    "ACJ",
-                    "Adulto",
-                    "Suspense",
-                    "3",
-                    "1",
-                    "C",
-                    "Suspense"
-                ],
-                [
-                    "A névoa da floresta",
-                    "Endrick",
-                    "ACJ",
-                    "Adulto",
-                    "Suspense",
-                    "3",
-                    "1",
-                    "C",
-                    "Suspense"
-                ]
-            ],
-            dataQuantity:100
-        })
+    const onQueryTable = (type:TableType,quantity:number)=>{
+        
+        axios.get(`http://localhost:5100/tables/data?type=${type}&quantity=${quantity}`)
+            .then((item)=>
+            {
+              const {data} = item;
+              setTable({
+                headerList:tableTypeList[onFindTableIndex("book")].headers,
+                dataList:data.map((item:any)=>{
+                    return Object.values(item)
+                }),
+                dataQuantity:100
+            })
+            }
+            )
 
     }
 

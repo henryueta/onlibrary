@@ -2,7 +2,8 @@ import Search from "../search/Search.component"
 import "./Table.component.css"
 import useHandleTable from "../../hooks/useHandleTable"
 import { useEffect, useState } from "react"
-import { TableType } from "./global/table.global"
+import { TableType, tableTypeList,onFindTableIndex } from "./global/table.global"
+
 
 interface TableProps {
 
@@ -13,13 +14,12 @@ interface TableProps {
 const Table = ({type}:TableProps) => {
 
   const {onQueryTable,table} = useHandleTable();
-  const [maxOfData,setMaxOfData] = useState<number>(15);
-
-
+  const [maxOfData,setMaxOfData] = useState<number>(1);
 
   useEffect(()=>{
-    onQueryTable(type,15)
-  },[])
+    onQueryTable(type,maxOfData)
+  },[maxOfData])
+
 
   return (
     <section className="tableSection">
@@ -27,11 +27,24 @@ const Table = ({type}:TableProps) => {
         <div className="titleContainer">
             <img src="" alt="title_icon" />
             <h1>
-                Lista de Livros
+                {
+                "Lista de "+tableTypeList[onFindTableIndex(type)].title
+                }
             </h1>
         </div>
       <div className="managementContainer">
-            <Search/>
+            <Search 
+            filter={{
+              onSelect:(e)=>{console.log(e.target.value)},
+              list: table?.headerList.map((item,index)=>{
+                return {
+                  title:item,
+                  value:item
+                }
+              }) || []
+            }} 
+            quantity={maxOfData}/>
+
         <div className="tableOptionsContainer">
            <span>
                 Exibir 
