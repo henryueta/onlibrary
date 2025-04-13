@@ -1,7 +1,8 @@
 import Search from "../search/Search.component"
 import "./Table.component.css"
-import useHandleTable, { TableType } from "../../hooks/useHandleTable"
+import useHandleTable from "../../hooks/useHandleTable"
 import { useEffect, useState } from "react"
+import { TableType } from "./global/table.global"
 
 interface TableProps {
 
@@ -11,11 +12,13 @@ interface TableProps {
 
 const Table = ({type}:TableProps) => {
 
-  const {onQueryData,table} = useHandleTable();
+  const {onQueryTable,table} = useHandleTable();
   const [maxOfData,setMaxOfData] = useState<number>(15);
 
+
+
   useEffect(()=>{
-    onQueryData(type,15)
+    onQueryTable(type,15)
   },[])
 
   return (

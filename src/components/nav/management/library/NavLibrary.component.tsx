@@ -3,6 +3,7 @@ import onlibrary_logo from "../../../../assets/imgs/logo/onlibrary_logo.png";
 import Details from "../../../details/Details.component";
 import { useNavigate } from "react-router-dom";
 import ListItem from "../../../listItem/ListItem.component";
+import { pathList,onPath } from "../../../../routes/global/path.global";
 
 const NavLibrary = () => {
 
@@ -25,7 +26,7 @@ const NavLibrary = () => {
                 onClick:()=>onNavigate("/management/library/users")
               },
               {
-                children:<Details onClick={()=>onNavigate("/management/library/books")} title="Livros" icon="a" list={[
+                children:<Details onClick={()=>onNavigate(onPath("book_management"))} title="Livros" icon="a" list={[
                   {
                     title:"Exemplares",
                     icon:"a",
@@ -63,18 +64,7 @@ const NavLibrary = () => {
             ]}>
             </Details>
           </li>
-        </ul> 
-      {/* <details>
-        <summary><img src="" alt="" />Gestão</summary>
-        <ul>
-          <li><img src="" alt="" /><a href="#home">Usuários</a></li>
-          <li><img src="" alt="" />Livros</li>
-          <li><img src="" alt="" /><a href="#services">Empréstimos</a></li>
-          <li><img src="" alt="" /><a href="#contact">Reservas</a></li>
-          <li><img src="" alt="" /><a href="#contact"></a></li>
         </ul>
-    </details> */}
-
       </div>
     </nav>
   )

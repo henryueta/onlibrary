@@ -12,8 +12,9 @@ import AppProvider from './context/index.tsx'
 import Management from './routes/admin/Management.route.tsx'
 import Private from './routes/private/Private.route.tsx'
 import Table from './components/table/Table.component.tsx'
+import {pathList,onFindPathIndex} from './routes/global/path.global.ts'
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path:"/",
     element:<Home/>
@@ -39,19 +40,19 @@ const router = createBrowserRouter([
     element:<ThirdRegisterStep/>
   },
   {
-    path:"/management/library",
+    path:pathList[onFindPathIndex("library_management")].path,
     element:
     <Private>
-      <Management hasGroupTableButton={true}>
+      <Management item_management='none' hasGroupTableButton={true}>
         <></>
       </Management>
     </Private>
   },
   {
-    path:"/management/library/books",
+    path:pathList[onFindPathIndex("book_management")].path,
     element:
     <Private>
-    <Management hasGroupTableButton={true}>
+    <Management item_management='book' hasGroupTableButton={true}>
         <Table type='book'></Table>
     </Management>
   </Private>

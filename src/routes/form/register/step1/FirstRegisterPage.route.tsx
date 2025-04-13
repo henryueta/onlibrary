@@ -86,7 +86,7 @@ const FirstRegisterStep = () => {
             )}
             >
             </Controller>
-            {/* <input type="text" /> */}
+            {/* <input type="text" /> */} 
             <p>{errors.cpf_reg?.message}</p>
         </label> 
       </Register> 

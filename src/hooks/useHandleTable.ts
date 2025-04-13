@@ -1,35 +1,34 @@
 import { useState } from "react";
-
-export type TableType = "book" | "user" | "loan" | "reservation" | "amerce" | "exemplary" | "author" | "publisher" | "category" | "gender";
+import { pathList,onFindPathIndex } from "../routes/global/path.global";
+import { TableType, tableTypeList } from "../components/table/global/table.global";
 
 interface TableProps{
     headerList:string[],
     dataList:string[][]
+    dataQuantity:number
 }
 
 const useHandleTable = <T>()=>{
 
-    const tableTypeList = [
-        {
-            type:"book",
-            headers:
-            [
-                "Título",
-                "Autor(es)",
-                "Editora(s)",
-                "Categoria(s)",
-                "Gênero(s)",
-                "Quantidade",
-                "Estante",
-                "Prateleira",
-                "Setor"
-            ]
-        }
-    ]
+    const onCheckTable = ()=>{
+
+    }
+
+    const onQueryData = (type:TableType)=>{
+        //Axios.get() -- type return data {}
+    }
+
+    const onCountData = (type:TableType)=>{
+        //Axios.get() --type return data {}
+        return 120
+    }
+
+
 
     const [table,setTable] = useState<TableProps | null>(null);
+    const [tableList,setTableList] = useState<TableProps[] | null>(null)
 
-    const onQueryData = (type:TableType,total:number)=>{
+    const onQueryTable = (type:TableType,total:number)=>{
 
         setTable({
             headerList:tableTypeList[0].headers,
@@ -56,14 +55,22 @@ const useHandleTable = <T>()=>{
                     "C",
                     "Suspense"
                 ]
-            ]
+            ],
+            dataQuantity:100
         })
 
     }
 
+    const onQueryTableList = (type:TableType)=>{
+
+        const tableResult = tableTypeList.find((item)=>item.type === type)
+        return tableResult?.dependencies || []
+    }
+
     return {
         table,
-        onQueryData
+        onQueryTable,
+        onQueryTableList
     }
 
 }
