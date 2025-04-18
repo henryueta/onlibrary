@@ -1,0 +1,13 @@
+
+.registerLibraryContainer .libraryInformationContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.registerLibraryContainer .checkboxListContainer{
+
+    display: flex;
+    flex-direction: column;
+
+}
+

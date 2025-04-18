@@ -1,0 +1,9 @@
+
+.registerLibraryContainer .inputContainer{
+    display: flex;
+    flex-direction: row;
+}
+
+.registerLibraryContainer .inputContainer>label{
+   flex: 1;
+}

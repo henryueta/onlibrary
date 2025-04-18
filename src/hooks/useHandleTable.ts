@@ -30,20 +30,23 @@ const useHandleTable = <T>()=>{
     const [tableList,setTableList] = useState<TableProps[] | null>(null)
 
 
-    const onQueryTable = (type:TableType,quantity:number)=>{
+    const onQueryTable = (type:TableType)=>{
         
-        axios.get(`http://localhost:5100/tables/data?type=${type}&quantity=${quantity}`)
-            .then((item)=>
+        axios.get(`http://localhost:5100/tables/data?type=${type}`)
+            .then((result)=>
             {
-              const {data} = item;
+                let array:any = [];
+              const {data} = result;
               setTable({
                 headerList:tableTypeList[onFindTableIndex("book")].headers,
-                dataList:data.map((item:any)=>{
+                dataList:data.map((item:any,index:number)=>{
+
                     return Object.values(item)
                 }),
                 dataQuantity:100
             })
             }
+            
             )
 
     }

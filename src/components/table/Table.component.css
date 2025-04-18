@@ -1,4 +1,10 @@
 
+.tableRegisterContainer{
+    position: fixed;
+    top: 300px;
+    background-color: red;
+}
+
 .tableSection{
     margin-top: 5rem;
     padding: 0.5rem 0rem 0.5rem 0rem;

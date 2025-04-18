@@ -16,7 +16,6 @@ children:React.ReactNode
 }
 
 
-
 const Management = ({children,item_management,hasGroupTableButton}:ManagementProps) => {
   const [buttonList,setButtonList] = useState<TableTypeProps[]>(tableTypeList);
   const {onQueryTableList} = useHandleTable()
@@ -47,12 +46,22 @@ const Management = ({children,item_management,hasGroupTableButton}:ManagementPro
     console.log(buttonList)
   },[buttonList])
 
+  const [position,setPosition] = useState({
+    x:0+"px",
+    y:0+"px"
+  });
+
+  useEffect(()=>{
+  },[position])
+
+  
   return (
     <>
     <NavLibrary/>
       <section className="managementSection">
         <section className="managementContentSection">
           <NavAdmin/>
+
           <section className="dataContentSection">
             {hasGroupTableButton 
           &&(

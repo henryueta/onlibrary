@@ -2,7 +2,7 @@ import { pathList,onFindPathIndex,onPath } from "../../../routes/global/path.glo
 import axios from "axios";
 
 
-export type TableType = "none" |"book" | "user" | "loan" | "reservation" | "amerce" | "exemplary" | "author" | "publisher" | "category" | "gender";
+export type TableType = "none" |"book" | "user" | "loan" | "amerce" | "exemplary" | "author" | "publisher" | "category" | "gender";
 export type TableTitleType = "Livros" | "Usuários" | "Empréstimos" | "Reservas" | "Multas" | "Exemplares" | "Autores" | "Editoras" | "Categorias" | "Gêneros"
 
 

@@ -1,0 +1,133 @@
+
+.registerUserContainer{
+    width: 900px;
+    height:650px;
+    display: flex;
+    flex-direction: column; 
+    gap: 4rem;
+}
+
+
+.registerUserContainer>*{
+}
+
+.registerTitleContainer{
+    font-size: 2rem;
+}
+
+.registerUserContainer .registerDetailsContainer{
+    display: flex;
+    gap: 4rem;
+    justify-content: center;
+    align-items: center;
+    height: 75%;
+    padding: 0.5rem;
+}
+
+.registerUserContainer .registerDetailsContainer>*{
+    height: 100%;
+}
+
+.registerUserContainer .stepSection{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}   
+
+.registerUserContainer .stepSection>button{
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.7rem;
+    background:none;
+    color: white;
+    font-size: 1rem;
+    border: none;
+}
+
+.registerUserContainer .stepSection>button:first-child::after{
+    content: "";
+    position: relative;
+    top: 70px;
+    left: -203px;
+    height: 50px;
+    width: 0.10rem;
+    border-right: 0.1rem solid white;
+}
+
+.registerUserContainer .stepSection>button:nth-child(2):after{
+    content: "";
+    position: relative;
+    top: 75px;
+    left: -215px;
+    height: 50px;
+    width: 0.10rem;
+    border-right: 0.1rem solid white;
+}
+
+.registerUserContainer .stepSection button>div{
+    border-radius: 100%;
+    width: 50px;
+    height: 50px;
+    border: 1px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.registerUserContainer .stepSection button>div>img{
+    width: 50%;
+    height: 50%;
+}
+
+
+.registerUserContainer .formContainer{
+    width: 50%;
+    display: block;
+}
+
+.registerUserContainer .formContainer{
+    margin-top: 2rem;
+}
+
+.registerUserContainer     .formContainer p{
+    margin-top: 2rem;
+}
+
+.registerUserContainer .formContainer>form>label{
+    display: block;
+    margin-top: 3rem;
+}
+
+.registerUserContainer .formContainer>label>p{
+    margin-top: 2rem;
+}
+
+.registerUserContainer .formContainer input{
+    width: 100%;
+    height: 2rem;
+    padding: 0.2rem;
+    border: none;
+    border-radius: var(--borderRadius_var);
+    outline: none;
+    margin-top: 1rem;
+}
+
+
+.registerUserContainer .registerOptionsContainer{
+    display: flex;
+    justify-content: space-between;
+    padding: 0.2rem;
+}
+
+.registerUserContainer .registerOptionsContainer button{
+    padding: 0.8rem;
+    width: 150px;
+    border: none;
+    border-radius: var(--borderRadius_var);
+    font-weight: bold;
+    border: 0.1rem solid white;
+    background: none;
+    color: white;
+}

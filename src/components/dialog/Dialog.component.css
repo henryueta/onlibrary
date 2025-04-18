@@ -1,0 +1,12 @@
+
+.dialogPane{
+    display: flex;
+    position: relative;
+    padding: 1rem;
+}
+
+.dialogCloseContainer{
+    border: 2px solid red;
+    position: relative;
+    top: 0;
+}

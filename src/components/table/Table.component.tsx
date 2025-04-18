@@ -3,7 +3,9 @@ import "./Table.component.css"
 import useHandleTable from "../../hooks/useHandleTable"
 import { useEffect, useState } from "react"
 import { TableType, tableTypeList,onFindTableIndex } from "./global/table.global"
-
+import Dialog from "../dialog/Dialog.component"
+import Form from "../form/global/component/Form.component"
+import {formSchema} from "../form/global/schema/form.schema"
 
 interface TableProps {
 
@@ -15,15 +17,41 @@ const Table = ({type}:TableProps) => {
 
   const {onQueryTable,table} = useHandleTable();
   const [maxOfData,setMaxOfData] = useState<number>(1);
+  const [tableDataView,setTableDataView] = useState<string[][]>([]);
+  const [registerTable,setRegisterTable] = useState<boolean>(false);
 
   useEffect(()=>{
-    onQueryTable(type,maxOfData)
+    onQueryTable(type)
+  },[])
+
+  const onLimitDataView = ()=>{
+    setTableDataView(table?.dataList.slice(0,maxOfData).map((item)=>{
+      return Object.values(item) || ""
+  }) || []) 
+  }
+
+  useEffect(()=>{
+    onLimitDataView()
+    console.log(table)
+  },[table])
+
+  useEffect(()=>{
+    console.log(maxOfData)
+    console.log(table)
+    onLimitDataView()
   },[maxOfData])
 
 
   return (
+    <>
+    { registerTable &&
+      <div className="tableRegisterContainer">
+        <Dialog onClose={()=>setRegisterTable(false)}>
+            <Form schema={formSchema.schemaList['book']} type="book"></Form>
+        </Dialog>
+    </div>
+    }
     <section className="tableSection">
-      
         <div className="titleContainer">
             <img src="" alt="title_icon" />
             <h1>
@@ -44,7 +72,7 @@ const Table = ({type}:TableProps) => {
               }) || []
             }} 
             quantity={maxOfData}/>
-
+            
         <div className="tableOptionsContainer">
            <span>
                 Exibir 
@@ -59,7 +87,7 @@ const Table = ({type}:TableProps) => {
                 Registros
             </span> 
           
-           <button>
+           <button onClick={()=>setRegisterTable(true)}>
                 Cadastrar Livro
            </button>
         </div>
@@ -80,9 +108,10 @@ const Table = ({type}:TableProps) => {
             </th>
        </tr>       
             {
-              table?.dataList.map((item,index)=>
+              tableDataView?.map((item,index)=>
                 <tr key={index}>                   
                       {
+                        item &&
                         item.map((item,index)=>
                           <td key={index}>
                             {item.slice(0,15).concat("...")}
@@ -109,6 +138,7 @@ const Table = ({type}:TableProps) => {
         </table>
       </div>
     </section>
+    </>
   )
 }
 
