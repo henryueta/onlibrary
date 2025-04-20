@@ -1,0 +1,8 @@
+
+Dialog da tabela emprestimo / reserva
+
+identificador do exemplar
+nome da biblioteca
+nome do usuário
+nome do bibliotecario
+

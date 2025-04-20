@@ -1,13 +1,10 @@
 
 .managementSection{
-    display: flex;
-    flex-direction: row;
     margin-left: 300px;
     overflow-x: hidden;
 }
 
 .managementContentSection{
-    width: 100vw;
 }
 
 .dataContentSection{

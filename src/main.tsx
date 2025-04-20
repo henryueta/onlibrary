@@ -12,43 +12,43 @@ import AppProvider from './context/index.tsx'
 import Management from './routes/admin/Management.route.tsx'
 import Private from './routes/private/Private.route.tsx'
 import Table from './components/table/Table.component.tsx'
-import {pathList,onFindPathIndex} from './routes/global/path.global.ts'
+import {pathList,onFindPathIndex,onFindPath} from './routes/global/path.global.ts'
 import LibraryRegisterPage from './routes/form/register/library/LibraryRegisterPage.route.tsx'
 
 export const router = createBrowserRouter([
   {
-    path:"/",
+    path:onFindPath("home_page"),
     element:<Home/>
   },
   {
-    path:"/book/",
+    path:onFindPath("book_page"),
     element:<BookPage/>
   },
   {
-    path:"/login",
+    path:onFindPath("user_login"),
     element:<LoginPage/>
   },
   {
-    path:"/register/user/step/name",
+    path:onFindPath("user_register_step1"),
     element:<FirstRegisterStep/>
   },
   {
-    path:"/register/user/step/contact",
+    path:onFindPath("user_register_step2"),
     element:<SecondRegisterStep/>
   },
   {
-    path:"/register/user/step/password",
+    path:onFindPath("user_register_step3"),
     element:<ThirdRegisterStep/>
   },
   {
-    path:"/register/library",
+    path:onFindPath("library_register"),
     element:
     <Private>
       <LibraryRegisterPage/>
     </Private>
   },
   {
-    path:pathList[onFindPathIndex("library_management")].path,
+    path:onFindPath("library_management"),
     element:
     <Private>
       <Management item_management='none' hasGroupTableButton={true}>
@@ -59,13 +59,22 @@ export const router = createBrowserRouter([
     </Private>
   },
   {
-    path:pathList[onFindPathIndex("book_management")].path,
+    path:onFindPath("book_management"),
     element:
     <Private>
-    <Management item_management='book' hasGroupTableButton={true}>
-        <Table type='book'></Table>
-    </Management>
-  </Private>
+      <Management item_management='book' hasGroupTableButton={true}>
+          <Table type='book'></Table>
+      </Management>
+    </Private>
+  },
+  {
+    path:onFindPath("user_management"),
+    element:
+    <Private>
+      <Management item_management='user' hasGroupTableButton={true}>
+          <Table type='user'></Table>
+      </Management>
+    </Private>
   }
 ])
 

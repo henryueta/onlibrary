@@ -5,7 +5,7 @@ import GroupTableButton from "../../components/group/button/GroupTableButton.com
 import cube_icon from "../../assets/imgs/icons/cube_icon.png"
 import { useEffect, useState } from "react";
 import useHandleTable from "../../hooks/useHandleTable";
-import { TableType, tableTypeList,onFindTableIndex,onSetDataQuantity,TableTypeProps } from "../../components/table/global/table.global";
+import { TableType, tableTypeDataList,onFindTableIndex,TableTypeProps } from "../../components/table/global/table.global";
 import axios from "axios";
 
 
@@ -15,16 +15,20 @@ item_management:TableType
 children:React.ReactNode
 }
 
+const teste = {
+  idade:"19",
+  id:"113d",
+  nome:"Henry"
+}
 
 const Management = ({children,item_management,hasGroupTableButton}:ManagementProps) => {
-  const [buttonList,setButtonList] = useState<TableTypeProps[]>(tableTypeList);
+  const [buttonList,setButtonList] = useState<TableTypeProps[]>(tableTypeDataList);
   const {onQueryTableList} = useHandleTable()
 
   useEffect(()=>{
-    
     buttonList.forEach(async (button,index)=>{
       try{
-          const response = await axios.get("http://localhost:5100/count?type="+button.type).then((res)=>{
+          await axios.get("http://localhost:5000/count?type="+button.type).then((res)=>{
             setButtonList((prev)=>{
              return prev.map((item,index)=>{
                 if(item.type === button.type){
@@ -41,19 +45,6 @@ const Management = ({children,item_management,hasGroupTableButton}:ManagementPro
       }
   })
   },[])
-
-  useEffect(()=>{
-    console.log(buttonList)
-  },[buttonList])
-
-  const [position,setPosition] = useState({
-    x:0+"px",
-    y:0+"px"
-  });
-
-  useEffect(()=>{
-  },[position])
-
   
   return (
     <>
@@ -67,43 +58,14 @@ const Management = ({children,item_management,hasGroupTableButton}:ManagementPro
           &&(
             <GroupTableButton buttonList={
               buttonList[onFindTableIndex(item_management)].dependencies.map((item,index)=>{
+                const dependecie_button = buttonList[tableTypeDataList.findIndex((itemQnt)=>itemQnt.title === item)];
                return {
               icon:cube_icon,
-                quantity:buttonList[tableTypeList.findIndex((itemQnt)=>itemQnt.title === item)]?.quantity?.toString() || "0",
-                redirectTo: "",
+                quantity:dependecie_button?.quantity?.toString() || "0",
+                redirectTo:dependecie_button?.path,
                 title:item
                 }
               })
-              // [{
-              //   icon:cube_icon,
-              //   quantity:"126",
-              //   redirectTo:"#",
-              //   title:"Livros"
-              // },
-              // {
-              //   icon:cube_icon,
-              //   quantity:"84",
-              //   redirectTo:"#",
-              //   title:"Usuários"
-              // },
-              // {
-              //   icon:cube_icon,
-              //   quantity:"102",
-              //   redirectTo:"#",
-              //   title:"Empréstimos"
-              // },
-              // {
-              //   icon:cube_icon,
-              //   quantity:"25",
-              //   redirectTo:"#",
-              //   title:"Reservas"
-              // },
-              // {
-              //   icon:cube_icon,
-              //   quantity:"14",
-              //   redirectTo:"#",
-              //   title:"Multas"
-              // }]
             }/>
           )
           }

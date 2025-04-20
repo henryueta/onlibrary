@@ -2,10 +2,9 @@ import Search from "../search/Search.component"
 import "./Table.component.css"
 import useHandleTable from "../../hooks/useHandleTable"
 import { useEffect, useState } from "react"
-import { TableType, tableTypeList,onFindTableIndex } from "./global/table.global"
+import { TableType, tableTypeDataList,onFindTableIndex } from "./global/table.global"
 import Dialog from "../dialog/Dialog.component"
 import Form from "../form/global/component/Form.component"
-import {formSchema} from "../form/global/schema/form.schema"
 
 interface TableProps {
 
@@ -15,29 +14,36 @@ interface TableProps {
 
 const Table = ({type}:TableProps) => {
 
-  const {onQueryTable,table} = useHandleTable();
+  const {onQueryTable,tableData} = useHandleTable();
   const [maxOfData,setMaxOfData] = useState<number>(1);
   const [tableDataView,setTableDataView] = useState<string[][]>([]);
   const [registerTable,setRegisterTable] = useState<boolean>(false);
 
+  const [tableCrud,setTableCrud] = useState<any>({
+    create:false,
+    read:[],
+    update:false,
+    delete:false    
+  });
+
   useEffect(()=>{
-    onQueryTable(type)
+    onQueryTable({
+      type:type
+    },
+    "select")
   },[])
 
   const onLimitDataView = ()=>{
-    setTableDataView(table?.dataList.slice(0,maxOfData).map((item)=>{
+    setTableDataView(tableData?.dataList.slice(0,maxOfData).map((item)=>{
       return Object.values(item) || ""
   }) || []) 
   }
 
   useEffect(()=>{
     onLimitDataView()
-    console.log(table)
-  },[table])
+  },[tableData])
 
   useEffect(()=>{
-    console.log(maxOfData)
-    console.log(table)
     onLimitDataView()
   },[maxOfData])
 
@@ -45,18 +51,21 @@ const Table = ({type}:TableProps) => {
   return (
     <>
     { registerTable &&
-      <div className="tableRegisterContainer">
-        <Dialog onClose={()=>setRegisterTable(false)}>
-            <Form schema={formSchema.schemaList['book']} type="book"></Form>
-        </Dialog>
+      type !== 'none' &&
+    <div className="tableDialogContainer">
+      <Dialog onClose={()=>setRegisterTable(false)}>
+          <Form type={type} onSubmit={(data)=>console.log(data)}></Form>
+      </Dialog>
     </div>
     }
+
     <section className="tableSection">
+      
         <div className="titleContainer">
             <img src="" alt="title_icon" />
             <h1>
                 {
-                "Lista de "+tableTypeList[onFindTableIndex(type)].title
+                "Lista de "+tableTypeDataList[onFindTableIndex(type)].title.concat("s")
                 }
             </h1>
         </div>
@@ -64,7 +73,7 @@ const Table = ({type}:TableProps) => {
             <Search 
             filter={{
               onSelect:(e)=>{console.log(e.target.value)},
-              list: table?.headerList.map((item,index)=>{
+              list: tableData?.headerList.map((item,index)=>{
                 return {
                   title:item,
                   value:item
@@ -88,7 +97,7 @@ const Table = ({type}:TableProps) => {
             </span> 
           
            <button onClick={()=>setRegisterTable(true)}>
-                Cadastrar Livro
+                {`Cadastrar ${tableTypeDataList[onFindTableIndex(type)].title}`}
            </button>
         </div>
       </div>
@@ -97,7 +106,7 @@ const Table = ({type}:TableProps) => {
       <thead>
       <tr>
         {
-          table?.headerList.map((item,index)=>
+          tableData?.headerList.map((item,index)=>
             <th key={index}>
               {item}
             </th>
@@ -107,33 +116,34 @@ const Table = ({type}:TableProps) => {
               Action
             </th>
        </tr>       
+       
             {
+            
               tableDataView?.map((item,index)=>
+
                 <tr key={index}>                   
                       {
                         item &&
-                        item.map((item,index)=>
-                          <td key={index}>
-                            {item.slice(0,15).concat("...")}
-                          </td>
+                        item.map((item_data,index_data)=>
+                        {
+
+                          return Object.values(item_data)[0] !== 'id' && <td key={index_data}>
+                          {
+
+                          Object.values(item_data)[1].slice(0,15).concat("...")
+                          }
+                        </td>
+                        }
                         )
                       }
                           <td>
-                            <button>
+                            <button onClick={()=>{}}>
                               Editar
                             </button>
                           </td>    
                 </tr>
               )
             }
-      
-        {/* {
-            table?.dataList.map((item,index)=>
-              <td key={index}>
-                {item}
-              </td>
-            )
-          } */}
       </thead>
         </table>
       </div>

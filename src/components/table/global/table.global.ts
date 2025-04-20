@@ -1,10 +1,25 @@
-import { pathList,onFindPathIndex,onPath } from "../../../routes/global/path.global";
-import axios from "axios";
-
+import { pathList,onFindPathIndex,onFindPath } from "../../../routes/global/path.global";
 
 export type TableType = "none" |"book" | "user" | "loan" | "amerce" | "exemplary" | "author" | "publisher" | "category" | "gender";
-export type TableTitleType = "Livros" | "Usuários" | "Empréstimos" | "Reservas" | "Multas" | "Exemplares" | "Autores" | "Editoras" | "Categorias" | "Gêneros"
+export type TableTitleType = "Livro" | "Usuário" | "Empréstimo" | "Reserva" | "Multa" | "Exemplar" | "Autor" | "Editora" | "Categoria" | "Gênero"
 
+type account_situation = "ativo" | "bloqueado"
+
+
+type BookTableProps = 
+Record<'id'| 'ISBN' | 'titulo' | 'descricao',string> 
+& 
+Record<'ano_lancamento',number>
+
+
+type UserTableProps = 
+Record<'id'|'nome'| 'sobrenome'| 'email'| 'cpf'|'senha'| 'username',string> 
+&
+Record<'situacao',account_situation>
+
+
+
+export type TableProps=BookTableProps | UserTableProps;
 
 export interface TableTypeProps {
     type:string,
@@ -16,87 +31,72 @@ export interface TableTypeProps {
 }
 
 const tableTitleList = [
-    "Livros",
-    "Usuários",
-    "Empréstimos",
-    "Reservas",
-    "Multas",
-    "Exemplares",
-    "Autores",
-    "Editoras",
-    "Categorias",
-    "Gêneros"
+    "Livro",
+    "Usuário",
+    "Empréstimo",
+    "Reserva",
+    "Multa",
+    "Exemplar",
+    "Autor",
+    "Editora",
+    "Categoria",
+    "Gênero"
 ]
 
 const onFindTitleIndex = (title:TableTitleType)=>{
     return  tableTitleList.findIndex((item)=>item === title)
 }
 
-const tableTypeList:TableTypeProps[] = [
+const tableTypeDataList:TableTypeProps[] = [
     {
         type:"none",
         title:"",
         quantity:0,
-        path:onPath("library_management"),
+        path:onFindPath("library_management"),
         headers:[],
         dependencies:
         [
-            tableTitleList[onFindTitleIndex("Livros")],
-            tableTitleList[onFindTitleIndex("Usuários")],
-            tableTitleList[onFindTitleIndex("Empréstimos")],
-            tableTitleList[onFindTitleIndex("Reservas")],
-            tableTitleList[onFindTitleIndex("Multas")]
+            tableTitleList[onFindTitleIndex("Livro")],
+            tableTitleList[onFindTitleIndex("Usuário")],
+            tableTitleList[onFindTitleIndex("Empréstimo")],
+            tableTitleList[onFindTitleIndex("Reserva")],
+            tableTitleList[onFindTitleIndex("Multa")]
         ]
     },
     {
         type:"book",
-        title:tableTitleList[onFindTitleIndex("Livros")],
+        title:tableTitleList[onFindTitleIndex("Livro")],
         quantity:0,
-        path: onPath("book_management"),
+        path: onFindPath("book_management"),
         headers:
-        [
-            "Título",
-            "Autores",
-            "Editoras",
-            "Categorias",
-            "Gêneros",
-            "Quantidade",
-            "Estante",
-            "Prateleira",
-            "Setor"
-        ],
+        [],
         dependencies:
             [
-                tableTitleList[onFindTitleIndex("Exemplares")],
-                tableTitleList[onFindTitleIndex("Autores")],
-                tableTitleList[onFindTitleIndex("Editoras")],
-                tableTitleList[onFindTitleIndex("Categorias")],
-                tableTitleList[onFindTitleIndex("Gêneros")]
+                tableTitleList[onFindTitleIndex("Exemplar")].concat("es"),
+                tableTitleList[onFindTitleIndex("Autor")].concat("es"),
+                tableTitleList[onFindTitleIndex("Editora")].concat("s"),
+                tableTitleList[onFindTitleIndex("Categoria")].concat("s"),
+                tableTitleList[onFindTitleIndex("Gênero")].concat("s")
             ]
     },
     {
         type:"user",
-        title:tableTitleList[onFindTitleIndex("Usuários")],
+        title:tableTitleList[onFindTitleIndex("Usuário")],
         quantity:0,
-        path:onPath("user_management"),
+        path:onFindPath("user_management"),
         headers:
-        [
-            "Username",
-            "Nome",
-            "Email",
-            "CPF",
-            "Perfil",
-            "Situação"
-        ],
+        [],
         dependencies:
             [
+                "Leitores",
+                "Bibliotecários",
                 "Perfis"
             ]
     },{
         type:"loan",
-        title:tableTitleList[onFindTitleIndex("Empréstimos")],
+        title:tableTitleList[onFindTitleIndex("Empréstimo")],
         quantity:0,
-        path:onPath("loan_management"),
+        path:onFindPath("loan_management"),
         headers:
         [],
         dependencies:
@@ -104,31 +104,30 @@ const tableTypeList:TableTypeProps[] = [
     } 
 ];
 
-const onSetDataQuantity = ()=>{
+// const onSetDataQuantity = ()=>{
     
-    tableTypeList.forEach(async (item,index)=>{
-        try{
-            const response = await axios.get("http://localhost:5100/count?type="+item.type)
-            const data = response.data;
-            const {quantity} = data;
-            item.quantity = quantity
-            console.log(item.type +  "==" + quantity)
+//     tableTypeDataList.forEach(async (item,index)=>{
+//         try{
+//             const response = await axios.get("http://localhost:5000/count?type="+item.type)
+//             const data = response.data;
+//             const {quantity} = data;
+//             item.quantity = quantity
+//             console.log(item.type +  "==" + quantity)
 
-        }
-        catch(error){
-            console.log(error)
-        }
-    })
-    console.log(tableTypeList)
-}
+//         }
+//         catch(error){
+//             console.log(error)
+//         }
+//     })
+//     console.log(tableTypeDataList)
+// }
 
 const onFindTableIndex = (type:TableType)=>{
-    return tableTypeList.findIndex((item)=>item.type == type);
+    return tableTypeDataList.findIndex((item)=>item.type == type);
 }
 
 export {
-    tableTypeList,
-    onFindTableIndex,
-    onSetDataQuantity
+    tableTypeDataList,
+    onFindTableIndex
 }
 

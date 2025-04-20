@@ -1,64 +1,93 @@
-import { useEffect, useState } from "react";
-import { pathList,onFindPathIndex } from "../routes/global/path.global";
-import { onFindTableIndex, TableType, tableTypeList } from "../components/table/global/table.global";
+import { useState } from "react";
+import { onFindTableIndex, TableProps, TableType, tableTypeDataList } from "../components/table/global/table.global";
 import axios from "axios";
 
-interface TableProps{
+interface TableDataProps{
     headerList:string[],
     dataList:string[][]
-    dataQuantity:number
 }
 
-const useHandleTable = <T>()=>{
+const useHandleTable = ()=>{
 
-    const onCheckTable = ()=>{
+    const [tableData,setTableData] = useState<TableDataProps | null>(null);
+    const [table,setTable] = useState<any | null>();
+    
 
-    }
+    type QueryType = "create" |"select" | "update" | "delete";
 
-    const onQueryData = (type:TableType)=>{
-        //Axios.get() -- type return data {}
-    }
+    const onQueryTable = (
+        table:{
+            type:TableType,
+            id?:string
+            data?:TableProps
+        },
+        //create precisa do tipo de tabela e data {retorna confirmação}()
+        //select(todos) precisa do tipo de tabela {retorna dados específicos}(coloca em tableData)
+        //select(unico) precisa do tipo de tabela e id {retorna todos os dados}(coloca em table)
+        //update precisa do tipo de tabela, id e data {retorna confirmação}()
+        //delete precisa do tipo de tabela e id {retorna confirmação}()
+        type:QueryType)=>{ 
+         
+            const checkQueryType = {
+                create:()=>{
+                    table.data && (
+                        console.log()    
+                    )
+                },
+                select:()=>{
+                    //selecionar tabela e inserir em table
+                    table?.id 
+                    ?   console.log("retorno unico")
+                    :   console.log("retorno em conjunto")
+                },
+                update:()=>{
+                    table?.id && table.data
+                    ? console.log("vai atualizar")
+                    : console.log("nao vai atualizar")
+                },
+                delete:()=>{
+                    table.id && (
+                        console.log()
+                    )
+                }
+            }
+            // checkQueryType[type]();
+            
 
-    const onCountData = (type:TableType)=>{
-        //Axios.get() --type return data {}
-        return 120
-    }
-
-
-    const [table,setTable] = useState<TableProps | null>(null);
-    const [tableData,setTableData] = useState<string[]>([]);
-    const [tableList,setTableList] = useState<TableProps[] | null>(null)
-
-
-    const onQueryTable = (type:TableType)=>{
-        
-        axios.get(`http://localhost:5100/tables/data?type=${type}`)
+        axios.get(`http://localhost:5000/tables/data?type=${table.type}`)
             .then((result)=>
             {
-                let array:any = [];
               const {data} = result;
-              setTable({
-                headerList:tableTypeList[onFindTableIndex("book")].headers,
-                dataList:data.map((item:any,index:number)=>{
+              let headers = Object.entries(data[0]);
 
-                    return Object.values(item)
-                }),
-                dataQuantity:100
+                
+
+            //    let test = headers.map((item,index)=>console.log(item))
+            //     console.log(test)
+              setTableData({
+                headerList:headers.map((item,index)=>{
+                    return headers[index][0] !== 'id' &&
+                     headers[index][0]
+                }).filter((item,index)=>item !== false),
+                dataList:data.map((item:TableProps,index:number
+                )=>{
+                    return  Object.entries(item)
+                })
             })
-            }
-            
-            )
 
+            }
+            )
+            
     }
 
     const onQueryTableList = (type:TableType)=>{
 
-        const tableResult = tableTypeList.find((item)=>item.type === type)
+        const tableResult = tableTypeDataList.find((item)=>item.type === type)
         return tableResult?.dependencies || []
     }
 
     return {
-        table,
+        tableData,
         onQueryTable,
         onQueryTableList
     }
