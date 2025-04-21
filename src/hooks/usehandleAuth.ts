@@ -18,7 +18,7 @@ interface QueryTokenProps {
 const useHandleAuth = ()=>{
 
     const context = useContext(AuthContext)
-
+    
 
     const onHandleStatus = ()=>{
         return JSON.parse(Cookies.get("userStatus") || "{}") || null 

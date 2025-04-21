@@ -6,20 +6,20 @@ export type TableTitleType = "Livro" | "Usuário" | "Empréstimo" | "Reserva" | 
 type account_situation = "ativo" | "bloqueado"
 
 
-type BookTableProps = 
+type BookTableQueryProps = 
 Record<'id'| 'ISBN' | 'titulo' | 'descricao',string> 
 & 
 Record<'ano_lancamento',number>
 
 
-type UserTableProps = 
+type UserTableQueryProps = 
 Record<'id'|'nome'| 'sobrenome'| 'email'| 'cpf'|'senha'| 'username',string> 
 &
 Record<'situacao',account_situation>
 
 
 
-export type TableProps=BookTableProps | UserTableProps;
+export type TableQueryProps=BookTableQueryProps | UserTableQueryProps;
 
 export interface TableTypeProps {
     type:string,

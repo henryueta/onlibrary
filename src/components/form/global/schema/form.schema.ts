@@ -18,7 +18,7 @@ const schema = {
             ISBN_reg:z.string().refine((val)=>val.match(/[0-9]{3}[-][0-9]{2}[-][0-9]{5}[-][0-9]{2}[-][0-9]{1}/),{
                 message:"ISBN inválido"
             }),
-            title_reg:z.string().refine((val)=>val.trim().length > 9,{
+            titulo:z.string().refine((val)=>val.trim().length > 9,{
                 message:"Título inválido"
             }),
             description_reg:z.string().optional(),
@@ -53,9 +53,9 @@ const schema = {
         gender:{}
     },
     fieldNames:{
-        book:{
-            names:['title_reg',"description_reg",'cape_reg']
-        }
+        // book:{
+        //     names:['title_reg',"description_reg",'cape_reg']
+        // }
     },
     getSchemaValues(type:Exclude<TableType,"none">){
         return Object.entries(this.schemaList[type])

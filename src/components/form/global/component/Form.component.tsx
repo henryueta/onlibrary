@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, Path, useForm } from "react-hook-form";
 import { z, ZodObject, ZodRawShape } from "zod";
 import { schema } from "../schema/form.schema";
-import { TableType } from "../../../table/global/table.global";
+import { TableQueryProps, TableType } from "../../../table/global/table.global";
 import { useEffect, useState } from "react";
 import { form, FormListProps } from "../../../../objects/form.object";
 import { PatternFormat } from "react-number-format";
@@ -10,6 +10,7 @@ import { PatternFormat } from "react-number-format";
 interface FormProps{
   type:Exclude<TableType,"none">
   onSubmit:(data:{[x: string]:any})=>void
+  defaultValues?:TableQueryProps
   orderPreference?:string[]
 }
 
@@ -23,9 +24,17 @@ interface FormProps{
 //   })
 // })
 
-const Form = ({type,onSubmit}:FormProps) => {
+const Form = ({type,onSubmit,defaultValues}:FormProps) => {
   const schemaObject = schema.schemaList[type] as ZodObject<ZodRawShape>
   const [formBase,setFormBase] = useState<FormListProps>();
+  const [defaultList,setDefaultList] = useState<TableQueryProps | null>(defaultValues || null)
+  const [teste,setTest] = useState({})
+  useEffect(()=>{
+    console.log(defaultValues)
+    setTest({
+      titulo:"aqui"
+    })
+  },[defaultValues])
 
   useEffect(()=>{
     !!form && 
@@ -36,19 +45,17 @@ const Form = ({type,onSubmit}:FormProps) => {
 
   type SchemaType = z.infer<typeof schemaObject>
 
-
+  
   const {register,formState,handleSubmit,control} = useForm<SchemaType>({
     mode:"all",
     reValidateMode:"onSubmit",
     resolver:zodResolver(schemaObject),
-    defaultValues:{
-
-    }
+    defaultValues:defaultValues
   });
   const {errors} = formState
 
   return (
-    <form action="">
+    <form>
         {
           formBase &&
           formBase?.fields.length > 0 &&

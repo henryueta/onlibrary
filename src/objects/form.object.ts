@@ -52,7 +52,7 @@ const form:Form_ObjectProps = {
                     tag:"input",
                     title:"Título",
                     type:"text",
-                    registerId:"title_reg"
+                    registerId:"titulo"
                 },
                 {
                     id:"description_id",

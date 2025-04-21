@@ -1,6 +1,8 @@
-import { useState } from "react";
-import { onFindTableIndex, TableProps, TableType, tableTypeDataList } from "../components/table/global/table.global";
-import axios from "axios";
+import { useEffect, useState } from "react";
+import { onFindTableIndex, TableQueryProps, TableType, tableTypeDataList } from "../components/table/global/table.global";
+import axios, { AxiosResponse } from "axios";
+import useAxios from "./useAxios";
+
 
 interface TableDataProps{
     headerList:string[],
@@ -10,8 +12,8 @@ interface TableDataProps{
 const useHandleTable = ()=>{
 
     const [tableData,setTableData] = useState<TableDataProps | null>(null);
-    const [table,setTable] = useState<any | null>();
-    
+    const [table,setTable] = useState<TableQueryProps | null>(null);
+    const {onAxiosQuery} = useAxios();
 
     type QueryType = "create" |"select" | "update" | "delete";
 
@@ -19,7 +21,7 @@ const useHandleTable = ()=>{
         table:{
             type:TableType,
             id?:string
-            data?:TableProps
+            data?:TableQueryProps
         },
         //create precisa do tipo de tabela e data {retorna confirmação}()
         //select(todos) precisa do tipo de tabela {retorna dados específicos}(coloca em tableData)
@@ -27,7 +29,9 @@ const useHandleTable = ()=>{
         //update precisa do tipo de tabela, id e data {retorna confirmação}()
         //delete precisa do tipo de tabela e id {retorna confirmação}()
         type:QueryType)=>{ 
-         
+
+            let onThen:((data:AxiosResponse)=>void) = ()=>{}
+
             const checkQueryType = {
                 create:()=>{
                     table.data && (
@@ -37,8 +41,49 @@ const useHandleTable = ()=>{
                 select:()=>{
                     //selecionar tabela e inserir em table
                     table?.id 
-                    ?   console.log("retorno unico")
-                    :   console.log("retorno em conjunto")
+                    ? (()=>{
+                        onThen = (result)=>{
+                            const {data} = result;
+                            setTable(data)
+                        }
+                    })() 
+                    :
+                    table.data 
+                    ? (()=>{
+
+                    })()
+                    : (()=>{
+                    onThen = (result)=>{
+                        const {data} = result;
+                        console.log(table.id)
+                        let headers = Object.entries(data[0]);
+                        setTableData({
+
+                            headerList:headers.map((item,index)=>{
+                                return headers[index][0]
+
+                            }).filter((item,index)=>item !== "id"),
+                            dataList:data.map((item:TableQueryProps)=>{
+                                return  Object.entries(item)
+                            })
+                        })
+                    } 
+                    })()
+                    onAxiosQuery("get",{
+                        url:`http://localhost:5000/tables/data?type=${table.type}`,
+                        type:{
+                            get:{
+                                id:table.id,
+                                data:table.data
+                            }
+                        },
+                        onResolver:{
+                            then:onThen,
+                            catch:(error)=>{
+                                console.log(error)
+                            }
+                        }
+                    })
                 },
                 update:()=>{
                     table?.id && table.data
@@ -51,32 +96,8 @@ const useHandleTable = ()=>{
                     )
                 }
             }
-            // checkQueryType[type]();
+            checkQueryType[type]();
             
-
-        axios.get(`http://localhost:5000/tables/data?type=${table.type}`)
-            .then((result)=>
-            {
-              const {data} = result;
-              let headers = Object.entries(data[0]);
-
-                
-
-            //    let test = headers.map((item,index)=>console.log(item))
-            //     console.log(test)
-              setTableData({
-                headerList:headers.map((item,index)=>{
-                    return headers[index][0] !== 'id' &&
-                     headers[index][0]
-                }).filter((item,index)=>item !== false),
-                dataList:data.map((item:TableProps,index:number
-                )=>{
-                    return  Object.entries(item)
-                })
-            })
-
-            }
-            )
             
     }
 
@@ -88,6 +109,7 @@ const useHandleTable = ()=>{
 
     return {
         tableData,
+        table,
         onQueryTable,
         onQueryTableList
     }

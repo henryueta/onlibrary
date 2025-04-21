@@ -2,7 +2,7 @@ import Search from "../search/Search.component"
 import "./Table.component.css"
 import useHandleTable from "../../hooks/useHandleTable"
 import { useEffect, useState } from "react"
-import { TableType, tableTypeDataList,onFindTableIndex } from "./global/table.global"
+import { TableType, tableTypeDataList,onFindTableIndex, TableQueryProps } from "./global/table.global"
 import Dialog from "../dialog/Dialog.component"
 import Form from "../form/global/component/Form.component"
 
@@ -11,13 +11,16 @@ interface TableProps {
     type:TableType
 
 }
-
+// <T extends TableQueryProps>
 const Table = ({type}:TableProps) => {
 
-  const {onQueryTable,tableData} = useHandleTable();
+  const {onQueryTable,tableData,table} = useHandleTable();
+
   const [maxOfData,setMaxOfData] = useState<number>(1);
   const [tableDataView,setTableDataView] = useState<string[][]>([]);
+  const [tableView,setTableView] = useState<TableQueryProps | null>(null);
   const [registerTable,setRegisterTable] = useState<boolean>(false);
+const [updateTable,setUpdateTable] = useState<boolean>(false);
 
   const [tableCrud,setTableCrud] = useState<any>({
     create:false,
@@ -44,6 +47,13 @@ const Table = ({type}:TableProps) => {
   },[tableData])
 
   useEffect(()=>{
+    table &&
+    setTableView(table || [])
+    table &&
+    setUpdateTable(true)
+  },[table])
+
+  useEffect(()=>{
     onLimitDataView()
   },[maxOfData])
 
@@ -58,6 +68,20 @@ const Table = ({type}:TableProps) => {
       </Dialog>
     </div>
     }
+
+{
+  updateTable &&
+  <Dialog onClose={()=>{setUpdateTable(false)}}>
+  {
+    type !== "none" &&
+    <Form 
+    type={type} 
+    onSubmit={(data)=>console.log(data)} 
+    defaultValues={tableView as TableQueryProps}
+    ></Form>
+  }
+</Dialog>
+}
 
     <section className="tableSection">
       
@@ -133,11 +157,19 @@ const Table = ({type}:TableProps) => {
                           Object.values(item_data)[1].slice(0,15).concat("...")
                           }
                         </td>
+                        
                         }
                         )
                       }
                           <td>
-                            <button onClick={()=>{}}>
+                            <button onClick={
+                              ()=>{
+                                onQueryTable(
+                                  {type:"book",
+                                  id:tableDataView[index][0][1]},
+                                  "select")
+                                }
+                              }>
                               Editar
                             </button>
                           </td>    
