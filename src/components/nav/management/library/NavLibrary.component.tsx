@@ -6,15 +6,14 @@ import cubeTable_icon from "../../../../assets/imgs/icons/cubeTable_icon.webp"
 import Details from "../../../details/Details.component";
 import { useNavigate,useLocation } from "react-router-dom";
 import ListItem from "../../../listItem/ListItem.component";
-import { path } from "../../../../objects/path.object";
+import { onFindTablePath } from "../../../../objects/table.object";
 
 
 const NavLibrary = () => {
 
  const onNavigate = useNavigate();
   const location = useLocation();
-
-  // console.log(location.pathname)
+  
 
   return (
     <nav className="navLibrary">
@@ -30,10 +29,12 @@ const NavLibrary = () => {
               {
                 title:"Usuários",
                 icon:cubeTable_icon,
-                onClick:()=>onNavigate(path.onFindPath("user_management"))
+                onClick:()=>onNavigate(onFindTablePath("user") || "")
               },
               {
-                children:<Details onClick={()=>onNavigate(path.onFindPath("book_management"))} title="Livros" icon={cubeTable_icon} list={[
+                children:<Details open={
+                  location.pathname == onFindTablePath("book")
+                } onClick={()=>onNavigate(onFindTablePath("book") || "")} title="Livros" icon={cubeTable_icon} list={[
                   {
                     title:"Exemplares",
                     icon:cubeTable_icon,

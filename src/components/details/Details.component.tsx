@@ -13,11 +13,11 @@ interface ItemContentProps{
 
 type ItemDetailsProps = Partial<ItemIdentityProps> & ItemContentProps
 
-type DetailsProps = ItemIdentityProps & Record<'list',ItemDetailsProps[]> & ItemContentProps
+type DetailsProps = ItemIdentityProps & Record<'list',ItemDetailsProps[]> & ItemContentProps & Partial<Record<'open',boolean>>
 
-const Details = ({onClick,title,icon,list}:DetailsProps) => {
+const Details = ({onClick,title,icon,list,open}:DetailsProps) => {
   return (
-    <details >
+    <details open={open || false}>
         <summary onClick={onClick}>  
             {
                 !!icon &&(

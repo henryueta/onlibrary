@@ -4,17 +4,9 @@ import {useForm} from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRegisterContext } from "../../../../../context/RegisterContext";
+import { schema } from "../../../../../schema/form.schema";
 
-const schema = z.object({
-    password_reg:z.string()
-    .min(8,{message:"Campo senha deve ter 8 dígitos"}),
-    repeatPassword_reg:z.string()
-}).refine((data)=>data.repeatPassword_reg === data.password_reg,{
-  message:"Senhas não coincídem",
-  path:["repeatPassword_reg"]
-}) 
-
-type RegisterStep3Props = z.infer<typeof schema>;
+type RegisterStep3Props = z.infer<typeof schema.schemaList.user.register.step3>;
 
 const ThirdRegisterStep = () => {
 
@@ -22,7 +14,7 @@ const ThirdRegisterStep = () => {
   const {register,formState,handleSubmit} = useForm<RegisterStep3Props>({
     mode:"all",
     reValidateMode:"onSubmit",
-    resolver:zodResolver(schema)
+    resolver:zodResolver(schema.schemaList.user.register.step3)
   });
 
   const {isValid,errors} = formState
@@ -45,14 +37,14 @@ const ThirdRegisterStep = () => {
         <label htmlFor="password_id">
           <p>Senha:</p>
           <input type="password" id="password_id"
-          {...register("password_reg")}/>
-          <p>{errors.password_reg?.message}</p>
+          {...register("senha")}/>
+          <p>{errors.senha?.message}</p>
         </label>
         <label htmlFor="repeatPassword_id">
           <p>Repita sua senha:</p>
           <input type="password" id="repeatPassword_id"
-          {...register("repeatPassword_reg")}/>
-          <p>{errors.repeatPassword_reg?.message}</p>
+          {...register("repetir_senha")}/>
+          <p>{errors.repetir_senha?.message}</p>
         </label>
       </RegisterUser>
     </>

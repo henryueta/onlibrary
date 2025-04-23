@@ -5,27 +5,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import useHandleAuth from "../../../hooks/usehandleAuth";
+import { schema } from "../../../schema/form.schema";
 
-const schema = z.object({
-  usernameOrEmail_login:z.string().refine((val)=>val.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) || val.match(/^[a-zA-Z0-9]{5,20}$/) && val.trim().length > 0,{
-      message:"Campo username/email inválido"
-  }),
-  password_login:z.string().refine((val)=>val.trim().length >= 8,{
-      message:"Campo senha inválido"
-  })
-})
-
-type LoginProps = z.infer<typeof schema>
+type LoginProps = z.infer<typeof schema.schemaList.user.login>
 
 const LoginPage = () => {
 
   const {register,formState,handleSubmit} = useForm<LoginProps>({
-      resolver:zodResolver(schema),
+      resolver:zodResolver(schema.schemaList.user.login),
       reValidateMode:"onSubmit",
       mode:"all"
   });
   const {errors} = formState;
-  const {onHandleAuth} = useHandleAuth();
+  const {onHandleAuth,errorAuth} = useHandleAuth();
 
   return (
     <>
@@ -34,16 +26,16 @@ const LoginPage = () => {
         <label htmlFor="">
           <p>Username ou email</p>
           <input type="text" 
-          {...register("usernameOrEmail_login",
+          {...register("login",
             {required:true}
             )
           }/>
-          <p>{errors.usernameOrEmail_login?.message}</p>
+          <p>{errors.login?.message}</p>
         </label>
         <label htmlFor="">
           <p>Senha</p>
           <input type="password" 
-          {...register("password_login",
+          {...register("senha",
             {required:true}
             )
           }/>
@@ -52,8 +44,14 @@ const LoginPage = () => {
               Esqueceu sua senha?
             </span>
           </Link>
-          <p>{errors.password_login?.message}</p>
+          <p>{errors.senha?.message}</p>
         </label>
+        <p>
+          {
+            !!errorAuth &&
+                `Erro ${errorAuth.status}: ${errorAuth.message}`
+          }
+        </p>
       </Login>
     </>
   )

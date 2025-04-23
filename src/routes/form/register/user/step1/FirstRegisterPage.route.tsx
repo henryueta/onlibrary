@@ -7,20 +7,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef, useState } from "react";
 import { useRegisterContext } from "../../../../../context/RegisterContext";
 import { PatternFormat } from "react-number-format";
+import { schema } from "../../../../../schema/form.schema";
 
-const schema = z.object({
-    name_reg:z.string().refine((val)=>val.match(/[A-Z]{1}[a-z]/) && val.trim().length > 0,{
-      message:"Campo nome inválido"
-    }),
-    lastName_reg:z.string().refine((val)=>val.match(/[A-Z]{1}[a-z]/) && val.trim().length > 0,{
-      message:"Campo sobrenome inválido"
-    }),
-    cpf_reg:z.string().refine((val)=>val.match(/[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}/),{
-      message:"Campo CPF inválido"
-    })
-})
-type RegisterStep1Props = z.infer<typeof schema>;
-
+type RegisterStep1Props = z.infer<typeof schema.schemaList.user.register.step1>;
 
 const FirstRegisterStep = () => {
 
@@ -33,11 +22,11 @@ const FirstRegisterStep = () => {
   const {register,control,formState,handleSubmit} = useForm<RegisterStep1Props>({
     mode:"all",
     reValidateMode:"onSubmit",
-    resolver:zodResolver(schema),
+    resolver:zodResolver(schema.schemaList.user.register.step1),
     defaultValues:{
-      name_reg:registerData?.name_reg,
-      lastName_reg:registerData?.lastName_reg,
-      cpf_reg:registerData?.cpf_reg
+      nome:registerData?.nome,
+      sobrenome:registerData?.sobrenome,
+      cpf:registerData?.cpf
     }
   });
 
@@ -61,22 +50,22 @@ const FirstRegisterStep = () => {
         <label htmlFor="name_id">
           <p>Nome:</p>
           <input type="text" id="name_id"
-          {...register("name_reg",{
+          {...register("nome",{
           })}
           />
-          <p>{errors.name_reg?.message}</p>
+          <p>{errors.nome?.message}</p>
         </label>
         <label htmlFor="lastName_id">
             <p>Sobrenome:</p>
-            <input type="text" id="lastName_id" {...register("lastName_reg",{
+            <input type="text" id="lastName_id" {...register("sobrenome",{
               required:true
             })} />
-            <p>{errors.lastName_reg?.message}</p>
+            <p>{errors.sobrenome?.message}</p>
         </label>
         <label htmlFor="cpf_id">
             <p>CPF:</p>
             <Controller
-              name="cpf_reg"
+              name="cpf"
               control={control}
               render={({field})=>(
               <PatternFormat {...field} format="###.###.###-##" mask="_" id="cpf_id"/>
@@ -84,7 +73,7 @@ const FirstRegisterStep = () => {
             >
             </Controller>
             {/* <input type="text" /> */} 
-            <p>{errors.cpf_reg?.message}</p>
+            <p>{errors.cpf?.message}</p>
         </label> 
       </RegisterUser> 
   </>

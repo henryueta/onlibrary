@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import useHandleTable from "../../hooks/useHandleTable";
 import { TableType, tableTypeDataList,onFindTableIndex,TableTypeProps } from "../../objects/table.object";
 import axios from "axios";
+import { useParams } from "react-router-dom";
+import { path } from "../../objects/path.object";
 
 
 interface ManagementProps {
@@ -15,15 +17,10 @@ item_management:TableType
 children:React.ReactNode
 }
 
-const teste = {
-  idade:"19",
-  id:"113d",
-  nome:"Henry"
-}
-
 const Management = ({children,item_management,hasGroupTableButton}:ManagementProps) => {
   const [buttonList,setButtonList] = useState<TableTypeProps[]>(tableTypeDataList);
-  const {onQueryTableList} = useHandleTable()
+  const {type} = useParams()
+
 
   useEffect(()=>{
     buttonList.forEach(async (button,index)=>{
@@ -44,6 +41,7 @@ const Management = ({children,item_management,hasGroupTableButton}:ManagementPro
           console.log(error)
       }
   })
+
   },[])
   
   return (
@@ -57,7 +55,7 @@ const Management = ({children,item_management,hasGroupTableButton}:ManagementPro
             {hasGroupTableButton 
           &&(
             <GroupTableButton buttonList={
-              buttonList[onFindTableIndex(item_management)].dependencies.map((item,index)=>{
+              buttonList[onFindTableIndex(type as TableType || "none")].dependencies.map((item,index)=>{
                 const dependecie_button = buttonList[tableTypeDataList.findIndex((itemQnt)=>itemQnt.title === item)];
                return {
               icon:cube_icon,

@@ -43,7 +43,45 @@ const schema = {
                 message:"Setor inválido"
             })
         }),
-        user:{},
+        user:{
+            login:z.object({
+                login:z.string().refine((val)=>val.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) || val.match(/^[a-zA-Z0-9]{5,20}$/) && val.trim().length > 0,{
+                    message:"Campo username/email inválido"
+                }),
+                senha:z.string().refine((val)=>val.trim().length >= 8,{
+                    message:"Campo senha inválido"
+                })
+              }),
+            register:{
+                step1:z.object({
+                    nome:z.string().refine((val)=>val.match(/[A-Z]{1}[a-z]/) && val.trim().length > 0,{
+                        message:"Campo nome inválido"
+                    }),
+                    sobrenome:z.string().refine((val)=>val.match(/[A-Z]{1}[a-z]/) && val.trim().length > 0,{
+                        message:"Campo sobrenome inválido"
+                    }),
+                    cpf:z.string().refine((val)=>val.match(/[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}/),{
+                        message:"Campo CPF inválido"
+                    }),
+                }),
+                step2:z.object({
+                    username:z.string().refine((val)=>val.match(/^(?=(?:.*[a-zA-Z]){3,})(?=(?:.*\d){1,})[a-zA-Z0-9_]{3,20}$/) ,{
+                        message:"Username precisa ter números e letras"
+                    }),
+                    email:z.string().refine((val)=>val.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) && val.trim().length > 0,{
+                        message:"Campo email inválido"
+                    }),
+                }),
+                step3:z.object({
+                    senha:z.string()
+                        .min(8,{message:"Campo senha deve ter 8 dígitos"}),
+                    repetir_senha:z.string()
+                    }).refine((data)=>data.repetir_senha === data.senha,{
+                        message:"Senhas não coincídem",
+                        path:["repetir_senha"]
+                })
+            }
+        },     
         loan:{},
         amerce:{},
         exemplary:{},

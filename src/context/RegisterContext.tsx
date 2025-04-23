@@ -4,11 +4,11 @@ import useHandleAuth from "../hooks/usehandleAuth";
 
 type StepIndex = 1|2|3;
 
-   type FirstDataProps = Record<"name_reg"|"lastName_reg"|"cpf_reg",string> 
-   type SecondDataProps = Record<"username_reg"|"email_reg",string>
-   type ThirdDataProps = Record<"password_reg",string>
+   type FirstDataProps = Record<"nome"|"sobrenome"|"cpf",string> 
+   type SecondDataProps = Record<"username"|"email",string>
+   type ThirdDataProps = Record<"senha",string>
 
-  export type FormDataProps = Record<"name_reg"|"lastName_reg"|"cpf_reg"|"username_reg"|"email_reg"|"password_reg",string> | null
+  export type FormDataProps = Record<"nome"|"sobrenome"|"cpf"|"username"|"email"|"senha",string> | null
 
 interface RegisterFormProps {
     isValidated:boolean,
@@ -71,14 +71,14 @@ const RegisterProvider = ({children}:{children:React.ReactNode}) => {
         const checkStep = {
             1:(data:FormDataProps)=>{
                 let current_cpf = 
-                data?.cpf_reg.split("")
+                data?.cpf.split("")
                 .filter((item)=>item !== "-" && item !== ".")
                 .join("")
                 .toString()               
                 setRegisterData({...registerData,
-                        name_reg:data?.name_reg,
-                        lastName_reg:data?.lastName_reg ,
-                        cpf_reg: current_cpf } as FormDataProps
+                        nome:data?.nome,
+                        sobrenome:data?.sobrenome ,
+                        cpf: current_cpf } as FormDataProps
                 )
                 setFormData({...formData,
                     steps:formData.steps.map((item,num)=>{
@@ -89,13 +89,13 @@ const RegisterProvider = ({children}:{children:React.ReactNode}) => {
             },
             2:(data:FormDataProps)=>{
                     setRegisterData({...registerData,
-                        email_reg:data?.email_reg,
-                        username_reg:data?.username_reg} as FormDataProps
+                        email:data?.email,
+                        username:data?.username} as FormDataProps
                 )
             },
             3:(data:FormDataProps)=>{
                 setRegisterData({...registerData,
-                    password_reg:data?.password_reg
+                    senha:data?.senha
                 } as FormDataProps)
                 Cookies.set("userStatus",JSON.stringify({
                   errorStatus:{

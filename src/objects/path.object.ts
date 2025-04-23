@@ -12,7 +12,11 @@ const onCreateRegisterPath = (path:string)=>{
 interface PathObjectProps {
     list:Record<'type'|'path',string>[],
     onFindIndex(type:string):number
-    onFindPath(type:string):string
+    onFindPath(type:string):string,
+    onCreatePathParams(type:string,paramsList:{
+        field:string,
+        param:string
+    }[]):string
 }
 
 const path:PathObjectProps = {
@@ -91,8 +95,16 @@ const path:PathObjectProps = {
             path:onCreateManagementPath("/gender")
         },
         {
-            type:"",
-            path:onCreateManagementPath("")
+            type:"list_data_management",
+            path:onCreateManagementPath("/data/list/:type")
+        },
+        {
+            type:"create_data_management",
+            path:onCreateManagementPath("/data/create/:type")
+        },
+        {
+            type:"update_data_management",
+            path:onCreateManagementPath("/data/update/:type/:id")
         }
         
         ], 
@@ -101,6 +113,13 @@ const path:PathObjectProps = {
         },      
          onFindPath(type:string){
             return this.list[this.onFindIndex(type)].path
+        },
+        onCreatePathParams(type:string,paramsList){
+            let current_path = this.onFindPath(type);
+            paramsList.forEach((item,index)=>{
+                current_path = current_path.replace(":"+item.field,item.param)
+            })
+            return current_path          
         }
 
 }

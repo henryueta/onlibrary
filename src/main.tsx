@@ -48,6 +48,17 @@ export const router = createBrowserRouter([
     </Private>
   },
   {
+    path:path.onFindPath("create_data_management"),
+    element:
+    <Private>
+      <Management item_management='none' hasGroupTableButton={false}>
+        <>
+          
+        </>
+      </Management>
+    </Private>
+  },
+  {
     path:path.onFindPath("library_management"),
     element:
     <Private>
@@ -59,7 +70,7 @@ export const router = createBrowserRouter([
     </Private>
   },
   {
-    path:path.onFindPath("book_management"),
+    path:path.onFindPath("list_data_management"),
     element:
     <Private>
       <Management item_management='book' hasGroupTableButton={true}>

@@ -1,21 +1,12 @@
 import RegisterUser from "../../../../../components/form/register/user/RegisterUser.component"
 import NavForm from "../../../../../components/nav/form/NavForm.component"
-import {Controller, useForm} from "react-hook-form";
+import {useForm} from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRegisterContext } from "../../../../../context/RegisterContext";
-import { PatternFormat } from "react-number-format";
+import { schema } from "../../../../../schema/form.schema";
 
-  const schema = z.object({
-    username_reg:z.string().refine((val)=>val.match(/^(?=(?:.*[a-zA-Z]){3,})(?=(?:.*\d){1,})[a-zA-Z0-9_]{3,20}$/) ,{
-      message:"Username precisa ter números e letras"
-    }),
-    email_reg:z.string().refine((val)=>val.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) && val.trim().length > 0,{
-      message:"Campo email inválido"
-    })
-  })
-
-type RegisterStep2Props = z.infer<typeof schema>;
+type RegisterStep2Props = z.infer<typeof schema.schemaList.user.register.step2>;
 
 const SecondRegisterStep = () => {
   
@@ -23,10 +14,10 @@ const SecondRegisterStep = () => {
   const {control,register,formState,handleSubmit} = useForm<RegisterStep2Props>({
     mode:"all",
     reValidateMode:"onSubmit",
-    resolver:zodResolver(schema),
+    resolver:zodResolver(schema.schemaList.user.register.step2),
     defaultValues:{
-      email_reg:registerData?.email_reg,
-      username_reg:registerData?.username_reg 
+      email:registerData?.email,
+      username:registerData?.username 
     }
   });
 
@@ -49,17 +40,17 @@ const SecondRegisterStep = () => {
     }}>
         <label htmlFor="username_id">
           <p>Username:</p>
-          <input type="text" id="username_id" {...register("username_reg",{
+          <input type="text" id="username_id" {...register("username",{
             required:true
           })}/>
-          <p>{errors.username_reg?.message}</p>
+          <p>{errors.username?.message}</p>
         </label>
         <label htmlFor="email_id">
           <p>Email:</p>
-          <input type="email" id="email_id" {...register("email_reg",{
+          <input type="email" id="email_id" {...register("email",{
             required:true
           })}/>
-          <p>{errors.email_reg?.message}</p>
+          <p>{errors.email?.message}</p>
         </label>
       </RegisterUser>
     </>

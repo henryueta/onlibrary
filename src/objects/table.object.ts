@@ -12,7 +12,7 @@ Record<'id'| 'ISBN' | 'titulo' | 'descricao',string>
 Record<'ano_lancamento',number>
 
 
-type UserTableQueryProps = 
+export type UserTableQueryProps = 
 Record<'id'|'nome'| 'sobrenome'| 'email'| 'cpf'|'senha'| 'username',string> 
 &
 Record<'situacao',account_situation>
@@ -67,7 +67,12 @@ const tableTypeDataList:TableTypeProps[] = [
         type:"book",
         title:tableTitleList[onFindTitleIndex("Livro")],
         quantity:0,
-        path: path.onFindPath("book_management"),
+        path: path.onCreatePathParams("list_data_management",[
+            {
+              field:"type",
+              param:"book"
+            }
+          ]),
         headers:
         [],
         dependencies:
@@ -83,7 +88,12 @@ const tableTypeDataList:TableTypeProps[] = [
         type:"user",
         title:tableTitleList[onFindTitleIndex("Usuário")],
         quantity:0,
-        path:path.onFindPath("user_management"),
+        path:path.onCreatePathParams("list_data_management",[
+            {
+              field:"type",
+              param:"user"
+            }
+          ]),
         headers:
         [],
         dependencies:
@@ -108,8 +118,13 @@ const onFindTableIndex = (type:TableType)=>{
     return tableTypeDataList.findIndex((item)=>item.type == type);
 }
 
+const onFindTablePath = (type:TableType)=>{
+    return tableTypeDataList.find((item)=>item.type == type)?.path
+}
+
 export {
     tableTypeDataList,
-    onFindTableIndex
+    onFindTableIndex,
+    onFindTablePath
 }
 
