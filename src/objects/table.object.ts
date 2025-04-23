@@ -1,4 +1,4 @@
-import { pathList,onFindPathIndex,onFindPath } from "../../../routes/global/path.global";
+import {path } from "./path.object";
 
 export type TableType = "none" |"book" | "user" | "loan" | "amerce" | "exemplary" | "author" | "publisher" | "category" | "gender";
 export type TableTitleType = "Livro" | "Usuário" | "Empréstimo" | "Reserva" | "Multa" | "Exemplar" | "Autor" | "Editora" | "Categoria" | "Gênero"
@@ -52,7 +52,7 @@ const tableTypeDataList:TableTypeProps[] = [
         type:"none",
         title:"",
         quantity:0,
-        path:onFindPath("library_management"),
+        path:path.onFindPath("library_management"),
         headers:[],
         dependencies:
         [
@@ -67,7 +67,7 @@ const tableTypeDataList:TableTypeProps[] = [
         type:"book",
         title:tableTitleList[onFindTitleIndex("Livro")],
         quantity:0,
-        path: onFindPath("book_management"),
+        path: path.onFindPath("book_management"),
         headers:
         [],
         dependencies:
@@ -83,7 +83,7 @@ const tableTypeDataList:TableTypeProps[] = [
         type:"user",
         title:tableTitleList[onFindTitleIndex("Usuário")],
         quantity:0,
-        path:onFindPath("user_management"),
+        path:path.onFindPath("user_management"),
         headers:
         [],
         dependencies:
@@ -96,31 +96,13 @@ const tableTypeDataList:TableTypeProps[] = [
         type:"loan",
         title:tableTitleList[onFindTitleIndex("Empréstimo")],
         quantity:0,
-        path:onFindPath("loan_management"),
+        path:path.onFindPath("loan_management"),
         headers:
         [],
         dependencies:
         []
     } 
 ];
-
-// const onSetDataQuantity = ()=>{
-    
-//     tableTypeDataList.forEach(async (item,index)=>{
-//         try{
-//             const response = await axios.get("http://localhost:5000/count?type="+item.type)
-//             const data = response.data;
-//             const {quantity} = data;
-//             item.quantity = quantity
-//             console.log(item.type +  "==" + quantity)
-
-//         }
-//         catch(error){
-//             console.log(error)
-//         }
-//     })
-//     console.log(tableTypeDataList)
-// }
 
 const onFindTableIndex = (type:TableType)=>{
     return tableTypeDataList.findIndex((item)=>item.type == type);

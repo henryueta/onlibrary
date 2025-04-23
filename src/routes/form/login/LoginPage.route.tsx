@@ -4,6 +4,7 @@ import NavForm from "../../../components/nav/form/NavForm.component"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import useHandleAuth from "../../../hooks/usehandleAuth";
 
 const schema = z.object({
   usernameOrEmail_login:z.string().refine((val)=>val.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) || val.match(/^[a-zA-Z0-9]{5,20}$/) && val.trim().length > 0,{
@@ -24,11 +25,12 @@ const LoginPage = () => {
       mode:"all"
   });
   const {errors} = formState;
+  const {onHandleAuth} = useHandleAuth();
 
   return (
     <>
       <NavForm/>
-      <Login handleLogin={handleSubmit((data)=>console.log(data))}>
+      <Login handleLogin={handleSubmit((data)=>onHandleAuth("login",data))}>
         <label htmlFor="">
           <p>Username ou email</p>
           <input type="text" 

@@ -3,14 +3,14 @@ import { Key } from "react";
 interface ListItemProps{
 icon?:string
 title?:string    
-key?:Key
+keyList?:string | number
 children?:React.ReactNode
 onClick?:()=>void
 }
 
-const ListItem = ({icon,title,key,children,onClick}:ListItemProps) => {
+const ListItem = ({icon,title,keyList,children,onClick}:ListItemProps) => {
   return (
-    <li key={key} onClick={onClick}>
+    <li key={keyList} onClick={onClick}>
         {
             !!icon && 
             (

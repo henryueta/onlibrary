@@ -19,14 +19,14 @@ type RegisterStep2Props = z.infer<typeof schema>;
 
 const SecondRegisterStep = () => {
   
-  const {teste,onStep} = useRegisterContext();
+  const {registerData,onStep} = useRegisterContext();
   const {control,register,formState,handleSubmit} = useForm<RegisterStep2Props>({
     mode:"all",
     reValidateMode:"onSubmit",
     resolver:zodResolver(schema),
     defaultValues:{
-      email_reg:teste?.email_reg,
-      username_reg:teste?.username_reg 
+      email_reg:registerData?.email_reg,
+      username_reg:registerData?.username_reg 
     }
   });
 

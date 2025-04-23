@@ -1,5 +1,4 @@
-import { createContext,useContext, useEffect, useState } from "react";
-import Cookies from "js-cookie";
+import { createContext, useEffect, useState } from "react";
 import useHandleAuth, { UserProps } from "../hooks/usehandleAuth";
 
 export interface UserStatus{
@@ -42,10 +41,10 @@ return (
     
 }
 
-const useAuthContext = ()=>{
-    const context = useContext(AuthContext);
-    return context;
-}
+// const useAuthContext = ()=>{
+//     const context = useContext(AuthContext);
+//     return context;
+// }
 
 export {
     AuthContext,

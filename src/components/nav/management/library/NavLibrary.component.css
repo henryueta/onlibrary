@@ -28,11 +28,6 @@
     width: 100%;
 }
 
-.libraryOptionsContainer img{
-    border: 2px solid rgb(18, 103, 156);
-    height: 2rem;
-    width: 2rem;
-}
 
 .libraryOptionsContainer li>img{
     margin-left: 10px;

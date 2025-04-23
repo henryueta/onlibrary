@@ -5,7 +5,7 @@ import GroupTableButton from "../../components/group/button/GroupTableButton.com
 import cube_icon from "../../assets/imgs/icons/cube_icon.png"
 import { useEffect, useState } from "react";
 import useHandleTable from "../../hooks/useHandleTable";
-import { TableType, tableTypeDataList,onFindTableIndex,TableTypeProps } from "../../components/table/global/table.global";
+import { TableType, tableTypeDataList,onFindTableIndex,TableTypeProps } from "../../objects/table.object";
 import axios from "axios";
 
 
@@ -32,7 +32,7 @@ const Management = ({children,item_management,hasGroupTableButton}:ManagementPro
             setButtonList((prev)=>{
              return prev.map((item,index)=>{
                 if(item.type === button.type){
-                    item.quantity = res.data.quantity
+                    item.quantity = res.data.quantidade
                 }
                 return item
               })

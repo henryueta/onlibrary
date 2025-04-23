@@ -1,13 +1,20 @@
 import "./NavLibrary.component.css";
 import onlibrary_logo from "../../../../assets/imgs/logo/onlibrary_logo.png";
+import management_icon from "../../../../assets/imgs/icons/management_icon.webp"
+import dashboardHome_icon from "../../../../assets/imgs/icons/dashboardHome_icon.webp";
+import cubeTable_icon from "../../../../assets/imgs/icons/cubeTable_icon.webp"
 import Details from "../../../details/Details.component";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import ListItem from "../../../listItem/ListItem.component";
-import { pathList,onPath } from "../../../../routes/global/path.global";
+import { path } from "../../../../objects/path.object";
+
 
 const NavLibrary = () => {
 
  const onNavigate = useNavigate();
+  const location = useLocation();
+
+  // console.log(location.pathname)
 
   return (
     <nav className="navLibrary">
@@ -16,50 +23,50 @@ const NavLibrary = () => {
       </div>
       <div className="libraryOptionsContainer">
         <ul>
-          <ListItem title="Dashboard" icon="a" onClick={()=>onNavigate("/management/library")}/> 
-          <ListItem title="Minha Biblioteca" icon="a"/> 
+          <ListItem title="Dashboard" icon={dashboardHome_icon} onClick={()=>onNavigate("/management/library")}/> 
+          <ListItem title="Minha Biblioteca" icon={cubeTable_icon}/> 
           <li>
-            <Details title="Gestão" icon="a" list={[
+            <Details title="Gestão" icon={management_icon} list={[
               {
                 title:"Usuários",
-                icon:"a",
-                onClick:()=>onNavigate("/management/library/users")
+                icon:cubeTable_icon,
+                onClick:()=>onNavigate(path.onFindPath("user_management"))
               },
               {
-                children:<Details onClick={()=>onNavigate(onPath("book_management"))} title="Livros" icon="a" list={[
+                children:<Details onClick={()=>onNavigate(path.onFindPath("book_management"))} title="Livros" icon={cubeTable_icon} list={[
                   {
                     title:"Exemplares",
-                    icon:"a",
+                    icon:cubeTable_icon,
                   },
                   {
                     title:"Autores",
-                    icon:"a",
+                    icon:cubeTable_icon,
                   },
                   {
                     title:"Editoras",
-                    icon:"a",
+                    icon:cubeTable_icon,
                   },
                   {
                     title:"Categorias",
-                    icon:"a",
+                    icon:cubeTable_icon,
                   },
                   {
                     title:"Gêneros",
-                    icon:"a",
+                    icon:cubeTable_icon,
                   }
                 ]}/>
               },
               {
                 title:"Empréstimos",
-                icon:"a",
+                icon:cubeTable_icon,
               },
               {
                 title:"Reservas",
-                icon:"a",
+                icon:cubeTable_icon,
               },
               {
                 title:"Multas",
-                icon:"a",
+                icon:cubeTable_icon,
               }
             ]}>
             </Details>

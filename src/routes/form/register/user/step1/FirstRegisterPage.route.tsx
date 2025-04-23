@@ -25,7 +25,7 @@ type RegisterStep1Props = z.infer<typeof schema>;
 const FirstRegisterStep = () => {
 
   const nameInput = useRef<HTMLInputElement >(null);
-  const {teste,onStep} = useRegisterContext();
+  const {registerData,onStep} = useRegisterContext();
   const [isComplete,setIsComplete] = useState(false);
 
 
@@ -35,9 +35,9 @@ const FirstRegisterStep = () => {
     reValidateMode:"onSubmit",
     resolver:zodResolver(schema),
     defaultValues:{
-      name_reg:teste?.name_reg,
-      lastName_reg:teste?.lastName_reg,
-      cpf_reg:teste?.cpf_reg
+      name_reg:registerData?.name_reg,
+      lastName_reg:registerData?.lastName_reg,
+      cpf_reg:registerData?.cpf_reg
     }
   });
 

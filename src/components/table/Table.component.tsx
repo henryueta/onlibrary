@@ -2,9 +2,10 @@ import Search from "../search/Search.component"
 import "./Table.component.css"
 import useHandleTable from "../../hooks/useHandleTable"
 import { useEffect, useState } from "react"
-import { TableType, tableTypeDataList,onFindTableIndex, TableQueryProps } from "./global/table.global"
+import { TableType, tableTypeDataList,onFindTableIndex, TableQueryProps } from "../../objects/table.object"
 import Dialog from "../dialog/Dialog.component"
 import Form from "../form/global/component/Form.component"
+import triangleRetangle_icon from "../../../src/assets/imgs/icons/triangleRetangle_icon.png"
 
 interface TableProps {
 
@@ -15,12 +16,12 @@ interface TableProps {
 const Table = ({type}:TableProps) => {
 
   const {onQueryTable,tableData,table} = useHandleTable();
-
+  
   const [maxOfData,setMaxOfData] = useState<number>(1);
   const [tableDataView,setTableDataView] = useState<string[][]>([]);
   const [tableView,setTableView] = useState<TableQueryProps | null>(null);
   const [registerTable,setRegisterTable] = useState<boolean>(false);
-const [updateTable,setUpdateTable] = useState<boolean>(false);
+  const [updateTable,setUpdateTable] = useState<boolean>(false);
 
   const [tableCrud,setTableCrud] = useState<any>({
     create:false,
@@ -86,7 +87,7 @@ const [updateTable,setUpdateTable] = useState<boolean>(false);
     <section className="tableSection">
       
         <div className="titleContainer">
-            <img src="" alt="title_icon" />
+            <img src={triangleRetangle_icon} alt="title_icon" />
             <h1>
                 {
                 "Lista de "+tableTypeDataList[onFindTableIndex(type)].title.concat("s")

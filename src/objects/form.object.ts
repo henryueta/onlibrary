@@ -1,7 +1,6 @@
 import { z, ZodRawShape } from "zod"
-import { schema } from "../components/form/global/schema/form.schema"
-import { object } from "./object.object"
-import { TableType } from "../components/table/global/table.global"
+import { schema } from "../../src/schema/form.schema"
+import { TableType } from "./table.object"
 
 export interface InputProps {
     id?:string,

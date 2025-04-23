@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { AuthContext } from "../context/AuthContext"
 import Cookies from "js-cookie"
 import user_model from "../models/user.json";
@@ -15,10 +15,29 @@ interface QueryTokenProps {
     }
 }
 
+type HandleAuthProps = "register" | "login";
+
 const useHandleAuth = ()=>{
 
     const context = useContext(AuthContext)
     
+    const onHandleAuth = (type:HandleAuthProps,data:{})=>{
+        
+        const handleTypes = {
+            register:()=>{
+                // axios.post("");
+                console.log("cadastrar")
+                console.log(data)
+            },
+            login:()=>{
+                //axios.post("");
+                console.log("logar")
+                console.log(data)
+            }
+        }
+        handleTypes[type]();
+
+    }
 
     const onHandleStatus = ()=>{
         return JSON.parse(Cookies.get("userStatus") || "{}") || null 
@@ -47,6 +66,7 @@ const useHandleAuth = ()=>{
 
 return {
     context,
+    onHandleAuth,
     onHandleStatus,
     onHandleToken
 }

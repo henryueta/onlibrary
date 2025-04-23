@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { TableType } from "../../../table/global/table.global";
+import { TableType } from "../objects/table.object";
 
 /*
 Rota para logar usuário(retorna JSONWebToken HTTPOnly com id dentro)

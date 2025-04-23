@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { onFindTableIndex, TableQueryProps, TableType, tableTypeDataList } from "../components/table/global/table.global";
+import { onFindTableIndex, TableQueryProps, TableType, tableTypeDataList } from "../objects/table.object";
 import axios, { AxiosResponse } from "axios";
 import useAxios from "./useAxios";
 
@@ -55,7 +55,6 @@ const useHandleTable = ()=>{
                     : (()=>{
                     onThen = (result)=>{
                         const {data} = result;
-                        console.log(table.id)
                         let headers = Object.entries(data[0]);
                         setTableData({
 
@@ -109,6 +108,7 @@ const useHandleTable = ()=>{
 
     return {
         tableData,
+        setTableData,
         table,
         onQueryTable,
         onQueryTableList

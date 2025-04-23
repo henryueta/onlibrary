@@ -24,11 +24,6 @@
     margin-bottom: 0.5rem;
 }
 
-.tableSection .titleContainer>img{
-    border: 2px solid red;
-    height: 25px;
-    width: 25px;
-}
 
 .tableSection .managementContainer{
     display: flex;

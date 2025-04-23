@@ -4,7 +4,6 @@ import {useForm} from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRegisterContext } from "../../../../../context/RegisterContext";
-import { useEffect } from "react";
 
 const schema = z.object({
     password_reg:z.string()

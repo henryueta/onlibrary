@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, Path, useForm } from "react-hook-form";
 import { z, ZodObject, ZodRawShape } from "zod";
-import { schema } from "../schema/form.schema";
-import { TableQueryProps, TableType } from "../../../table/global/table.global";
+import { schema } from "../../../../schema/form.schema"; 
+import { TableQueryProps, TableType } from "../../../../objects/table.object";
 import { useEffect, useState } from "react";
 import { form, FormListProps } from "../../../../objects/form.object";
 import { PatternFormat } from "react-number-format";

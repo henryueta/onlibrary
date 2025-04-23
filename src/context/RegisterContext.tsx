@@ -8,7 +8,7 @@ type StepIndex = 1|2|3;
    type SecondDataProps = Record<"username_reg"|"email_reg",string>
    type ThirdDataProps = Record<"password_reg",string>
 
-   type FormDataProps = Record<"name_reg"|"lastName_reg"|"cpf_reg"|"username_reg"|"email_reg"|"password_reg",string> | null
+  export type FormDataProps = Record<"name_reg"|"lastName_reg"|"cpf_reg"|"username_reg"|"email_reg"|"password_reg",string> | null
 
 interface RegisterFormProps {
     isValidated:boolean,
@@ -33,14 +33,14 @@ interface RegisterFormProps {
 const RegisterContext = createContext({} as RegisterProps)
 
 interface RegisterProps {
-    teste:FormDataProps | null
+    registerData:FormDataProps | null
     onStep:(step:StepIndex,data:any)=>void
     formData:RegisterFormProps
 } 
 
 const RegisterProvider = ({children}:{children:React.ReactNode}) => {
 
-    const [teste,setTeste] = useState<FormDataProps>(null);
+    const [registerData,setRegisterData] = useState<FormDataProps>(null);
     const [formData,setFormData] = useState<RegisterFormProps>({
         isValidated:false,
         steps:[
@@ -58,20 +58,27 @@ const RegisterProvider = ({children}:{children:React.ReactNode}) => {
             }
         ]
     })
-    const {context,onHandleStatus} = useHandleAuth();
+    const {context,onHandleStatus,onHandleAuth} = useHandleAuth();
 
     useEffect(()=>{
-        console.log(teste)
-    },[teste])
+        registerData &&
+        Object.keys(registerData).length == 6 &&
+        onHandleAuth("register",registerData)
+    },[registerData])
 
     const onStep = (step:StepIndex,data:FormDataProps)=>{
 
         const checkStep = {
             1:(data:FormDataProps)=>{
-                setTeste({...teste,
+                let current_cpf = 
+                data?.cpf_reg.split("")
+                .filter((item)=>item !== "-" && item !== ".")
+                .join("")
+                .toString()               
+                setRegisterData({...registerData,
                         name_reg:data?.name_reg,
                         lastName_reg:data?.lastName_reg ,
-                        cpf_reg: data?.cpf_reg } as FormDataProps
+                        cpf_reg: current_cpf } as FormDataProps
                 )
                 setFormData({...formData,
                     steps:formData.steps.map((item,num)=>{
@@ -81,14 +88,13 @@ const RegisterProvider = ({children}:{children:React.ReactNode}) => {
                     })  } as RegisterFormProps)
             },
             2:(data:FormDataProps)=>{
-                    setTeste({...teste,
+                    setRegisterData({...registerData,
                         email_reg:data?.email_reg,
                         username_reg:data?.username_reg} as FormDataProps
                 )
             },
             3:(data:FormDataProps)=>{
-                
-                setTeste({...teste,
+                setRegisterData({...registerData,
                     password_reg:data?.password_reg
                 } as FormDataProps)
                 Cookies.set("userStatus",JSON.stringify({
@@ -112,7 +118,7 @@ const RegisterProvider = ({children}:{children:React.ReactNode}) => {
     }
 
   return (
-    <RegisterContext.Provider value={{formData,teste,onStep}}>
+    <RegisterContext.Provider value={{formData,registerData,onStep}}>
         {children}
     </RegisterContext.Provider>
   )
