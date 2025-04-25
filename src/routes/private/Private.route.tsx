@@ -2,12 +2,12 @@ import useHandleAuth from "../../hooks/usehandleAuth"
 import { Navigate } from "react-router-dom";
 
 const Private = ({children}:{children:React.ReactNode}) => {
-    const {context} = useHandleAuth();
+    const {authContext} = useHandleAuth();
     
 
   return (
     
-    context.userStatus?.authStatus?.hasAuth
+    authContext.userStatus?.authStatus?.hasAuth
     ? children
     : <Navigate to={"/"}/>
     

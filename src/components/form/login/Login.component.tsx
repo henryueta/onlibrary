@@ -1,9 +1,7 @@
-import { useForm } from "react-hook-form"
-import z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../global/component/global.component.css"
 import "./Login.component.css";
+import Form from "../global/component/Form.component";
 
 interface LoginProps{
 
@@ -25,7 +23,10 @@ const Login = ({children,handleLogin}:LoginProps) => {
                 </h1>
             </div>
             <div className="formContainer">
-                <form>
+                <form onKeyDown={(e)=>{
+                    e.key == "Enter" &&
+                    handleLogin()
+                }}>
                     {children}
                 </form>
             </div>

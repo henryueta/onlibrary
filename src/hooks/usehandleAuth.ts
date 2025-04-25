@@ -29,7 +29,7 @@ type AuthUserProp = Partial<UserTableQueryProps> & Partial<Record<'login',string
 
 const useHandleAuth = ()=>{
 
-    const context = useContext(AuthContext)
+    const authContext = useContext(AuthContext)
     const [errorAuth,setErrorAuth] = useState<ErrorAuthProps | null>(null);
 
     const onHandleAuth = (type:HandleAuthProps,data:AuthUserProp)=>{
@@ -37,32 +37,32 @@ const useHandleAuth = ()=>{
         const handleTypes = {
             register:()=>{
                 console.log(data)
-                axios.post("http://localhost:8080/api/auth/register",{
-                    nome:data.nome,
-                    email:data.email,
-                    username:data.username,
-                    senha:data.senha,
-                    cpf:data.cpf,
-                    sobrenome:data.sobrenome
-                }).then((result)=>console.log(result))
-                .catch((error)=>console.log(error))
+                // axios.post("https://onlibrary-teste-deploy.onrender.com/api/auth/register",{
+                //     nome:data.nome,
+                //     email:data.email,
+                //     username:data.username,
+                //     senha:data.senha,
+                //     cpf:data.cpf,
+                //     sobrenome:data.sobrenome
+                // }).then((result)=>console.log(result))
+                // .catch((error)=>console.log(error))
             },
             login:()=>{
-                axios.post("http://localhost:8080/api/auth/login",{
-                    login:data.login,
-                    senha:data.senha
-                }).then((result)=>{
-                    console.log(result)
-                    setErrorAuth(null)
-                })
-                .catch((error)=>{
-                    setErrorAuth({
-                        error:error.response.data.error,
-                        message:error.response.data.message,
-                        status:error.response.data.status
-                    })
-                    console.warn(error)
-                });
+                // axios.post("https://onlibrary-teste-deploy.onrender.com/api/auth/login",{
+                //     login:data.login,
+                //     senha:data.senha
+                // }).then((result)=>{
+                //     console.log(result)
+                //     setErrorAuth(null)
+                // })
+                // .catch((error)=>{
+                //     setErrorAuth({
+                //         error:error.response.data.error,
+                //         message:error.response.data.message,
+                //         status:error.response.data.status
+                //     })
+                //     console.warn(error)
+                // });
             }
             //error message status
         }
@@ -96,7 +96,7 @@ const useHandleAuth = ()=>{
     }
 
 return {
-    context,
+    authContext,
     errorAuth,
     onHandleAuth,
     onHandleStatus,

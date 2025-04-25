@@ -10,7 +10,7 @@ import { useEffect } from "react";
 
 const NavHome = () => {
 
-  const {context} = useHandleAuth();
+  const {authContext} = useHandleAuth();
 
   useEffect(()=>{
   },[])
@@ -22,7 +22,7 @@ const NavHome = () => {
                 <img src={onlibrary_logo} alt="onlibrary_logo" />
             </Link>
         </div>
-        <Search/>
+        <Search quantity={0}/>
         <div className="userOptionsContainer">
           <button>
               <img src={notification_icon} alt="notification_icon" />
@@ -31,8 +31,8 @@ const NavHome = () => {
               <img src={favorite_icon} alt="favorite_icon" />
           </button>
           {
-            context.userStatus?.authStatus?.hasAuth
-            ? <><p>{context.user?.username}</p> <Link to={"/management/library"}>Click</Link></> 
+            authContext.userStatus?.authStatus?.hasAuth
+            ? <><p>{authContext.user?.username}</p> <Link to={"/management/library"}>Click</Link></> 
             : <Link to="/login">
             <img src={user_icon} alt="user_icon" />
               Entre ou cadastre-se

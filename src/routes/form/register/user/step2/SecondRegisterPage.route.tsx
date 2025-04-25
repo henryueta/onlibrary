@@ -3,21 +3,23 @@ import NavForm from "../../../../../components/nav/form/NavForm.component"
 import {useForm} from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRegisterContext } from "../../../../../context/RegisterContext";
 import { schema } from "../../../../../schema/form.schema";
+import Warn from "../../../../../components/warn/Warn.component";
+import useHandleRegister from "../../../../../hooks/useHandleRegister";
+import { FormDataProps } from "../../../../../context/RegisterContext";
 
 type RegisterStep2Props = z.infer<typeof schema.schemaList.user.register.step2>;
 
 const SecondRegisterStep = () => {
   
-  const {registerData,onStep} = useRegisterContext();
-  const {control,register,formState,handleSubmit} = useForm<RegisterStep2Props>({
+  const {authRegister,onStep} = useHandleRegister();
+  const {register,formState,handleSubmit} = useForm<RegisterStep2Props>({
     mode:"all",
     reValidateMode:"onSubmit",
     resolver:zodResolver(schema.schemaList.user.register.step2),
     defaultValues:{
-      email:registerData?.email,
-      username:registerData?.username 
+      email:authRegister.registerData?.email,
+      username:authRegister.registerData?.username 
     }
   });
 
@@ -30,7 +32,7 @@ const SecondRegisterStep = () => {
       return isValid 
       ? (()=>{
         handleSubmit((data)=>{
-          return onStep(2,data)
+          return onStep(2,data as FormDataProps)
         })()
         return true
       })()
@@ -43,14 +45,14 @@ const SecondRegisterStep = () => {
           <input type="text" id="username_id" {...register("username",{
             required:true
           })}/>
-          <p>{errors.username?.message}</p>
+          <Warn warning={errors.username?.message || null}/>
         </label>
         <label htmlFor="email_id">
           <p>Email:</p>
           <input type="email" id="email_id" {...register("email",{
             required:true
           })}/>
-          <p>{errors.email?.message}</p>
+          <Warn warning={errors.email?.message || null}/>
         </label>
       </RegisterUser>
     </>

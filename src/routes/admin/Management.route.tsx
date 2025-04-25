@@ -9,18 +9,19 @@ import { TableType, tableTypeDataList,onFindTableIndex,TableTypeProps } from "..
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { path } from "../../objects/path.object";
+import Table from "../../components/table/Table.component";
 
+type ManagementMode = "default" | "get" | "post" | "put";
 
 interface ManagementProps {
 hasGroupTableButton:boolean,
 item_management:TableType
-children:React.ReactNode
+mode:ManagementMode
 }
 
-const Management = ({children,item_management,hasGroupTableButton}:ManagementProps) => {
+const Management = ({item_management,hasGroupTableButton,mode}:ManagementProps) => {
   const [buttonList,setButtonList] = useState<TableTypeProps[]>(tableTypeDataList);
   const {type} = useParams()
-
 
   useEffect(()=>{
     buttonList.forEach(async (button,index)=>{
@@ -41,9 +42,11 @@ const Management = ({children,item_management,hasGroupTableButton}:ManagementPro
           console.log(error)
       }
   })
-
   },[])
   
+  useEffect(()=>{
+  },[type])
+
   return (
     <>
     <NavLibrary/>
@@ -67,7 +70,11 @@ const Management = ({children,item_management,hasGroupTableButton}:ManagementPro
             }/>
           )
           }
-            {children}
+          {
+            mode == "get" && !!type
+            ? <Table type={type as TableType}/>
+            : null
+          }
           </section> 
         </section>
       </section>

@@ -1,4 +1,4 @@
-import { z, ZodRawShape } from "zod"
+import { z, ZodAny, ZodRawShape } from "zod"
 import { schema } from "../../src/schema/form.schema"
 import { TableType } from "./table.object"
 
@@ -15,18 +15,54 @@ export interface InputProps {
     registerId:string
 }
 
+
 export interface FormListProps {
     name:Exclude<TableType,"none">,
-    schema:z.ZodObject<ZodRawShape>,
+    schema:z.ZodObject<ZodRawShape>
     fields:InputProps[],
+    // getQueryFields(type:"post"|"put"):Partial<InputProps[]>
 }
+
 
 export interface Form_ObjectProps {
     formList:FormListProps[]
 } 
 
+// const onGetQueryFields = (
+//     queryType:"post" | "put",fields:{  
+//         post?:Partial<InputProps[]>,
+//         put?:Partial<InputProps[]>
+//     })=>{
+//     return queryType == "post"
+//     ? fields.post
+//     : queryType == "put"
+//     ? fields.put 
+//     : []
+// }
+
+
+console.log(schema.schemaList['user'].register.step1)
+
+
+
+
 const form:Form_ObjectProps = {
     formList:[
+        {
+            name:"user",
+            schema:schema.schemaList['user'].register.step1
+            .merge(schema.schemaList['user'].register.step2)
+            .merge(schema.schemaList['user'].register.step3 as any) as z.ZodObject<ZodRawShape>,
+            fields:[
+                {
+                    id:"nome_id",
+                    tag:"input",
+                    title:"nome",
+                    type:"text",
+                    registerId:"nome"
+                }
+            ]
+        },
         {
             name:"book",
             schema:schema.schemaList['book'] as z.ZodObject<ZodRawShape>,
@@ -70,33 +106,15 @@ const form:Form_ObjectProps = {
                         max:2100
                     },
                     registerId:"releaseYear_reg"
-                },
-                {
-                    id:"stand_id",
-                    tag:"input",
-                    title:"Estante",
-                    type:"text",
-                    registerId:"stand_reg"
-                },
-                {
-                    id:"shelf_id",
-                    tag:"input",
-                    title:"Prateleira",
-                    type:"number",
-                    numberLimit:{
-                        min:0,
-                        max:10000
-                    },
-                    registerId:"shelf_reg"
-                },
-                {
-                    id:"sector_id",
-                    tag:"input",
-                    title:"Setor",
-                    type:"text",
-                    registerId:"sector_reg"
                 }
-            ]
+            ],
+            // getQueryFields(type){
+            //     return onGetQueryFields(type,{
+            //         post:this.fields,
+            //         put:this.fields
+            //     }     
+            //     ) || []
+            // }
         }
     ]
 }

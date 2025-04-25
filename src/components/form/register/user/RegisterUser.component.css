@@ -1,18 +1,17 @@
 
 .registerUserContainer{
     width: 900px;
-    height:650px;
+    height:750px;
     display: flex;
     flex-direction: column; 
-    gap: 4rem;
+    padding-top: 1rem;
+    gap: 2rem;
 }
 
-
-.registerUserContainer>*{
-}
 
 .registerTitleContainer{
     font-size: 2rem;
+    height: 15%;    
 }
 
 .registerUserContainer .registerDetailsContainer{
@@ -20,8 +19,7 @@
     gap: 4rem;
     justify-content: center;
     align-items: center;
-    height: 75%;
-    padding: 0.5rem;
+    height: 60%;
 }
 
 .registerUserContainer .registerDetailsContainer>*{
@@ -42,7 +40,7 @@
     padding: 0.7rem;
     background:none;
     color: white;
-    font-size: 1rem;
+    font-size: 1.05rem;
     border: none;
 }
 
@@ -70,52 +68,46 @@
     border-radius: 100%;
     width: 50px;
     height: 50px;
-    border: 1px solid white;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.registerUserContainer .stepSection button>div>img{
-    width: 50%;
-    height: 50%;
-}
-
-
 .registerUserContainer .formContainer{
     width: 50%;
-    display: block;
 }
 
-.registerUserContainer .formContainer{
-    margin-top: 2rem;
-}
+/* .registerUserContainer .formContainer{
+   
+} */
 
-.registerUserContainer     .formContainer p{
+.registerUserContainer     .formContainer p:not(.errorInput){
     margin-top: 2rem;
+    font-size: 1.1rem;
 }
 
 .registerUserContainer .formContainer>form>label{
     display: block;
-    margin-top: 3rem;
 }
 
-.registerUserContainer .formContainer>label>p{
+/* .registerUserContainer .formContainer>label>p{
     margin-top: 2rem;
-}
+} */
 
 .registerUserContainer .formContainer input{
     width: 100%;
-    height: 2rem;
-    padding: 0.2rem;
+    height: 2.25rem;
+    padding: 0.5rem;
     border: none;
     border-radius: var(--borderRadius_var);
     outline: none;
     margin-top: 1rem;
+    font-size: 1.05rem;
 }
 
 
 .registerUserContainer .registerOptionsContainer{
+    margin-top: 4rem;
     display: flex;
     justify-content: space-between;
     padding: 0.2rem;

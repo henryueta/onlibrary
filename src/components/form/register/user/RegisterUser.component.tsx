@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "../../global/component/global.component.css"
 import "./RegisterUser.component.css";
-import personal_icon from "../../../../assets/imgs/icons/image.png";
+import userStep_icon from "../../../../assets/imgs/icons/userStep_icon.png";
 import contact_icon from "../../../../assets/imgs/icons/contactStep_icon.png"
 import password_icon from "../../../../assets/imgs/icons/passwordStep_icon.png"
 import { useEffect, useState } from "react";
@@ -28,15 +28,19 @@ const onRegisterNavigate = (step:number,type:"previous"|"next")=>{
 }
 
 const RegisterUser = <T extends object>({children,registerStep,handleRegister}:RegisterProps<T>) => {
-    const {formData} = useRegisterContext()
     const onNavigate = useNavigate();
     const [isComplete,setIsComplete] = useState(false);
+
+    const onSteNavigate = ()=>{
+        return handleRegister() && onNavigate(onRegisterNavigate(registerStep-1,"next")) 
+    }
 
     const onSelectedStep = (current_step:number,selector_step:number):React.CSSProperties=>{
         return current_step === selector_step 
         ? {backgroundColor:"rgb(17, 104, 155)"}
         : {backgroundColor:"white"}
     }
+
 
   return (
     <section className="formSection">
@@ -50,7 +54,7 @@ const RegisterUser = <T extends object>({children,registerStep,handleRegister}:R
                         <div style={
                                 onSelectedStep(registerStep,1)
                             }>
-                            <img src={personal_icon} alt="" 
+                            <img src={userStep_icon} alt="" 
                             />
                         </div>
                         <span>
@@ -81,7 +85,9 @@ const RegisterUser = <T extends object>({children,registerStep,handleRegister}:R
                     </button>
                 </section>
                 <div className="formContainer">
-                    <form> 
+                    <form onKeyDown={(e)=>{e.key == "Enter" &&
+                            onSteNavigate()  
+                        }}> 
                         {children}
                     </form>
                 </div>
@@ -90,9 +96,8 @@ const RegisterUser = <T extends object>({children,registerStep,handleRegister}:R
                 <button onClick={()=>onNavigate(onRegisterNavigate(registerStep-1,"previous"))}>
                     Voltar
                 </button>
-                <button onClick={()=>{
-                    return handleRegister() && onNavigate(onRegisterNavigate(registerStep-1,"next")) 
-                }}>
+                <button onClick={onSteNavigate}
+                >
                     Próximo
                 </button>
             </div>

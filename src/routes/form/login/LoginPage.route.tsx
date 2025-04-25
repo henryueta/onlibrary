@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import useHandleAuth from "../../../hooks/usehandleAuth";
 import { schema } from "../../../schema/form.schema";
+import Warn from "../../../components/warn/Warn.component";
 
 type LoginProps = z.infer<typeof schema.schemaList.user.login>
 
@@ -30,7 +31,7 @@ const LoginPage = () => {
             {required:true}
             )
           }/>
-          <p>{errors.login?.message}</p>
+          <Warn warning={errors.login?.message || null}/>
         </label>
         <label htmlFor="">
           <p>Senha</p>
@@ -38,13 +39,14 @@ const LoginPage = () => {
           {...register("senha",
             {required:true}
             )
-          }/>
+          }
+          />
           <Link to={""}>
             <span>
               Esqueceu sua senha?
             </span>
           </Link>
-          <p>{errors.senha?.message}</p>
+          <Warn warning={errors.senha?.message || null}/>
         </label>
         <p>
           {

@@ -4,29 +4,26 @@ import NavForm from "../../../../../components/nav/form/NavForm.component";
 import {Controller, useForm} from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useRef, useState } from "react";
-import { useRegisterContext } from "../../../../../context/RegisterContext";
 import { PatternFormat } from "react-number-format";
 import { schema } from "../../../../../schema/form.schema";
+import Warn from "../../../../../components/warn/Warn.component";
+import useHandleRegister from "../../../../../hooks/useHandleRegister";
+import { FormDataProps } from "../../../../../context/RegisterContext";
 
 type RegisterStep1Props = z.infer<typeof schema.schemaList.user.register.step1>;
 
 const FirstRegisterStep = () => {
 
-  const nameInput = useRef<HTMLInputElement >(null);
-  const {registerData,onStep} = useRegisterContext();
-  const [isComplete,setIsComplete] = useState(false);
-
-
+  const {authRegister,onStep} = useHandleRegister();
 
   const {register,control,formState,handleSubmit} = useForm<RegisterStep1Props>({
     mode:"all",
     reValidateMode:"onSubmit",
     resolver:zodResolver(schema.schemaList.user.register.step1),
     defaultValues:{
-      nome:registerData?.nome,
-      sobrenome:registerData?.sobrenome,
-      cpf:registerData?.cpf
+      nome:authRegister.registerData?.nome,
+      sobrenome:authRegister.registerData?.sobrenome,
+      cpf:authRegister.registerData?.cpf
     }
   });
 
@@ -39,7 +36,7 @@ const FirstRegisterStep = () => {
       return isValid 
       ? (()=>{
         handleSubmit((data)=>{
-          return onStep(1,data)
+          return onStep(1,data as FormDataProps)
         })()
         return true
       })()
@@ -53,14 +50,14 @@ const FirstRegisterStep = () => {
           {...register("nome",{
           })}
           />
-          <p>{errors.nome?.message}</p>
+          <Warn warning={errors.nome?.message || null}/>
         </label>
         <label htmlFor="lastName_id">
             <p>Sobrenome:</p>
             <input type="text" id="lastName_id" {...register("sobrenome",{
               required:true
             })} />
-            <p>{errors.sobrenome?.message}</p>
+            <Warn warning={errors.sobrenome?.message || null}/>
         </label>
         <label htmlFor="cpf_id">
             <p>CPF:</p>
@@ -72,8 +69,7 @@ const FirstRegisterStep = () => {
             )}
             >
             </Controller>
-            {/* <input type="text" /> */} 
-            <p>{errors.cpf?.message}</p>
+            <Warn warning={errors.cpf?.message || null}/>
         </label> 
       </RegisterUser> 
   </>

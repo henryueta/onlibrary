@@ -1,7 +1,6 @@
 
 .loginContainer{
    width: 650px;
-   height: 600px;
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -15,15 +14,15 @@
 }
 
 .loginContainer .formContainer{
-    margin-top: 2rem;
+    margin-top: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
 }
 
-.loginContainer     .formContainer p{
-    margin-top: 2rem;
+.loginContainer     .formContainer label>p{
+    margin-top: 1rem;
 }
 
 .loginContainer .formContainer>form{
@@ -34,10 +33,6 @@
     display: flex;
     flex-direction: column;
 
-}
-
-.loginContainer .formContainer>label>p{
-    margin-top: 2rem;
 }
 
 .loginContainer .formContainer input{

@@ -6,6 +6,7 @@ import { TableType, tableTypeDataList,onFindTableIndex, TableQueryProps } from "
 import Dialog from "../dialog/Dialog.component"
 import Form from "../form/global/component/Form.component"
 import triangleRetangle_icon from "../../../src/assets/imgs/icons/triangleRetangle_icon.png"
+import { schema } from "../../schema/form.schema"
 
 interface TableProps {
 
@@ -35,7 +36,8 @@ const Table = ({type}:TableProps) => {
       type:type
     },
     "select")
-  },[])
+    console.log(type)
+  },[type])
 
   const onLimitDataView = ()=>{
     setTableDataView(tableData?.dataList.slice(0,maxOfData).map((item)=>{
@@ -65,7 +67,7 @@ const Table = ({type}:TableProps) => {
       type !== 'none' &&
     <div className="tableDialogContainer">
       <Dialog onClose={()=>setRegisterTable(false)}>
-          <Form type={type} onSubmit={(data)=>console.log(data)}></Form>
+          <Form formSchema={schema.schemaList["book"]} typeOfData={type} onSubmit={(data)=>console.log(data)}></Form>
       </Dialog>
     </div>
     }
@@ -76,7 +78,8 @@ const Table = ({type}:TableProps) => {
   {
     type !== "none" &&
     <Form 
-    type={type} 
+    formSchema={schema.schemaList["book"]}
+    typeOfData={type} 
     onSubmit={(data)=>console.log(data)} 
     defaultValues={tableView as TableQueryProps}
     ></Form>
@@ -166,7 +169,7 @@ const Table = ({type}:TableProps) => {
                             <button onClick={
                               ()=>{
                                 onQueryTable(
-                                  {type:"book",
+                                  {type:type,
                                   id:tableDataView[index][0][1]},
                                   "select")
                                 }

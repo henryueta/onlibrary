@@ -33,15 +33,7 @@ const schema = {
             releaseYear_reg:z.string().refine((val)=>val.trim().length === 4,{
                 message:"Ano de lançamento inválido"
             }),
-            stand_reg:z.string().refine((val)=>val.trim().length > 2,{
-                message:"Estante inválida"
-            }),
-            shelf_reg:z.string().refine((val)=>val.trim().length > 1,{
-                message:"Prataleira inválida"
-            }),
-            sector_reg:z.string().refine((val)=>val.trim().length > 0,{
-                message:"Setor inválido"
-            })
+
         }),
         user:{
             login:z.object({

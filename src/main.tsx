@@ -14,6 +14,7 @@ import Private from './routes/private/Private.route.tsx'
 import Table from './components/table/Table.component.tsx'
 import {path} from './objects/path.object.ts'
 import LibraryRegisterPage from './routes/form/register/library/LibraryRegisterPage.route.tsx'
+import RegisterUserPage from './routes/form/register/user/RegisterUserPage.route.tsx'
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
   {
     path:path.onFindPath("user_login"),
     element:<LoginPage/>
+  },
+  {
+    path:"/register/user/step:type",
+    element:<RegisterUserPage/>
   },
   {
     path:path.onFindPath("user_register_step1"),
@@ -51,21 +56,17 @@ export const router = createBrowserRouter([
     path:path.onFindPath("create_data_management"),
     element:
     <Private>
-      <Management item_management='none' hasGroupTableButton={false}>
-        <>
-          
-        </>
-      </Management>
+      <Management mode='post' item_management='none' hasGroupTableButton={false}/>
     </Private>
   },
   {
     path:path.onFindPath("library_management"),
     element:
     <Private>
-      <Management item_management='none' hasGroupTableButton={true}>
-        <>
+      <Management mode='default' item_management='none' hasGroupTableButton={true}>
+        {/* <>
           <Link to={"/register/library"}>Cadastrar biblioteca</Link>
-        </>
+        </> */}
       </Management>
     </Private>
   },
@@ -73,20 +74,18 @@ export const router = createBrowserRouter([
     path:path.onFindPath("list_data_management"),
     element:
     <Private>
-      <Management item_management='book' hasGroupTableButton={true}>
-          <Table type='book'></Table>
-      </Management>
+      <Management mode='get' item_management='book' hasGroupTableButton={true}/>
     </Private>
   },
-  {
-    path:path.onFindPath("user_management"),
-    element:
-    <Private>
-      <Management item_management='user' hasGroupTableButton={true}>
-          <Table type='user'></Table>
-      </Management>
-    </Private>
-  }
+  // {
+  //   path:path.onFindPath("user_management"),
+  //   element:
+  //   <Private>
+  //     <Management item_management='user' hasGroupTableButton={true}>
+  //         <Table type='user'></Table>
+  //     </Management>
+  //   </Private>
+  // }
 ])
 
 createRoot(document.getElementById('root')!).render(

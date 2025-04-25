@@ -4,11 +4,14 @@ import { z, ZodObject, ZodRawShape } from "zod";
 import { schema } from "../../../../schema/form.schema"; 
 import { TableQueryProps, TableType } from "../../../../objects/table.object";
 import { useEffect, useState } from "react";
-import { form, FormListProps } from "../../../../objects/form.object";
+import { form, FormListProps, InputProps } from "../../../../objects/form.object";
 import { PatternFormat } from "react-number-format";
+import Warn from "../../../warn/Warn.component";
 
 interface FormProps{
-  type:Exclude<TableType,"none">
+  formSchema:ZodObject<ZodRawShape>
+  typeOfData?:Exclude<TableType,"none">
+  fields?:InputProps[]
   onSubmit:(data:{[x: string]:any})=>void
   defaultValues?:TableQueryProps
   orderPreference?:string[]
@@ -24,23 +27,21 @@ interface FormProps{
 //   })
 // })
 
-const Form = ({type,onSubmit,defaultValues}:FormProps) => {
-  const schemaObject = schema.schemaList[type] as ZodObject<ZodRawShape>
-  const [formBase,setFormBase] = useState<FormListProps>();
-  const [defaultList,setDefaultList] = useState<TableQueryProps | null>(defaultValues || null)
-  const [teste,setTest] = useState({})
-  useEffect(()=>{
-    console.log(defaultValues)
-    setTest({
-      titulo:"aqui"
-    })
-  },[defaultValues])
+const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields}:FormProps) => {
+  const schemaObject = formSchema
+  // schema.schemaList[typeOfData] as ZodObject<ZodRawShape>
+  const [formBase,setFormBase] = useState<InputProps[]>();
 
   useEffect(()=>{
-    !!form && 
-    setFormBase(form.formList.find((item,index)=>
-      item.name === type
-    ))
+    !!form 
+    && 
+    !!typeOfData
+    ?setFormBase(form.formList.find((item,index)=>
+      item.name === typeOfData
+    )?.fields)
+    : !!fields
+    && setFormBase(fields);
+    
   },[form])
 
   type SchemaType = z.infer<typeof schemaObject>
@@ -50,7 +51,7 @@ const Form = ({type,onSubmit,defaultValues}:FormProps) => {
     mode:"all",
     reValidateMode:"onSubmit",
     resolver:zodResolver(schemaObject),
-    defaultValues:defaultValues
+    defaultValues:defaultValues || {}
   });
   const {errors} = formState
 
@@ -58,24 +59,24 @@ const Form = ({type,onSubmit,defaultValues}:FormProps) => {
     <form>
         {
           formBase &&
-          formBase?.fields.length > 0 &&
-          formBase?.fields.map((item_input,index_input)=>
-            {
+          formBase?.length > 0 &&
+          formBase?.map((item_input,index_input)=>
+         {
               return (
-              <label htmlFor={item_input.id} key={index_input}>
+              <label htmlFor={item_input!.id} key={index_input}>
                 <p>
                   {
-                    item_input.title
+                    item_input!.title
                   }
                 </p>
 
                   {
-                    item_input.tag === "input"
+                    item_input!.tag === "input"
                     ? 
-                    !!item_input.maskFormat
+                    !!item_input!.maskFormat
                     ? 
                     <Controller
-                    name={item_input.registerId}
+                    name={item_input!.registerId}
                     control={control}
                     render={({field})=>
                       <PatternFormat {...field} format={item_input?.maskFormat || ""} mask={"_"}/>
@@ -83,20 +84,20 @@ const Form = ({type,onSubmit,defaultValues}:FormProps) => {
                     >
                     </Controller>
                     :<input 
-                    type={item_input.type} 
-                    id={item_input.id} 
-                    {...register(item_input.registerId as Path<SchemaType>)}/>
-                    : item_input.tag === "textarea"
+                    type={item_input!.type} 
+                    id={item_input!.id} 
+                    {...register(item_input!.registerId as Path<SchemaType>)}/>
+                    : item_input!.tag === "textarea"
                     &&
-                    <textarea id={item_input.id} {...register(item_input.registerId as Path<SchemaType>)}></textarea>
+                    <textarea id={item_input!.id} {...register(item_input!.registerId as Path<SchemaType>)}></textarea>
                   }
 
                 {
                   Object.entries(errors).map((item,index)=>
                     {
                     return !!item[1]?.message && 
-                    item[1].message && item[0] == item_input.registerId
-                    && <p key={index}>{item[1].message.toString()}</p>                   
+                    item[1].message && item[0] == item_input!.registerId
+                    && <Warn key={index} warning={item[1].message.toString() || null}/>                 
                     })
                 }
             </label> 
