@@ -1,3 +1,4 @@
+import { ElementType } from "react";
 import "./GroupBook.component.css";
 
 
@@ -6,6 +7,7 @@ type ItemProps = Record<'image'|'title',string>
 interface GroupBookProps{
     title:string,
     itemList:ItemProps[]
+    tag?:ElementType
 }
 
 const GroupBook = ({

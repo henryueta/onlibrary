@@ -2,46 +2,103 @@ import { FormDataProps, RegisterContext } from "../context/RegisterContext";
 import useHandleAuth from "./usehandleAuth";
 import { useContext, useEffect } from "react";
 import Cookies from "js-cookie";
+import { form, InputProps } from "../objects/form.object";
+import { object } from "../objects/object.object";
+import { z, ZodRawShape, ZodTypeAny } from "zod";
 
 type StepIndex = 1|2|3;
+
+export type FormStepType = "name" | "contact" | "password";
+// | "contact" | "password"
 
 const useHandleRegister = ()=>{
 
     
+
     const {authContext,onHandleStatus,onHandleAuth} = useHandleAuth();
 
-    const authRegister = useContext(RegisterContext)
+    const authRegisterContext = useContext(RegisterContext)
+
+    const onFormtep = (step:FormStepType | null):{
+        schema:{ [k: string]: ZodTypeAny; },
+        form:InputProps[]
+    } | {}=>{
+        const formList = Object.values(form.formList);
+        const findUserForm =  formList.find((item)=>item.name == "user")
+
+        const stepFieldList = {
+
+            nameStep:['nome','sobrenome','cpf'],
+            contactStep:['username','email'],
+            passwordStep:['senha','repetir_senha']
+
+        }
+
+        const onCheckFields = (fieldList:string[])=>{
+
+            const stepSchema =  Object.entries(findUserForm?.schema.shape || {}).filter((item,index)=>
+                        fieldList.includes(item[0])                                                
+                    )
+               
+            const stepForm = form.formList[0].fields.filter((item,index)=>
+                    fieldList.includes(item.title.toLowerCase()) 
+            )
+           
+            return {
+                schema:Object.fromEntries(stepSchema),
+                form:stepForm
+            }
+                     
+        }   
+
+        const formStepList = {
+
+            name:()=>{               
+              return  onCheckFields(stepFieldList.nameStep)
+            },
+            contact:()=>{
+                return  onCheckFields(stepFieldList.contactStep)
+            },
+            password:()=>{
+                return  onCheckFields(stepFieldList.passwordStep)
+            }
+        }
+
+       return !!step 
+      ?  formStepList[step]()
+        : {}
+    }
 
     useEffect(()=>{
-        authRegister.registerData &&
-        Object.keys(authRegister.registerData).length == 6 &&
-        onHandleAuth("register",authRegister.registerData)
-    },[authRegister.registerData])
+        authRegisterContext.registerData &&
+        Object.keys(authRegisterContext.registerData).length == 6 &&
+        onHandleAuth("register",authRegisterContext.registerData)
+    },[authRegisterContext.registerData])
 
 
     const onStep = (step:StepIndex,data:FormDataProps)=>{
 
         const checkStep = {
             1:(data:FormDataProps)=>{
-                let current_cpf = 
+                const current_cpf = 
                 data?.cpf.split("")
                 .filter((item)=>item !== "-" && item !== ".")
                 .join("")
                 .toString()               
-                authRegister.setRegisterData({...authRegister.registerData,
+                authRegisterContext.setRegisterData({...authRegisterContext.registerData,
                         nome:data?.nome,
                         sobrenome:data?.sobrenome ,
                         cpf: current_cpf } as FormDataProps
                 )
             },
             2:(data:FormDataProps)=>{
-                authRegister.setRegisterData({...authRegister.registerData,
+                authRegisterContext.setRegisterData({...authRegisterContext.registerData,
                         email:data?.email,
                         username:data?.username} as FormDataProps
                     )
             },
             3:(data:FormDataProps)=>{
-                authRegister.setRegisterData({...authRegister.registerData,
+                authRegisterContext.setRegisterData({...authRegisterContext.registerData,
                     senha:data?.senha
                 } as FormDataProps)
                 Cookies.set("userStatus",JSON.stringify({
@@ -65,7 +122,8 @@ const useHandleRegister = ()=>{
     }
 
     return {
-        authRegister,
+        authRegisterContext,
+        onFormtep,
         onStep
     }
 

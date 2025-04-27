@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios"
+import { useEffect, useState } from "react";
 
 type QueryType = "get" | "post" | "put" | "delete";
 
@@ -28,14 +29,21 @@ interface AxiosQueryProps<T extends object>{
 
 const useAxios = <T extends object>()=>{
 
+const [isLoading,setIsLoading] = useState(false);
+
+useEffect(()=>{
+    console.log(isLoading)
+},[isLoading])
+
 const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
     let url:string = "";
     let id:string | null = null;
     let data:T | null = null;
-
+   
     const axiosQueryList = {
 
         get:()=>{
+          
             id = query.type.get?.id || null;
             data = query.type.get?.data || null;
 
@@ -52,6 +60,10 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
                 axios.get(url)
                 .then((result)=>query.onResolver.then(result))
                 .catch((error)=>query.onResolver.catch(error))
+                .finally(()=>{
+                    setIsLoading(false)
+                    console.log("fim")
+                })
         },
         put:()=>{
             axios.put(query.url,{
@@ -77,7 +89,8 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
 
     
 return {
-    onAxiosQuery
+    onAxiosQuery,
+    isLoading
 }
 
 }

@@ -21,22 +21,18 @@ const ThirdRegisterStep = () => {
 
   const {isValid,errors} = formState
 
+  
+
   return (
     <>
       <NavForm/>
       <RegisterUser registerStep={3} handleRegister={()=>{
-      return isValid 
-      ? (()=>{
-        handleSubmit((data)=>{
-          return onStep(3,{
-            senha:data.senha
-          } as FormDataProps)
-        })()
-        return true
+      handleSubmit((data)=>{
+        return onStep(3,{
+          senha:data.senha
+        } as FormDataProps)
       })()
-      : (()=>{
-        return false
-      })()
+      return isValid
     }}>
         <label htmlFor="password_id">
           <p>Senha:</p>

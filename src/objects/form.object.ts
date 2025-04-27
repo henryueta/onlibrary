@@ -6,7 +6,7 @@ export interface InputProps {
     id?:string,
     tag:string,
     title:string,
-    type:"text" | "number" | "file" | "checkbox"
+    type:"text" | "number" | "file" | "checkbox" | "email"
     numberLimit?:{
         min:number,
         max:number
@@ -41,11 +41,6 @@ export interface Form_ObjectProps {
 // }
 
 
-console.log(schema.schemaList['user'].register.step1)
-
-
-
-
 const form:Form_ObjectProps = {
     formList:[
         {
@@ -57,9 +52,38 @@ const form:Form_ObjectProps = {
                 {
                     id:"nome_id",
                     tag:"input",
-                    title:"nome",
+                    title:"Nome",
                     type:"text",
                     registerId:"nome"
+                },
+                {
+                    id:"sobrenome_id",
+                    tag:"input",
+                    title:"Sobrenome",
+                    type:"text",
+                    registerId:"sobrenome"
+                },
+                {
+                    id:"cpf_id",
+                    tag:"input",
+                    title:"CPF",
+                    type:"text",
+                    registerId:"cpf",
+                    maskFormat:"###.###.###-##"
+                },
+                {
+                    id:"username_id",
+                    tag:"input",
+                    title:"Username",
+                    type:"text",
+                    registerId:"username",
+                },
+                {
+                    id:"email_id",
+                    tag:"input",
+                    title:"Email",
+                    type:"email",
+                    registerId:"email",
                 }
             ]
         },

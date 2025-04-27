@@ -68,7 +68,9 @@ const schema = {
                     senha:z.string()
                         .min(8,{message:"Campo senha deve ter 8 dígitos"}),
                     repetir_senha:z.string()
-                    }).refine((data)=>data.repetir_senha === data.senha,{
+                    })
+
+                    .refine((data)=>data.repetir_senha === data.senha,{
                         message:"Senhas não coincídem",
                         path:["repetir_senha"]
                 })

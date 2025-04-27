@@ -36,7 +36,7 @@ const useHandleAuth = ()=>{
         
         const handleTypes = {
             register:()=>{
-                console.log(data)
+                // console.log(data)
                 // axios.post("https://onlibrary-teste-deploy.onrender.com/api/auth/register",{
                 //     nome:data.nome,
                 //     email:data.email,
@@ -48,6 +48,8 @@ const useHandleAuth = ()=>{
                 // .catch((error)=>console.log(error))
             },
             login:()=>{
+                // axios.defaults.withCredentials = true;
+                // console.log(data)
                 // axios.post("https://onlibrary-teste-deploy.onrender.com/api/auth/login",{
                 //     login:data.login,
                 //     senha:data.senha
@@ -64,7 +66,6 @@ const useHandleAuth = ()=>{
                 //     console.warn(error)
                 // });
             }
-            //error message status
         }
         handleTypes[type]();
 

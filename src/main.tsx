@@ -11,10 +11,8 @@ import BookPage from './routes/book/BookPage.route.tsx'
 import AppProvider from './context/index.tsx'
 import Management from './routes/admin/Management.route.tsx'
 import Private from './routes/private/Private.route.tsx'
-import Table from './components/table/Table.component.tsx'
 import {path} from './objects/path.object.ts'
 import LibraryRegisterPage from './routes/form/register/library/LibraryRegisterPage.route.tsx'
-import RegisterUserPage from './routes/form/register/user/RegisterUserPage.route.tsx'
 
 export const router = createBrowserRouter([
   {
@@ -28,10 +26,6 @@ export const router = createBrowserRouter([
   {
     path:path.onFindPath("user_login"),
     element:<LoginPage/>
-  },
-  {
-    path:"/register/user/step:type",
-    element:<RegisterUserPage/>
   },
   {
     path:path.onFindPath("user_register_step1"),
@@ -53,17 +47,10 @@ export const router = createBrowserRouter([
     </Private>
   },
   {
-    path:path.onFindPath("create_data_management"),
-    element:
-    <Private>
-      <Management mode='post' item_management='none' hasGroupTableButton={false}/>
-    </Private>
-  },
-  {
     path:path.onFindPath("library_management"),
     element:
     <Private>
-      <Management mode='default' item_management='none' hasGroupTableButton={true}>
+      <Management mode='default' hasGroupTableButton={true}>
         {/* <>
           <Link to={"/register/library"}>Cadastrar biblioteca</Link>
         </> */}
@@ -71,10 +58,24 @@ export const router = createBrowserRouter([
     </Private>
   },
   {
+    path:path.onFindPath("create_data_management"),
+    element:
+    <Private>
+      <Management mode='post' hasGroupTableButton={false}/>
+    </Private>
+  },
+  {
     path:path.onFindPath("list_data_management"),
     element:
     <Private>
-      <Management mode='get' item_management='book' hasGroupTableButton={true}/>
+      <Management mode='get' hasGroupTableButton={true}/>
+    </Private>
+  },
+  {
+    path:path.onFindPath("update_data_management"),
+    element:
+    <Private>
+      <Management mode='put'  hasGroupTableButton={false}/>
     </Private>
   },
   // {

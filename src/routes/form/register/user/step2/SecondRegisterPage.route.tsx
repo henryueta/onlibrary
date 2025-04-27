@@ -12,14 +12,14 @@ type RegisterStep2Props = z.infer<typeof schema.schemaList.user.register.step2>;
 
 const SecondRegisterStep = () => {
   
-  const {authRegister,onStep} = useHandleRegister();
+  const {authRegisterContext,onStep} = useHandleRegister();
   const {register,formState,handleSubmit} = useForm<RegisterStep2Props>({
     mode:"all",
     reValidateMode:"onSubmit",
     resolver:zodResolver(schema.schemaList.user.register.step2),
     defaultValues:{
-      email:authRegister.registerData?.email,
-      username:authRegister.registerData?.username 
+      email:authRegisterContext.registerData?.email,
+      username:authRegisterContext.registerData?.username 
     }
   });
 
@@ -29,16 +29,10 @@ const SecondRegisterStep = () => {
     <>
       <NavForm/>
       <RegisterUser registerStep={2} handleRegister={()=>{
-      return isValid 
-      ? (()=>{
-        handleSubmit((data)=>{
-          return onStep(2,data as FormDataProps)
-        })()
-        return true
+      handleSubmit((data)=>{
+        return onStep(2,data as FormDataProps)
       })()
-      : (()=>{
-        return false
-      })()
+      return isValid
     }}>
         <label htmlFor="username_id">
           <p>Username:</p>

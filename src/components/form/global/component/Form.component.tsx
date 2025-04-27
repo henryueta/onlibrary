@@ -1,20 +1,22 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, Path, useForm } from "react-hook-form";
-import { z, ZodObject, ZodRawShape } from "zod";
-import { schema } from "../../../../schema/form.schema"; 
+import { Controller, DefaultValues, Path, useForm } from "react-hook-form";
+import { z, ZodRawShape} from "zod";
 import { TableQueryProps, TableType } from "../../../../objects/table.object";
 import { useEffect, useState } from "react";
-import { form, FormListProps, InputProps } from "../../../../objects/form.object";
+import { form, InputProps } from "../../../../objects/form.object";
 import { PatternFormat } from "react-number-format";
 import Warn from "../../../warn/Warn.component";
 
+
+
 interface FormProps{
-  formSchema:ZodObject<ZodRawShape>
+  formSchema:z.ZodObject<ZodRawShape> 
   typeOfData?:Exclude<TableType,"none">
   fields?:InputProps[]
   onSubmit:(data:{[x: string]:any})=>void
   defaultValues?:TableQueryProps
   orderPreference?:string[]
+  buttonRef?:React.RefObject<HTMLButtonElement | null> 
 }
 
 // const preference = ["id","nome","idade"]
@@ -27,41 +29,66 @@ interface FormProps{
 //   })
 // })
 
-const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields}:FormProps) => {
+const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:FormProps) => {
   const schemaObject = formSchema
-  // schema.schemaList[typeOfData] as ZodObject<ZodRawShape>
+  
+  
   const [formBase,setFormBase] = useState<InputProps[]>();
 
   useEffect(()=>{
+
     !!form 
     && 
     !!typeOfData
-    ?setFormBase(form.formList.find((item,index)=>
+    ?setFormBase(form.formList.find((item)=>
       item.name === typeOfData
     )?.fields)
     : !!fields
     && setFormBase(fields);
-    
   },[form])
+
 
   type SchemaType = z.infer<typeof schemaObject>
 
-  
+ 
+  const [teste,setTeste] = useState<
+  DefaultValues<{
+    [x: string]: any;
+}> | {
+    [x: string]: any;
+} | undefined>(undefined)
+
+  useEffect(()=>{
+    setTeste(defaultValues)
+  },[defaultValues])
+
   const {register,formState,handleSubmit,control} = useForm<SchemaType>({
     mode:"all",
     reValidateMode:"onSubmit",
     resolver:zodResolver(schemaObject),
-    defaultValues:defaultValues || {}
   });
   const {errors} = formState
 
+
+  useEffect(()=>{
+    buttonRef &&
+    buttonRef.current &&
+    buttonRef.current.addEventListener('click',()=>{
+      handleSubmit((data:SchemaType)=>onSubmit(data))()
+      })
+  },[buttonRef])
+
+ 
+
   return (
     <form>
+      {
+      }
         {
-          formBase &&
-          formBase?.length > 0 &&
-          formBase?.map((item_input,index_input)=>
+          formBase && 
+          formBase.map((item_input,index_input)=>
          {
+          
               return (
               <label htmlFor={item_input!.id} key={index_input}>
                 <p>
@@ -76,6 +103,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields}:FormProps) =
                     !!item_input!.maskFormat
                     ? 
                     <Controller
+                    defaultValue={teste ? teste[item_input!.registerId]: ""}
                     name={item_input!.registerId}
                     control={control}
                     render={({field})=>
@@ -84,6 +112,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields}:FormProps) =
                     >
                     </Controller>
                     :<input 
+                    value={teste ? teste[item_input!.registerId] : ""}
                     type={item_input!.type} 
                     id={item_input!.id} 
                     {...register(item_input!.registerId as Path<SchemaType>)}/>
@@ -91,24 +120,33 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields}:FormProps) =
                     &&
                     <textarea id={item_input!.id} {...register(item_input!.registerId as Path<SchemaType>)}></textarea>
                   }
-
+                <div className="errorContainer">             
                 {
-                  Object.entries(errors).map((item,index)=>
+                  errors
+                  && Object.entries(errors).map((item,index)=>
                     {
-                    return !!item[1]?.message && 
-                    item[1].message && item[0] == item_input!.registerId
-                    && <Warn key={index} warning={item[1].message.toString() || null}/>                 
+                    return !!item[1]?.message && item[0] == item_input!.registerId
+                    && <Warn key={index} warning={item[1].message.toString() || null}/>   
                     })
+                  
+                   
                 }
+                 </div>
+                
             </label> 
             )  
             }      
           )
           
         }
-        <button type="submit" onClick={handleSubmit((data:SchemaType)=>onSubmit(data))}>
-            Cadastrar
-        </button>
+        {
+          !!!buttonRef
+          &&
+          <button type="submit" onClick={handleSubmit((data:SchemaType)=>onSubmit(data))}>
+          Cadastrar
+          </button>
+        }
+       
     </form>
   )
 }

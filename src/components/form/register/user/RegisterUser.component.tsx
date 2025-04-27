@@ -1,11 +1,12 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import "../../global/component/global.component.css"
 import "./RegisterUser.component.css";
 import userStep_icon from "../../../../assets/imgs/icons/userStep_icon.png";
 import contact_icon from "../../../../assets/imgs/icons/contactStep_icon.png"
 import password_icon from "../../../../assets/imgs/icons/passwordStep_icon.png"
-import { useEffect, useState } from "react";
-import { useRegisterContext } from "../../../../context/RegisterContext";
+import { useEffect } from "react";
+import useHandleRegister from "../../../../hooks/useHandleRegister";
+
 
 type RegisterStepProps = 1 | 2 | 3;
 
@@ -29,9 +30,14 @@ const onRegisterNavigate = (step:number,type:"previous"|"next")=>{
 
 const RegisterUser = <T extends object>({children,registerStep,handleRegister}:RegisterProps<T>) => {
     const onNavigate = useNavigate();
-    const [isComplete,setIsComplete] = useState(false);
+    const current_path = useLocation()
+    const {authRegisterContext} = useHandleRegister()
+    useEffect(()=>{
+        !!!authRegisterContext.registerData
+        && onNavigate(registerSteps[0])
+    },[])
 
-    const onSteNavigate = ()=>{
+    const onUseNavigate = ()=>{
         return handleRegister() && onNavigate(onRegisterNavigate(registerStep-1,"next")) 
     }
 
@@ -86,7 +92,7 @@ const RegisterUser = <T extends object>({children,registerStep,handleRegister}:R
                 </section>
                 <div className="formContainer">
                     <form onKeyDown={(e)=>{e.key == "Enter" &&
-                            onSteNavigate()  
+                            onUseNavigate()  
                         }}> 
                         {children}
                     </form>
@@ -96,7 +102,7 @@ const RegisterUser = <T extends object>({children,registerStep,handleRegister}:R
                 <button onClick={()=>onNavigate(onRegisterNavigate(registerStep-1,"previous"))}>
                     Voltar
                 </button>
-                <button onClick={onSteNavigate}
+                <button onClick={onUseNavigate}
                 >
                     Próximo
                 </button>

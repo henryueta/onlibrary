@@ -4,24 +4,76 @@ import NavLibrary from "../../components/nav/management/library/NavLibrary.compo
 import GroupTableButton from "../../components/group/button/GroupTableButton.component";
 import cube_icon from "../../assets/imgs/icons/cube_icon.png"
 import { useEffect, useState } from "react";
-import useHandleTable from "../../hooks/useHandleTable";
-import { TableType, tableTypeDataList,onFindTableIndex,TableTypeProps } from "../../objects/table.object";
+import { TableType, tableTypeDataList,onFindTableIndex,TableTypeProps, TableQueryProps } from "../../objects/table.object";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { path } from "../../objects/path.object";
 import Table from "../../components/table/Table.component";
+import Form from "../../components/form/global/component/Form.component";
+import { form } from "../../objects/form.object";
+import useHandleTable from "../../hooks/useHandleTable";
+
 
 type ManagementMode = "default" | "get" | "post" | "put";
 
 interface ManagementProps {
 hasGroupTableButton:boolean,
-item_management:TableType
 mode:ManagementMode
 }
 
-const Management = ({item_management,hasGroupTableButton,mode}:ManagementProps) => {
+
+
+const Management = ({hasGroupTableButton,mode}:ManagementProps) => {
   const [buttonList,setButtonList] = useState<TableTypeProps[]>(tableTypeDataList);
-  const {type} = useParams()
+  const [defaultForm,setDefaultForm] = useState<TableQueryProps | null>();
+
+  const {onQueryTable,table} = useHandleTable();
+
+
+  const {type,id} = useParams()
+
+
+  useEffect(()=>{
+    !!id &&
+    onQueryTable({
+      type:type as TableType || "none",
+      id:id
+    },
+    "select")
+
+    mode !== "put"
+    &&  setDefaultForm(null)
+ 
+  },[type,id])
+
+  useEffect(()=>{
+    table &&
+    setDefaultForm(table || [])
+
+  },[table])
+
+  // const modeList = {
+  //   default:
+  //     <></>,
+  //   get:
+  //     ()=>{return <Table type={type as TableType}/>},
+  //   post:
+  //    ()=>{
+  //     return  <>
+  //     {
+  //       mode == "post"
+  //       &&
+  //       <Form 
+  //         formSchema={form.formList.find((item)=>item.name == type)!.schema}
+  //         typeOfData={type as Exclude<TableType,"none">} 
+  //         onSubmit={(data)=>console.log(data)} 
+  //         // defaultValues={}
+  //         />
+  //     }
+  //   </>
+  //    },
+  //   put:
+  //     ()=>{return <p>{type}</p>}
+  // }
 
   useEffect(()=>{
     buttonList.forEach(async (button,index)=>{
@@ -44,8 +96,6 @@ const Management = ({item_management,hasGroupTableButton,mode}:ManagementProps) 
   })
   },[])
   
-  useEffect(()=>{
-  },[type])
 
   return (
     <>
@@ -70,11 +120,38 @@ const Management = ({item_management,hasGroupTableButton,mode}:ManagementProps) 
             }/>
           )
           }
+
+           
+
           {
-            mode == "get" && !!type
+            
+            !!type &&
+            mode == "get"
             ? <Table type={type as TableType}/>
-            : null
+            : 
+            mode == "post"
+            ?
+               <Form 
+                formSchema={form.formList.find((item)=>item.name == type)!.schema}
+                typeOfData={type as Exclude<TableType,"none">} 
+                onSubmit={(data)=>console.log(data)} 
+                />
+            :
+            mode == "put" && defaultForm 
+            &&
+            <>
+
+                <Form 
+                formSchema={form.formList.find((item)=>item.name == type)!.schema}
+                typeOfData={type as Exclude<TableType,"none">} 
+                onSubmit={(data)=>console.log(data)} 
+                defaultValues={defaultForm}
+                />
+            </>
           }
+
+
+
           </section> 
         </section>
       </section>

@@ -1,27 +1,63 @@
-import RegisterUser from "../../../../components/form/register/user/RegisterUser.component";
-import NavForm from "../../../../components/nav/form/NavForm.component";
-import z from "zod";
-import { schema } from "../../../../schema/form.schema";
-import useHandleRegister from "../../../../hooks/useHandleRegister";
-import { useParams } from "react-router-dom";
+// import RegisterUser from "../../../../components/form/register/user/RegisterUser.component";
+// import NavForm from "../../../../components/nav/form/NavForm.component";
+// import z, { ZodRawShape, ZodTypeAny } from "zod";
+// import { schema } from "../../../../schema/form.schema";
+// import useHandleRegister, { FormStepType } from "../../../../hooks/useHandleRegister";
+// import { useParams } from "react-router-dom";
+// import Form from "../../../../components/form/global/component/Form.component";
+// import { form, InputProps } from "../../../../objects/form.object";
+// import { useEffect, useState } from "react";
+// import { FormDataProps } from "../../../../context/RegisterContext";
+// import { useForm } from "react-hook-form";
 
-type RegisterStep1Props = z.infer<typeof schema.schemaList.user.register.step1>;
 
-const RegisterUserPage = () => {
+// interface RegisterFormProps {
+//   schema:{ [k: string]: ZodTypeAny; },
+//   form:InputProps[]
+// }
 
-const {type} = useParams();
+// const RegisterUserPage = () => {
 
-  const {authRegister,onStep} = useHandleRegister();
-    console.log(authRegister)
+// const {type} = useParams();
 
-  return (
-   <>
-    <NavForm/>
-    <RegisterUser registerStep={1} handleRegister={()=>true}>
-            <></>
-      </RegisterUser> 
-  </>
-  )
-}
+//   // const {authRegisterContext,onFormtep,onStep} = useHandleRegister();
+//   // const [registerForm,setRegisterForm] = useState<RegisterFormProps | null>(null);
 
-export default RegisterUserPage
+
+//   // useEffect(()=>{
+//   //   setRegisterForm(onFormtep(type as  FormStepType|| null) as RegisterFormProps || {
+//   //     form:[],
+//   //     schema:[]
+//   //   })
+//   // },[type])
+
+//   return (
+//    <>
+//     <NavForm/>
+//     <RegisterUser step={type as FormStepType} registerStep={2} handleRegister={()=>{
+//           // return isValid  
+//           // ? (()=>{
+//           //   handleSubmit((data)=>{
+//           //     return onStep(1,data as FormDataProps)
+//           //   })()
+//           //   return true
+//           // })()
+//           // : (()=>{
+//           //   return false
+//           // })()
+//           return true
+//         }}>
+//             {/* {
+//               !!registerForm  
+//               &&
+//               <Form
+//              formSchema={registerForm.schema} 
+//              fields={registerForm.form}
+//              />
+//             } */}
+//       </RegisterUser> 
+//   </>
+//   )
+// }
+
+// export default RegisterUserPage

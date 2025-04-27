@@ -100,6 +100,11 @@ const useHandleTable = ()=>{
             
     }
 
+    const onQueryTableListPath = (type:TableType)=>{
+        const tableResult = tableTypeDataList.find((item)=>item.type === type)
+        return tableResult?.path
+    }
+
     const onQueryTableList = (type:TableType)=>{
 
         const tableResult = tableTypeDataList.find((item)=>item.type === type)
@@ -111,7 +116,8 @@ const useHandleTable = ()=>{
         setTableData,
         table,
         onQueryTable,
-        onQueryTableList
+        onQueryTableList,
+        onQueryTableListPath
     }
 
 }
