@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import "../global/component/global.component.css"
 import "./Login.component.css";
-import Form from "../global/component/Form.component";
+import useAxios from "../../../hooks/useAxios";
+
 
 interface LoginProps{
 
@@ -13,6 +14,8 @@ interface LoginProps{
 const Login = ({children,handleLogin}:LoginProps) => {
     
       const onNavigate = useNavigate();
+      const {setIsLoading} = useAxios();    
+
 
     return (
     <section className="formSection">
@@ -29,14 +32,17 @@ const Login = ({children,handleLogin}:LoginProps) => {
                 }}>
                     {children}
                 </form>
+                
             </div>
             <div className="loginOptionsContainer">
-                <button type="submit" onClick={handleLogin}>
+                <button type="submit" onClick={()=>{
+                    handleLogin()
+                }}>
                     Entrar
                 </button>
                 <button type="button" onClick={()=>onNavigate("/register/user/step/name")}>
                     Criar conta
-                </button>
+                </button>              
             </div>
         </div>
     </section>

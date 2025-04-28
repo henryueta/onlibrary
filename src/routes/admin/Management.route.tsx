@@ -78,7 +78,7 @@ const Management = ({hasGroupTableButton,mode}:ManagementProps) => {
   useEffect(()=>{
     buttonList.forEach(async (button,index)=>{
       try{
-          await axios.get("http://localhost:5000/count?type="+button.type).then((res)=>{
+          await axios.get("http://localhost:5600/count?type="+button.type).then((res)=>{
             setButtonList((prev)=>{
              return prev.map((item,index)=>{
                 if(item.type === button.type){

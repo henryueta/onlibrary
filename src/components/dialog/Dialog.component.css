@@ -3,10 +3,10 @@
     display: flex;
     position: relative;
     padding: 1rem;
+    border: none;
 }
 
 .dialogCloseContainer{
-    border: 2px solid red;
     position: relative;
     top: 0;
 }

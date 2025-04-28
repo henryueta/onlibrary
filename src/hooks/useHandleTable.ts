@@ -69,7 +69,7 @@ const useHandleTable = ()=>{
                     } 
                     })()
                     onAxiosQuery("get",{
-                        url:`http://localhost:5000/tables/data?type=${table.type}`,
+                        url:`http://localhost:5600/tables/data?type=${table.type}`,
                         type:{
                             get:{
                                 id:table.id,

@@ -77,11 +77,27 @@
     width: 50%;
 }
 
-/* .registerUserContainer .formContainer{
-   
-} */
+.registerUserContainer dialog{  
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(0,0,0,0.4);
+}
+.registerDetailsContainer .warningMessage{
+    margin-top: 0.2rem;
+}
 
-.registerUserContainer     .formContainer p:not(.errorInput){
+.registerUserContainer .warn{
+    font-size: 1.1rem;
+}
+
+.registerUserContainer     .formContainer p:not(.warn){
     margin-top: 2rem;
     font-size: 1.1rem;
 }

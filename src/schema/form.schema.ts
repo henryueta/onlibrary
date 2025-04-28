@@ -24,7 +24,7 @@ const schema = {
             description_reg:z.string().optional(),
             cape_reg:z.custom<FileList>()
             .transform((file)=>file.length > 0 && file.item(0))
-            .refine((file)=>!file || (!!file && file.size <= 500000000),{
+            .refine((file)=>!file || (!!file && file.size <= 560000000),{
                 message:"Arquivo máximo suportado 500MB"
             })
             .refine((file) => !file || (!!file && file.type?.startsWith("image")), {
@@ -46,10 +46,10 @@ const schema = {
               }),
             register:{
                 step1:z.object({
-                    nome:z.string().refine((val)=>val.match(/[A-Z]{1}[a-z]/) && val.trim().length > 0,{
+                    nome:z.string().refine((val)=>val.match(/[a-z]/) && val.trim().length > 0,{
                         message:"Campo nome inválido"
                     }),
-                    sobrenome:z.string().refine((val)=>val.match(/[A-Z]{1}[a-z]/) && val.trim().length > 0,{
+                    sobrenome:z.string().refine((val)=>val.match(/[a-z]/) && val.trim().length > 0,{
                         message:"Campo sobrenome inválido"
                     }),
                     cpf:z.string().refine((val)=>val.match(/[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}/),{
@@ -64,9 +64,11 @@ const schema = {
                         message:"Campo email inválido"
                     }),
                 }),
+
                 step3:z.object({
-                    senha:z.string()
-                        .min(8,{message:"Campo senha deve ter 8 dígitos"}),
+                    senha:z.string().refine((val)=>val.match(/(?=.*[A-Za-z]{2,})(?=.*[0-9]{3,}).{8,}$/),
+                    {message:"A senha deve ter no mínimo 8 caracteres com 2 letras e 3 números"}
+                ),
                     repetir_senha:z.string()
                     })
 

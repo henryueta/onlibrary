@@ -1,41 +1,42 @@
 import { useEffect, useState } from "react";
-import useAxios from "../../hooks/useAxios";
+import Dialog from "../dialog/Dialog.component"
+import Spinner from "../spinner/Spinner.component";
 
-const Load = () => {
+interface LoadProps{
+  loadState:boolean,
+  finalMessage?:string
+} 
 
-    // const [isLoading,setIsLoading] = useState(false);
-    const {isLoading} = useAxios();
-    const [load,setLoad] = useState(false);
+const Load = ({loadState,finalMessage}:LoadProps) => {
+
+    const [isLoading,setIsLoading] = useState(loadState);
 
     useEffect(()=>{
-        setLoad(isLoading)
-    },[isLoading])
+      setIsLoading(loadState)
+    })
 
   return (
-    <div className="loadContainer" style={{
-        display:load ? "flex" : "none"
-    }}>
-        
-        <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa</p>
-        <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa</p>
-        <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa</p>
-        <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa</p>
-
-
-        <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa</p>
-        <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa</p>
-        <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa</p>
-        <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa</p>
-        <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa</p>
-        <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa</p>
-        <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa</p>
-        <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa</p>
-
-        <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa</p>
-        <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa</p>
-        <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa</p>
-
-    </div>
+    <>
+      {
+        isLoading
+        ? <Dialog>  
+            <Spinner/>
+          </Dialog>
+        : 
+        isLoading && finalMessage 
+        ? <Dialog>
+            
+             { !!finalMessage 
+              && 
+              isLoading 
+              ? <Spinner/>
+              : <p>{finalMessage}</p> }
+            
+            
+          </Dialog>  
+        : <></>
+    }
+    </>
   )
 }
 

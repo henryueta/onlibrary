@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Login from "../../../components/form/login/Login.component"
 import NavForm from "../../../components/nav/form/NavForm.component"
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,6 +7,9 @@ import { z } from "zod";
 import useHandleAuth from "../../../hooks/usehandleAuth";
 import { schema } from "../../../schema/form.schema";
 import Warn from "../../../components/warn/Warn.component";
+import Load from "../../../components/load/Load.component";
+import "../global/Form.route.css"
+import { useEffect } from "react";
 
 type LoginProps = z.infer<typeof schema.schemaList.user.login>
 
@@ -18,12 +21,21 @@ const LoginPage = () => {
       mode:"all"
   });
   const {errors} = formState;
-  const {onHandleAuth,errorAuth} = useHandleAuth();
+  const {onHandleAuth,isLoading,successAuth,errorAuth} = useHandleAuth();
+  const onNavigate = useNavigate();
+
+  useEffect(()=>{
+    !!successAuth
+    && successAuth.success 
+    && onNavigate("/")
+  },[successAuth])
 
   return (
     <>
       <NavForm/>
-      <Login handleLogin={handleSubmit((data)=>onHandleAuth("login",data))}>
+      <Login handleLogin={handleSubmit((data)=>{onHandleAuth("login",data)
+      })}>
+          <Load loadState={isLoading}/>
         <label htmlFor="">
           <p>Username ou email</p>
           <input type="text" 
@@ -48,12 +60,8 @@ const LoginPage = () => {
           </Link>
           <Warn warning={errors.senha?.message || null}/>
         </label>
-        <p>
-          {
-            !!errorAuth &&
-                `Erro ${errorAuth.status}: ${errorAuth.message}`
-          }
-        </p>
+            <Warn 
+            warning={errorAuth ? `Erro ${errorAuth.status} ${errorAuth.message}` : null}/>              
       </Login>
     </>
   )

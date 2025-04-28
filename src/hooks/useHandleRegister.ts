@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import { form, InputProps } from "../objects/form.object";
 import { object } from "../objects/object.object";
 import { z, ZodRawShape, ZodTypeAny } from "zod";
+import useAxios from "./useAxios";
 
 type StepIndex = 1|2|3;
 
@@ -16,7 +17,7 @@ const useHandleRegister = ()=>{
     
 
     const {authContext,onHandleStatus,onHandleAuth} = useHandleAuth();
-
+    const {onAxiosQuery,isLoading} = useAxios();
     const authRegisterContext = useContext(RegisterContext)
 
     const onFormtep = (step:FormStepType | null):{
@@ -76,6 +77,21 @@ const useHandleRegister = ()=>{
     },[authRegisterContext.registerData])
 
 
+    const onQueryStep = (data:FormDataProps)=>{
+        onAxiosQuery("post",{
+            url:"http://localhost:5600/register?step=name",
+            type:{
+                post:{
+                    data:data as object
+                }
+            },
+            onResolver:{
+                then:(result)=>console.log(result),
+                catch:(error)=>console.log(error)
+            }
+        })
+    }
+
     const onStep = (step:StepIndex,data:FormDataProps)=>{
 
         const checkStep = {
@@ -90,12 +106,14 @@ const useHandleRegister = ()=>{
                         sobrenome:data?.sobrenome ,
                         cpf: current_cpf } as FormDataProps
                 )
+                onQueryStep(data)
             },
             2:(data:FormDataProps)=>{
                 authRegisterContext.setRegisterData({...authRegisterContext.registerData,
                         email:data?.email,
                         username:data?.username} as FormDataProps
                     )
+                onQueryStep(data)
             },
             3:(data:FormDataProps)=>{
                 authRegisterContext.setRegisterData({...authRegisterContext.registerData,
@@ -124,6 +142,7 @@ const useHandleRegister = ()=>{
     return {
         authRegisterContext,
         onFormtep,
+        isLoading,
         onStep
     }
 

@@ -5,7 +5,7 @@ import Home from './routes/home/Home.route.tsx'
 import { createBrowserRouter,Link,RouterProvider } from 'react-router-dom'
 import FirstRegisterStep from './routes/form/register/user/step1/FirstRegisterPage.route.tsx'
 import SecondRegisterStep from './routes/form/register/user/step2/SecondRegisterPage.route.tsx'
-import ThirdRegisterStep from './routes/form/register/user/step3/ThirdRegisterPage..route.tsx'
+import ThirdRegisterStep from './routes/form/register/user/step3/ThirdRegisterPage.route.tsx'
 import LoginPage from './routes/form/login/LoginPage.route.tsx'
 import BookPage from './routes/book/BookPage.route.tsx'
 import AppProvider from './context/index.tsx'
@@ -13,6 +13,8 @@ import Management from './routes/admin/Management.route.tsx'
 import Private from './routes/private/Private.route.tsx'
 import {path} from './objects/path.object.ts'
 import LibraryRegisterPage from './routes/form/register/library/LibraryRegisterPage.route.tsx'
+
+
 
 export const router = createBrowserRouter([
   {

@@ -16,6 +16,7 @@ interface TableProps {
 
 }
 
+
 const teste = (state:initialType,action:actionType)=>{
   switch (action.type) {
     case "get":

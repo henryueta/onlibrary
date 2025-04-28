@@ -10,11 +10,13 @@ const Warn = ({warning}:WarnProps) => {
     <div className="warningMessage">
         {
             !!warning
-            &&
+            ?
             <>
                 <img src={warning_icon} alt="warning_icon" />
-                {warning}
+                <p className="warn">{warning}</p>
             </>
+            :
+            <span className="defaultWarning"></span>
         }
     </div>
   )

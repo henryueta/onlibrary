@@ -9,12 +9,13 @@ import { schema } from "../../../../../schema/form.schema";
 import Warn from "../../../../../components/warn/Warn.component";
 import useHandleRegister from "../../../../../hooks/useHandleRegister";
 import { FormDataProps } from "../../../../../context/RegisterContext";
+import Load from "../../../../../components/load/Load.component";
 
 type RegisterStep1Props = z.infer<typeof schema.schemaList.user.register.step1>;
 
 const FirstRegisterStep = () => {
 
-  const {authRegisterContext,onStep} = useHandleRegister();
+  const {authRegisterContext,onStep,isLoading} = useHandleRegister();
 
   const {register,control,formState,handleSubmit} = useForm<RegisterStep1Props>({
     mode:"all",
@@ -38,6 +39,7 @@ const FirstRegisterStep = () => {
       })()
       return isValid
     }}>
+        <Load loadState={isLoading}/>
         <label htmlFor="name_id">
           <p>Nome:</p>
           <input type="text" id="name_id"

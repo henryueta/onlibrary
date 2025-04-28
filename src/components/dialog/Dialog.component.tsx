@@ -2,7 +2,7 @@ import React from "react"
 import "./Dialog.component.css"
 
 interface DialogProps {
-    onClose:()=>void,
+    onClose?:()=>void,
     children:React.ReactNode
 }
 
@@ -12,11 +12,16 @@ const Dialog = ({onClose,children}:DialogProps) => {
         <div className="dialogContentContainer">
             {children}
         </div>
+        
+        {
+        !!onClose &&
         <div className="dialogCloseContainer">
             <button onClick={onClose}>
                 X
             </button>
         </div>
+        }
+      
     </dialog>
   )
 }

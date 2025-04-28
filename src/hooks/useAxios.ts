@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios"
+import axios, { AxiosError, AxiosResponse } from "axios"
 import { useEffect, useState } from "react";
 
 type QueryType = "get" | "post" | "put" | "delete";
@@ -23,7 +23,7 @@ interface AxiosQueryProps<T extends object>{
     },
     onResolver:{
         then:(result:AxiosResponse)=>void,
-        catch:(error:unknown)=>void
+        catch:(error:AxiosError)=>void
     }
 }
 
@@ -31,15 +31,14 @@ const useAxios = <T extends object>()=>{
 
 const [isLoading,setIsLoading] = useState(false);
 
-useEffect(()=>{
-    console.log(isLoading)
-},[isLoading])
+
 
 const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
+    setIsLoading(true)
+   
     let url:string = "";
     let id:string | null = null;
     let data:T | null = null;
-   
     const axiosQueryList = {
 
         get:()=>{
@@ -59,7 +58,12 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
 
                 axios.get(url)
                 .then((result)=>query.onResolver.then(result))
-                .catch((error)=>query.onResolver.catch(error))
+                .catch((error)=>{
+                    const axiosError = error as AxiosError
+                    if(axiosError.isAxiosError){
+                        query.onResolver.catch(axiosError)
+                    }
+                })
                 .finally(()=>{
                     setIsLoading(false)
                     console.log("fim")
@@ -75,9 +79,18 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
 
         },
         post:()=>{
-            axios.post(query.url,{
-                //data
-            })
+            axios.post(query.url,query.type.post?.data)
+            .then((result)=>query.onResolver.then(result))
+                .catch((error)=>{
+                    const axiosError = error as AxiosError
+                    if(axiosError.isAxiosError){
+                        query.onResolver.catch(axiosError)
+                    }
+                })
+                .finally(()=>{
+                    setIsLoading(false)
+                    console.log("fim")
+                })
         }
 
     } 
@@ -90,7 +103,8 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
     
 return {
     onAxiosQuery,
-    isLoading
+    isLoading,
+    setIsLoading
 }
 
 }
