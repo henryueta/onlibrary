@@ -3,14 +3,13 @@ import useHandleAuth from "./usehandleAuth";
 import { useContext, useEffect } from "react";
 import Cookies from "js-cookie";
 import { form, InputProps } from "../objects/form.object";
-import { object } from "../objects/object.object";
-import { z, ZodRawShape, ZodTypeAny } from "zod";
+import {  ZodTypeAny } from "zod";
 import useAxios from "./useAxios";
+import Word from "../classes/word.class";
 
 type StepIndex = 1|2|3;
 
 export type FormStepType = "name" | "contact" | "password";
-// | "contact" | "password"
 
 const useHandleRegister = ()=>{
 
@@ -96,17 +95,22 @@ const useHandleRegister = ()=>{
 
         const checkStep = {
             1:(data:FormDataProps)=>{
-                const current_cpf = 
-                data?.cpf.split("")
-                .filter((item)=>item !== "-" && item !== ".")
-                .join("")
-                .toString()               
-                authRegisterContext.setRegisterData({...authRegisterContext.registerData,
-                        nome:data?.nome,
-                        sobrenome:data?.sobrenome ,
-                        cpf: current_cpf } as FormDataProps
-                )
-                onQueryStep(data)
+                if(data){
+                    const formated_name = new Word(data?.nome, "name").word;
+                    const formated_lastName = new Word(data?.sobrenome,"name").word;
+                    const formated_cpf = new Word(data?.cpf,"cpf").word 
+                   
+                    authRegisterContext.setRegisterData({...authRegisterContext.registerData,
+                            nome:formated_name,
+                            sobrenome:formated_lastName,
+                            cpf: formated_cpf } as FormDataProps
+                    )
+                    onQueryStep({
+                        nome:formated_name,
+                        sobrenome:formated_lastName,
+                        cpf:formated_cpf
+                    } as FormDataProps)
+                }          
             },
             2:(data:FormDataProps)=>{
                 authRegisterContext.setRegisterData({...authRegisterContext.registerData,

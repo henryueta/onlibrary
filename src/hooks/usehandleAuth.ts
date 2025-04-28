@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import { AuthContext } from "../context/AuthContext"
 import Cookies from "js-cookie"
 import user_model from "../models/user.json";
-import axios,{AxiosError} from "axios";
-import { TableQueryProps, UserTableQueryProps } from "../objects/table.object";
+import axios from "axios";
+import {  UserTableQueryProps } from "../objects/table.object";
 import useAxios from "./useAxios";
 
 export type UserProps = Record<'id'|'name'|'lastName'|'cpf'|'username'|'email'|'telephone',string>;
@@ -49,15 +49,15 @@ const useHandleAuth = ()=>{
         const handleTypes = {
             register:()=>{
              
-                axios.post("https://onlibrary-api.onrender.com/api/auth/register",{
-                    nome:data.nome,
-                    email:data.email,
-                    username:data.username,
-                    senha:data.senha,
-                    cpf:data.cpf,
-                    sobrenome:data.sobrenome
-                }).then((result)=>console.log(result))
-                .catch((error)=>console.log(error))
+                // axios.post("https://onlibrary-api.onrender.com/api/auth/register",{
+                //     nome:data.nome,
+                //     email:data.email,
+                //     username:data.username,
+                //     senha:data.senha,
+                //     cpf:data.cpf,
+                //     sobrenome:data.sobrenome
+                // }).then((result)=>console.log(result))
+                // .catch((error)=>console.log(error))
             },
             login:()=>{
                 axios.defaults.withCredentials = true;
@@ -87,22 +87,6 @@ const useHandleAuth = ()=>{
                         }
                     }
                 })
-                // console.log(data)
-                // axios.post("https://onlibrary-api.onrender.com/api/auth/login",{
-                //     login:data.login,
-                //     senha:data.senha
-                // }).then((result)=>{
-                //     console.log(result)
-                //     setErrorAuth(null)
-                // })
-                // .catch((error)=>{
-                //     setErrorAuth({
-                //         error:error.response.data.error,
-                //         message:error.response.data.message,
-                //         status:error.response.data.status
-                //     })
-                //     console.warn(error)
-                // });
             }
         }
         handleTypes[type]();
@@ -112,6 +96,9 @@ const useHandleAuth = ()=>{
     const onHandleStatus = ()=>{
         return JSON.parse(Cookies.get("userStatus") || "{}") || null 
     }
+
+  
+
     const onHandleToken = (token:string):QueryTokenProps=>{
         return token.length > 0
         ?  {
@@ -141,7 +128,7 @@ return {
     onHandleAuth,
     isLoading,
     onHandleStatus,
-    onHandleToken
+    onHandleToken,
 }
 
 

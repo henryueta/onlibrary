@@ -18,14 +18,14 @@ Record<'id'|'nome'| 'sobrenome'| 'email'| 'cpf'|'senha'| 'username',string>
 Record<'situacao',account_situation>
 
 
-
 export type TableQueryProps=BookTableQueryProps | UserTableQueryProps;
 
 export interface TableTypeProps {
     type:string,
     title:string,
-    quantity?:number
-    path:string
+    quantity:number,
+    warning?:boolean
+    path:string,
     headers:string[],
     dependencies:string[]
 }
@@ -52,6 +52,7 @@ const tableTypeDataList:TableTypeProps[] = [
         type:"none",
         title:"",
         quantity:0,
+        warning:false,
         path:path.onFindPath("library_management"),
         headers:[],
         dependencies:
@@ -67,6 +68,7 @@ const tableTypeDataList:TableTypeProps[] = [
         type:"book",
         title:tableTitleList[onFindTitleIndex("Livro")],
         quantity:0,
+        warning:false,
         path: path.onCreatePathParams("list_data_management",[
             {
               field:"type",
@@ -86,6 +88,7 @@ const tableTypeDataList:TableTypeProps[] = [
     },
     {
         type:"user",
+        warning:false,
         title:tableTitleList[onFindTitleIndex("Usuário")],
         quantity:0,
         path:path.onCreatePathParams("list_data_management",[
@@ -104,6 +107,7 @@ const tableTypeDataList:TableTypeProps[] = [
             ]
     },{
         type:"loan",
+        warning:false,
         title:tableTitleList[onFindTitleIndex("Empréstimo")],
         quantity:0,
         path:path.onFindPath("loan_management"),

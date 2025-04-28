@@ -9,7 +9,7 @@ import ThirdRegisterStep from './routes/form/register/user/step3/ThirdRegisterPa
 import LoginPage from './routes/form/login/LoginPage.route.tsx'
 import BookPage from './routes/book/BookPage.route.tsx'
 import AppProvider from './context/index.tsx'
-import Management from './routes/admin/Management.route.tsx'
+import Management from './routes/management/Management.route.tsx'
 import Private from './routes/private/Private.route.tsx'
 import {path} from './objects/path.object.ts'
 import LibraryRegisterPage from './routes/form/register/library/LibraryRegisterPage.route.tsx'
@@ -52,39 +52,35 @@ export const router = createBrowserRouter([
     path:path.onFindPath("library_management"),
     element:
     <Private>
-      <Management mode='default' hasGroupTableButton={true}>
-        {/* <>
-          <Link to={"/register/library"}>Cadastrar biblioteca</Link>
-        </> */}
-      </Management>
+      <Management mode='default' hasGroupTableCard={true}/>
     </Private>
   },
   {
     path:path.onFindPath("create_data_management"),
     element:
     <Private>
-      <Management mode='post' hasGroupTableButton={false}/>
+      <Management mode='post' hasGroupTableCard={false}/>
     </Private>
   },
   {
     path:path.onFindPath("list_data_management"),
     element:
     <Private>
-      <Management mode='get' hasGroupTableButton={true}/>
+      <Management mode='get' hasGroupTableCard={true}/>
     </Private>
   },
   {
     path:path.onFindPath("update_data_management"),
     element:
     <Private>
-      <Management mode='put'  hasGroupTableButton={false}/>
+      <Management mode='put'  hasGroupTableCard={false}/>
     </Private>
   },
   // {
   //   path:path.onFindPath("user_management"),
   //   element:
   //   <Private>
-  //     <Management item_management='user' hasGroupTableButton={true}>
+  //     <Management item_management='user' hasGroupTableCard={true}>
   //         <Table type='user'></Table>
   //     </Management>
   //   </Private>

@@ -22,4 +22,16 @@
   gap: 0.4rem;
   padding: 0.5em;
   font-size: 1rem;
+  height: 50px;
 }
+
+.currentLibraryContainer>select{
+  outline: none;
+  border: none;
+  height: 100%;
+  font-size: 1rem;
+  padding: 0rem 0.5rem 0rem 0.5rem;
+
+}
+
+

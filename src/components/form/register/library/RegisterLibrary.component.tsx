@@ -28,7 +28,6 @@ const RegisterLibrary = ({children,checkboxList,handleRegister}:RegisterLibraryP
                     <div className="checkboxListContainer">
                       {checkboxList}
                     </div>
-
                   </div>
             </div>
           </form>

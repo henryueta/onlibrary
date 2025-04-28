@@ -45,15 +45,6 @@ interface LibraryDataProps{
 
 const reg_names:string[] = Object.keys(schema.shape);
 
-const onCheckBoolean = (reg_ref:LibraryRegisterType)=>{
-
-  const index = reg_names[reg_names.indexOf(reg_ref)]
-
-  return  schema.shape[index as LibraryRegisterType] instanceof z.ZodBoolean
-
-}
-
-
 const LibraryRegisterPage = () => {
 
   const {register,formState,handleSubmit,control} = useForm<LibraryRegisterProps>({

@@ -1,0 +1,14 @@
+
+.managementSection{
+    margin-left: 300px;
+    overflow-x: hidden;
+}
+
+.dataContentSection{
+    display: flex;
+    flex-direction: column;
+   align-items: center;
+}
+
+
+

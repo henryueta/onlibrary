@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { onFindTableIndex, TableQueryProps, TableType, tableTypeDataList } from "../objects/table.object";
+import { onFindTableIndex, TableQueryProps, TableType, tableTypeDataList, TableTypeProps } from "../objects/table.object";
 import axios, { AxiosResponse } from "axios";
 import useAxios from "./useAxios";
 
@@ -16,6 +16,13 @@ const useHandleTable = ()=>{
     const {onAxiosQuery} = useAxios();
 
     type QueryType = "create" |"select" | "update" | "delete";
+
+    const onQueryCountTable = async <T extends any>(type:string,action:(result:AxiosResponse)=>T)=>{
+            await axios.get("http://localhost:5600/count?type="+type).then((res)=>{
+                action(res)
+            })
+            .catch((error)=>console.log(error))
+    }
 
     const onQueryTable = (
         table:{
@@ -39,7 +46,6 @@ const useHandleTable = ()=>{
                     )
                 },
                 select:()=>{
-                    //selecionar tabela e inserir em table
                     table?.id 
                     ? (()=>{
                         onThen = (result)=>{
@@ -116,6 +122,7 @@ const useHandleTable = ()=>{
         setTableData,
         table,
         onQueryTable,
+        onQueryCountTable,
         onQueryTableList,
         onQueryTableListPath
     }

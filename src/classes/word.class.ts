@@ -8,7 +8,7 @@ class Word {
         const formatList = {
 
             cpf:()=>{
-                this.word = word.replace(".","").replace("-","")
+                this.word = word.replace(".","").replace(".","").replace("-","")
             },
             name:()=>{
                 

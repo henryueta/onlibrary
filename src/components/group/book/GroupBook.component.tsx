@@ -1,13 +1,11 @@
-import { ElementType } from "react";
 import "./GroupBook.component.css";
-
+import BookCard from "../../card/book/BookCard.component";
 
 type ItemProps = Record<'image'|'title',string>
 
 interface GroupBookProps{
     title:string,
     itemList:ItemProps[]
-    tag?:ElementType
 }
 
 const GroupBook = ({
@@ -22,12 +20,8 @@ const GroupBook = ({
         <div className="itemContainer">
         {
             itemList.map((item,index)=>
-                <div key={index}>
-                    <img src={item.image} alt={`${item.title}´s image`} />
-                    <p>{item.title}</p>
-                </div>
-            )
-            
+                <BookCard image={item.image} title={item.title} key={index}></BookCard>
+            )            
         }
         </div>
     </section>

@@ -27,7 +27,7 @@ const Search = ({filter,quantity} : SearchProps) => {
           setInputValue(e.target.value)
         }}/>
         {
-         !!filter && <Select onSelect={(e)=>{setSelectValue(e.target.value)}} list={filter.list}/> 
+         !!filter && <Select defaultValue={{title:"todos",value:"todos"}} onSelect={(e)=>{setSelectValue(e.target.value)}} list={filter.list}/> 
         }
         <button onClick={()=>{
           onSearch(inputValue,quantity,selectValue)
