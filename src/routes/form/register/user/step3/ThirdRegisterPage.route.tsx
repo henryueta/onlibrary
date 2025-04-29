@@ -7,12 +7,13 @@ import { schema } from "../../../../../schema/form.schema";
 import Warn from "../../../../../components/warn/Warn.component";
 import useHandleRegister from "../../../../../hooks/useHandleRegister";
 import { FormDataProps } from "../../../../../context/RegisterContext";
+import Load from "../../../../../components/load/Load.component";
 
 type RegisterStep3Props = z.infer<typeof schema.schemaList.user.register.step3>;
 
 const ThirdRegisterStep = () => {
 
-  const {onStep} = useHandleRegister();
+  const {onStep,isLoading} = useHandleRegister();
   const {register,formState,handleSubmit} = useForm<RegisterStep3Props>({
     mode:"all",
     reValidateMode:"onSubmit",
@@ -34,9 +35,10 @@ const ThirdRegisterStep = () => {
       })()
       return isValid
     }}>
+        <Load loadState={isLoading}/>
         <label htmlFor="password_id">
           <p>Senha:</p>
-          <input type="password" id="password_id"
+          <input autoFocus={true} type="password" id="password_id"
           {...register("senha")}/>
           <Warn warning={errors.senha?.message || null}/>         
         </label>

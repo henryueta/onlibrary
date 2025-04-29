@@ -25,7 +25,7 @@ const onRegisterNavigate = (step:number,type:"previous"|"next")=>{
         
        return registerSteps[step-1]
     })()
-    : step === 2 ? "/" : registerSteps[step+1];
+    : step === 2 ? "" : registerSteps[step+1];
 }
 
 const RegisterUser = <T extends object>({children,registerStep,handleRegister}:RegisterProps<T>) => {

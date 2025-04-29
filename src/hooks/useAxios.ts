@@ -1,7 +1,19 @@
 import axios, { AxiosError, AxiosResponse } from "axios"
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type QueryType = "get" | "post" | "put" | "delete";
+
+export interface QueryErrorProps {
+    error:string
+    message:string
+    status:number
+}
+
+export interface QuerySuccessProps {
+    data:any,////////
+    message:string,
+    success:boolean
+}
 
 interface AxiosQueryProps<T extends object>{
     url:string
@@ -30,7 +42,8 @@ interface AxiosQueryProps<T extends object>{
 const useAxios = <T extends object>()=>{
 
 const [isLoading,setIsLoading] = useState(false);
-
+const [queryError,setqueryError] = useState<QueryErrorProps | null>(null);
+const [querySuccess,setquerySuccess] = useState<QuerySuccessProps | null>(null)
 
 
 const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
@@ -80,12 +93,26 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
         },
         post:()=>{
             axios.post(query.url,query.type.post?.data)
-            .then((result)=>query.onResolver.then(result))
+            .then((result)=>{
+                const current_success = result.data as QuerySuccessProps
+                setquerySuccess({
+                    data:current_success.data,
+                    message:current_success.message,
+                    success:current_success.success
+                })
+                query.onResolver.then(result)
+            
+            })
                 .catch((error)=>{
+                    const current_error = error.response?.data as QueryErrorProps
+                    setqueryError({
+                        error:current_error.error,
+                        message:current_error.message,
+                        status:current_error.status
+                    })    
                     const axiosError = error as AxiosError
-                    if(axiosError.isAxiosError){
-                        query.onResolver.catch(axiosError)
-                    }
+                    query.onResolver.catch(axiosError)
+                    
                 })
                 .finally(()=>{
                     setIsLoading(false)
@@ -103,6 +130,8 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
     
 return {
     onAxiosQuery,
+    querySuccess,
+    queryError,
     isLoading,
     setIsLoading
 }

@@ -1,10 +1,10 @@
 import { FormDataProps, RegisterContext } from "../context/RegisterContext";
 import useHandleAuth from "./usehandleAuth";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { form, InputProps } from "../objects/form.object";
 import {  ZodTypeAny } from "zod";
-import useAxios from "./useAxios";
+import useAxios, { QueryErrorProps } from "./useAxios";
 import Word from "../classes/word.class";
 
 type StepIndex = 1|2|3;
@@ -13,11 +13,10 @@ export type FormStepType = "name" | "contact" | "password";
 
 const useHandleRegister = ()=>{
 
-    
-
-    const {authContext,onHandleStatus,onHandleAuth} = useHandleAuth();
-    const {onAxiosQuery,isLoading} = useAxios();
+    const {authContext,onHandleStatus,onHandleAuth,authError,authSuccess} = useHandleAuth();
+    const {onAxiosQuery,isLoading,querySuccess,queryError} = useAxios();
     const authRegisterContext = useContext(RegisterContext)
+    const [isComplete,setIsComplete] = useState<boolean>(false);
 
     const onFormtep = (step:FormStepType | null):{
         schema:{ [k: string]: ZodTypeAny; },
@@ -72,8 +71,14 @@ const useHandleRegister = ()=>{
     useEffect(()=>{
         authRegisterContext.registerData &&
         Object.keys(authRegisterContext.registerData).length == 6 &&
-        onHandleAuth("register",authRegisterContext.registerData)
+        onHandleAuth("register",authRegisterContext.registerData)       
     },[authRegisterContext.registerData])
+
+    useEffect(()=>{
+
+        console.log("AAAA")
+
+    },[queryError])
 
 
     const onQueryStep = (data:FormDataProps)=>{
@@ -123,17 +128,18 @@ const useHandleRegister = ()=>{
                 authRegisterContext.setRegisterData({...authRegisterContext.registerData,
                     senha:data?.senha
                 } as FormDataProps)
-                Cookies.set("userStatus",JSON.stringify({
-                  errorStatus:{
-                    hasError:false,
-                    errorValue:""
-                  },
-                  authStatus:{
-                    hasAuth:true,
-                    authValue:"KJK1"
-                  } 
-                }))
-                authContext.setUserStatus(onHandleStatus())
+
+                // Cookies.set("userStatus",JSON.stringify({
+                //   errorStatus:{
+                //     hasError:false,
+                //     errorValue:""
+                //   },
+                //   authStatus:{
+                //     hasAuth:true,
+                //     authValue:"KJK1"
+                //   } 
+                // }))
+                // authContext.setUserStatus(onHandleStatus())
             }
         }
 
@@ -147,6 +153,8 @@ const useHandleRegister = ()=>{
         authRegisterContext,
         onFormtep,
         isLoading,
+        querySuccess,
+        queryError,
         onStep
     }
 

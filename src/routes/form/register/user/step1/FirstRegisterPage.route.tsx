@@ -10,12 +10,17 @@ import Warn from "../../../../../components/warn/Warn.component";
 import useHandleRegister from "../../../../../hooks/useHandleRegister";
 import { FormDataProps } from "../../../../../context/RegisterContext";
 import Load from "../../../../../components/load/Load.component";
+import { useEffect } from "react";
 
 type RegisterStep1Props = z.infer<typeof schema.schemaList.user.register.step1>;
 
 const FirstRegisterStep = () => {
 
-  const {authRegisterContext,onStep,isLoading} = useHandleRegister();
+  const {authRegisterContext,onStep,isLoading,queryError,querySuccess} = useHandleRegister();
+
+  useEffect(()=>{
+    console.log(querySuccess)
+  },[querySuccess])
 
   const {register,control,formState,handleSubmit} = useForm<RegisterStep1Props>({
     mode:"all",
@@ -42,7 +47,7 @@ const FirstRegisterStep = () => {
         <Load loadState={isLoading}/>
         <label htmlFor="name_id">
           <p>Nome:</p>
-          <input type="text" id="name_id"
+          <input autoFocus={true} type="text" id="name_id"
           {...register("nome",{
           })}
           />
@@ -67,6 +72,8 @@ const FirstRegisterStep = () => {
             </Controller>
             <Warn warning={errors.cpf?.message || null}/>
         </label> 
+            <Warn 
+            warning={queryError ? `Erro ${queryError.status} ${queryError.message}` : null}/>  
       </RegisterUser> 
   </>
   )

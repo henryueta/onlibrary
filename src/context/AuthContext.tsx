@@ -41,10 +41,6 @@ return (
     
 }
 
-// const useAuthContext = ()=>{
-//     const context = useContext(AuthContext);
-//     return context;
-// }
 
 export {
     AuthContext,

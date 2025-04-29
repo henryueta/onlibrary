@@ -21,14 +21,14 @@ const LoginPage = () => {
       mode:"all"
   });
   const {errors} = formState;
-  const {onHandleAuth,isLoading,successAuth,errorAuth} = useHandleAuth();
+  const {onHandleAuth,isLoading,authSuccess,authError} = useHandleAuth();
   const onNavigate = useNavigate();
 
   useEffect(()=>{
-    !!successAuth
-    && successAuth.success 
+    !!authSuccess
+    && authSuccess.success 
     && onNavigate("/")
-  },[successAuth])
+  },[authSuccess])
 
   return (
     <>
@@ -61,7 +61,7 @@ const LoginPage = () => {
           <Warn warning={errors.senha?.message || null}/>
         </label>
             <Warn 
-            warning={errorAuth ? `Erro ${errorAuth.status} ${errorAuth.message}` : null}/>              
+            warning={authError ? `Erro ${authError.status} ${authError.message}` : null}/>              
       </Login>
     </>
   )

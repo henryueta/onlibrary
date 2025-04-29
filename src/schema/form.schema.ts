@@ -46,10 +46,10 @@ const schema = {
               }),
             register:{
                 step1:z.object({
-                    nome:z.string().refine((val)=>val.match(/[a-z]/) && val.trim().length > 0,{
+                    nome:z.string().refine((val)=>val.match(/^[a-zA-Z\s]{1,}$/),{
                         message:"Campo nome inválido"
                     }),
-                    sobrenome:z.string().refine((val)=>val.match(/[a-z]/) && val.trim().length > 0,{
+                    sobrenome:z.string().refine((val)=>val.match(/^[a-zA-Z\s]{1,}$/),{
                         message:"Campo sobrenome inválido"
                     }),
                     cpf:z.string().refine((val)=>val.match(/[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}/),{

@@ -1,7 +1,7 @@
 import "./Management.route.css";
 import NavAdmin from "../../components/nav/management/admin/NavAdmin.component"
 import NavLibrary from "../../components/nav/management/library/NavLibrary.component"
-import GroupTableCard from "../../components/group/tableCard/GroupTableCard.component";
+import GroupTableCard from "../../components/group/table_card/GroupTableCard.component";
 import cube_icon from "../../assets/imgs/icons/cube_icon.png"
 import { useEffect, useState } from "react";
 import { TableType, tableTypeDataList,onFindTableIndex,TableTypeProps, TableQueryProps } from "../../objects/table.object";

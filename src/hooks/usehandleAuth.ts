@@ -1,26 +1,14 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "../context/AuthContext"
 import Cookies from "js-cookie"
 import user_model from "../models/user.json";
 import axios from "axios";
 import {  UserTableQueryProps } from "../objects/table.object";
-import useAxios from "./useAxios";
+import useAxios, { QueryErrorProps, QuerySuccessProps } from "./useAxios";
 
 export type UserProps = Record<'id'|'name'|'lastName'|'cpf'|'username'|'email'|'telephone',string>;
 
-export interface ErrorAuthProps {
-    error:string
-    message:string
-    status:number
-}
 
-export interface SuccessAuthProps {
-    data:{
-        accessToken:string
-    },
-    message:string,
-    success:boolean
-}
 
 interface QueryTokenProps {
     errorResponse:{
@@ -39,25 +27,32 @@ type AuthUserProp = Partial<UserTableQueryProps> & Partial<Record<'login',string
 const useHandleAuth = ()=>{
 
     const authContext = useContext(AuthContext)
-    const [errorAuth,setErrorAuth] = useState<ErrorAuthProps | null>(null);
-    const [successAuth,setSuccessAuth] = useState<SuccessAuthProps | null>(null)
-    const {onAxiosQuery,isLoading} = useAxios();
+    const {onAxiosQuery,isLoading,querySuccess,queryError} = useAxios();
+    const [authSuccess,setAuthSuccess] = useState<QuerySuccessProps | null>(null);
+    const [authError,setAuthError] = useState<QueryErrorProps | null>(null)
 
+    useEffect(()=>{
+        setAuthSuccess(querySuccess)
+    },[querySuccess])   
+
+    useEffect(()=>{
+        setAuthError(queryError)
+    },[queryError])
 
     const onHandleAuth = (type:HandleAuthProps,data:AuthUserProp)=>{
         
         const handleTypes = {
             register:()=>{
              
-                // axios.post("https://onlibrary-api.onrender.com/api/auth/register",{
-                //     nome:data.nome,
-                //     email:data.email,
-                //     username:data.username,
-                //     senha:data.senha,
-                //     cpf:data.cpf,
-                //     sobrenome:data.sobrenome
-                // }).then((result)=>console.log(result))
-                // .catch((error)=>console.log(error))
+                axios.post("https://onlibrary-api.onrender.com/api/auth/register",{
+                    nome:data.nome,
+                    email:data.email,
+                    username:data.username,
+                    senha:data.senha,
+                    cpf:data.cpf,
+                    sobrenome:data.sobrenome
+                }).then((result)=>console.log(result))
+                .catch((error)=>console.log(error))
             },
             login:()=>{
                 axios.defaults.withCredentials = true;
@@ -70,20 +65,10 @@ const useHandleAuth = ()=>{
                     },
                     onResolver:{
                         then:(result)=>{
-                            const current_success = result.data as SuccessAuthProps
-                            setSuccessAuth({
-                                data:current_success.data,
-                                message:current_success.message,
-                                success:current_success.success
-                            })
+                           
                         },
                         catch:(error)=>{
-                            const current_error = error.response?.data as ErrorAuthProps
-                                setErrorAuth({
-                                    error:current_error.error,
-                                    message:current_error.message,
-                                    status:current_error.status
-                                })    
+                              
                         }
                     }
                 })
@@ -123,8 +108,8 @@ const useHandleAuth = ()=>{
 
 return {
     authContext,
-    errorAuth,
-    successAuth,
+    authSuccess,
+    authError,
     onHandleAuth,
     isLoading,
     onHandleStatus,

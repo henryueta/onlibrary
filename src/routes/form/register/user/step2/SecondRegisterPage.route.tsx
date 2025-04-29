@@ -7,12 +7,14 @@ import { schema } from "../../../../../schema/form.schema";
 import Warn from "../../../../../components/warn/Warn.component";
 import useHandleRegister from "../../../../../hooks/useHandleRegister";
 import { FormDataProps } from "../../../../../context/RegisterContext";
+import Load from "../../../../../components/load/Load.component";
 
 type RegisterStep2Props = z.infer<typeof schema.schemaList.user.register.step2>;
 
 const SecondRegisterStep = () => {
   
-  const {authRegisterContext,onStep} = useHandleRegister();
+  const {authRegisterContext,onStep,isLoading,queryError,querySuccess} = useHandleRegister();
+
   const {register,formState,handleSubmit} = useForm<RegisterStep2Props>({
     mode:"all",
     reValidateMode:"onSubmit",
@@ -34,9 +36,10 @@ const SecondRegisterStep = () => {
       })()
       return isValid
     }}>
+        <Load loadState={isLoading}/>
         <label htmlFor="username_id">
           <p>Username:</p>
-          <input type="text" id="username_id" {...register("username",{
+          <input autoFocus={true} type="text" id="username_id" {...register("username",{
             required:true
           })}/>
           <Warn warning={errors.username?.message || null}/>
@@ -48,6 +51,8 @@ const SecondRegisterStep = () => {
           })}/>
           <Warn warning={errors.email?.message || null}/>
         </label>
+         <Warn 
+        warning={queryError ? `Erro ${queryError.status} ${queryError.message}` : null}/> 
       </RegisterUser>
     </>
 
