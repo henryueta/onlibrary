@@ -10,7 +10,6 @@ const object = {
         let keys = Object.keys(object);
         return keys.find((item,index)=>
         {
-            console.log(item)
             return filter.type == "value"
             ?  item === filter.value
             :  index === filter.index

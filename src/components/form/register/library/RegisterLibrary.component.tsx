@@ -32,7 +32,7 @@ const RegisterLibrary = ({children,checkboxList,handleRegister}:RegisterLibraryP
             </div>
           </form>
           <div>
-            <button onClick={()=>handleRegister() && console.log("A")}>
+            <button onClick={()=>handleRegister()}>
                 Concluir
             </button>
           </div>

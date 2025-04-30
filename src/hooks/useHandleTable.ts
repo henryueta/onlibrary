@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { onFindTableIndex, TableQueryProps, TableType, tableTypeDataList, TableTypeProps } from "../objects/table.object";
+import { useState } from "react";
+import {  TableQueryProps, TableType, tableTypeDataList, TableTypeProps } from "../objects/table.object";
 import axios, { AxiosResponse } from "axios";
 import useAxios from "./useAxios";
 
@@ -49,6 +49,7 @@ const useHandleTable = ()=>{
                     table?.id 
                     ? (()=>{
                         onThen = (result)=>{
+                            console.log(result)
                             const {data} = result;
                             setTable(data)
                         }
@@ -56,7 +57,7 @@ const useHandleTable = ()=>{
                     :
                     table.data 
                     ? (()=>{
-
+                        
                     })()
                     : (()=>{
                     onThen = (result)=>{
@@ -66,8 +67,7 @@ const useHandleTable = ()=>{
 
                             headerList:headers.map((item,index)=>{
                                 return headers[index][0]
-
-                            }).filter((item,index)=>item !== "id"),
+                            }).filter((item,index)=>item !== "id" && item !== "livraryId"),
                             dataList:data.map((item:TableQueryProps)=>{
                                 return  Object.entries(item)
                             })

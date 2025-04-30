@@ -13,7 +13,7 @@ type RegisterStep3Props = z.infer<typeof schema.schemaList.user.register.step3>;
 
 const ThirdRegisterStep = () => {
 
-  const {onStep,isLoading} = useHandleRegister();
+  const {onStep,authState} = useHandleRegister();
   const {register,formState,handleSubmit} = useForm<RegisterStep3Props>({
     mode:"all",
     reValidateMode:"onSubmit",
@@ -35,7 +35,7 @@ const ThirdRegisterStep = () => {
       })()
       return isValid
     }}>
-        <Load loadState={isLoading}/>
+        <Load loadState={authState.isLoading}/>
         <label htmlFor="password_id">
           <p>Senha:</p>
           <input autoFocus={true} type="password" id="password_id"

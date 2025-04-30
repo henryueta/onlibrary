@@ -16,11 +16,8 @@ type RegisterStep1Props = z.infer<typeof schema.schemaList.user.register.step1>;
 
 const FirstRegisterStep = () => {
 
-  const {authRegisterContext,onStep,isLoading,queryError,querySuccess} = useHandleRegister();
+  const {authRegisterContext,onStep,queryState} = useHandleRegister();
 
-  useEffect(()=>{
-    console.log(querySuccess)
-  },[querySuccess])
 
   const {register,control,formState,handleSubmit} = useForm<RegisterStep1Props>({
     mode:"all",
@@ -44,7 +41,7 @@ const FirstRegisterStep = () => {
       })()
       return isValid
     }}>
-        <Load loadState={isLoading}/>
+        <Load loadState={queryState.isLoading}/>
         <label htmlFor="name_id">
           <p>Nome:</p>
           <input autoFocus={true} type="text" id="name_id"
@@ -73,7 +70,7 @@ const FirstRegisterStep = () => {
             <Warn warning={errors.cpf?.message || null}/>
         </label> 
             <Warn 
-            warning={queryError ? `Erro ${queryError.status} ${queryError.message}` : null}/>  
+            warning={queryState.error.data ? `Erro ${queryState.error.data}` : null}/>  
       </RegisterUser> 
   </>
   )

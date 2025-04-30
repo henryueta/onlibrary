@@ -1,12 +1,27 @@
+import { useState } from "react";
 import { LibraryProps } from "../../../hooks/useHandleLibrary";
-import Select from "../../select/Select.component"
+import Dialog from "../../dialog/Dialog.component";
 import "./LibraryAccount.component.css"
 
 type AccountProps = Record<'libraries',LibraryProps[] |  null>;
 
 const Account = ({libraries}:AccountProps) => {
+
+  const [isAccountView,setIsAccountView] = useState<boolean>(false);
+
   return (
-    <Select defaultValue={{
+    <>
+   {
+    isAccountView &&
+    <Dialog id="test" onClose={()=>setIsAccountView(false)}>
+      teste
+    </Dialog>
+   }
+
+    <button onClick={()=>setIsAccountView(true)}>
+      Biblioteca Itaquera
+    </button>
+    {/* <Select defaultValue={{
         title:"Suas bibliotecas",
         value:"default"
     }}  list={
@@ -20,9 +35,9 @@ const Account = ({libraries}:AccountProps) => {
         })
         :
         []
-    } onSelect={(e)=>console.log(e.target.value)}>
-        
-    </Select>
+    } onSelect={(e)=>{}}>
+    </Select> */}
+    </>
   )
 }
 

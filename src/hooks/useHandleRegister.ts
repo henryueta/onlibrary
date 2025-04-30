@@ -1,22 +1,95 @@
 import { FormDataProps, RegisterContext } from "../context/RegisterContext";
 import useHandleAuth from "./usehandleAuth";
-import { useContext, useEffect, useState } from "react";
-import Cookies from "js-cookie";
+import { useContext, useEffect, useReducer, useState } from "react";
 import { form, InputProps } from "../objects/form.object";
 import {  ZodTypeAny } from "zod";
-import useAxios, { QueryErrorProps } from "./useAxios";
+import useAxios, { ActionQueryType, QueryStateProps } from "./useAxios";
 import Word from "../classes/word.class";
+import { useNavigate } from "react-router-dom";
 
 type StepIndex = 1|2|3;
 
 export type FormStepType = "name" | "contact" | "password";
 
+type RegisterStateProps =  Omit<QueryStateProps,"isLoading">
+ & Record<'isComplete',boolean> & Record<'currentStep',number>
+
+const initialRegisterState:RegisterStateProps = {
+
+    success:{
+        data:null,
+        message:"",
+        success:false
+    },
+    error:{
+        error:"",
+        message:"",
+        status:0,
+        data:null
+    },
+    isComplete:false,
+    currentStep: 0
+
+}
+
+type ActionRegisterType = Exclude<ActionQueryType,{type:"isLoading",value:boolean}> 
+| {type:"isComplete",value:boolean} | {type:"currentStep",value:number}
+
+const onHandleRegisterState = (state:RegisterStateProps,action:ActionRegisterType)=>{
+        switch (action.type) {
+            case "success":
+                return {...state,success:action.value}
+            case "error":
+                return {...state,error:action.value}
+            case "isComplete":
+                return {...state,isComplete:action.value}
+            case "currentStep":
+                return {...state,currentStep:action.value}
+            default:
+                return state
+    }
+}
+
 const useHandleRegister = ()=>{
 
-    const {authContext,onHandleStatus,onHandleAuth,authError,authSuccess} = useHandleAuth();
-    const {onAxiosQuery,isLoading,querySuccess,queryError} = useAxios();
+
+    const registerSteps = ["/register/user/step/name","/register/user/step/contact","/register/user/step/password"]
+    const {authContext,onHandleStatus,onHandleAuth,authState} = useHandleAuth();
+    const {onAxiosQuery,queryState} = useAxios();
     const authRegisterContext = useContext(RegisterContext)
-    const [isComplete,setIsComplete] = useState<boolean>(false);
+    const onNavigate = useNavigate();
+
+    const [registerState,setRegisterState] = useReducer(onHandleRegisterState,initialRegisterState);
+
+    useEffect(()=>{
+        setRegisterState({
+            type:"success",
+            value:queryState.success
+        })
+        
+    },[queryState.success])
+
+    useEffect(()=>{
+        setRegisterState({
+            type:"error",
+            value:queryState.error
+        })
+    },[queryState.error])
+
+    useEffect(()=>{
+        registerState.success.success &&
+        onNavigate(registerSteps[registerState.currentStep+1]) 
+
+    },[registerState.success,registerState.currentStep])
+
+    useEffect(()=>{
+        authState.success.success 
+        && onNavigate("/login")
+    },[authState.success])
+
+    useEffect(()=>{
+        
+    },[authState.error])
 
     const onFormtep = (step:FormStepType | null):{
         schema:{ [k: string]: ZodTypeAny; },
@@ -35,11 +108,11 @@ const useHandleRegister = ()=>{
 
         const onCheckFields = (fieldList:string[])=>{
 
-            const stepSchema =  Object.entries(findUserForm?.schema.shape || {}).filter((item,index)=>
+            const stepSchema =  Object.entries(findUserForm?.schema.shape || {}).filter((item)=>
                         fieldList.includes(item[0])                                                
                     )
                
-            const stepForm = form.formList[0].fields.filter((item,index)=>
+            const stepForm = form.formList[0].fields.filter((item)=>
                     fieldList.includes(item.title.toLowerCase()) 
             )
            
@@ -74,19 +147,15 @@ const useHandleRegister = ()=>{
         onHandleAuth("register",authRegisterContext.registerData)       
     },[authRegisterContext.registerData])
 
-    useEffect(()=>{
-
-        console.log("AAAA")
-
-    },[queryError])
-
-
-    const onQueryStep = (data:FormDataProps)=>{
+    const onQueryStep = (step:StepIndex,data:FormDataProps)=>{
         onAxiosQuery("post",{
-            url:"http://localhost:5600/register?step=name",
+            url:"https://onlibrary-api.onrender.com/api/auth/validar-etapa",
             type:{
                 post:{
-                    data:data as object
+                    data:{
+                        etapa:step,
+                        dados:data
+                    }
                 }
             },
             onResolver:{
@@ -100,6 +169,10 @@ const useHandleRegister = ()=>{
 
         const checkStep = {
             1:(data:FormDataProps)=>{
+               setRegisterState({
+                type:"currentStep",
+                value:0
+               })
                 if(data){
                     const formated_name = new Word(data?.nome, "name").word;
                     const formated_lastName = new Word(data?.sobrenome,"name").word;
@@ -110,7 +183,7 @@ const useHandleRegister = ()=>{
                             sobrenome:formated_lastName,
                             cpf: formated_cpf } as FormDataProps
                     )
-                    onQueryStep({
+                    onQueryStep(1,{
                         nome:formated_name,
                         sobrenome:formated_lastName,
                         cpf:formated_cpf
@@ -118,28 +191,26 @@ const useHandleRegister = ()=>{
                 }          
             },
             2:(data:FormDataProps)=>{
+                setRegisterState({
+                    type:"currentStep",
+                    value:1
+                   })
                 authRegisterContext.setRegisterData({...authRegisterContext.registerData,
                         email:data?.email,
                         username:data?.username} as FormDataProps
                     )
-                onQueryStep(data)
+                onQueryStep(2,data)
             },
             3:(data:FormDataProps)=>{
+                setRegisterState({
+                    type:"currentStep",
+                    value:2
+                   })
                 authRegisterContext.setRegisterData({...authRegisterContext.registerData,
                     senha:data?.senha
                 } as FormDataProps)
 
-                // Cookies.set("userStatus",JSON.stringify({
-                //   errorStatus:{
-                //     hasError:false,
-                //     errorValue:""
-                //   },
-                //   authStatus:{
-                //     hasAuth:true,
-                //     authValue:"KJK1"
-                //   } 
-                // }))
-                // authContext.setUserStatus(onHandleStatus())
+               
             }
         }
 
@@ -152,10 +223,10 @@ const useHandleRegister = ()=>{
     return {
         authRegisterContext,
         onFormtep,
-        isLoading,
-        querySuccess,
-        queryError,
-        onStep
+        queryState,
+        authState,
+        onStep,
+        registerSteps
     }
 
 }

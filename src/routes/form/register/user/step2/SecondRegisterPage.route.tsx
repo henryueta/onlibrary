@@ -13,7 +13,7 @@ type RegisterStep2Props = z.infer<typeof schema.schemaList.user.register.step2>;
 
 const SecondRegisterStep = () => {
   
-  const {authRegisterContext,onStep,isLoading,queryError,querySuccess} = useHandleRegister();
+  const {authRegisterContext,onStep,queryState} = useHandleRegister();
 
   const {register,formState,handleSubmit} = useForm<RegisterStep2Props>({
     mode:"all",
@@ -36,7 +36,7 @@ const SecondRegisterStep = () => {
       })()
       return isValid
     }}>
-        <Load loadState={isLoading}/>
+        <Load loadState={queryState.isLoading}/>
         <label htmlFor="username_id">
           <p>Username:</p>
           <input autoFocus={true} type="text" id="username_id" {...register("username",{
@@ -51,8 +51,8 @@ const SecondRegisterStep = () => {
           })}/>
           <Warn warning={errors.email?.message || null}/>
         </label>
-         <Warn 
-        warning={queryError ? `Erro ${queryError.status} ${queryError.message}` : null}/> 
+        <Warn 
+          warning={queryState.error.data ? `Erro ${queryState.error.data}` : null}/>   
       </RegisterUser>
     </>
 

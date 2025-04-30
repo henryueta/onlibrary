@@ -10,8 +10,6 @@ import Table from "../../components/table/Table.component";
 import Form from "../../components/form/global/component/Form.component";
 import { form } from "../../objects/form.object";
 import useHandleTable from "../../hooks/useHandleTable";
-import useHandleLibrary from "../../hooks/useHandleLibrary";
-
 
 
 type ManagementMode = "default" | "get" | "post" | "put";
@@ -31,7 +29,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
 
 
   const {type,id} = useParams()
-
+  
 
   useEffect(()=>{
     !!id &&
@@ -50,7 +48,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
   useEffect(()=>{
     table &&
     setDefaultForm(table || [])
-    
+  
   },[table])
 
   useEffect(()=>{
@@ -68,8 +66,6 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
         })
   })
   },[])
-  
-
   return (
     <>
     <NavLibrary />

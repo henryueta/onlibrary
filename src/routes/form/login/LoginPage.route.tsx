@@ -9,7 +9,7 @@ import { schema } from "../../../schema/form.schema";
 import Warn from "../../../components/warn/Warn.component";
 import Load from "../../../components/load/Load.component";
 import "../global/Form.route.css"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type LoginProps = z.infer<typeof schema.schemaList.user.login>
 
@@ -21,21 +21,30 @@ const LoginPage = () => {
       mode:"all"
   });
   const {errors} = formState;
-  const {onHandleAuth,isLoading,authSuccess,authError} = useHandleAuth();
+  const {onHandleAuth,queryState,authState} = useHandleAuth();
   const onNavigate = useNavigate();
+  const [teste,setTeste] = useState<string[]>([]);
 
   useEffect(()=>{
-    !!authSuccess
-    && authSuccess.success 
+    !!authState.success
+    && authState.success.success 
     && onNavigate("/")
-  },[authSuccess])
+  },[authState.success])
 
   return (
     <>
       <NavForm/>
       <Login handleLogin={handleSubmit((data)=>{onHandleAuth("login",data)
       })}>
-          <Load loadState={isLoading}/>
+          <Load loadState={queryState.isLoading}/>
+          <label>
+              {
+                teste.map((item)=>{
+                 return <p>{item}</p>
+                })
+              }
+          </label>
+
         <label htmlFor="">
           <p>Username ou email</p>
           <input type="text" 
@@ -61,7 +70,7 @@ const LoginPage = () => {
           <Warn warning={errors.senha?.message || null}/>
         </label>
             <Warn 
-            warning={authError ? `Erro ${authError.status} ${authError.message}` : null}/>              
+            warning={authState.error.message ? `Erro ${authState.error.status} ${authState.error.message}` : null}/>              
       </Login>
     </>
   )

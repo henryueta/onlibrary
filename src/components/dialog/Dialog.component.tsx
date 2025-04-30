@@ -3,12 +3,13 @@ import "./Dialog.component.css"
 
 interface DialogProps {
     onClose?:()=>void,
+    id?:string
     children:React.ReactNode
 }
 
-const Dialog = ({onClose,children}:DialogProps) => {
+const Dialog = ({onClose,children,id}:DialogProps) => {
   return (
-    <dialog className="dialogPane">
+    <dialog className="dialogPane" id={id}>
         <div className="dialogContentContainer">
             {children}
         </div>

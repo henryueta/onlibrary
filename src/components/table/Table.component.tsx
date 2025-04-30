@@ -17,55 +17,45 @@ interface TableProps {
 }
 
 
-const teste = (state:initialType,action:actionType)=>{
-  switch (action.type) {
-    case "get":
-      return {...state,get:action.value}
-    case "post":
-      return {...state,post:action.value};
-    case "put":
-      return {...state,put:action.value}
-    case "delete":
-      return {...state,delete:action.value}
-    default:
-      return state
-  }
-}
+// const teste = (state:initialType,action:actionType)=>{
+//   switch (action.type) {
+//     case "get":
+//       return {...state,get:action.value}
+//     case "post":
+//       return {...state,post:action.value};
+//     case "put":
+//       return {...state,put:action.value}
+//     case "delete":
+//       return {...state,delete:action.value}
+//     default:
+//       return state
+//   }
+// }
 
-const initialState = {
+// const initialState = {
 
-  get:true,
-  post:false,
-  put:false,
-  delete:false
+//   get:true,
+//   post:false,
+//   put:false,
+//   delete:false
 
-}
+// }
 
-type initialType =  typeof initialState
+// type initialType =  typeof initialState
 
-type actionType = {
-  type: "get" | "post" | "put" | "delete";
-  field?:string,
-  value:boolean
-}
+
 
 // <T extends TableQueryProps>
 const Table = ({type}:TableProps) => {
 
-  const [state,dispatch] = useReducer(teste,initialState)
+  // const [state,dispatch] = useReducer(teste,initialState)
 
-
-  useEffect(()=>{
-    console.log(state)
-  },[state])
-
-  const {onQueryTable,tableData,table,onQueryTableListPath} = useHandleTable();
+  const {onQueryTable,tableData,table} = useHandleTable();
   const onNavigate = useNavigate();
 
   const [maxOfData,setMaxOfData] = useState<number>(1);
   const [tableDataView,setTableDataView] = useState<string[][]>([]);
   const [tableView,setTableView] = useState<TableQueryProps | null>(null);
-  const [registerTable,setRegisterTable] = useState<boolean>(false);
   const [updateTable,setUpdateTable] = useState<boolean>(false);
 
   useEffect(()=>{
@@ -73,10 +63,9 @@ const Table = ({type}:TableProps) => {
       type:type
     },
     "select")
-    console.log(type)
   },[type])
 
-  
+
   const onLimitDataView = ()=>{
     setTableDataView(tableData?.dataList.slice(0,maxOfData).map((item)=>{
       return Object.values(item) || ""
@@ -86,6 +75,8 @@ const Table = ({type}:TableProps) => {
   useEffect(()=>{
     onLimitDataView()
   },[tableData])
+
+  console.log(tableDataView)
 
   useEffect(()=>{
     table &&
@@ -109,7 +100,7 @@ const Table = ({type}:TableProps) => {
     <Form 
     formSchema={form.formList[0].schema}
     typeOfData={type} 
-    onSubmit={(data)=>console.log(data)} 
+    onSubmit={(data)=>{}} 
     defaultValues={tableView as TableQueryProps}
     ></Form>
   }
@@ -129,7 +120,11 @@ const Table = ({type}:TableProps) => {
       <div className="managementContainer">
             <Search 
             filter={{
-              onSelect:(e)=>{console.log(e.target.value)},
+              defaultValue:{
+                 title:"todos",
+                 value:"default"
+              },
+              onSelect:(e)=>{},
               list: tableData?.headerList.map((item,index)=>{
                 return {
                   title:item,
@@ -184,15 +179,16 @@ const Table = ({type}:TableProps) => {
        
             {
             
-              tableDataView?.map((item,index)=>
-
-                <tr key={index}>                   
+              tableDataView?.map((item,index)=>{
+                 
+              return  <tr key={index}>                   
                       {
                         item &&
                         item.map((item_data,index_data)=>
                         {
 
-                          return Object.values(item_data)[0] !== 'id' && <td key={index_data}>
+                          return Object.values(item_data)[0] !== 'id' && Object.values(item_data)[0] !== "livraryId"
+                           && <td key={index_data}>
                           {
 
                           Object.values(item_data)[1].slice(0,15).concat("...")
@@ -205,25 +201,30 @@ const Table = ({type}:TableProps) => {
                           <td>
                             <button onClick={
                               ()=>{
-                                onNavigate(path.onCreatePathParams("update_data_management",[
-                                {
-                                  field:"type",
-                                  param:type
-                                },
-                                {
-                                  field:"id",
-                                  param:tableDataView[index][0][1]
-                                }
-                                 ]
-                                 )
+                               onNavigate(path.onCreatePathParams("update_data_management",[
+                               {
+                                 field:"type",
+                                 param:type
+                               },
+                               {
+                                 field:"id",
+                                 param:tableDataView[index].find((item_tableId)=>{
+                                  console.log(item_tableId[0])
+                                  return item_tableId[0] == "id"
+                                 })![1]
+                               }
+                                ]
                                 )
+                               )
                               }
                               }>
                               Editar
                             </button>
                           </td>    
                 </tr>
+                } 
               )
+              
             }
       </thead>
         </table>

@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios"
-import { useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 type QueryType = "get" | "post" | "put" | "delete";
 
@@ -7,6 +7,7 @@ export interface QueryErrorProps {
     error:string
     message:string
     status:number
+    data?:any
 }
 
 export interface QuerySuccessProps {
@@ -39,16 +40,77 @@ interface AxiosQueryProps<T extends object>{
     }
 }
 
+export type ActionQueryType = {
+    type: "success";
+    value:QuerySuccessProps
+  } | 
+  {
+    type: "error";
+    value:QueryErrorProps 
+  } | 
+  {
+    type: "isLoading";
+    value:boolean 
+  }  
+
+const handleQueryState = (state:QueryStateProps,action:ActionQueryType)=>{
+    switch (action.type) {
+            case "success":
+              return {...state,success:action.value}
+            case "error":
+              return {...state,error:action.value};
+            case "isLoading":
+              return {...state,isLoading:action.value}
+            default:
+              return state
+          }
+}
+
+
+
+export interface QueryStateProps {
+    
+    success:QuerySuccessProps,
+    error:QueryErrorProps,
+    isLoading:boolean
+
+}
+
+const initialQueryState:QueryStateProps = {
+
+    success:{
+        data:null,
+        message:"",
+        success:false
+    },
+    error:{
+        error:"",
+        message:"",
+        status:0,
+        data:null
+    },
+    isLoading:false
+
+}
+
 const useAxios = <T extends object>()=>{
 
-const [isLoading,setIsLoading] = useState(false);
-const [queryError,setqueryError] = useState<QueryErrorProps | null>(null);
-const [querySuccess,setquerySuccess] = useState<QuerySuccessProps | null>(null)
+const [queryState,setQueryState] = useReducer(handleQueryState,initialQueryState);
 
+//////
+//////
+
+useEffect(()=>{
+    console.log(queryState.isLoading)
+},[queryState.isLoading])
 
 const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
-    setIsLoading(true)
+    setQueryState({
+        type:"isLoading",
+        value:true
+    })
    
+    
     let url:string = "";
     let id:string | null = null;
     let data:T | null = null;
@@ -78,8 +140,10 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
                     }
                 })
                 .finally(()=>{
-                    setIsLoading(false)
-                    console.log("fim")
+                    setQueryState({
+                        type:"isLoading",
+                        value:false
+                    })
                 })
         },
         put:()=>{
@@ -95,28 +159,37 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
             axios.post(query.url,query.type.post?.data)
             .then((result)=>{
                 const current_success = result.data as QuerySuccessProps
-                setquerySuccess({
-                    data:current_success.data,
-                    message:current_success.message,
-                    success:current_success.success
+                setQueryState({
+                    type:"success",
+                    value:{
+                        data:current_success.data,
+                        message:current_success.message,
+                        success:current_success.success
+                    }
                 })
                 query.onResolver.then(result)
             
             })
                 .catch((error)=>{
                     const current_error = error.response?.data as QueryErrorProps
-                    setqueryError({
-                        error:current_error.error,
-                        message:current_error.message,
-                        status:current_error.status
-                    })    
+                    setQueryState({
+                        type:"error",
+                        value:{
+                            error:current_error.error,
+                            message:current_error.message,
+                            status:current_error.status,
+                            data:current_error
+                        }
+                    })  
                     const axiosError = error as AxiosError
                     query.onResolver.catch(axiosError)
                     
                 })
                 .finally(()=>{
-                    setIsLoading(false)
-                    console.log("fim")
+                    setQueryState({
+                        type:"isLoading",
+                        value:false
+                    })
                 })
         }
 
@@ -130,10 +203,7 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
     
 return {
     onAxiosQuery,
-    querySuccess,
-    queryError,
-    isLoading,
-    setIsLoading
+    queryState
 }
 
 }

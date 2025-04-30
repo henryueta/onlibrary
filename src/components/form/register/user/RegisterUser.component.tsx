@@ -10,6 +10,8 @@ import useHandleRegister from "../../../../hooks/useHandleRegister";
 
 type RegisterStepProps = 1 | 2 | 3;
 
+
+
 interface RegisterProps <T extends object>{
 
     children:React.ReactNode,
@@ -17,25 +19,28 @@ interface RegisterProps <T extends object>{
     handleRegister:()=>boolean
 }
 
-const registerSteps = ["/register/user/step/name","/register/user/step/contact","/register/user/step/password"]
 
-const onRegisterNavigate = (step:number,type:"previous"|"next")=>{
-    return type === "previous" 
-    ? step === 0 ? "/login" : (()=>{
-        
-       return registerSteps[step-1]
-    })()
-    : step === 2 ? "" : registerSteps[step+1];
-}
 
 const RegisterUser = <T extends object>({children,registerStep,handleRegister}:RegisterProps<T>) => {
+
     const onNavigate = useNavigate();
     const current_path = useLocation()
-    const {authRegisterContext} = useHandleRegister()
+    const {authRegisterContext,registerSteps} = useHandleRegister()
     useEffect(()=>{
         !!!authRegisterContext.registerData
         && onNavigate(registerSteps[0])
     },[])
+    
+
+    const onRegisterNavigate = (step:number,type:"previous"|"next")=>{
+        return type === "previous" 
+        ? step === 0 ? "/login" : (()=>{
+            
+           return registerSteps[step-1]
+        })()
+        : step === 2 ? "" : "";
+    }
+    
 
     const onUseNavigate = ()=>{
         return handleRegister() && onNavigate(onRegisterNavigate(registerStep-1,"next")) 
