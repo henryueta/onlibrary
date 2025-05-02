@@ -33,6 +33,18 @@ const schema = {
             releaseYear_reg:z.string().refine((val)=>val.trim().length === 4,{
                 message:"Ano de lançamento inválido"
             }),
+            authors_reg:z.array(z.string().min(1)).min(1,{
+                message:"Escolha pelo menos 1 autor"
+            }),
+            categories_reg:z.array(z.string().min(1)).min(1,{
+                message:"Escolha pelo menos 1 categoria"
+            }),
+            genders_reg:z.array(z.string().min(1)).min(1,{
+                message:"Escolha pelo menos 1 gênero"
+            }),
+            publishers_reg:z.array(z.string().min(1)).min(1,{
+                message:"Escolha pelo menos 1 editora"
+            }),
 
         }),
         user:{

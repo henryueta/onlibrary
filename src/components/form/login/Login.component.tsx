@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "../global/component/global.component.css"
 import "./Login.component.css";
-import useAxios from "../../../hooks/useAxios";
+
 
 
 interface LoginProps{
@@ -14,12 +14,11 @@ interface LoginProps{
 const Login = ({children,handleLogin}:LoginProps) => {
     
       const onNavigate = useNavigate();
-      const {setIsLoading} = useAxios();    
-
 
     return (
     <section className="formSection">
         <div className="loginContainer">
+
             <div className="loginTitleContainer">
                 <h1>
                 Entre na sua conta

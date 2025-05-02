@@ -1,6 +1,8 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import useAxios from "./useAxios";
 import axios from "axios";
+import { useContext } from "react";
+import { LibraryContext } from "../context/LibraryContext";
 
 export interface LibraryProps{
 
@@ -12,7 +14,15 @@ export interface LibraryProps{
 const useHandleLibrary = ()=>{
 
     const [libraries,setLibraries] = useState<LibraryProps[] | null>(null);
+    const currentLibraryContext = useContext(LibraryContext)
+    
     const {onAxiosQuery} = useAxios();
+
+    const onLibraryId = (id:string)=>{
+
+        currentLibraryContext.setLibraryId(id)
+
+    }
 
     const onQueryLibraries = (url:string)=>{
         axios.defaults.withCredentials = true;
@@ -37,7 +47,9 @@ const useHandleLibrary = ()=>{
 
     return {
         libraries,
-        onQueryLibraries
+        onQueryLibraries,
+        onLibraryId,
+        currentLibraryContext
     }
 
 }

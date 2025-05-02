@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios"
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 
 type QueryType = "get" | "post" | "put" | "delete";
 
@@ -97,8 +97,6 @@ const useAxios = <T extends object>()=>{
 
 const [queryState,setQueryState] = useReducer(handleQueryState,initialQueryState);
 
-//////
-//////
 
 useEffect(()=>{
     console.log(queryState.isLoading)

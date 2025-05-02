@@ -10,5 +10,152 @@
    align-items: center;
 }
 
+.managementButton{
+    cursor: pointer;
+    border: none;
+    background-color: var(--blue_var);
+    color: white;
+    width: 150px;
+    height: 45px;
+    border-radius: var(--borderRadius_var);
+    font-size: 0.9rem;
+}
+
+.dataContentSection>.formDataContainer{
+    width: 60dvw;
+    display: flex;
+    align-items: center;  
+    justify-content: center;
+    padding: 3rem;
+}
+
+.dataContentSection>.formDataContainer>form{
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0rem 0rem 0.5rem rgb(0, 0, 0,0.5);
+    width: 100%;
+    height: 90%;
+    padding: 2rem;
+}
+
+.dataContentSection .formDataContainer>form label{
+    padding: 1.5rem;
+    display: flex;
+    gap: 3rem;
+}
+
+.dataContentSection .formDataContainer>form .titleFieldContainer{
+    font-size: 1.1rem;
+    width: 20%;
+    display: flex;
+    justify-content: start;
+    
+}
+
+.dataContentSection .formDataContainer>form .fieldContainer{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dataContentSection .formDataContainer>form .fieldDataContainer{
+    width: 100%;
+   
+}
+
+.dataContentSection .formDataContainer>form .fieldDataContainer>*:not(.selectOptions){
+    border-radius: var(--borderRadius_var);
+    outline-color: var(--blue_var);
+    border: 0.15rem solid var(--grayLine_var);
+   padding: 0.5rem;
+}
+
+.dataContentSection .formDataContainer>form textarea{
+    width: 70%;
+   font-size: 1.05rem;
+    height: 150px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont,
+     'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  
+}
+
+.dataContentSection .formDataContainer>form input{
+    width: 70%;
+    height: 45px;
+   font-size: 1.05rem;
+
+}
+
+.dataContentSection .formDataContainer .selectOptions{
+    width: 70%;
+}
+
+
+.dataContentSection .formDataContainer .errorContainer{
+    font-size: 1.05rem;
+}
+
+.dataContentSection .formDataContainer .submitFormDataContainer{
+    margin-top: 2rem;
+    width: 100%;
+    padding: 1.5rem;
+}
+
+.dataContentSection .formDataContainer .submitFormDataContainer>button{
+    padding: 1rem;
+    border: none;
+    width: 10rem;
+}
+
+.managementSection  .dialogPane{
+    display: flex;
+    border: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    height: 500px;
+    width: 500px;
+    justify-content:start;
+    flex-direction: column;
+    transform: translate(-50%,-50%);
+    --dialogBorder_var:calc(var(--borderRadius_var) + 0.5rem);
+    border-radius: var(--dialogBorder_var);
+    box-shadow: 0px 0px 0.5rem rgb(0, 0, 0,0.5);
+    z-index: 1000;
+}
+
+.managementSection  .dialogPane .dialogContentContainer{
+    width: 100%;
+    height: 90%;
+    padding: 1.3rem;
+}
+
+.managementSection .dialogPane .dialogHeaderContainer{
+    background-color: var(--blue_var);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.3rem;
+    height: 10%;
+    border-top-right-radius: var(--dialogBorder_var);
+    border-top-left-radius: var(--dialogBorder_var);
+}
+
+.managementSection  .dialogPane .dialogHeaderContainer .dialogTitleContainer{
+    color: white;
+    font-size: 1.1rem;
+}
+
+.managementSection  .dialogPane .dialogHeaderContainer button{
+    cursor: pointer;
+    border-radius:100%;
+    border:0.1rem solid rgb(255, 255, 255);
+    height: 30px;
+    width: 30px;
+    background: none;
+    color: white;
+    font-size: 0.9rem;
+}
+
 
 

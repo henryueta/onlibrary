@@ -10,6 +10,7 @@ import Table from "../../components/table/Table.component";
 import Form from "../../components/form/global/component/Form.component";
 import { form } from "../../objects/form.object";
 import useHandleTable from "../../hooks/useHandleTable";
+import useHandleLibrary from "../../hooks/useHandleLibrary";
 
 
 type ManagementMode = "default" | "get" | "post" | "put";
@@ -24,7 +25,7 @@ mode:ManagementMode
 const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
   const [cardList,setcardList] = useState<TableTypeProps[]>(tableTypeDataList);
   const [defaultForm,setDefaultForm] = useState<TableQueryProps | null>();
-
+  const {currentLibraryContext} = useHandleLibrary()
   const {onQueryTable,table,onQueryCountTable} = useHandleTable();
 
 
@@ -65,7 +66,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
            })
         })
   })
-  },[])
+  },[currentLibraryContext.libraryId])
   return (
     <>
     <NavLibrary />
@@ -101,22 +102,25 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
             : 
             mode == "post"
             ?
-               <Form 
+              <div className="formDataContainer">
+                 <Form 
                 formSchema={form.formList.find((item)=>item.name == type)!.schema}
                 typeOfData={type as Exclude<TableType,"none">} 
                 onSubmit={(data)=>console.log(data)} 
                 />
+              </div>
             :
             mode == "put" && defaultForm 
             &&
             <>
-
-                <Form 
-                formSchema={form.formList.find((item)=>item.name == type)!.schema}
-                typeOfData={type as Exclude<TableType,"none">} 
-                onSubmit={(data)=>console.log(data)} 
-                defaultValues={defaultForm}
-                />
+                <div className="formDataContainer">
+                  <Form 
+                  formSchema={form.formList.find((item)=>item.name == type)!.schema}
+                  typeOfData={type as Exclude<TableType,"none">} 
+                  onSubmit={(data)=>console.log(data)} 
+                  defaultValues={defaultForm}
+                  />
+                </div>
             </>
           }
           </section> 

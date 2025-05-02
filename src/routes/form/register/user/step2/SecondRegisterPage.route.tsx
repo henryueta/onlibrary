@@ -42,16 +42,17 @@ const SecondRegisterStep = () => {
           <input autoFocus={true} type="text" id="username_id" {...register("username",{
             required:true
           })}/>
-          <Warn warning={errors.username?.message || null}/>
+          <Warn color="white" warning={errors.username?.message || null}/>
         </label>
         <label htmlFor="email_id">
           <p>Email:</p>
           <input type="email" id="email_id" {...register("email",{
             required:true
           })}/>
-          <Warn warning={errors.email?.message || null}/>
+          <Warn color="white" warning={errors.email?.message || null}/>
         </label>
-        <Warn 
+        <Warn
+          color="white" 
           warning={queryState.error.data ? `Erro ${queryState.error.data}` : null}/>   
       </RegisterUser>
     </>

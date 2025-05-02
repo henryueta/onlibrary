@@ -48,14 +48,14 @@ const FirstRegisterStep = () => {
           {...register("nome",{
           })}
           />
-          <Warn warning={errors.nome?.message || null}/>
+          <Warn color="white" warning={errors.nome?.message || null}/>
         </label>
         <label htmlFor="lastName_id">
             <p>Sobrenome:</p>
             <input type="text" id="lastName_id" {...register("sobrenome",{
               required:true
             })} />
-            <Warn warning={errors.sobrenome?.message || null}/>
+            <Warn color="white" warning={errors.sobrenome?.message || null}/>
         </label>
         <label htmlFor="cpf_id">
             <p>CPF:</p>
@@ -67,9 +67,10 @@ const FirstRegisterStep = () => {
             )}
             >
             </Controller>
-            <Warn warning={errors.cpf?.message || null}/>
+            <Warn color="white" warning={errors.cpf?.message || null}/>
         </label> 
             <Warn 
+            color="white"
             warning={queryState.error.data ? `Erro ${queryState.error.data}` : null}/>  
       </RegisterUser> 
   </>

@@ -9,6 +9,7 @@ import triangleRetangle_icon from "../../../src/assets/imgs/icons/triangleRetang
 import { form } from "../../objects/form.object"
 import { path } from "../../objects/path.object"
 import { useNavigate } from "react-router-dom"
+import useHandleLibrary from "../../hooks/useHandleLibrary"
 
 interface TableProps {
 
@@ -50,6 +51,7 @@ const Table = ({type}:TableProps) => {
 
   // const [state,dispatch] = useReducer(teste,initialState)
 
+  const {currentLibraryContext} = useHandleLibrary()
   const {onQueryTable,tableData,table} = useHandleTable();
   const onNavigate = useNavigate();
 
@@ -63,7 +65,7 @@ const Table = ({type}:TableProps) => {
       type:type
     },
     "select")
-  },[type])
+  },[currentLibraryContext.libraryId])
 
 
   const onLimitDataView = ()=>{

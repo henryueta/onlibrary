@@ -40,13 +40,13 @@ const ThirdRegisterStep = () => {
           <p>Senha:</p>
           <input autoFocus={true} type="password" id="password_id"
           {...register("senha")}/>
-          <Warn warning={errors.senha?.message || null}/>         
+          <Warn color="white" warning={errors.senha?.message || null}/>         
         </label>
         <label htmlFor="repeatPassword_id">
           <p>Repita sua senha:</p>
           <input type="password" id="repeatPassword_id"
           {...register("repetir_senha")}/>
-          <Warn warning={errors.repetir_senha?.message || null}/>         
+          <Warn color="white" warning={errors.repetir_senha?.message || null}/>         
         </label>
       </RegisterUser>
     </>

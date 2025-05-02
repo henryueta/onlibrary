@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {  TableQueryProps, TableType, tableTypeDataList, TableTypeProps } from "../objects/table.object";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import useAxios from "./useAxios";
+import useHandleLibrary from "./useHandleLibrary";
 
 
 interface TableDataProps{
@@ -14,14 +15,24 @@ const useHandleTable = ()=>{
     const [tableData,setTableData] = useState<TableDataProps | null>(null);
     const [table,setTable] = useState<TableQueryProps | null>(null);
     const {onAxiosQuery} = useAxios();
-
+    const {currentLibraryContext} = useHandleLibrary()
     type QueryType = "create" |"select" | "update" | "delete";
 
     const onQueryCountTable = async <T extends any>(type:string,action:(result:AxiosResponse)=>T)=>{
-            await axios.get("http://localhost:5600/count?type="+type).then((res)=>{
-                action(res)
+        !!currentLibraryContext.libraryId &&
+            onAxiosQuery("get",{
+                url:"http://localhost:5600/count?type="+type+"&id="+currentLibraryContext.libraryId,
+                onResolver:{
+                    then:(result)=>action(result),
+                    catch:(error)=>console.log(error)
+                },
+                type:{
+                    get:{
+
+                    }
+                }
             })
-            .catch((error)=>console.log(error))
+
     }
 
     const onQueryTable = (
@@ -64,18 +75,18 @@ const useHandleTable = ()=>{
                         const {data} = result;
                         let headers = Object.entries(data[0]);
                         setTableData({
-
                             headerList:headers.map((item,index)=>{
                                 return headers[index][0]
-                            }).filter((item,index)=>item !== "id" && item !== "livraryId"),
+                            }).filter((item)=>item !== "id" && item !== "livraryId"),
                             dataList:data.map((item:TableQueryProps)=>{
                                 return  Object.entries(item)
                             })
                         })
                     } 
                     })()
+
                     onAxiosQuery("get",{
-                        url:`http://localhost:5600/tables/data?type=${table.type}`,
+                        url:`http://localhost:5600/tables/data?libraryId=${currentLibraryContext.libraryId}&type=${table.type}`,
                         type:{
                             get:{
                                 id:table.id,
@@ -105,6 +116,10 @@ const useHandleTable = ()=>{
             
             
     }
+
+    useEffect(()=>{
+
+    },[])
 
     const onQueryTableListPath = (type:TableType)=>{
         const tableResult = tableTypeDataList.find((item)=>item.type === type)

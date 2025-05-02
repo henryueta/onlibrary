@@ -20,12 +20,12 @@
 
 // const {type} = useParams();
 
-//   // const {authRegisterContext,onFormtep,onStep} = useHandleRegister();
+//   // const {authRegisterContext,onformep,onStep} = useHandleRegister();
 //   // const [registerForm,setRegisterForm] = useState<RegisterFormProps | null>(null);
 
 
 //   // useEffect(()=>{
-//   //   setRegisterForm(onFormtep(type as  FormStepType|| null) as RegisterFormProps || {
+//   //   setRegisterForm(onformep(type as  FormStepType|| null) as RegisterFormProps || {
 //   //     form:[],
 //   //     schema:[]
 //   //   })

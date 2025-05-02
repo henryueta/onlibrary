@@ -91,7 +91,7 @@ const useHandleRegister = ()=>{
         
     },[authState.error])
 
-    const onFormtep = (step:FormStepType | null):{
+    const onformep = (step:FormStepType | null):{
         schema:{ [k: string]: ZodTypeAny; },
         form:InputProps[]
     } | {}=>{
@@ -222,7 +222,7 @@ const useHandleRegister = ()=>{
 
     return {
         authRegisterContext,
-        onFormtep,
+        onformep,
         queryState,
         authState,
         onStep,

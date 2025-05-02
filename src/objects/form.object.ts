@@ -1,12 +1,25 @@
-import { z, ZodAny, ZodRawShape } from "zod"
+import { z, ZodRawShape } from "zod"
 import { schema } from "../../src/schema/form.schema"
 import { TableType } from "./table.object"
 
+export interface AssociationTableProps {
+
+    nome:string,
+    id:string
+
+}
+
+export type BookAssociationProps = Record<'autores'|'categorias'|'generos'|'editoras',AssociationTableProps>
+
 export interface InputProps {
     id?:string,
-    tag:string,
+    tag:'input' | 'textarea' | 'select',
     title:string,
-    type:"text" | "number" | "file" | "checkbox" | "email"
+    type?:"text" | "number" | "file" | "checkbox" | "email"
+    options?:{
+        isMultiple:boolean,
+        list:AssociationTableProps[]
+    }
     numberLimit?:{
         min:number,
         max:number
@@ -24,7 +37,7 @@ export interface FormListProps {
 }
 
 
-export interface Form_ObjectProps {
+export interface FormObjectProps {
     formList:FormListProps[]
 } 
 
@@ -41,7 +54,7 @@ export interface Form_ObjectProps {
 // }
 
 
-const form:Form_ObjectProps = {
+const form:FormObjectProps = {
     formList:[
         {
             name:"user",
@@ -130,6 +143,46 @@ const form:Form_ObjectProps = {
                         max:2100
                     },
                     registerId:"releaseYear_reg"
+                },
+                {
+                    id:"authors_id",
+                    tag:"select",
+                    title:"Autores",
+                    registerId:"authors_reg",
+                    options:{
+                        isMultiple:true,
+                        list:[]
+                    }
+                },
+                {
+                    id:"categories_id",
+                    tag:"select",
+                    title:"Categorias",
+                    registerId:"categories_reg",
+                    options:{
+                        isMultiple:true,
+                        list:[]
+                    }
+                },
+                {
+                    id:"genders_reg",
+                    tag:"select",
+                    title:"Gêneros",
+                    registerId:"genders_reg",
+                    options:{
+                        isMultiple:true,
+                        list:[]
+                    }
+                },
+                {
+                    id:"publishers_id",
+                    tag:"select",
+                    title:"Editoras",
+                    registerId:"publishers_reg",
+                    options:{
+                        isMultiple:true,
+                        list:[]
+                    }
                 }
             ],
             // getQueryFields(type){
@@ -142,6 +195,8 @@ const form:Form_ObjectProps = {
         }
     ]
 }
+
+
 
 export {
     form

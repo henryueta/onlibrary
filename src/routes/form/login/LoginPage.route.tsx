@@ -52,7 +52,7 @@ const LoginPage = () => {
             {required:true}
             )
           }/>
-          <Warn warning={errors.login?.message || null}/>
+          <Warn color="white" warning={errors.login?.message || null}/>
         </label>
         <label htmlFor="">
           <p>Senha</p>
@@ -67,9 +67,10 @@ const LoginPage = () => {
               Esqueceu sua senha?
             </span>
           </Link>
-          <Warn warning={errors.senha?.message || null}/>
+          <Warn color="white" warning={errors.senha?.message || null}/>
         </label>
             <Warn 
+            color="white"
             warning={authState.error.message ? `Erro ${authState.error.status} ${authState.error.message}` : null}/>              
       </Login>
     </>

@@ -1,12 +1,8 @@
 
 .dialogPane{
     display: flex;
-    position: relative;
-    padding: 1rem;
     border: none;
+    position: fixed;
+
 }
 
-.dialogCloseContainer{
-    position: relative;
-    top: 0;
-}
