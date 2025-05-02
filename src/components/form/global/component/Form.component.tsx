@@ -7,7 +7,7 @@ import { InputProps } from "../../../../objects/form.object";
 import { PatternFormat } from "react-number-format";
 import Warn from "../../../warn/Warn.component";
 // import Select from "../../../select/Select.component";
-import Select from "react-select"
+import Select, { MultiValue, SingleValue } from "react-select"
 import useHandleForm from "../../../../hooks/useHandleForm";
 
 interface FormProps{
@@ -108,16 +108,29 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:Fo
                   {
                     item_input.tag === "select" && !!item_input.options
                     ? 
-                     <Select
-                    
-                     placeholder={`Selecione ${item_input.title.toLowerCase()}`}
-                     className="selectOptions" isMulti
+                     <Select           
+                     placeholder={` `}
+                     className="selectOptions" isMulti={item_input.options.isMultiple}
                      options={item_input.options.list.map((item_option)=>{return {
                       value:item_option.id,
                       label:item_option.nome
                      }})}
                      onChange={(e)=>setValue(item_input.registerId,
-                      e.map(item_currentOption=>item_currentOption.value)
+                      item_input.options?.isMultiple 
+                      ? (()=>{
+                        const multiple = e as MultiValue<{
+                          value:string,
+                          label:string
+                        }>
+                        return  multiple.map(item_currentOption=>item_currentOption.value)  
+                      })()
+                      : (()=>{
+                        const single = e as SingleValue<{
+                          value:string,
+                          label:string
+                        }>
+                        return single!.value
+                      })()
                      )}
                      >
                      </Select>

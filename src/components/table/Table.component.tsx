@@ -1,12 +1,9 @@
 import Search from "../search/Search.component"
 import "./Table.component.css"
 import useHandleTable from "../../hooks/useHandleTable"
-import { useEffect, useState,useReducer } from "react"
-import { TableType, tableTypeDataList,onFindTableIndex, TableQueryProps } from "../../objects/table.object"
-import Dialog from "../dialog/Dialog.component"
-import Form from "../form/global/component/Form.component"
+import { useEffect, useState } from "react"
+import { TableType, tableTypeDataList,onFindTableIndex } from "../../objects/table.object"
 import triangleRetangle_icon from "../../../src/assets/imgs/icons/triangleRetangle_icon.png"
-import { form } from "../../objects/form.object"
 import { path } from "../../objects/path.object"
 import { useNavigate } from "react-router-dom"
 import useHandleLibrary from "../../hooks/useHandleLibrary"
@@ -16,49 +13,15 @@ interface TableProps {
     type:TableType
 
 }
-
-
-// const teste = (state:initialType,action:actionType)=>{
-//   switch (action.type) {
-//     case "get":
-//       return {...state,get:action.value}
-//     case "post":
-//       return {...state,post:action.value};
-//     case "put":
-//       return {...state,put:action.value}
-//     case "delete":
-//       return {...state,delete:action.value}
-//     default:
-//       return state
-//   }
-// }
-
-// const initialState = {
-
-//   get:true,
-//   post:false,
-//   put:false,
-//   delete:false
-
-// }
-
-// type initialType =  typeof initialState
-
-
-
-// <T extends TableQueryProps>
 const Table = ({type}:TableProps) => {
 
-  // const [state,dispatch] = useReducer(teste,initialState)
-
   const {currentLibraryContext} = useHandleLibrary()
-  const {onQueryTable,tableData,table} = useHandleTable();
+  const {onQueryTable,tableData} = useHandleTable();
   const onNavigate = useNavigate();
 
   const [maxOfData,setMaxOfData] = useState<number>(1);
   const [tableDataView,setTableDataView] = useState<string[][]>([]);
-  const [tableView,setTableView] = useState<TableQueryProps | null>(null);
-  const [updateTable,setUpdateTable] = useState<boolean>(false);
+
 
   useEffect(()=>{
     onQueryTable({
@@ -78,14 +41,6 @@ const Table = ({type}:TableProps) => {
     onLimitDataView()
   },[tableData])
 
-  console.log(tableDataView)
-
-  useEffect(()=>{
-    table &&
-    setTableView(table || [])
-    table &&
-    setUpdateTable(true)
-  },[table])
 
   useEffect(()=>{
     onLimitDataView()
@@ -94,21 +49,6 @@ const Table = ({type}:TableProps) => {
   
   return (
     <>
-{
-  updateTable &&
-  <Dialog onClose={()=>{setUpdateTable(false)}}>
-  {
-    type !== "none" &&
-    <Form 
-    formSchema={form.formList[0].schema}
-    typeOfData={type} 
-    onSubmit={(data)=>{}} 
-    defaultValues={tableView as TableQueryProps}
-    ></Form>
-  }
-</Dialog>
-}
-
     <section className="tableSection">
       
         <div className="titleContainer">

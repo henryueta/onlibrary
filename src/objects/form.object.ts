@@ -19,6 +19,7 @@ export interface InputProps {
     options?:{
         isMultiple:boolean,
         list:AssociationTableProps[]
+        hasQuery:boolean
     }
     numberLimit?:{
         min:number,
@@ -151,7 +152,8 @@ const form:FormObjectProps = {
                     registerId:"authors_reg",
                     options:{
                         isMultiple:true,
-                        list:[]
+                        list:[],
+                        hasQuery:true
                     }
                 },
                 {
@@ -161,17 +163,19 @@ const form:FormObjectProps = {
                     registerId:"categories_reg",
                     options:{
                         isMultiple:true,
-                        list:[]
+                        list:[],
+                        hasQuery:true
                     }
                 },
                 {
-                    id:"genders_reg",
+                    id:"genders_id",
                     tag:"select",
                     title:"Gêneros",
                     registerId:"genders_reg",
                     options:{
                         isMultiple:true,
-                        list:[]
+                        list:[],
+                        hasQuery:true
                     }
                 },
                 {
@@ -181,7 +185,8 @@ const form:FormObjectProps = {
                     registerId:"publishers_reg",
                     options:{
                         isMultiple:true,
-                        list:[]
+                        list:[],
+                        hasQuery:true
                     }
                 }
             ],
@@ -192,6 +197,69 @@ const form:FormObjectProps = {
             //     }     
             //     ) || []
             // }
+        },{
+            name:"exemplary",
+            schema:schema.schemaList['exemplary'] as z.ZodObject<ZodRawShape>,
+            fields:[
+                {
+                    id:"bookId_id",
+                    tag:"select",
+                    options:{
+                        isMultiple:false,
+                        list:[],
+                        hasQuery:true
+                    },
+                    title:"Livros",
+                    registerId:"bookId_reg"
+                },
+                {
+                    id:"tomboNumber_id",
+                    tag:"input",
+                    type:"number",
+                    title:"Número tombo",
+                    registerId:"tomboNumber_reg"
+                },
+                {
+                    id:"available_id",
+                    tag:"select",
+                    options:{
+                        isMultiple:false,
+                        list:[
+                            {
+                                id:"disponivel",
+                                nome:"Disponível"
+                            },{
+                                id:"indisponivel",
+                                nome:"Indisponível"
+                            },
+                        ],
+                        hasQuery:false
+                    },
+                    title:"Situação",
+                    registerId:"available_reg"
+                },
+                {
+                    id:"sector_id",
+                    tag:"input",
+                    type:"text",
+                    title:"Setor",
+                    registerId:"sector_reg"
+                },
+                {
+                    id:"shelf_id",
+                    tag:"input",
+                    type:"text",
+                    title:"Prateleira",
+                    registerId:"shelf_reg"
+                },
+                {
+                    id:"stand_id",
+                    tag:"input",
+                    type:"text",
+                    title:"Estante",
+                    registerId:"stand_reg"
+                }
+            ]
         }
     ]
 }

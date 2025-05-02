@@ -92,7 +92,16 @@ const schema = {
         },     
         loan:{},
         amerce:{},
-        exemplary:{},
+        exemplary:z.object({
+            bookId_reg:z.string(),
+            tomboNumber_reg:z.string().refine((val)=>val.length > 0,{
+                message:"Campo identificador inválido"
+            }),
+            available_reg:z.enum(["disponivel","indisponivel"]),
+            sector_reg:z.string().optional(),
+            shelf_reg:z.string().optional(),
+            stand_reg:z.string().optional()
+        }),
         author:{},
         publisher:{},
         category:{},

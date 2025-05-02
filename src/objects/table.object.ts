@@ -79,11 +79,11 @@ const tableTypeDataList:TableTypeProps[] = [
         [],
         dependencies:
             [
-                tableTitleList[onFindTitleIndex("Exemplar")].concat("es"),
-                tableTitleList[onFindTitleIndex("Autor")].concat("es"),
-                tableTitleList[onFindTitleIndex("Editora")].concat("s"),
-                tableTitleList[onFindTitleIndex("Categoria")].concat("s"),
-                tableTitleList[onFindTitleIndex("Gênero")].concat("s")
+                tableTitleList[onFindTitleIndex("Exemplar")],
+                tableTitleList[onFindTitleIndex("Autor")],
+                tableTitleList[onFindTitleIndex("Editora")],
+                tableTitleList[onFindTitleIndex("Categoria")],
+                tableTitleList[onFindTitleIndex("Gênero")]
             ]
     },
     {
@@ -110,7 +110,28 @@ const tableTypeDataList:TableTypeProps[] = [
         warning:false,
         title:tableTitleList[onFindTitleIndex("Empréstimo")],
         quantity:0,
-        path:path.onFindPath("loan_management"),
+        path:path.onCreatePathParams("list_data_management",[
+            {
+              field:"type",
+              param:"loan"
+            }
+          ]),
+        headers:
+        [],
+        dependencies:
+        []
+    },
+    {
+        type:"exemplary",
+        warning:false,
+        title:tableTitleList[onFindTitleIndex("Exemplar")],
+        quantity:0,
+        path:path.onCreatePathParams("list_data_management",[
+            {
+                field:"type",
+                param:"exemplary"
+            }
+        ]),
         headers:
         [],
         dependencies:

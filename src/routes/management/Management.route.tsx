@@ -78,8 +78,10 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
               &&(
             <GroupTableCard cardList={
               cardList[onFindTableIndex(type as TableType || "none")].dependencies.map((item)=>{
-                const dependecie_button = cardList[tableTypeDataList.findIndex((itemQnt)=>itemQnt.title === item)];
-               return {
+                const dependecie_button = cardList[tableTypeDataList.findIndex((itemQnt)=>{
+                  return itemQnt.title === item
+                })];
+                return {
               icon:cube_icon,
                 quantity:dependecie_button?.quantity.toString() || "0",
                 warning:dependecie_button?.warning || false,
