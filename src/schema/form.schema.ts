@@ -15,14 +15,14 @@ const schema = {
 
     schemaList:{
         book:z.object({
-            ISBN_reg:z.string().refine((val)=>val.match(/[0-9]{3}[-][0-9]{2}[-][0-9]{5}[-][0-9]{2}[-][0-9]{1}/),{
+            ISBN:z.string().refine((val)=>val.match(/[0-9]{3}[-][0-9]{2}[-][0-9]{5}[-][0-9]{2}[-][0-9]{1}/),{
                 message:"ISBN inválido"
             }),
             titulo:z.string().refine((val)=>val.trim().length > 9,{
                 message:"Título inválido"
             }),
-            description_reg:z.string().optional(),
-            cape_reg:z.custom<FileList>()
+            descricao:z.string().optional(),
+            capa:z.custom<FileList>()
             .transform((file)=>file.length > 0 && file.item(0))
             .refine((file)=>!file || (!!file && file.size <= 560000000),{
                 message:"Arquivo máximo suportado 500MB"
@@ -30,19 +30,19 @@ const schema = {
             .refine((file) => !file || (!!file && file.type?.startsWith("image")), {
                 message: "Capa inválida",
             }),
-            releaseYear_reg:z.string().refine((val)=>val.trim().length === 4,{
+            ano_lancamento:z.string().refine((val)=>val.trim().length === 4,{
                 message:"Ano de lançamento inválido"
             }),
-            authors_reg:z.array(z.string().min(1)).min(1,{
+            autores:z.array(z.string().min(1)).min(1,{
                 message:"Escolha pelo menos 1 autor"
             }),
-            categories_reg:z.array(z.string().min(1)).min(1,{
+            categorias:z.array(z.string().min(1)).min(1,{
                 message:"Escolha pelo menos 1 categoria"
             }),
-            genders_reg:z.array(z.string().min(1)).min(1,{
+            generos:z.array(z.string().min(1)).min(1,{
                 message:"Escolha pelo menos 1 gênero"
             }),
-            publishers_reg:z.array(z.string().min(1)).min(1,{
+            editoras:z.array(z.string().min(1)).min(1,{
                 message:"Escolha pelo menos 1 editora"
             }),
 
@@ -89,36 +89,123 @@ const schema = {
                         path:["repetir_senha"]
                 })
             }
-        },     
-        loan:{},
-        amerce:{},
+        },
+        library_user:z.object({
+            usuarios:z.string().min(2,{
+                message:"Campo usuário inválido"
+            }),
+            biblioteca:z.string(),
+            perfis_biblioteca:z.string().min(2,{
+                message:"Campo perfil inválido"
+            }),
+            tipo_usuario:z.enum(["comum","admin"]),
+            numero_matricula:z.string().min(2,{
+                message:"Campo matrícula inválido"
+            })
+        }),
+        account:z.object({
+            biblioteca:z.string(),
+            nome:z.string().min(3,{
+                message:"Campo nome inválido"
+            }),
+            multa_padrao:z.string().min(1,{
+                message:"Campo valor deve ter pelo menos 1 digito"
+            }).max(7,{
+                message:"Campo valor deve ter no máximo 4 digitos"
+            }),
+            prazo_devolucao_padrao:z.string().min(4,{
+                message:"Campo prazo de devolução deve ter pelo menos 1 dígito"
+            }).max(7,{
+                message:"Campo prazo de devolução deve ter no máximo 2 dígitos"
+            })
+        }),   
+        loan:z.object({
+            exemplares_biblioteca:z.array(z.string().min(1)).min(1,{
+                message:"Escolha pelo menos 1 exemplar"
+            }),
+            biblioteca:z.string(),
+            bibliotecario:z.string().min(1,{
+                message:"Campo bibliotecário inválido"
+            }),
+            usuarios_biblioteca:z.string().min(1,{
+                message:"Campo usuário inválido"
+            }),
+            situacao:z.enum(['concluido','cancelado','vencido','pendente']),
+            data_devolucao: z.string().refine((val) => !isNaN(Date.parse(val)), {
+                message: "Campo data de devolução inválido",
+              }).transform((val) => new Date(val)),
+        }),
+        reserve:z.object({
+            exemplares_biblioteca:z.array(z.string().min(1)).min(1,{
+                message:"Escolha pelo menos 1 exemplar"
+            }),
+            biblioteca:z.string(),
+            bibliotecario:z.string().min(1,{
+                message:"Campo bibliotecário inválido"
+            }),
+            usuarios_biblioteca:z.string().min(1,{
+                message:"Campo usuário inválido"
+            }),
+            situacao:z.enum(['concluido','cancelado','vencido','pendente']),
+            data_retirada: z.string().refine((val) => !isNaN(Date.parse(val)), {
+                message: "Campo data de retirada inválido",
+              }).transform((val) => new Date(val)),
+        }),
+        amerce:z.object({
+            bibliotecarios:z.string().min(1,{
+                message:"Campo bibliotecário inválido",
+            }),
+            usuarios_biblioteca:z.string().min(1,{
+                message:"Campo usuário inválido"
+            }),
+            valor:z.string().min(1,{
+                message:"Campo valor deve ter pelo menos 1 digito"
+            }).max(7,{
+                message:"Campo valor deve ter no máximo 4 digitos"
+            }),
+            situacao:z.enum(['concluido','cancelado','vencido','pendente']),
+            data_vencimento: z.string().refine((val) => !isNaN(Date.parse(val)), {
+                message: "Campo data de retirada inválido",
+              }).transform((val) => new Date(val)),
+        }),
         exemplary:z.object({
-            bookId_reg:z.string(),
-            tomboNumber_reg:z.string().refine((val)=>val.length > 0,{
+            livros_biblioteca:z.string().min(1,{
+                message:"Campo livro inválido"
+            }),
+            numero_tombo:z.string().refine((val)=>val.length > 0,{
                 message:"Campo identificador inválido"
             }),
-            available_reg:z.enum(["disponivel","indisponivel"]),
-            sector_reg:z.string().optional(),
-            shelf_reg:z.string().optional(),
-            stand_reg:z.string().optional()
+            disponivel:z.enum(["disponivel","indisponivel"]),
+            setor:z.string().optional(),
+            prateleira:z.string().optional(),
+            estante:z.string().optional()
         }),
-        author:{},
-        publisher:{},
-        category:{},
-        gender:{}
-    },
-    fieldNames:{
-        // book:{
-        //     names:['title_reg',"description_reg",'cape_reg']
-        // }
+        author:z.object({
+            nome:z.string().min(1,{
+                message:"Campo nome inválido"
+            })
+        }),
+        publisher:z.object({
+            nome:z.string().min(1,{
+                message:"Campo nome inválido"
+            })
+        }),
+        category:z.object({
+            nome:z.string().min(1,{
+                message:"Campo nome inválido"
+            })
+        }),
+        gender:z.object({
+            nome:z.string().min(1,{
+                message:"Campo nome inválido"
+            })
+        })
     },
     getSchemaValues(type:Exclude<TableType,"none">){
         return Object.entries(this.schemaList[type])
     }
 
 }
-
-type SchemaTest = keyof typeof schema.schemaList
 
 
 export {

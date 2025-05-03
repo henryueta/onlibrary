@@ -9,13 +9,16 @@ export interface AssociationTableProps {
 
 }
 
+export type QueryType = "create" |"select" | "update" | "delete";
+
+
 export type BookAssociationProps = Record<'autores'|'categorias'|'generos'|'editoras',AssociationTableProps>
 
 export interface InputProps {
-    id?:string,
+    id:string,
     tag:'input' | 'textarea' | 'select',
     title:string,
-    type?:"text" | "number" | "file" | "checkbox" | "email"
+    type?:"text" | "number" | "file" | "checkbox" | "email" | "hidden" | "date"
     options?:{
         isMultiple:boolean,
         list:AssociationTableProps[]
@@ -26,7 +29,15 @@ export interface InputProps {
         max:number
     }
     maskFormat?:string,
+    numericFormat?:{
+        prefix?:string,
+        suffix?:string,
+        decimalScale?:number
+        decimalSeparator?:string,
+        thousandSeparator?:string
+    },
     registerId:string
+    value?:string | number
 }
 
 
@@ -102,8 +113,115 @@ const form:FormObjectProps = {
             ]
         },
         {
+            name:"library_user",
+            schema:schema.schemaList['library_user'],
+            fields:[
+                {
+                    id:"users_id",
+                    tag:"select",
+                    options:{
+                        isMultiple:false,
+                        hasQuery:true,
+                        list:[]
+                    },
+                    title:"Usuário",
+                    registerId:"usuarios"
+                },
+                {
+                    id:"accounts_id",
+                    tag:"select",
+                    options:{
+                        isMultiple:false,
+                        hasQuery:true,
+                        list:[]
+                    },
+                    title:"Perfil", 
+                    registerId:"perfis_biblioteca"
+                },
+                {
+                    id:"userType_id",
+                    tag:"select",
+                    options:{
+                        isMultiple:false,
+                        hasQuery:false,
+                        list:[
+                            {
+                                nome:"Comum",
+                                id:"comum"
+                            },
+                            {
+                                nome:"Administrador",
+                                id:"admin"
+                            }
+                        ]
+                    },
+                    title:"Tipo de usuário",
+                    registerId:"tipo_usuario"
+                },
+                {
+                    id:"matriculationNumber_id",
+                    tag:"input",
+                    type:"number",
+                    title:"Número da matrícula",
+                    registerId:"numero_matricula"
+                },
+                {
+                    id:"library_id",
+                    tag:"input",
+                    type:"hidden",
+                    value:"",
+                    title:"biblioteca",
+                    registerId:"biblioteca"
+                }
+            ]
+        },
+        {
+            name:"account",
+            schema:schema.schemaList['account'],
+            fields:[
+                {
+                    id:"library_id",
+                    tag:"input",
+                    type:"hidden",
+                    title:"biblioteca",
+                    registerId:"biblioteca"
+                },
+                {
+                    id:"name_id",
+                    tag:"input",
+                    type:"text",
+                    title:"Nome",
+                    registerId:"nome"
+                },
+                {
+                    id:"amerce_id",
+                    tag:"input",
+                    type:"number",
+                    numericFormat:{
+                        prefix:"R$",
+                        decimalScale:0,
+                        decimalSeparator:",",
+                        thousandSeparator:".",
+                    },
+                    title:"Multa padrão",
+                    registerId:"multa_padrao"
+                },
+                {
+                    id:"paybackPeriod_id",
+                    tag:"input",
+                    type:"number",
+                    numericFormat:{
+                        decimalScale:0,
+                        suffix:" dias"
+                    },
+                    title:"Prazo de devolução padrão",
+                    registerId:"prazo_devolucao_padrao"
+                }
+            ]
+        },
+        {
             name:"book",
-            schema:schema.schemaList['book'] as z.ZodObject<ZodRawShape>,
+            schema:schema.schemaList['book'],
             fields:[
                 {
                     id:"ISBN_id",
@@ -111,14 +229,14 @@ const form:FormObjectProps = {
                     title:"ISBN",
                     type:'text',
                     maskFormat:"###-##-#####-##-#",
-                    registerId:"ISBN_reg"
+                    registerId:"ISBN"
                 },
                 {
                     id:"cape_id",
                     tag:"input",
                     title:"Capa",
                     type:"file",
-                    registerId:"cape_reg"
+                    registerId:"capa"
                 },
                 {
                     id:"title_id",
@@ -132,7 +250,7 @@ const form:FormObjectProps = {
                     tag:"textarea",
                     title:"Descrição",
                     type:"text",
-                    registerId:"description_reg"
+                    registerId:"descricao"
                 },
                 {
                     id:"releaseYear_id",
@@ -143,13 +261,13 @@ const form:FormObjectProps = {
                         min:1000,
                         max:2100
                     },
-                    registerId:"releaseYear_reg"
+                    registerId:"ano_lancamento"
                 },
                 {
                     id:"authors_id",
                     tag:"select",
                     title:"Autores",
-                    registerId:"authors_reg",
+                    registerId:"autores",
                     options:{
                         isMultiple:true,
                         list:[],
@@ -160,7 +278,7 @@ const form:FormObjectProps = {
                     id:"categories_id",
                     tag:"select",
                     title:"Categorias",
-                    registerId:"categories_reg",
+                    registerId:"categorias",
                     options:{
                         isMultiple:true,
                         list:[],
@@ -171,7 +289,7 @@ const form:FormObjectProps = {
                     id:"genders_id",
                     tag:"select",
                     title:"Gêneros",
-                    registerId:"genders_reg",
+                    registerId:"generos",
                     options:{
                         isMultiple:true,
                         list:[],
@@ -182,7 +300,7 @@ const form:FormObjectProps = {
                     id:"publishers_id",
                     tag:"select",
                     title:"Editoras",
-                    registerId:"publishers_reg",
+                    registerId:"editoras",
                     options:{
                         isMultiple:true,
                         list:[],
@@ -190,16 +308,61 @@ const form:FormObjectProps = {
                     }
                 }
             ],
-            // getQueryFields(type){
-            //     return onGetQueryFields(type,{
-            //         post:this.fields,
-            //         put:this.fields
-            //     }     
-            //     ) || []
-            // }
+        },{
+            name:"author",
+            schema:schema.schemaList['author'],
+            fields:[
+                {
+                    id:"name_id",
+                    tag:"input",
+                    type:"text",
+                    title:"Nome",
+                    registerId:"nome"
+                }
+            ]
+
+        },{
+            name:"publisher",
+            schema:schema.schemaList['publisher'],
+            fields:[
+                {
+                    id:"name_id",
+                    tag:"input",
+                    type:"text",
+                    title:"Nome",
+                    registerId:"nome"
+                }
+            ]
+
+        },{
+            name:"category",
+            schema:schema.schemaList['category'],
+            fields:[
+                {
+                    id:"name_id",
+                    tag:"input",
+                    type:"text",
+                    title:"Nome",
+                    registerId:"nome"
+                }
+            ]
+
+        },{
+            name:"gender",
+            schema:schema.schemaList['gender'],
+            fields:[
+                {
+                    id:"name_id",
+                    tag:"input",
+                    type:"text",
+                    title:"Nome",
+                    registerId:"nome"
+                }
+            ]
+
         },{
             name:"exemplary",
-            schema:schema.schemaList['exemplary'] as z.ZodObject<ZodRawShape>,
+            schema:schema.schemaList['exemplary'],
             fields:[
                 {
                     id:"bookId_id",
@@ -210,14 +373,14 @@ const form:FormObjectProps = {
                         hasQuery:true
                     },
                     title:"Livros",
-                    registerId:"bookId_reg"
+                    registerId:"livros_biblioteca"
                 },
                 {
                     id:"tomboNumber_id",
                     tag:"input",
                     type:"number",
                     title:"Número tombo",
-                    registerId:"tomboNumber_reg"
+                    registerId:"numero_tombo"
                 },
                 {
                     id:"available_id",
@@ -236,31 +399,243 @@ const form:FormObjectProps = {
                         hasQuery:false
                     },
                     title:"Situação",
-                    registerId:"available_reg"
+                    registerId:"disponivel"
                 },
                 {
                     id:"sector_id",
                     tag:"input",
                     type:"text",
                     title:"Setor",
-                    registerId:"sector_reg"
+                    registerId:"setor"
                 },
                 {
                     id:"shelf_id",
                     tag:"input",
                     type:"text",
                     title:"Prateleira",
-                    registerId:"shelf_reg"
+                    registerId:"prateleira"
                 },
                 {
                     id:"stand_id",
                     tag:"input",
                     type:"text",
                     title:"Estante",
-                    registerId:"stand_reg"
+                    registerId:"estante"
+                }
+            ]
+        },
+        {
+            name:"loan",
+            schema:schema.schemaList['loan'],
+            fields:[
+                {
+                    id:"exemplary_id",
+                    tag:"select",
+                    options:{
+                        isMultiple:true,
+                        hasQuery:true,
+                        list:[]
+                    },
+                    title:"Exemplares",
+                    registerId:"exemplares_biblioteca"
+                },
+                {
+                    id:"librarian_id",
+                    tag:"select",
+                    type:"hidden",
+                    title:"bibliotecario",
+                    registerId:"bibliotecario"
+                },
+                {
+                    id:"libraryUser_id",
+                    tag:"select",
+                    options:{
+                        isMultiple:false,
+                        hasQuery:true,
+                        list:[]
+                    },
+                    title:"Usuário",
+                    registerId:"usuarios_biblioteca"
+                },
+                {
+                    id:"situation_id",
+                    tag:"select",
+                    options:{
+                        isMultiple:false,
+                        hasQuery:false,
+                        list:[
+                            {
+                                nome:"Concluido",
+                                id:"concluido"
+                            },
+                            {
+                                nome:"Cancelado",
+                                id:"cancelado"
+                            },
+                            {
+                                nome:"Vencido",
+                                id:"vencido"
+                            },
+                            {
+                                nome:"Pendente",
+                                id:"pendente"
+                            }
+                        ]
+                    },
+                    title:"Situação",
+                    registerId:"situacao"
+                },
+                {
+                    id:"devolutionDate_id",
+                    tag:"input",
+                    type:"date",
+                    title:"Data de devolução",
+                    registerId:"data_devolucao"
+                }
+            ]
+        },
+        {
+            name:"reserve",
+            schema:schema.schemaList['reserve'],
+            fields:[
+                {
+                    id:"exemplary_id",
+                    tag:"select",
+                    options:{
+                        isMultiple:true,
+                        hasQuery:true,
+                        list:[]
+                    },
+                    title:"Exemplares",
+                    registerId:"exemplares_biblioteca"
+                },
+                {
+                    id:"librarian_id",
+                    tag:"select",
+                    type:"hidden",
+                    title:"bibliotecario",
+                    registerId:"bibliotecario"
+                },
+                {
+                    id:"libraryUser_id",
+                    tag:"select",
+                    options:{
+                        isMultiple:false,
+                        hasQuery:true,
+                        list:[]
+                    },
+                    title:"Usuário",
+                    registerId:"usuarios_biblioteca"
+                },
+                {
+                    id:"situation_id",
+                    tag:"select",
+                    options:{
+                        isMultiple:false,
+                        hasQuery:false,
+                        list:[
+                            {
+                                nome:"Concluido",
+                                id:"concluido"
+                            },
+                            {
+                                nome:"Cancelado",
+                                id:"cancelado"
+                            },
+                            {
+                                nome:"Vencido",
+                                id:"vencido"
+                            },
+                            {
+                                nome:"Pendente",
+                                id:"pendente"
+                            }
+                        ]
+                    },
+                    title:"Situação",
+                    registerId:"situacao"
+                },
+                {
+                    id:"withdrawalDate_id",
+                    tag:"input",
+                    type:"date",
+                    title:"Data de retirada",
+                    registerId:"data_retirada"
+                }
+            ]
+        },{
+            name:"amerce",
+            schema:schema.schemaList['amerce'],
+            fields:[
+                {
+                    id:"library_id",
+                    tag:"input",
+                    type:"hidden",
+                    title:"Bibliotecário",
+                    registerId:"bibliotecario"
+                },
+                {
+                    id:"libraryUser_id",
+                    tag:"select",
+                    options:{
+                        isMultiple:false,
+                        hasQuery:true,
+                        list:[]
+                    },
+                    title:"Aplicar para usuário",
+                    registerId:"usuarios_biblioteca"
+                },
+                {
+                    id:"value_id",
+                    tag:"input",
+                    type:"number",
+                    numericFormat:{
+                        prefix:"R$",
+                        decimalScale:0,
+                        decimalSeparator:",",
+                        thousandSeparator:".",
+                    },
+                    title:"Valor",
+                    registerId:"valor",
+                },
+                {
+                    id:"situation_id",
+                    tag:"select",
+                    options:{
+                        isMultiple:false,
+                        hasQuery:false,
+                        list:[
+                            {
+                                nome:"Concluido",
+                                id:"concluido"
+                            },
+                            {
+                                nome:"Cancelado",
+                                id:"cancelado"
+                            },
+                            {
+                                nome:"Vencido",
+                                id:"vencido"
+                            },
+                            {
+                                nome:"Pendente",
+                                id:"pendente"
+                            }
+                        ]
+                    },
+                    title:"Situação",
+                    registerId:"situacao"
+                },
+                {
+                    id:"dueDate_id",
+                    tag:"input",
+                    type:"date",
+                    title:"Data de vencimento",
+                    registerId:"data_vencimento"
                 }
             ]
         }
+        
     ]
 }
 

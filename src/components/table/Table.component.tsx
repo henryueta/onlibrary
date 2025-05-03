@@ -28,7 +28,7 @@ const Table = ({type}:TableProps) => {
       type:type
     },
     "select")
-  },[currentLibraryContext.libraryId])
+  },[currentLibraryContext.libraryId,type])
 
 
   const onLimitDataView = ()=>{

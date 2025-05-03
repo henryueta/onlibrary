@@ -3,6 +3,7 @@ import {  TableQueryProps, TableType, tableTypeDataList, TableTypeProps } from "
 import { AxiosResponse } from "axios";
 import useAxios from "./useAxios";
 import useHandleLibrary from "./useHandleLibrary";
+import { QueryType } from "../objects/form.object";
 
 
 interface TableDataProps{
@@ -16,7 +17,7 @@ const useHandleTable = ()=>{
     const [table,setTable] = useState<TableQueryProps | null>(null);
     const {onAxiosQuery} = useAxios();
     const {currentLibraryContext} = useHandleLibrary()
-    type QueryType = "create" |"select" | "update" | "delete";
+  
 
     const onQueryCountTable = async <T extends any>(type:string,action:(result:AxiosResponse)=>T)=>{
         !!currentLibraryContext.libraryId &&

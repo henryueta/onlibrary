@@ -1,21 +1,27 @@
+import { AssociationTableProps } from "./form.object";
 import {path } from "./path.object";
 
-export type TableType = "none" |"book" | "user" | "loan" | "amerce" | "exemplary" | "author" | "publisher" | "category" | "gender";
-export type TableTitleType = "Livro" | "Usuário" | "Empréstimo" | "Reserva" | "Multa" | "Exemplar" | "Autor" | "Editora" | "Categoria" | "Gênero"
+export type TableType = "none" |"book" | "user" | "library_user" | "account"| "loan" | "reserve" | "amerce" | "exemplary" | "author" | "publisher" | "category" | "gender";
+export type TableTitleType = "Livro" | "Usuário" | "Perfil" | "Empréstimo" | "Reserva" | "Multa" | "Exemplar" | "Autor" | "Editora" | "Categoria" | "Gênero"
 
 type account_situation = "ativo" | "bloqueado"
 
 
-type BookTableQueryProps = 
+
+
+export type BookTableQueryProps = 
 Record<'id'| 'ISBN' | 'titulo' | 'descricao',string> 
 & 
 Record<'ano_lancamento',number>
-
+&
+Record<'autores'|'categorias'|'generos'|'editoras',AssociationTableProps>
 
 export type UserTableQueryProps = 
 Record<'id'|'nome'| 'sobrenome'| 'email'| 'cpf'|'senha'| 'username',string> 
 &
 Record<'situacao',account_situation>
+
+
 
 
 export type TableQueryProps=BookTableQueryProps | UserTableQueryProps;
@@ -33,6 +39,7 @@ export interface TableTypeProps {
 const tableTitleList = [
     "Livro",
     "Usuário",
+    "Perfil",
     "Empréstimo",
     "Reserva",
     "Multa",
@@ -87,14 +94,78 @@ const tableTypeDataList:TableTypeProps[] = [
             ]
     },
     {
-        type:"user",
+        type:"author",
+        title:"Autor",
+        quantity:0,
+        warning:false,
+        path: path.onCreatePathParams("list_data_management",[
+            {
+              field:"type",
+              param:"author"
+            }
+          ]),
+        headers:
+        [],
+        dependencies:
+            []
+    },
+    {
+        type:"publisher",
+        title:"Editora",
+        quantity:0,
+        warning:false,
+        path: path.onCreatePathParams("list_data_management",[
+            {
+              field:"type",
+              param:"publisher"
+            }
+          ]),
+        headers:
+        [],
+        dependencies:
+            []
+    },
+    {
+        type:"category",
+        title:"Categoria",
+        quantity:0,
+        warning:false,
+        path: path.onCreatePathParams("list_data_management",[
+            {
+              field:"type",
+              param:"category"
+            }
+          ]),
+        headers:
+        [],
+        dependencies:
+            []
+    },
+    {
+        type:"gender",
+        title:"Gênero",
+        quantity:0,
+        warning:false,
+        path: path.onCreatePathParams("list_data_management",[
+            {
+              field:"type",
+              param:"gender"
+            }
+          ]),
+        headers:
+        [],
+        dependencies:
+        []
+    },
+    {
+        type:"library_user",
         warning:false,
         title:tableTitleList[onFindTitleIndex("Usuário")],
         quantity:0,
         path:path.onCreatePathParams("list_data_management",[
             {
               field:"type",
-              param:"user"
+              param:"library_user"
             }
           ]),
         headers:
@@ -103,9 +174,22 @@ const tableTypeDataList:TableTypeProps[] = [
             [
                 "Leitores",
                 "Bibliotecários",
-                "Perfis"
+                tableTitleList[onFindTitleIndex("Perfil")]
             ]
     },{
+        type:"account",
+        warning:false,
+        title:tableTitleList[onFindTitleIndex("Perfil")],
+        headers:[],
+        dependencies:[],
+        path:path.onCreatePathParams("list_data_management",[
+            {
+                field:"type",
+                param:"account"
+            }
+        ]),
+        quantity:0
+    }, {
         type:"loan",
         warning:false,
         title:tableTitleList[onFindTitleIndex("Empréstimo")],
@@ -114,6 +198,37 @@ const tableTypeDataList:TableTypeProps[] = [
             {
               field:"type",
               param:"loan"
+            }
+          ]),
+        headers:
+        [],
+        dependencies:
+        []
+    },
+    {
+        type:"reserve",
+        warning:false,
+        title:tableTitleList[onFindTitleIndex("Reserva")],
+        quantity:0,
+        path:path.onCreatePathParams("list_data_management",[
+            {
+              field:"type",
+              param:"reserve"
+            }
+          ]),
+        headers:
+        [],
+        dependencies:
+        []
+    },{
+        type:"amerce",
+        warning:false,
+        title:"Multa",
+        quantity:0,
+        path:path.onCreatePathParams("list_data_management",[
+            {
+              field:"type",
+              param:"amerce"
             }
           ]),
         headers:
@@ -136,7 +251,7 @@ const tableTypeDataList:TableTypeProps[] = [
         [],
         dependencies:
         []
-    } 
+    }
 ];
 
 const onFindTableIndex = (type:TableType)=>{

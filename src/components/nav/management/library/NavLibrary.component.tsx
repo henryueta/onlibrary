@@ -29,7 +29,7 @@ const NavLibrary = () => {
               {
                 title:"Usuários",
                 icon:cubeTable_icon,
-                onClick:()=>onNavigate(onFindTablePath("user") || "")
+                onClick:()=>onNavigate(onFindTablePath("library_user") || "")
               },
               {
                 children:<Details open={

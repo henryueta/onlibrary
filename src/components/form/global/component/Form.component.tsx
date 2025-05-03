@@ -4,7 +4,7 @@ import { z, ZodRawShape} from "zod";
 import { TableQueryProps, TableType } from "../../../../objects/table.object";
 import { useEffect, useState } from "react";
 import { InputProps } from "../../../../objects/form.object";
-import { PatternFormat } from "react-number-format";
+import { NumericFormat, PatternFormat,numericFormatter } from "react-number-format";
 import Warn from "../../../warn/Warn.component";
 // import Select from "../../../select/Select.component";
 import Select, { MultiValue, SingleValue } from "react-select"
@@ -35,7 +35,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:Fo
   
   
   const [formBase,setFormBase] = useState<InputProps[]>();
-  const {form} = useHandleForm()
+  const {form} = useHandleForm(typeOfData || "none")
 
   useEffect(()=>{
 
@@ -93,9 +93,9 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:Fo
           formBase.map((item_input,index_input)=>
          {
           
-              return (
+              return item_input.type !== "hidden" && (
               <label htmlFor={item_input!.id} key={index_input}>
-
+                
                 <div className="titleFieldContainer">
                   <p>
                     {
@@ -143,7 +143,29 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:Fo
                     name={item_input!.registerId}
                     control={control}
                     render={({field})=>
-                      <PatternFormat {...field} format={item_input?.maskFormat || ""} mask={"_"}/>
+                      <PatternFormat              
+                     {...field}
+                     format={item_input?.maskFormat || ""}
+                    mask={"_"}/>
+                    }     
+                    >
+                    </Controller>
+                    : !!item_input.numericFormat
+                    ?
+                    <Controller
+                    defaultValue={teste && teste[item_input!.registerId]}
+                    name={item_input!.registerId}
+                    control={control}
+                    render={({field})=>
+                      <NumericFormat              
+                     {...field} 
+                     prefix={item_input.numericFormat?.prefix || ""}
+                     decimalScale={item_input.numericFormat?.decimalScale || 0}
+                     suffix={item_input.numericFormat?.suffix || ""}
+                     thousandSeparator={item_input.numericFormat?.thousandSeparator || "."}
+                     decimalSeparator={item_input.numericFormat?.decimalSeparator || " "}
+                     allowNegative={false}
+                     />
                     }     
                     >
                     </Controller>

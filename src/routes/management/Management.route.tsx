@@ -30,7 +30,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
 
 
   const {type,id} = useParams()
-  
+
 
   useEffect(()=>{
     !!id &&
