@@ -7,6 +7,7 @@ import triangleRetangle_icon from "../../../src/assets/imgs/icons/triangleRetang
 import { path } from "../../objects/path.object"
 import { useNavigate } from "react-router-dom"
 import useHandleLibrary from "../../hooks/useHandleLibrary"
+import Warn from "../warn/Warn.component"
 
 interface TableProps {
 
@@ -18,7 +19,6 @@ const Table = ({type}:TableProps) => {
   const {currentLibraryContext} = useHandleLibrary()
   const {onQueryTable,tableData} = useHandleTable();
   const onNavigate = useNavigate();
-
   const [maxOfData,setMaxOfData] = useState<number>(1);
   const [tableDataView,setTableDataView] = useState<string[][]>([]);
 
@@ -28,8 +28,14 @@ const Table = ({type}:TableProps) => {
       type:type
     },
     "select")
-  },[currentLibraryContext.libraryId,type])
+  },[currentLibraryContext.libraryId])
 
+  useEffect(()=>{
+    onQueryTable({
+      type:type
+    },
+    "select")
+  },[type])
 
   const onLimitDataView = ()=>{
     setTableDataView(tableData?.dataList.slice(0,maxOfData).map((item)=>{
@@ -103,8 +109,10 @@ const Table = ({type}:TableProps) => {
            </button>
         </div>
       </div>
-      <div className="tableContainer">
-        <table>
+      <div className="tableContainer">  
+      {
+        !!tableData
+        ?<table>
       <thead>
       <tr>
         {
@@ -151,8 +159,7 @@ const Table = ({type}:TableProps) => {
                                {
                                  field:"id",
                                  param:tableDataView[index].find((item_tableId)=>{
-                                  console.log(item_tableId[0])
-                                  return item_tableId[0] == "id"
+                                   return item_tableId[0] == "id"
                                  })![1]
                                }
                                 ]
@@ -170,6 +177,11 @@ const Table = ({type}:TableProps) => {
             }
       </thead>
         </table>
+        :
+        <div className="emptyTableDataContainer">
+          <Warn color="black" warning={"Tabela vazia! Adicione novos dados"}></Warn>
+        </div>
+      }
       </div>
     </section>
     </>

@@ -7,7 +7,7 @@ import { LibraryContext } from "../context/LibraryContext";
 export interface LibraryProps{
 
     id:string,
-    name:string
+    nome:string
 
 }
 
@@ -24,6 +24,7 @@ const useHandleLibrary = ()=>{
 
     }
 
+
     const onQueryLibraries = (url:string)=>{
         axios.defaults.withCredentials = true;
         onAxiosQuery("get",{
@@ -35,7 +36,9 @@ const useHandleLibrary = ()=>{
             },
             onResolver:{
                 then:(result)=>{
-                    const current_result = result.data.libraries as LibraryProps[]
+                    console.log(result)
+                    const current_result = result.data as LibraryProps[]
+                    console.log(current_result)
                     setLibraries(current_result)
                 },
                 catch:(error)=>console.log(error)

@@ -53,7 +53,7 @@ const SecondRegisterStep = () => {
         </label>
         <Warn
           color="white" 
-          warning={queryState.error.data ? `Erro ${queryState.error.data}` : null}/>   
+          warning={queryState.error.message ? `Erro ${queryState.error.status} ${queryState.error.message}` : null}/>  
       </RegisterUser>
     </>
 

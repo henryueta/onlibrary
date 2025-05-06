@@ -9,7 +9,7 @@ const NavAdmin = () => {
   const {onQueryLibraries,libraries} = useHandleLibrary()
 
   useEffect(()=>{
-    onQueryLibraries("http://localhost:5600/auth/library")
+    onQueryLibraries("http://localhost:5700/auth/library")
   },[])
 
   return (
@@ -18,7 +18,7 @@ const NavAdmin = () => {
             <img src={libraryNotification_icon} alt="admin_notification_icon" />
             <div className="currentLibraryContainer">
                 <Account libraries={libraries || []}/>
-            </div>          
+            </div>
         </div>
     </nav>
   )

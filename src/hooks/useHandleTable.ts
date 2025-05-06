@@ -18,11 +18,13 @@ const useHandleTable = ()=>{
     const {onAxiosQuery} = useAxios();
     const {currentLibraryContext} = useHandleLibrary()
   
+    useEffect(()=>{
+    },[tableData])
 
     const onQueryCountTable = async <T extends any>(type:string,action:(result:AxiosResponse)=>T)=>{
         !!currentLibraryContext.libraryId &&
             onAxiosQuery("get",{
-                url:"http://localhost:5600/count?type="+type+"&id="+currentLibraryContext.libraryId,
+                url:"http://localhost:5700/count?type="+type+"&id="+currentLibraryContext.libraryId,
                 onResolver:{
                     then:(result)=>action(result),
                     catch:(error)=>console.log(error)
@@ -74,20 +76,26 @@ const useHandleTable = ()=>{
                     : (()=>{
                     onThen = (result)=>{
                         const {data} = result;
+                        !!data.length ?
+                       (()=>{
                         let headers = Object.entries(data[0]);
                         setTableData({
-                            headerList:headers.map((item,index)=>{
-                                return headers[index][0]
-                            }).filter((item)=>item !== "id" && item !== "livraryId"),
-                            dataList:data.map((item:TableQueryProps)=>{
-                                return  Object.entries(item)
-                            })
-                        })
+                                headerList:headers.map((item,index)=>{
+                                    return headers[index][0]
+                                }).filter((item)=>item !== "id" && item !== "livraryId"),
+                                dataList:data.map((item:TableQueryProps)=>{
+                                    return  Object.entries(item)
+                                })
+                            }
+                            
+                        )
+                       })()
+                       : setTableData(null)
                     } 
                     })()
 
                     onAxiosQuery("get",{
-                        url:`http://localhost:5600/tables/data?libraryId=${currentLibraryContext.libraryId}&type=${table.type}`,
+                        url:`http://localhost:5700/tables/data?libraryId=${currentLibraryContext.libraryId}&type=${table.type}`,
                         type:{
                             get:{
                                 id:table.id,

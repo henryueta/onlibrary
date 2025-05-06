@@ -5,7 +5,7 @@ import { TableType } from "./table.object"
 export interface AssociationTableProps {
 
     nome:string,
-    id:string
+    id:string | boolean
 
 }
 
@@ -389,10 +389,10 @@ const form:FormObjectProps = {
                         isMultiple:false,
                         list:[
                             {
-                                id:"disponivel",
+                                id:true,
                                 nome:"Disponível"
                             },{
-                                id:"indisponivel",
+                                id:false,
                                 nome:"Indisponível"
                             },
                         ],
@@ -632,6 +632,115 @@ const form:FormObjectProps = {
                     type:"date",
                     title:"Data de vencimento",
                     registerId:"data_vencimento"
+                }
+            ]
+        },{
+            name:"library",
+            schema:schema.schemaList['library'],
+            fields:[
+                {
+                    id:"name_id",
+                    tag:"input",
+                    type:"text",
+                    title:"Nome",
+                    registerId:"nome"
+                },
+                {
+                    id:"telephone_id",
+                    tag:"input",
+                    type:"number",
+                    maskFormat:"(11) ####-####",
+                    title:"Telefone",
+                    registerId:"telefone"
+                },
+                {
+                    id:"roadAdress_id",
+                    tag:"input",
+                    type:"text",
+                    title:"Rua",
+                    registerId:"rua"
+                },
+                {
+                    id:"numberAdress_id",
+                    tag:"input",
+                    type:"number",
+                    title:"Número",
+                    registerId:"numero"
+                },
+                {
+                    id:"cepAdress_id",
+                    tag:"input",
+                    type:"number",
+                    maskFormat:"#####-###",
+                    title:"Cep",
+                    registerId:"cep"
+                },
+                {
+                    id:"neighborhoodAdress_id",
+                    tag:"input",
+                    type:"text",
+                    title:"Bairro",
+                    registerId:"bairro"
+                },
+                {
+                    id:"reserveOption_id",
+                    tag:"select",
+                    options:{
+                        hasQuery:false,
+                        isMultiple:false,
+                        list:[
+                            {
+                                id:true,
+                                nome:"Habilitar"
+                            },
+                            {
+                                id:false,
+                                nome:"Desabilitar"
+                            }
+                        ]
+                    },
+                    title:"Reservas online",
+                    registerId:"reserva_online"
+                },
+                {
+                    id:"amerceOption_id",
+                    tag:"select",
+                    options:{
+                        hasQuery:false,
+                        isMultiple:false,
+                        list:[
+                            {
+                                id:true,
+                                nome:"Habilitar"
+                            },
+                            {
+                                id:false,
+                                nome:"Desabilitar"
+                            }
+                        ]
+                    },
+                    title:"Multa para devoluções vencidas",
+                    registerId:"aplicacao_multa"
+                },
+                {
+                    id:"userBlockOption_id",
+                    tag:"select",
+                    options:{
+                        hasQuery:false,
+                        isMultiple:false,
+                        list:[
+                            {
+                                id:true,
+                                nome:"Habilitar"
+                            },
+                            {
+                                id:false,
+                                nome:"Desabilitar"
+                            }
+                        ]
+                    },
+                    title:"Bloqueio de conta para devoluções vencidas",
+                    registerId:"aplicaco_bloqueio"
                 }
             ]
         }

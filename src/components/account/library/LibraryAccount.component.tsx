@@ -4,11 +4,14 @@ import Dialog from "../../dialog/Dialog.component";
 import "./LibraryAccount.component.css"
 import libraryOpenned_icon from "../../../assets/imgs/icons/libraryOpenned_icon.webp"
 import libraryClosed_icon from "../../../assets/imgs/icons/libraryClosed_icon.webp"
+import { useNavigate } from "react-router-dom";
+import { path } from "../../../objects/path.object";
 
 type AccountProps = Record<'libraries',LibraryProps[] |  null>;
 
 const Account = ({libraries}:AccountProps) => {
 
+  const onNavigate = useNavigate();
   const {onLibraryId,currentLibraryContext} = useHandleLibrary()
   const [isAccountView,setIsAccountView] = useState<boolean>(false);
   const [currentLibrary,setCurrentLibrary] = useState<LibraryProps | null>(null);
@@ -18,16 +21,18 @@ const Account = ({libraries}:AccountProps) => {
     && setCurrentLibrary(libraries.find((item)=>item.id === currentLibraryContext.libraryId) || null)
   },[libraries])
 
+  console.log(libraries)
+
   useEffect(()=>{
-    currentLibrary?.id 
+    currentLibrary?.id
     && onLibraryId(currentLibrary.id)
   },[currentLibrary])
 
   // useEffect(()=>{
   //   window.addEventListener('click',
   //     (e)=>{
-  //      return isAccountView 
-  //       && e.target !== 
+  //      return isAccountView
+  //       && e.target !==
   //       document.querySelector("dialog")
   //       && console.log("AA")
   //     }
@@ -41,9 +46,10 @@ const Account = ({libraries}:AccountProps) => {
     <Dialog title="Suas bibliotecas" onClose={()=>setIsAccountView(false)}>
       <section className="libraryAccountListSection">
           {
-            libraries &&
-            libraries.map((item)=>
-              <div
+            !!libraries 
+            ? libraries.map((item)=>
+            {
+              return <div
               className={
                 currentLibrary?.id === item.id
                 ? "accountSelected"
@@ -51,13 +57,23 @@ const Account = ({libraries}:AccountProps) => {
                 }
                onClick={()=>setCurrentLibrary({
                 id:item.id,
-                name:item.name
-              })} key={item.id}><img src={libraryOpenned_icon}/>{item.name}</div>
+                nome:item.nome
+              })} key={item.id}><img src={libraryOpenned_icon}/>{item.nome}</div>
+            }
             )
+            :<>Nenhuma biblioteca encontrada</>
           }
       </section>
       <section className="libraryAccountOptions">
-          <button className="managementButton">Criar biblioteca</button>
+          <button onClick={()=>{
+            setIsAccountView(false)
+            onNavigate(path.onCreatePathParams("create_data_management",[
+              {
+                field:"type",
+                param:"library"
+              }
+            ]))
+          }} className="managementButton">Criar biblioteca</button>
       </section>
     </Dialog>
    }
@@ -69,8 +85,8 @@ const Account = ({libraries}:AccountProps) => {
       : libraryClosed_icon
     } alt="admin_account_icon" />
       <span>
-        {currentLibrary?.name 
-        ? currentLibrary?.name.slice(0,currentLibrary.name.length-3).concat("...") 
+        {currentLibrary?.nome
+        ? currentLibrary?.nome.slice(0,currentLibrary.nome.length-3).concat("...")
         : "Selecione sua biblioteca"}
       </span>
     </div>
@@ -79,7 +95,7 @@ const Account = ({libraries}:AccountProps) => {
         value:"default"
     }}  list={
         !!libraries
-        ? 
+        ?
         libraries.map((item)=>{
           return {
             title:item.name,

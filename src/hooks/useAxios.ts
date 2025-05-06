@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios"
 import { useEffect, useReducer } from "react";
+import Cookies from "js-cookie";
 
 type QueryType = "get" | "post" | "put" | "delete";
 
@@ -99,7 +100,6 @@ const [queryState,setQueryState] = useReducer(handleQueryState,initialQueryState
 
 
 useEffect(()=>{
-    console.log(queryState.isLoading)
 },[queryState.isLoading])
 
 const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
@@ -154,7 +154,12 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
 
         },
         post:()=>{
-            axios.post(query.url,query.type.post?.data)
+            axios.post(query.url,query.type.post?.data,{
+                withCredentials:true,
+                // headers:{
+                //     'Cookie':Cookies.get("jwt") ?  Cookies.get("jwt") : ""
+                // }
+            })
             .then((result)=>{
                 const current_success = result.data as QuerySuccessProps
                 setQueryState({

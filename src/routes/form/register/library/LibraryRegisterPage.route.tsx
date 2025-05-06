@@ -58,17 +58,17 @@ const LibraryRegisterPage = () => {
   const [libraryOptions,setLibraryOptions] = useState<LibraryDataProps[]>([
     {
       id:"reservationOption_id",
-      title:"Habilitar reservas online",
+      title:"Reservas online",
       registerId:"reservationOption_reg"
     },
     {
       id:"amerceOption_id",
-      title:"Habilitar aplicação de multa para devoluções vencidas",
+      title:"Multa para devoluções vencidas",
       registerId:"amerceOption_reg"
     },
     {
       id:"userBlockOption_id",
-      title:"Habilitar aplicação de bloqueio de conta para devoluções vencidas",
+      title:"Bloqueio de conta para devoluções vencidas",
       registerId:"userBlockOption_reg"
     }
   ])

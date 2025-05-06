@@ -84,7 +84,10 @@ const useHandleRegister = ()=>{
 
     useEffect(()=>{
         authState.success.success 
-        && onNavigate("/login")
+        && (()=>{
+            authRegisterContext.setRegisterData(null)
+            onNavigate("/login")
+        })()
     },[authState.success])
 
     useEffect(()=>{

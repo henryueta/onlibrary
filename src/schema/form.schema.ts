@@ -18,13 +18,13 @@ const schema = {
             ISBN:z.string().refine((val)=>val.match(/[0-9]{3}[-][0-9]{2}[-][0-9]{5}[-][0-9]{2}[-][0-9]{1}/),{
                 message:"ISBN inválido"
             }),
-            titulo:z.string().refine((val)=>val.trim().length > 9,{
+            titulo:z.string().refine((val)=>val.trim().length > 2,{
                 message:"Título inválido"
             }),
             descricao:z.string().optional(),
             capa:z.custom<FileList>()
             .transform((file)=>file.length > 0 && file.item(0))
-            .refine((file)=>!file || (!!file && file.size <= 560000000),{
+            .refine((file)=>!file || (!!file && file.size <= 570000000),{
                 message:"Arquivo máximo suportado 500MB"
             })
             .refine((file) => !file || (!!file && file.type?.startsWith("image")), {
@@ -94,17 +94,15 @@ const schema = {
             usuarios:z.string().min(2,{
                 message:"Campo usuário inválido"
             }),
-            biblioteca:z.string(),
             perfis_biblioteca:z.string().min(2,{
                 message:"Campo perfil inválido"
             }),
             tipo_usuario:z.enum(["comum","admin"]),
-            numero_matricula:z.string().min(2,{
-                message:"Campo matrícula inválido"
-            })
+            // numero_matricula:z.string().min(2,{
+            //     message:"Campo matrícula inválido"
+            // })
         }),
         account:z.object({
-            biblioteca:z.string(),
             nome:z.string().min(3,{
                 message:"Campo nome inválido"
             }),
@@ -199,7 +197,30 @@ const schema = {
             nome:z.string().min(1,{
                 message:"Campo nome inválido"
             })
-        })
+        }),
+        library:z.object({
+          nome:z.string().refine((val)=>val.trim().length > 0,{
+            message:"Campo nome inválido"
+          }),
+          telefone:z.string().refine((val)=>val.trim().length > 0,{
+            message:"Campo telefone inválido"
+          }),
+          rua:z.string().refine((val)=>val.trim().length > 0,{
+            message:"Campo rua inválido"
+          }),
+          numero:z.string().refine((val)=>val.trim().length > 0,{
+            message:"Campo numero inválido"
+          }),
+          cep:z.string().refine((val)=>val.trim().length > 0,{
+            message:"Campo cep inválido"
+          }),
+          bairro:z.string().refine((val)=>val.trim().length > 0,{
+            message:"Campo bairro inválido"
+          }),
+          reserva_online:z.boolean(),
+          aplicacao_multa:z.boolean(),
+          aplicaco_bloqueio:z.boolean()
+        })  
     },
     getSchemaValues(type:Exclude<TableType,"none">){
         return Object.entries(this.schemaList[type])

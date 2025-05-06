@@ -1,16 +1,56 @@
 import { AssociationTableProps } from "./form.object";
 import {path } from "./path.object";
 
-export type TableType = "none" |"book" | "user" | "library_user" | "account"| "loan" | "reserve" | "amerce" | "exemplary" | "author" | "publisher" | "category" | "gender";
+export type TableType = "none" | "library" |"book" | "user" | "library_user" | "account"| "loan" | "reserve" | "amerce" | "exemplary" | "author" | "publisher" | "category" | "gender";
 export type TableTitleType = "Livro" | "Usuário" | "Perfil" | "Empréstimo" | "Reserva" | "Multa" | "Exemplar" | "Autor" | "Editora" | "Categoria" | "Gênero"
 
 type account_situation = "ativo" | "bloqueado"
 
 
 
+export type LibraryTableQueryProps = 
+Record<'id'|'nome'|'bairro'|'rua'|'cep'|'telefone',string>
+& Record<'numero',number>
+& Record<'aplicacao_multa'|'aplicacao_bloqueio'|'reserva_online',boolean>
+
+export type AuthorTableQueryProps =
+Record<'id'|'nome',string>
+
+export type CategoryTableQueryProps =
+Record<'id'|'nome',string>
+
+export type GenderTableQueryProps =
+Record<'id'|'nome',string>
+
+export type PublisherTableQueryProps =
+Record<'id'|'nome',string>
+
+export type ExemplaryTableQueryProps = 
+Record<'id'|'livros_biblioteca'|'setor'|'prateleira'|'estante',string>
+& Record<'disponivel',boolean>
+& Record<'numero_tombo',number>
+
+export type LoanTableQueryProps = 
+Record<'bibliotecario'|'situacao'|'data_devolucao',string>
+& Record<'exemplares_biblioteca'|'usuarios_biblioteca',AssociationTableProps>
+
+export type ReserveTableQueryProps = 
+Record<'bibliotecario'|'situacao'|'data_retirada',string>
+& Record<'exemplares_biblioteca'|'usuarios_biblioteca',AssociationTableProps>
+
+export type AmerceTableQueryProps = 
+Record<'bibliotecario'|'valor'|'situacao'|'data_vencimento',string>
+& Record<'usuarios_biblioteca',AssociationTableProps>
+
+export type AccountTableQueryProps = 
+Record<'biblioteca'|'nome'|'multa_padrao'|'prazo_devolucao_padrao',string>
+
+export type LibraryUserTableQueryProps = 
+Record<'usuarios'|'perfis_biblioteca',AssociationTableProps>
+& Record<'tipo_usuario'|'numero_matricula'|'biblioteca',string>
 
 export type BookTableQueryProps = 
-Record<'id'| 'ISBN' | 'titulo' | 'descricao',string> 
+Record<'id'| 'isbn' | 'titulo' | 'descricao',string> 
 & 
 Record<'ano_lancamento',number>
 &
@@ -24,7 +64,20 @@ Record<'situacao',account_situation>
 
 
 
-export type TableQueryProps=BookTableQueryProps | UserTableQueryProps;
+export type TableQueryProps=
+BookTableQueryProps | 
+UserTableQueryProps | 
+LibraryTableQueryProps |
+AuthorTableQueryProps |
+CategoryTableQueryProps |
+GenderTableQueryProps |
+PublisherTableQueryProps |
+ExemplaryTableQueryProps |
+LoanTableQueryProps |
+ReserveTableQueryProps |
+AmerceTableQueryProps |
+AccountTableQueryProps |
+LibraryUserTableQueryProps;
 
 export interface TableTypeProps {
     type:string,

@@ -11,7 +11,7 @@ import Form from "../../components/form/global/component/Form.component";
 import { form } from "../../objects/form.object";
 import useHandleTable from "../../hooks/useHandleTable";
 import useHandleLibrary from "../../hooks/useHandleLibrary";
-
+import useHandleForm from "../../hooks/useHandleForm"
 
 type ManagementMode = "default" | "get" | "post" | "put";
 
@@ -27,9 +27,8 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
   const [defaultForm,setDefaultForm] = useState<TableQueryProps | null>();
   const {currentLibraryContext} = useHandleLibrary()
   const {onQueryTable,table,onQueryCountTable} = useHandleTable();
-
-
   const {type,id} = useParams()
+
 
 
   useEffect(()=>{
@@ -42,18 +41,18 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
 
     mode !== "put"
     &&  setDefaultForm(null)
- 
+
   },[type,id])
 
 
   useEffect(()=>{
     table &&
     setDefaultForm(table || [])
-  
+
   },[table])
 
   useEffect(()=>{
-    cardList.forEach((button)=>{      
+    cardList.forEach((button)=>{
         onQueryCountTable(button.type,(result)=>{
           setcardList((prev)=>{
             return prev.map((item)=>{
@@ -74,7 +73,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
         <section className="managementContentSection">
           <NavAdmin/>
           <section className="dataContentSection">
-            {hasGroupTableCard 
+            {hasGroupTableCard
               &&(
             <GroupTableCard cardList={
               cardList[onFindTableIndex(type as TableType || "none")].dependencies.map((item)=>{
@@ -88,7 +87,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
                 redirectTo:dependecie_button?.path,
                 title:item
                 }
-                
+
               })
             }/>
           )
@@ -96,36 +95,36 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
 
           {
             mode == "default"
-            ? <Link to={"/register/library"}>Cadastrar biblioteca</Link>
+            ? <></>
             :
             !!type &&
             mode == "get"
             ? <Table type={type as TableType}/>
-            : 
+            :
             mode == "post"
             ?
               <div className="formDataContainer">
-                 <Form 
+                 <Form
                 formSchema={form.formList.find((item)=>item.name == type)!.schema}
-                typeOfData={type as Exclude<TableType,"none">} 
-                onSubmit={(data)=>console.log(data)} 
+                typeOfData={type as Exclude<TableType,"library"|"none">}
+                onSubmit={(data)=>{}}
                 />
               </div>
             :
-            mode == "put" && defaultForm 
+            mode == "put" && defaultForm
             &&
             <>
                 <div className="formDataContainer">
-                  <Form 
+                  <Form
                   formSchema={form.formList.find((item)=>item.name == type)!.schema}
-                  typeOfData={type as Exclude<TableType,"none">} 
-                  onSubmit={(data)=>console.log(data)} 
+                  typeOfData={type as Exclude<TableType,"none"|"library">}
+                  onSubmit={(data)=>console.log(data)}
                   defaultValues={defaultForm}
                   />
                 </div>
             </>
           }
-          </section> 
+          </section>
         </section>
       </section>
       </>

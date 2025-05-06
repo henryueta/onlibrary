@@ -14,7 +14,7 @@ const RegisterLibrary = ({children,checkboxList,handleRegister}:RegisterLibraryP
             <div className="registerTitleContainer">
                 <h1>Crie sua biblioteca online</h1>
             </div>
-            <form action="">
+            <form>
               <div className="registerDetailsContainer">
                   <div className="libraryInformationContainer">
                       {children}

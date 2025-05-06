@@ -4,15 +4,17 @@ import { z, ZodRawShape} from "zod";
 import { TableQueryProps, TableType } from "../../../../objects/table.object";
 import { useEffect, useState } from "react";
 import { InputProps } from "../../../../objects/form.object";
-import { NumericFormat, PatternFormat,numericFormatter } from "react-number-format";
+import { NumericFormat, PatternFormat } from "react-number-format";
 import Warn from "../../../warn/Warn.component";
 // import Select from "../../../select/Select.component";
 import Select, { MultiValue, SingleValue } from "react-select"
 import useHandleForm from "../../../../hooks/useHandleForm";
+import useHandleLibrary from "../../../../hooks/useHandleLibrary";
+import axios from "axios";
 
 interface FormProps{
   formSchema:z.ZodObject<ZodRawShape> 
-  typeOfData?:Exclude<TableType,"none">
+  typeOfData?:Exclude<TableType,"none"|"library">
   fields?:InputProps[]
   onSubmit:(data:{[x: string]:any})=>void
   defaultValues?:TableQueryProps
@@ -35,6 +37,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:Fo
   
   
   const [formBase,setFormBase] = useState<InputProps[]>();
+  const {currentLibraryContext} = useHandleLibrary();
   const {form} = useHandleForm(typeOfData || "none")
 
   useEffect(()=>{
@@ -48,7 +51,6 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:Fo
     : !!fields
     && setFormBase(fields);
 
-    console.log(form.formList)
   },[form])
 
 
@@ -61,24 +63,26 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:Fo
 }> | {
     [x: string]: any;
 } | undefined>(undefined)
-
   useEffect(()=>{
     setTeste(defaultValues)
   },[defaultValues])
 
-  const {register,formState,handleSubmit,control,setValue} = useForm<SchemaType>({
+  const {register,formState:{errors},handleSubmit,control,setValue} = useForm<SchemaType>({
     mode:"all",
     reValidateMode:"onSubmit",
     resolver:zodResolver(schemaObject),
   });
-  const {errors} = formState
 
+
+  const {onQueryForm,formState} = useHandleForm(typeOfData || "none")
 
   useEffect(()=>{
     buttonRef &&
     buttonRef.current &&
     buttonRef.current.addEventListener('click',()=>{
+
       handleSubmit((data:SchemaType)=>onSubmit(data))()
+
       })
   },[buttonRef])
 
@@ -207,10 +211,24 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:Fo
           
         }
         {
+          !!formState.error.message 
+          && <Warn color="black" warning={formState.error.message}/>
+        }
+        {
           !!!buttonRef
           &&
          <div className="submitFormDataContainer">
-            <button className="managementButton" type="submit" onClick={handleSubmit((data:SchemaType)=>onSubmit(data))}>
+            <button className="managementButton" type="submit" onClick={handleSubmit((data:SchemaType)=>
+             {
+              console.log(data)
+              return typeOfData && data 
+              &&  onQueryForm(currentLibraryContext.libraryId || "",{
+               type:typeOfData,
+               data:data as TableQueryProps
+             },
+             "create")
+             }
+              )}>
             Cadastrar
             </button>
          </div>
