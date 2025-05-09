@@ -6,6 +6,9 @@ class Word {
 
     constructor(word:string,format:WordFormatType){
         const formatList = {
+            numeric:()=>{
+              this.word = word.replace(/[^0-9]/g, '')
+            },
             telephone:()=>{
                 this.word = word.replace(/\D/g,"")
             },

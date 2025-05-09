@@ -5,7 +5,7 @@ import Spinner from "../spinner/Spinner.component";
 interface LoadProps{
   loadState:boolean,
   finalMessage?:string
-} 
+}
 
 const Load = ({loadState,finalMessage}:LoadProps) => {
 
@@ -19,21 +19,21 @@ const Load = ({loadState,finalMessage}:LoadProps) => {
     <>
       {
         isLoading
-        ? <Dialog>  
+        ? <Dialog id="loadingDialog">
             <Spinner/>
           </Dialog>
-        : 
-        isLoading && finalMessage 
+        :
+        isLoading && finalMessage
         ? <Dialog>
-            
-             { !!finalMessage 
-              && 
-              isLoading 
+
+             { !!finalMessage
+              &&
+              isLoading
               ? <Spinner/>
               : <p>{finalMessage}</p> }
-            
-            
-          </Dialog>  
+
+
+          </Dialog>
         : <></>
     }
     </>

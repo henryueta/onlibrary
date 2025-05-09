@@ -15,8 +15,8 @@ const useHandleLibrary = ()=>{
 
     const [libraries,setLibraries] = useState<LibraryProps[] | null>(null);
     const currentLibraryContext = useContext(LibraryContext)
-    
-    const {onAxiosQuery} = useAxios();
+
+    const {onAxiosQuery,queryState} = useAxios();
 
     const onLibraryId = (id:string)=>{
 
@@ -31,7 +31,7 @@ const useHandleLibrary = ()=>{
             url:url,
             type:{
                 get:{
-                    
+
                 }
             },
             onResolver:{
@@ -52,7 +52,8 @@ const useHandleLibrary = ()=>{
         libraries,
         onQueryLibraries,
         onLibraryId,
-        currentLibraryContext
+        currentLibraryContext,
+        queryState
     }
 
 }

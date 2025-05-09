@@ -1,7 +1,7 @@
 import { useEffect, useReducer, useState } from "react"
 import { BookAssociationProps, FormListProps, form as formObject, FormObjectProps, QueryType } from "../objects/form.object"
 import useAxios, { ActionQueryType, QueryStateProps, QuerySuccessProps } from "./useAxios";
-import { BookTableQueryProps, LibraryTableQueryProps, TableQueryProps, TableType } from "../objects/table.object";
+import { BookTableQueryProps,LoanTableProps,AccountTableProps, LibraryTableQueryProps, TableQueryProps, TableType } from "../objects/table.object";
 import useHandleLibrary from "./useHandleLibrary";
 import Word from "../classes/word.class";
 import axios from "axios";
@@ -55,7 +55,7 @@ const useHandleForm = (typeOfForm:TableType)=>{
             type:"success",
             value:queryState.success
         })
-    },[queryState.success])   
+    },[queryState.success])
 
     useEffect(()=>{
         setFormState({
@@ -74,28 +74,28 @@ const useHandleForm = (typeOfForm:TableType)=>{
 
     )
 
-    useEffect(()=>{
-        onAxiosQuery("get",
-            {
-                url:"http://localhost:5700/data/group?type=book&id=1d8fq",
-                type:{
-                    get:{
+    // useEffect(()=>{
+    //     onAxiosQuery("get",
+    //         {
+    //             url:"http://localhost:5700/data/group?type=book&id=1d8fq",
+    //             type:{
+    //                 get:{
+    //
+    //                 }
+    //             },
+    //             onResolver:{
+    //                 then(result) {
+    //                     console.log(result)
+    //                 },
+    //                 catch(error) {
+    //                     console.log(error)
+    //                 },
+    //             }
+    //         }
+    //     )
+    // },[])
 
-                    }
-                },
-                onResolver:{
-                    then(result) {
-                        console.log(result)
-                    },
-                    catch(error) {
-                        console.log(error)
-                    },
-                }
-            }
-        )
-    },[])
-
-
+const current_userId = JSON.parse(Cookies.get("user_id") || "");
     const onQueryForm = (
         libraryId:string,
         form:{
@@ -108,15 +108,16 @@ const useHandleForm = (typeOfForm:TableType)=>{
         const checkQueryType = {
 
             select:()=>{
+              console.log(form.type)
                 onAxiosQuery("get",{
-                    url:`http://localhost:5700/data/group?type=${form.type}&id=${libraryId}`,
+                    url:`http://localhost:5700/data/group?type=${form.type}&id=${libraryId}&userId=${current_userId.user_id}`,
                     type:{
                         get:{}
                     },
                     onResolver:{
                         then:(result)=>{
                             const current_result = result.data as BookAssociationProps;
-
+                            console.log(current_result)
                             const current_form =  formObject.formList.map((item)=>
                             {
                                 return {...item,fields:item.fields.map((item_field)=>
@@ -125,10 +126,10 @@ const useHandleForm = (typeOfForm:TableType)=>{
                                         ...item_field.options,
                                         list: current_result
                                         && (()=>{
-                                           return Object.entries(current_result).filter((item_result)=>{
 
+                                           return Object.entries(current_result).filter((item_result)=>{
                                                 return item_result[0].toLowerCase() ===
-                                                item_field.title.toLowerCase()
+                                                item_field.registerId.toLowerCase()
                                                 .normalize("NFD")
                                                 .replace(/[\u0300-\u036f]/g, "")
                                                 && item_result[1]
@@ -180,19 +181,19 @@ const useHandleForm = (typeOfForm:TableType)=>{
                         )
                     },
                     book:()=>{
-                        const current_data = form.data as BookTableQueryProps
+                        const book_data = form.data as BookTableQueryProps
                         return (
                             {
                                 url:"http://localhost:5700/data/create?type=book",
                                 data:{
-                                    isbn:new Word(current_data.isbn,"isbn").word,
-                                    titulo:current_data.titulo,
-                                    descricao:current_data.descricao,
-                                    ano_lancamento:current_data.ano_lancamento,
-                                    autores:current_data.autores,
-                                    categorias:current_data.categorias,
-                                    generos:current_data.generos,
-                                    editoras:current_data.editoras
+                                    isbn:new Word(book_data.isbn,"isbn").word,
+                                    titulo:book_data.titulo,
+                                    descricao:book_data.descricao,
+                                    ano_lancamento:book_data.ano_lancamento,
+                                    autores:book_data.autores,
+                                    categorias:book_data.categorias,
+                                    generos:book_data.generos,
+                                    editoras:book_data.editoras
                                 }
                             }
                         )
@@ -206,10 +207,16 @@ const useHandleForm = (typeOfForm:TableType)=>{
                         )
                     },
                     account:()=>{
+                      const account_data = form.data as AccountTableProps;
                         return (
                             {
-                                url:"",
-                                data:{}
+                                url:"http://localhost:5700/account/post",
+                                data:{
+                                  fk_id_biblioteca: currentLibraryContext.libraryId,
+                                  nome:account_data.nome,
+                                  multa_padrao:new Word(account_data.multa_padrao,"numeric").word,
+                                  prazo_devolucao_padrao:new Word(account_data.prazo_devolucao_padrao,"numeric").word
+                                }
                             }
                         )
                     },
@@ -222,10 +229,17 @@ const useHandleForm = (typeOfForm:TableType)=>{
                         )
                     },
                     loan:()=>{
+                      const loanData = form.data as LoanTableProps;
                         return (
                             {
                                 url:"",
-                                data:{}
+                                data:{
+                                  exemplares:loanData.exemplares_biblioteca,
+                                  fk_id_biblioteca:currentLibraryContext.libraryId,
+                                  fk_id_usuario_biblioteca:loanData.usuarios_biblioteca,
+                                  fk_id_bibliotecario:current_userId.user_id,
+                                  situacao:loanData.situacao
+                                }
                             }
                         )
                     },
@@ -286,13 +300,13 @@ const useHandleForm = (typeOfForm:TableType)=>{
                         )
                     },
             }
-            const current_userId = JSON.parse(Cookies.get("user_id") || "");
+
               const current_url = checkTables[form.type]().url+"&userId="+current_userId.user_id;
               !!form.data &&
               (()=>{
                 axios.defaults.withCredentials = true
                 onAxiosQuery("post",{
-                    url:current_url,
+                    url:checkTables[form.type]().url,
                     type:{
                       post:{
                         data:checkTables[form.type]().data
@@ -323,7 +337,7 @@ const useHandleForm = (typeOfForm:TableType)=>{
 
 useEffect(()=>{
 
-
+    console.log("AAA")
     !!formObject
     && !!typeOfForm
     && typeOfForm !== "none"

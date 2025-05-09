@@ -116,12 +116,11 @@ const schema = {
             }).max(7,{
                 message:"Campo prazo de devolução deve ter no máximo 2 dígitos"
             })
-        }),   
+        }),
         loan:z.object({
             exemplares_biblioteca:z.array(z.string().min(1)).min(1,{
                 message:"Escolha pelo menos 1 exemplar"
             }),
-            biblioteca:z.string(),
             bibliotecario:z.string().min(1,{
                 message:"Campo bibliotecário inválido"
             }),
@@ -220,7 +219,7 @@ const schema = {
           reserva_online:z.boolean(),
           aplicacao_multa:z.boolean(),
           aplicaco_bloqueio:z.boolean()
-        })  
+        })
     },
     getSchemaValues(type:Exclude<TableType,"none">){
         return Object.entries(this.schemaList[type])

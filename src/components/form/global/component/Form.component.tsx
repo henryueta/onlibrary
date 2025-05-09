@@ -13,13 +13,13 @@ import useHandleLibrary from "../../../../hooks/useHandleLibrary";
 import axios from "axios";
 
 interface FormProps{
-  formSchema:z.ZodObject<ZodRawShape> 
+  formSchema:z.ZodObject<ZodRawShape>
   typeOfData?:Exclude<TableType,"none"|"library">
   fields?:InputProps[]
   onSubmit:(data:{[x: string]:any})=>void
   defaultValues?:TableQueryProps
   orderPreference?:string[]
-  buttonRef?:React.RefObject<HTMLButtonElement | null> 
+  buttonRef?:React.RefObject<HTMLButtonElement | null>
 }
 
 // const preference = ["id","nome","idade"]
@@ -34,16 +34,16 @@ interface FormProps{
 
 const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:FormProps) => {
   const schemaObject = formSchema
-  
-  
+
+
   const [formBase,setFormBase] = useState<InputProps[]>();
   const {currentLibraryContext} = useHandleLibrary();
   const {form} = useHandleForm(typeOfData || "none")
 
   useEffect(()=>{
 
-    !!form 
-    && 
+    !!form
+    &&
     !!typeOfData
     ?setFormBase(form.formList.find((item)=>
       item.name === typeOfData
@@ -56,7 +56,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:Fo
 
   type SchemaType = z.infer<typeof schemaObject>
 
- 
+
   const [teste,setTeste] = useState<
   DefaultValues<{
     [x: string]: any;
@@ -86,20 +86,20 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:Fo
       })
   },[buttonRef])
 
- 
+
 
   return (
     <form>
       {
       }
         {
-          formBase && 
+          formBase &&
           formBase.map((item_input,index_input)=>
          {
-          
+
               return item_input.type !== "hidden" && (
               <label htmlFor={item_input!.id} key={index_input}>
-                
+
                 <div className="titleFieldContainer">
                   <p>
                     {
@@ -107,12 +107,12 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:Fo
                     }
                   </p>
                 </div>
-                <div className="fieldContainer">    
+                <div className="fieldContainer">
                   <div className="fieldDataContainer">
                   {
                     item_input.tag === "select" && !!item_input.options
-                    ? 
-                     <Select           
+                    ?
+                     <Select
                      placeholder={` `}
                      className="selectOptions" isMulti={item_input.options.isMultiple}
                      options={item_input.options.list.map((item_option)=>{return {
@@ -120,13 +120,13 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:Fo
                       label:item_option.nome
                      }})}
                      onChange={(e)=>setValue(item_input.registerId,
-                      item_input.options?.isMultiple 
+                      item_input.options?.isMultiple
                       ? (()=>{
                         const multiple = e as MultiValue<{
                           value:string,
                           label:string
                         }>
-                        return  multiple.map(item_currentOption=>item_currentOption.value)  
+                        return  multiple.map(item_currentOption=>item_currentOption.value)
                       })()
                       : (()=>{
                         const single = e as SingleValue<{
@@ -139,19 +139,19 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:Fo
                      >
                      </Select>
                     :item_input!.tag === "input"
-                    ? 
+                    ?
                     !!item_input!.maskFormat
-                    ? 
+                    ?
                     <Controller
                     defaultValue={teste && teste[item_input!.registerId]}
                     name={item_input!.registerId}
                     control={control}
                     render={({field})=>
-                      <PatternFormat              
+                      <PatternFormat
                      {...field}
                      format={item_input?.maskFormat || ""}
                     mask={"_"}/>
-                    }     
+                    }
                     >
                     </Controller>
                     : !!item_input.numericFormat
@@ -161,8 +161,8 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:Fo
                     name={item_input!.registerId}
                     control={control}
                     render={({field})=>
-                      <NumericFormat              
-                     {...field} 
+                      <NumericFormat
+                     {...field}
                      prefix={item_input.numericFormat?.prefix || ""}
                      decimalScale={item_input.numericFormat?.decimalScale || 0}
                      suffix={item_input.numericFormat?.suffix || ""}
@@ -170,48 +170,48 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:Fo
                      decimalSeparator={item_input.numericFormat?.decimalSeparator || " "}
                      allowNegative={false}
                      />
-                    }     
+                    }
                     >
                     </Controller>
-                    :<input 
+                    :<input
                     value={teste && teste[item_input!.registerId]}
-                    type={item_input!.type} 
-                    id={item_input!.id} 
+                    type={item_input!.type}
+                    id={item_input!.id}
                     {...register(item_input!.registerId as Path<SchemaType>)}/>
                     : item_input!.tag === "textarea"
                     &&
                     <textarea id={item_input!.id} {...register(item_input!.registerId as Path<SchemaType>)}></textarea>
-                    
-                    
+
+
                   }
                   {
                     item_input.type !== "checkbox" &&
                     item_input.type !== "file" &&
                     item_input.tag !== "select"
-                    && <></> 
+                    && <></>
                   }
                   </div>
-                <div className="errorContainer">             
+                <div className="errorContainer">
                 {
                   errors
                   && Object.entries(errors).map((item,index)=>
                     {
                     return !!item[1]?.message && item[0] == item_input!.registerId
-                    && <Warn color="black" key={index} warning={item[1].message.toString() || null}/>   
+                    && <Warn color="black" key={index} warning={item[1].message.toString() || null}/>
                     })
-                  
-                   
+
+
                 }
                  </div>
               </div>
-            </label> 
-            )  
-            }      
+            </label>
+            )
+            }
           )
-          
+
         }
         {
-          !!formState.error.message 
+          !!formState.error.message
           && <Warn color="black" warning={formState.error.message}/>
         }
         {
@@ -221,7 +221,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:Fo
             <button className="managementButton" type="submit" onClick={handleSubmit((data:SchemaType)=>
              {
               console.log(data)
-              return typeOfData && data 
+              return typeOfData && data
               &&  onQueryForm(currentLibraryContext.libraryId || "",{
                type:typeOfData,
                data:data as TableQueryProps
@@ -233,7 +233,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:Fo
             </button>
          </div>
         }
-       
+
     </form>
   )
 }

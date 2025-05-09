@@ -4,13 +4,15 @@ import "./Dialog.component.css"
 interface DialogProps {
     onClose?:()=>void,
     title?:string
+    id?:string
     children:React.ReactNode
 }
 
-const Dialog = ({onClose,title,children}:DialogProps) => {
+const Dialog = ({onClose,title,id,children}:DialogProps) => {
 
   return (
-    <dialog 
+    <dialog
+        id={id}
         className="dialogPane">
           {
         !!onClose &&
@@ -25,12 +27,12 @@ const Dialog = ({onClose,title,children}:DialogProps) => {
             </div>
         </div>
         }
-      
+
         <div className="dialogContentContainer">
             {children}
         </div>
-        
-      
+
+
     </dialog>
   )
 }

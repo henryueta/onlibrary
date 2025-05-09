@@ -51,17 +51,17 @@ export interface FormListProps {
 
 export interface FormObjectProps {
     formList:FormListProps[]
-} 
+}
 
 // const onGetQueryFields = (
-//     queryType:"post" | "put",fields:{  
+//     queryType:"post" | "put",fields:{
 //         post?:Partial<InputProps[]>,
 //         put?:Partial<InputProps[]>
 //     })=>{
 //     return queryType == "post"
 //     ? fields.post
 //     : queryType == "put"
-//     ? fields.put 
+//     ? fields.put
 //     : []
 // }
 
@@ -124,7 +124,7 @@ const form:FormObjectProps = {
                         hasQuery:true,
                         list:[]
                     },
-                    title:"Usuário",
+                    title:"Usuários",
                     registerId:"usuarios"
                 },
                 {
@@ -135,7 +135,7 @@ const form:FormObjectProps = {
                         hasQuery:true,
                         list:[]
                     },
-                    title:"Perfil", 
+                    title:"Perfil",
                     registerId:"perfis_biblioteca"
                 },
                 {
@@ -744,7 +744,7 @@ const form:FormObjectProps = {
                 }
             ]
         }
-        
+
     ]
 }
 

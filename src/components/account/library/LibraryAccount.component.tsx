@@ -6,15 +6,26 @@ import libraryOpenned_icon from "../../../assets/imgs/icons/libraryOpenned_icon.
 import libraryClosed_icon from "../../../assets/imgs/icons/libraryClosed_icon.webp"
 import { useNavigate } from "react-router-dom";
 import { path } from "../../../objects/path.object";
+import Load from "../../load/Load.component"
+
 
 type AccountProps = Record<'libraries',LibraryProps[] |  null>;
 
-const Account = ({libraries}:AccountProps) => {
+const Account = () => {
 
   const onNavigate = useNavigate();
-  const {onLibraryId,currentLibraryContext} = useHandleLibrary()
+  const {onLibraryId,currentLibraryContext,onQueryLibraries,libraries,queryState} = useHandleLibrary()
   const [isAccountView,setIsAccountView] = useState<boolean>(false);
   const [currentLibrary,setCurrentLibrary] = useState<LibraryProps | null>(null);
+
+  useEffect(()=>{
+
+  },[queryState.isLoading])
+
+  useEffect(()=>{
+    isAccountView
+    && onQueryLibraries("http://localhost:5700/auth/library")
+  },[isAccountView])
 
   useEffect(()=>{
     !!libraries && currentLibraryContext
@@ -44,9 +55,13 @@ const Account = ({libraries}:AccountProps) => {
    {
     isAccountView &&
     <Dialog title="Suas bibliotecas" onClose={()=>setIsAccountView(false)}>
-      <section className="libraryAccountListSection">
+    {
+      queryState.isLoading ? <div className="loadingDialogContainer">
+          <Load loadState={queryState.isLoading}/>
+        </div>
+      :<section className="libraryAccountListSection">
           {
-            !!libraries 
+            !!libraries
             ? libraries.map((item)=>
             {
               return <div
@@ -64,6 +79,7 @@ const Account = ({libraries}:AccountProps) => {
             :<>Nenhuma biblioteca encontrada</>
           }
       </section>
+    }
       <section className="libraryAccountOptions">
           <button onClick={()=>{
             setIsAccountView(false)
@@ -75,6 +91,7 @@ const Account = ({libraries}:AccountProps) => {
             ]))
           }} className="managementButton">Criar biblioteca</button>
       </section>
+
     </Dialog>
    }
 

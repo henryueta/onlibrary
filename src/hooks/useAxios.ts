@@ -8,11 +8,10 @@ export interface QueryErrorProps {
     error:string
     message:string
     status:number
-    data?:any
 }
 
 export interface QuerySuccessProps {
-    data:any,////////
+    data:any,////////mudar tipagem
     message:string,
     success:boolean
 }
@@ -44,15 +43,15 @@ interface AxiosQueryProps<T extends object>{
 export type ActionQueryType = {
     type: "success";
     value:QuerySuccessProps
-  } | 
+  } |
   {
     type: "error";
-    value:QueryErrorProps 
-  } | 
+    value:QueryErrorProps
+  } |
   {
     type: "isLoading";
-    value:boolean 
-  }  
+    value:boolean
+  }
 
 const handleQueryState = (state:QueryStateProps,action:ActionQueryType)=>{
     switch (action.type) {
@@ -70,7 +69,7 @@ const handleQueryState = (state:QueryStateProps,action:ActionQueryType)=>{
 
 
 export interface QueryStateProps {
-    
+
     success:QuerySuccessProps,
     error:QueryErrorProps,
     isLoading:boolean
@@ -107,15 +106,15 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
         type:"isLoading",
         value:true
     })
-   
-    
+
+
     let url:string = "";
     let id:string | null = null;
     let data:T | null = null;
     const axiosQueryList = {
 
         get:()=>{
-          
+
             id = query.type.get?.id || null;
             data = query.type.get?.data || null;
 
@@ -123,11 +122,11 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
 
                 ? url = query.url+"&id="+id
 
-                : !id && data 
+                : !id && data
 
                 ? url = query.url+"&data=" //mapear dados
                 : url = query.url;
-                
+
 
                 axios.get(url)
                 .then((result)=>query.onResolver.then(result))
@@ -171,7 +170,7 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
                     }
                 })
                 query.onResolver.then(result)
-            
+
             })
                 .catch((error)=>{
                     const current_error = error.response?.data as QueryErrorProps
@@ -183,10 +182,10 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
                             status:current_error.status,
                             data:current_error
                         }
-                    })  
+                    })
                     const axiosError = error as AxiosError
                     query.onResolver.catch(axiosError)
-                    
+
                 })
                 .finally(()=>{
                     setQueryState({
@@ -196,14 +195,14 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
                 })
         }
 
-    } 
+    }
 
     return axiosQueryList[type]()
 }
 
 
 
-    
+
 return {
     onAxiosQuery,
     queryState
