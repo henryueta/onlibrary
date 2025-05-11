@@ -1,0 +1,22 @@
+@keyframes notification_pulsing {
+    0%{
+      transform: scale(1);
+    },
+    50%{
+      transform: scale(5);
+    },
+    100%{
+      transform: scale(1.05);
+    }
+}
+
+.newNotificationContainer{
+  width:0.6rem;
+  height: 0.6rem;
+  border-radius: 100%;
+  background-color: red;
+  position: relative;
+  top: 8.5px;
+  left: 16.5px;
+  /* animation:  infinite 1.2s notification_pulsing ; */
+}

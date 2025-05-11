@@ -54,6 +54,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
   useEffect(()=>{
     cardList.forEach((button)=>{
         onQueryCountTable(button.type,(result)=>{
+          console.log(result)
           setcardList((prev)=>{
             return prev.map((item)=>{
                if(item.type === button.type){
@@ -66,6 +67,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
         })
   })
   },[currentLibraryContext.libraryId])
+
   return (
     <>
     <NavLibrary />

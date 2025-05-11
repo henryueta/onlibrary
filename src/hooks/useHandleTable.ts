@@ -17,7 +17,7 @@ const useHandleTable = ()=>{
     const [table,setTable] = useState<TableQueryProps | null>(null);
     const {onAxiosQuery} = useAxios();
     const {currentLibraryContext} = useHandleLibrary()
-  
+
     useEffect(()=>{
     },[tableData])
 
@@ -49,33 +49,33 @@ const useHandleTable = ()=>{
         //select(unico) precisa do tipo de tabela e id {retorna todos os dados}(coloca em table)
         //update precisa do tipo de tabela, id e data {retorna confirmação}()
         //delete precisa do tipo de tabela e id {retorna confirmação}()
-        type:QueryType)=>{ 
+        type:QueryType)=>{
 
             let onThen:((data:AxiosResponse)=>void) = ()=>{}
-
             const checkQueryType = {
                 create:()=>{
                     table.data && (
-                        console.log()    
+                        console.log()
                     )
                 },
                 select:()=>{
-                    table?.id 
+                    table?.id
                     ? (()=>{
                         onThen = (result)=>{
                             console.log(result)
                             const {data} = result;
                             setTable(data)
                         }
-                    })() 
+                    })()
                     :
-                    table.data 
+                    table.data
                     ? (()=>{
-                        
+
                     })()
                     : (()=>{
                     onThen = (result)=>{
                         const {data} = result;
+                        console.log("data",data)
                         !!data.length ?
                        (()=>{
                         let headers = Object.entries(data[0]);
@@ -87,13 +87,12 @@ const useHandleTable = ()=>{
                                     return  Object.entries(item)
                                 })
                             }
-                            
+
                         )
                        })()
                        : setTableData(null)
-                    } 
+                    }
                     })()
-
                     onAxiosQuery("get",{
                         url:`http://localhost:5700/tables/data?libraryId=${currentLibraryContext.libraryId}&type=${table.type}`,
                         type:{
@@ -103,7 +102,10 @@ const useHandleTable = ()=>{
                             }
                         },
                         onResolver:{
-                            then:onThen,
+                            then:(result)=>{                              
+                              console.log(result)
+                              onThen(result)
+                            },
                             catch:(error)=>{
                                 console.log(error)
                             }
@@ -122,8 +124,8 @@ const useHandleTable = ()=>{
                 }
             }
             checkQueryType[type]();
-            
-            
+
+
     }
 
     useEffect(()=>{

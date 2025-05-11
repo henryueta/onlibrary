@@ -40,7 +40,7 @@ const Table = ({type}:TableProps) => {
   const onLimitDataView = ()=>{
     setTableDataView(tableData?.dataList.slice(0,maxOfData).map((item)=>{
       return Object.values(item) || ""
-  }) || []) 
+  }) || [])
   }
 
   useEffect(()=>{
@@ -52,11 +52,11 @@ const Table = ({type}:TableProps) => {
     onLimitDataView()
   },[maxOfData])
 
-  
+
   return (
     <>
     <section className="tableSection">
-      
+
         <div className="titleContainer">
             <img src={triangleRetangle_icon} alt="title_icon" />
             <h1>
@@ -66,7 +66,7 @@ const Table = ({type}:TableProps) => {
             </h1>
         </div>
       <div className="managementContainer">
-            <Search 
+            <Search
             filter={{
               defaultValue:{
                  title:"todos",
@@ -79,12 +79,12 @@ const Table = ({type}:TableProps) => {
                   value:item
                 }
               }) || []
-            }} 
+            }}
             quantity={maxOfData}/>
-            
+
         <div className="tableOptionsContainer">
            <span>
-                Exibir 
+                Exibir
             </span>
             <input type="number" onWheel={(e)=>(e.target as HTMLInputElement).blur()} value={maxOfData} onChange={(e)=>{
               let current_value = parseInt(e.target.value)
@@ -94,8 +94,8 @@ const Table = ({type}:TableProps) => {
             }}/>
             <span>
                 Registros
-            </span> 
-          
+            </span>
+
            <button onClick={()=>(onNavigate(path.onCreatePathParams("create_data_management",[
             {
               field:"type",
@@ -109,7 +109,7 @@ const Table = ({type}:TableProps) => {
            </button>
         </div>
       </div>
-      <div className="tableContainer">  
+      <div className="tableContainer">
       {
         !!tableData
         ?<table>
@@ -125,26 +125,25 @@ const Table = ({type}:TableProps) => {
             <th>
               Action
             </th>
-       </tr>       
-       
+       </tr>
+
             {
-            
+
               tableDataView?.map((item,index)=>{
-                 
-              return  <tr key={index}>                   
+
+              return  <tr key={index}>
                       {
                         item &&
                         item.map((item_data,index_data)=>
                         {
-
                           return Object.values(item_data)[0] !== 'id' && Object.values(item_data)[0] !== "livraryId"
                            && <td key={index_data}>
                           {
 
-                          Object.values(item_data)[1].slice(0,15).concat("...")
+                          Object.values(item_data)[1].toString().slice(0,15).concat("...")
                           }
                         </td>
-                        
+
                         }
                         )
                       }
@@ -160,7 +159,7 @@ const Table = ({type}:TableProps) => {
                                  field:"id",
                                  param:tableDataView[index].find((item_tableId)=>{
                                    return item_tableId[0] == "id"
-                                 })![1]
+                                 })![1].toString()
                                }
                                 ]
                                 )
@@ -169,11 +168,11 @@ const Table = ({type}:TableProps) => {
                               }>
                               Editar
                             </button>
-                          </td>    
+                          </td>
                 </tr>
-                } 
+                }
               )
-              
+
             }
       </thead>
         </table>

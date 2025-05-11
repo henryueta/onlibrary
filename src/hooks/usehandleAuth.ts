@@ -69,7 +69,7 @@ const useHandleAuth = ()=>{
             type:"success",
             value:queryState.success
         })
-    },[queryState.success])   
+    },[queryState.success])
 
     useEffect(()=>{
         setAuthState({
@@ -86,7 +86,7 @@ const useHandleAuth = ()=>{
     },[queryState.isLoading])
 
     const onHandleAuth = (type:HandleAuthProps,data:AuthUserProp)=>{
-        
+
         const handleTypes = {
             register:()=>{
                 onAxiosQuery("post",{
@@ -148,12 +148,12 @@ const useHandleAuth = ()=>{
                                 authStatus:{
                                   hasAuth:true,
                                   authValue:"KJK1"
-                                } 
+                                }
                               }))
                               authContext.setUserStatus(onHandleStatus())
                         },
                         catch:(error)=>{
-                            console.log(error)  
+                            console.log(error)
                         }
                     }
                 })
@@ -164,10 +164,10 @@ const useHandleAuth = ()=>{
     }
 
     const onHandleStatus = ()=>{
-        return JSON.parse(Cookies.get("userStatus") || "{}") || null 
+        return JSON.parse(Cookies.get("userStatus") || "{}") || null
     }
 
-  
+
 
     const onHandleToken = (token:string):QueryTokenProps=>{
         return token.length > 0

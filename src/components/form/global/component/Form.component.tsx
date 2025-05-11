@@ -115,9 +115,11 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:Fo
                      <Select
                      placeholder={` `}
                      className="selectOptions" isMulti={item_input.options.isMultiple}
-                     options={item_input.options.list.map((item_option)=>{return {
-                      value:item_option.id,
-                      label:item_option.nome
+                     options={item_input.options.list.map((item_option)=>{
+                       console.log(item_option)
+                       return {
+                      value:item_option.value,
+                      label:item_option.label
                      }})}
                      onChange={(e)=>setValue(item_input.registerId,
                       item_input.options?.isMultiple

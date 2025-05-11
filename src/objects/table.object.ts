@@ -8,7 +8,7 @@ type account_situation = "ativo" | "bloqueado"
 
 
 
-export type LibraryTableQueryProps = 
+export type LibraryTableQueryProps =
 Record<'id'|'nome'|'bairro'|'rua'|'cep'|'telefone',string>
 & Record<'numero',number>
 & Record<'aplicacao_multa'|'aplicacao_bloqueio'|'reserva_online',boolean>
@@ -25,39 +25,39 @@ Record<'id'|'nome',string>
 export type PublisherTableQueryProps =
 Record<'id'|'nome',string>
 
-export type ExemplaryTableQueryProps = 
+export type ExemplaryTableQueryProps =
 Record<'id'|'livros_biblioteca'|'setor'|'prateleira'|'estante',string>
 & Record<'disponivel',boolean>
 & Record<'numero_tombo',number>
 
-export type LoanTableQueryProps = 
+export type LoanTableQueryProps =
 Record<'bibliotecario'|'situacao'|'data_devolucao',string>
 & Record<'exemplares_biblioteca'|'usuarios_biblioteca',AssociationTableProps>
 
-export type ReserveTableQueryProps = 
+export type ReserveTableQueryProps =
 Record<'bibliotecario'|'situacao'|'data_retirada',string>
 & Record<'exemplares_biblioteca'|'usuarios_biblioteca',AssociationTableProps>
 
-export type AmerceTableQueryProps = 
+export type AmerceTableQueryProps =
 Record<'bibliotecario'|'valor'|'situacao'|'data_vencimento',string>
 & Record<'usuarios_biblioteca',AssociationTableProps>
 
-export type AccountTableQueryProps = 
+export type AccountTableQueryProps =
 Record<'biblioteca'|'nome'|'multa_padrao'|'prazo_devolucao_padrao',string>
 
-export type LibraryUserTableQueryProps = 
+export type LibraryUserTableQueryProps =
 Record<'usuarios'|'perfis_biblioteca',AssociationTableProps>
-& Record<'tipo_usuario'|'numero_matricula'|'biblioteca',string>
+& Record<'tipo_usuario'|'numero_matricula'|'biblioteca'|'cpf',string>
 
-export type BookTableQueryProps = 
-Record<'id'| 'isbn' | 'titulo' | 'descricao',string> 
-& 
+export type BookTableQueryProps =
+Record<'id'| 'isbn' | 'titulo' | 'descricao',string>
+&
 Record<'ano_lancamento',number>
 &
 Record<'autores'|'categorias'|'generos'|'editoras',AssociationTableProps>
 
-export type UserTableQueryProps = 
-Record<'id'|'nome'| 'sobrenome'| 'email'| 'cpf'|'senha'| 'username',string> 
+export type UserTableQueryProps =
+Record<'id'|'nome'| 'sobrenome'| 'email'| 'cpf'|'senha'| 'username',string>
 &
 Record<'situacao',account_situation>
 
@@ -65,8 +65,8 @@ Record<'situacao',account_situation>
 
 
 export type TableQueryProps=
-BookTableQueryProps | 
-UserTableQueryProps | 
+BookTableQueryProps |
+UserTableQueryProps |
 LibraryTableQueryProps |
 AuthorTableQueryProps |
 CategoryTableQueryProps |
@@ -320,4 +320,3 @@ export {
     onFindTableIndex,
     onFindTablePath
 }
-

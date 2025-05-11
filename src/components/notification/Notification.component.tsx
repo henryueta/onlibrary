@@ -10,6 +10,7 @@ const Notification = ({}:NotificationProps)=>{
 
   return (
     <div className="currentNotificationContainer">
+        <div className="newNotificationContainer"></div>
       <img src={libraryNotification_icon} alt="admin_notification_icon"/>
     </div>
   )

@@ -4,8 +4,8 @@ import { TableType } from "./table.object"
 
 export interface AssociationTableProps {
 
-    nome:string,
-    id:string | boolean
+    label:string,
+    value:string | boolean
 
 }
 
@@ -124,7 +124,7 @@ const form:FormObjectProps = {
                         hasQuery:true,
                         list:[]
                     },
-                    title:"Usuários",
+                    title:"Usuário",
                     registerId:"usuarios"
                 },
                 {
@@ -146,12 +146,12 @@ const form:FormObjectProps = {
                         hasQuery:false,
                         list:[
                             {
-                                nome:"Comum",
-                                id:"comum"
+                                label:"Comum",
+                                value:"comum"
                             },
                             {
-                                nome:"Administrador",
-                                id:"admin"
+                                label:"Administrador",
+                                value:"admin"
                             }
                         ]
                     },
@@ -161,17 +161,17 @@ const form:FormObjectProps = {
                 {
                     id:"matriculationNumber_id",
                     tag:"input",
-                    type:"number",
+                    type:"text",
                     title:"Número da matrícula",
                     registerId:"numero_matricula"
                 },
                 {
-                    id:"library_id",
+                    id:"cpf_id",
                     tag:"input",
-                    type:"hidden",
-                    value:"",
-                    title:"biblioteca",
-                    registerId:"biblioteca"
+                    title:"CPF",
+                    type:"text",
+                    registerId:"cpf",
+                    maskFormat:"###.###.###-##"
                 }
             ]
         },
@@ -389,11 +389,11 @@ const form:FormObjectProps = {
                         isMultiple:false,
                         list:[
                             {
-                                id:true,
-                                nome:"Disponível"
+                                value:true,
+                                label:"Disponível"
                             },{
-                                id:false,
-                                nome:"Indisponível"
+                                value:false,
+                                label:"Indisponível"
                             },
                         ],
                         hasQuery:false
@@ -465,33 +465,33 @@ const form:FormObjectProps = {
                         hasQuery:false,
                         list:[
                             {
-                                nome:"Concluido",
-                                id:"concluido"
+                                label:"Concluido",
+                                value:"concluido"
                             },
                             {
-                                nome:"Cancelado",
-                                id:"cancelado"
+                                label:"Cancelado",
+                                value:"cancelado"
                             },
                             {
-                                nome:"Vencido",
-                                id:"vencido"
+                                label:"Vencido",
+                                value:"vencido"
                             },
                             {
-                                nome:"Pendente",
-                                id:"pendente"
+                                label:"Pendente",
+                                value:"pendente"
                             }
                         ]
                     },
                     title:"Situação",
                     registerId:"situacao"
                 },
-                {
-                    id:"devolutionDate_id",
-                    tag:"input",
-                    type:"date",
-                    title:"Data de devolução",
-                    registerId:"data_devolucao"
-                }
+                // {
+                //     id:"devolutionDate_id",
+                //     tag:"input",
+                //     type:"date",
+                //     title:"Data de devolução",
+                //     registerId:"data_devolucao"
+                // }
             ]
         },
         {
@@ -535,20 +535,20 @@ const form:FormObjectProps = {
                         hasQuery:false,
                         list:[
                             {
-                                nome:"Concluido",
-                                id:"concluido"
+                                label:"Concluido",
+                                value:"concluido"
                             },
                             {
-                                nome:"Cancelado",
-                                id:"cancelado"
+                                label:"Cancelado",
+                                value:"cancelado"
                             },
                             {
-                                nome:"Vencido",
-                                id:"vencido"
+                                label:"Vencido",
+                                value:"vencido"
                             },
                             {
-                                nome:"Pendente",
-                                id:"pendente"
+                                label:"Pendente",
+                                value:"pendente"
                             }
                         ]
                     },
@@ -606,20 +606,20 @@ const form:FormObjectProps = {
                         hasQuery:false,
                         list:[
                             {
-                                nome:"Concluido",
-                                id:"concluido"
+                                label:"Concluido",
+                                value:"concluido"
                             },
                             {
-                                nome:"Cancelado",
-                                id:"cancelado"
+                                label:"Cancelado",
+                                value:"cancelado"
                             },
                             {
-                                nome:"Vencido",
-                                id:"vencido"
+                                label:"Vencido",
+                                value:"vencido"
                             },
                             {
-                                nome:"Pendente",
-                                id:"pendente"
+                                label:"Pendente",
+                                value:"pendente"
                             }
                         ]
                     },
@@ -690,12 +690,12 @@ const form:FormObjectProps = {
                         isMultiple:false,
                         list:[
                             {
-                                id:true,
-                                nome:"Habilitar"
+                                value:true,
+                                label:"Habilitar"
                             },
                             {
-                                id:false,
-                                nome:"Desabilitar"
+                                value:false,
+                                label:"Desabilitar"
                             }
                         ]
                     },
@@ -710,12 +710,12 @@ const form:FormObjectProps = {
                         isMultiple:false,
                         list:[
                             {
-                                id:true,
-                                nome:"Habilitar"
+                                value:true,
+                                label:"Habilitar"
                             },
                             {
-                                id:false,
-                                nome:"Desabilitar"
+                                value:false,
+                                label:"Desabilitar"
                             }
                         ]
                     },
@@ -730,12 +730,12 @@ const form:FormObjectProps = {
                         isMultiple:false,
                         list:[
                             {
-                                id:true,
-                                nome:"Habilitar"
+                                value:true,
+                                label:"Habilitar"
                             },
                             {
-                                id:false,
-                                nome:"Desabilitar"
+                                value:false,
+                                label:"Desabilitar"
                             }
                         ]
                     },

@@ -98,10 +98,11 @@ const schema = {
                 message:"Campo perfil inválido"
             }),
             tipo_usuario:z.enum(["comum","admin"]),
-            // numero_matricula:z.string().min(2,{
-            //     message:"Campo matrícula inválido"
-            // })
-        }),
+            numero_matricula:z.string(),
+            cpf:z.string().refine((val)=>val.match(/[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}/),{
+                message:"Campo CPF inválido"
+            })////
+          }),
         account:z.object({
             nome:z.string().min(3,{
                 message:"Campo nome inválido"
@@ -121,16 +122,13 @@ const schema = {
             exemplares_biblioteca:z.array(z.string().min(1)).min(1,{
                 message:"Escolha pelo menos 1 exemplar"
             }),
-            bibliotecario:z.string().min(1,{
-                message:"Campo bibliotecário inválido"
-            }),
             usuarios_biblioteca:z.string().min(1,{
                 message:"Campo usuário inválido"
             }),
             situacao:z.enum(['concluido','cancelado','vencido','pendente']),
-            data_devolucao: z.string().refine((val) => !isNaN(Date.parse(val)), {
-                message: "Campo data de devolução inválido",
-              }).transform((val) => new Date(val)),
+            // data_devolucao: z.string().refine((val) => !isNaN(Date.parse(val)), {
+            //     message: "Campo data de devolução inválido",
+            //   }).transform((val) => new Date(val)),
         }),
         reserve:z.object({
             exemplares_biblioteca:z.array(z.string().min(1)).min(1,{
@@ -172,7 +170,7 @@ const schema = {
             numero_tombo:z.string().refine((val)=>val.length > 0,{
                 message:"Campo identificador inválido"
             }),
-            disponivel:z.enum(["disponivel","indisponivel"]),
+            disponivel:z.boolean(),
             setor:z.string().optional(),
             prateleira:z.string().optional(),
             estante:z.string().optional()

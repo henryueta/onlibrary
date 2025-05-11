@@ -1,7 +1,15 @@
 import { useEffect, useReducer, useState } from "react"
 import { BookAssociationProps, FormListProps, form as formObject, FormObjectProps, QueryType } from "../objects/form.object"
 import useAxios, { ActionQueryType, QueryStateProps, QuerySuccessProps } from "./useAxios";
-import { BookTableQueryProps,LoanTableProps,AccountTableProps, LibraryTableQueryProps, TableQueryProps, TableType } from "../objects/table.object";
+import {
+  BookTableQueryProps,
+  LoanTableProps,
+  AccountTableProps,
+  LibraryUserTableQueryProps,
+   LibraryTableQueryProps,
+    TableQueryProps,
+    ExemplaryTableProps,
+     TableType } from "../objects/table.object";
 import useHandleLibrary from "./useHandleLibrary";
 import Word from "../classes/word.class";
 import axios from "axios";
@@ -94,7 +102,6 @@ const useHandleForm = (typeOfForm:TableType)=>{
     //         }
     //     )
     // },[])
-
 const current_userId = JSON.parse(Cookies.get("user_id") || "");
     const onQueryForm = (
         libraryId:string,
@@ -117,7 +124,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                     onResolver:{
                         then:(result)=>{
                             const current_result = result.data as BookAssociationProps;
-                            console.log(current_result)
+
                             const current_form =  formObject.formList.map((item)=>
                             {
                                 return {...item,fields:item.fields.map((item_field)=>
@@ -156,6 +163,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                     })
             },
             create:()=>{
+
                 !!form.data &&
                (()=>{
                 const checkTables = {
@@ -164,7 +172,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                         return (
                             {
                                 //https://onlibrary-api.onrender.com/api/bibliotecas/criar-biblioteca
-                                url:"http://localhost:5700/data/create?type=library",
+                                url:"http://localhost:5700/data/create?type=library&userId="+current_userId.user_id,
                                 data:{
                                     nome:current_data.nome,
                                     endereco:{
@@ -184,9 +192,9 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                         const book_data = form.data as BookTableQueryProps
                         return (
                             {
-                                url:"http://localhost:5700/data/create?type=book",
+                                url:"http://localhost:5700/book/post",
                                 data:{
-                                    isbn:new Word(book_data.isbn,"isbn").word,
+                                    ISBN:book_data.ISBN,
                                     titulo:book_data.titulo,
                                     descricao:book_data.descricao,
                                     ano_lancamento:book_data.ano_lancamento,
@@ -221,10 +229,18 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                         )
                     },
                     library_user:()=>{
+                        const library_user_data = form.data as LibraryUserTableQueryProps
                         return (
                             {
-                                url:"",
-                                data:{}
+                                url:"http://localhost:5700/library_user/post",
+                                data:{
+                                  numero_matricula:library_user_data.numero_matricula,
+                                  fk_id_biblioteca:libraryId,
+                                  fk_id_usuario:library_user_data.usuarios,
+                                  fk_id_perfil_usuario:library_user_data.perfis_biblioteca,
+                                  tipo_usuario:library_user_data.tipo_usuario,
+                                  cpf:new Word(library_user_data.cpf,"numeric")
+                                }
                             }
                         )
                     },
@@ -232,7 +248,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                       const loanData = form.data as LoanTableProps;
                         return (
                             {
-                                url:"",
+                                url:"http://localhost:5700/loan/post",
                                 data:{
                                   exemplares:loanData.exemplares_biblioteca,
                                   fk_id_biblioteca:currentLibraryContext.libraryId,
@@ -260,10 +276,19 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                         )
                     },
                     exemplary:()=>{
+                      const exemplaryData = form.data as ExemplaryTableProps
                         return (
                             {
-                                url:"",
-                                data:{}
+                                url:"http://localhost:5700/exemplary/post",
+                                data:{
+                                  fk_id_livro:exemplaryData.livros_biblioteca,
+                                  numero_tombo:exemplaryData.numero_tombo,
+                                  disponivel:exemplaryData.disponivel,
+                                  estante:exemplaryData.estante,
+                                  prateleira:exemplaryData.prateleira,
+                                  setor:exemplaryData.setor,
+                                  fk_id_biblioteca:libraryId
+                              }
                             }
                         )
                     },
