@@ -180,13 +180,6 @@ const form:FormObjectProps = {
             schema:schema.schemaList['account'],
             fields:[
                 {
-                    id:"library_id",
-                    tag:"input",
-                    type:"hidden",
-                    title:"biblioteca",
-                    registerId:"biblioteca"
-                },
-                {
                     id:"name_id",
                     tag:"input",
                     type:"text",
@@ -216,6 +209,17 @@ const form:FormObjectProps = {
                     },
                     title:"Prazo de devolução padrão",
                     registerId:"prazo_devolucao_padrao"
+                },
+                {
+                    id:"amercePeriod_id",
+                    tag:"input",
+                    type:"number",
+                    numericFormat:{
+                        decimalScale:0,
+                        suffix:" dias"
+                    },
+                    title:"Prazo de multa padrão",
+                    registerId:"prazo_multa_padrao"
                 }
             ]
         },
@@ -568,13 +572,6 @@ const form:FormObjectProps = {
             schema:schema.schemaList['amerce'],
             fields:[
                 {
-                    id:"library_id",
-                    tag:"input",
-                    type:"hidden",
-                    title:"Bibliotecário",
-                    registerId:"bibliotecario"
-                },
-                {
                     id:"libraryUser_id",
                     tag:"select",
                     options:{
@@ -625,13 +622,6 @@ const form:FormObjectProps = {
                     },
                     title:"Situação",
                     registerId:"situacao"
-                },
-                {
-                    id:"dueDate_id",
-                    tag:"input",
-                    type:"date",
-                    title:"Data de vencimento",
-                    registerId:"data_vencimento"
                 }
             ]
         },{

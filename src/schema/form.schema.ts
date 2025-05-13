@@ -116,6 +116,11 @@ const schema = {
                 message:"Campo prazo de devolução deve ter pelo menos 1 dígito"
             }).max(7,{
                 message:"Campo prazo de devolução deve ter no máximo 2 dígitos"
+            }),
+            prazo_multa_padrao:z.string().min(4,{
+                message:"Campo prazo de multa deve ter pelo menos 1 dígito"
+            }).max(7,{
+                message:"Campo prazo de multa deve ter no máximo 2 dígitos"
             })
         }),
         loan:z.object({
@@ -147,9 +152,6 @@ const schema = {
               }).transform((val) => new Date(val)),
         }),
         amerce:z.object({
-            bibliotecarios:z.string().min(1,{
-                message:"Campo bibliotecário inválido",
-            }),
             usuarios_biblioteca:z.string().min(1,{
                 message:"Campo usuário inválido"
             }),
@@ -158,10 +160,7 @@ const schema = {
             }).max(7,{
                 message:"Campo valor deve ter no máximo 4 digitos"
             }),
-            situacao:z.enum(['concluido','cancelado','vencido','pendente']),
-            data_vencimento: z.string().refine((val) => !isNaN(Date.parse(val)), {
-                message: "Campo data de retirada inválido",
-              }).transform((val) => new Date(val)),
+            situacao:z.enum(['concluido','cancelado','vencido','pendente'])
         }),
         exemplary:z.object({
             livros_biblioteca:z.string().min(1,{

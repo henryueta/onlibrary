@@ -1,6 +1,6 @@
 import "./Management.route.css";
-import NavAdmin from "../../components/nav/management/admin/NavAdmin.component"
-import NavLibrary from "../../components/nav/management/library/NavLibrary.component"
+import NavAdmin from "../../components/nav/management/admin/NavAdmin.component";
+import NavLibrary from "../../components/nav/management/library/NavLibrary.component";
 import GroupTableCard from "../../components/group/table_card/GroupTableCard.component";
 import cube_icon from "../../assets/imgs/icons/cube_icon.png"
 import { useEffect, useState } from "react";
@@ -11,7 +11,8 @@ import Form from "../../components/form/global/component/Form.component";
 import { form } from "../../objects/form.object";
 import useHandleTable from "../../hooks/useHandleTable";
 import useHandleLibrary from "../../hooks/useHandleLibrary";
-import useHandleForm from "../../hooks/useHandleForm"
+import useHandleForm from "../../hooks/useHandleForm";
+import useHandlePath from "../../hooks/useHandlePath";
 
 type ManagementMode = "default" | "get" | "post" | "put";
 
@@ -27,6 +28,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
   const [defaultForm,setDefaultForm] = useState<TableQueryProps | null>();
   const {currentLibraryContext} = useHandleLibrary()
   const {onQueryTable,table,onQueryCountTable} = useHandleTable();
+  const {currentPathContext} = useHandlePath();
   const {type,id} = useParams()
 
 
@@ -66,7 +68,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
            })
         })
   })
-  },[currentLibraryContext.libraryId])
+},[currentLibraryContext.libraryId,currentPathContext.pathName])
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useReducer, useState } from "react"
 import { AuthContext } from "../context/AuthContext"
-import Cookies from "js-cookie"
+import Cookies from "js-cookie";
 import user_model from "../models/user.json";
 import axios from "axios";
 import {  UserTableQueryProps } from "../objects/table.object";
