@@ -16,6 +16,10 @@ export type BookAssociationProps = Record<'autores'|'categorias'|'generos'|'edit
 
 export interface InputProps {
     id:string,
+    forForm:{
+        post:boolean,
+        put:boolean
+    }
     tag:'input' | 'textarea' | 'select',
     title:string,
     type?:"text" | "number" | "file" | "checkbox" | "email" | "hidden" | "date"
@@ -76,6 +80,10 @@ const form:FormObjectProps = {
             fields:[
                 {
                     id:"nome_id",
+                     forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     title:"Nome",
                     type:"text",
@@ -83,6 +91,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"sobrenome_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     title:"Sobrenome",
                     type:"text",
@@ -90,6 +102,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"cpf_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     title:"CPF",
                     type:"text",
@@ -98,6 +114,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"username_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     title:"Username",
                     type:"text",
@@ -105,6 +125,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"email_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     title:"Email",
                     type:"email",
@@ -118,6 +142,10 @@ const form:FormObjectProps = {
             fields:[
                 {
                     id:"users_id",
+                    forForm:{
+                        post:true,
+                        put:false
+                    },
                     tag:"select",
                     options:{
                         isMultiple:false,
@@ -129,6 +157,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"accounts_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"select",
                     options:{
                         isMultiple:false,
@@ -140,6 +172,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"userType_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"select",
                     options:{
                         isMultiple:false,
@@ -160,6 +196,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"matriculationNumber_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     type:"text",
                     title:"Número da matrícula",
@@ -167,6 +207,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"cpf_id",
+                    forForm:{
+                        post:true,
+                        put:false
+                    },
                     tag:"input",
                     title:"CPF",
                     type:"text",
@@ -181,6 +225,10 @@ const form:FormObjectProps = {
             fields:[
                 {
                     id:"name_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     type:"text",
                     title:"Nome",
@@ -188,6 +236,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"amerce_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     type:"number",
                     numericFormat:{
@@ -201,6 +253,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"paybackPeriod_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     type:"number",
                     numericFormat:{
@@ -212,6 +268,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"amercePeriod_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     type:"number",
                     numericFormat:{
@@ -229,6 +289,10 @@ const form:FormObjectProps = {
             fields:[
                 {
                     id:"ISBN_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     title:"ISBN",
                     type:'text',
@@ -237,6 +301,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"cape_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     title:"Capa",
                     type:"file",
@@ -244,6 +312,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"title_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     title:"Título",
                     type:"text",
@@ -251,6 +323,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"description_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"textarea",
                     title:"Descrição",
                     type:"text",
@@ -258,6 +334,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"releaseYear_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     title:"Ano de lançamento",
                     type:"number",
@@ -269,6 +349,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"authors_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"select",
                     title:"Autores",
                     registerId:"autores",
@@ -280,6 +364,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"categories_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"select",
                     title:"Categorias",
                     registerId:"categorias",
@@ -291,6 +379,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"genders_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"select",
                     title:"Gêneros",
                     registerId:"generos",
@@ -302,6 +394,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"publishers_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"select",
                     title:"Editoras",
                     registerId:"editoras",
@@ -318,6 +414,10 @@ const form:FormObjectProps = {
             fields:[
                 {
                     id:"name_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     type:"text",
                     title:"Nome",
@@ -331,6 +431,10 @@ const form:FormObjectProps = {
             fields:[
                 {
                     id:"name_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     type:"text",
                     title:"Nome",
@@ -344,6 +448,10 @@ const form:FormObjectProps = {
             fields:[
                 {
                     id:"name_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     type:"text",
                     title:"Nome",
@@ -357,6 +465,10 @@ const form:FormObjectProps = {
             fields:[
                 {
                     id:"name_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     type:"text",
                     title:"Nome",
@@ -370,6 +482,10 @@ const form:FormObjectProps = {
             fields:[
                 {
                     id:"bookId_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"select",
                     options:{
                         isMultiple:false,
@@ -381,6 +497,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"tomboNumber_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     type:"number",
                     title:"Número tombo",
@@ -388,6 +508,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"available_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"select",
                     options:{
                         isMultiple:false,
@@ -407,6 +531,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"sector_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     type:"text",
                     title:"Setor",
@@ -414,6 +542,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"shelf_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     type:"text",
                     title:"Prateleira",
@@ -421,6 +553,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"stand_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     type:"text",
                     title:"Estante",
@@ -434,6 +570,10 @@ const form:FormObjectProps = {
             fields:[
                 {
                     id:"exemplary_id",
+                    forForm:{
+                        post:true,
+                        put:false
+                    },
                     tag:"select",
                     options:{
                         isMultiple:true,
@@ -444,14 +584,11 @@ const form:FormObjectProps = {
                     registerId:"exemplares_biblioteca"
                 },
                 {
-                    id:"librarian_id",
-                    tag:"select",
-                    type:"hidden",
-                    title:"bibliotecario",
-                    registerId:"bibliotecario"
-                },
-                {
                     id:"libraryUser_id",
+                    forForm:{
+                        post:true,
+                        put:false
+                    },
                     tag:"select",
                     options:{
                         isMultiple:false,
@@ -463,6 +600,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"situation_id",
+                    forForm:{
+                        post:false,
+                        put:true
+                    },
                     tag:"select",
                     options:{
                         isMultiple:false,
@@ -475,27 +616,23 @@ const form:FormObjectProps = {
                             {
                                 label:"Cancelado",
                                 value:"cancelado"
-                            },
-                            {
-                                label:"Vencido",
-                                value:"vencido"
-                            },
-                            {
-                                label:"Pendente",
-                                value:"pendente"
                             }
                         ]
                     },
                     title:"Situação",
                     registerId:"situacao"
                 },
-                // {
-                //     id:"devolutionDate_id",
-                //     tag:"input",
-                //     type:"date",
-                //     title:"Data de devolução",
-                //     registerId:"data_devolucao"
-                // }
+                {
+                    id:"devolutionDate_id",
+                    forForm:{
+                        post:false,
+                        put:true
+                    },
+                    tag:"input",
+                    type:"date",
+                    title:"Data de devolução",
+                    registerId:"data_devolucao"
+                }
             ]
         },
         {
@@ -504,6 +641,10 @@ const form:FormObjectProps = {
             fields:[
                 {
                     id:"exemplary_id",
+                    forForm:{
+                        post:true,
+                        put:false
+                    },
                     tag:"select",
                     options:{
                         isMultiple:true,
@@ -514,14 +655,11 @@ const form:FormObjectProps = {
                     registerId:"exemplares_biblioteca"
                 },
                 {
-                    id:"librarian_id",
-                    tag:"select",
-                    type:"hidden",
-                    title:"bibliotecario",
-                    registerId:"bibliotecario"
-                },
-                {
                     id:"libraryUser_id",
+                    forForm:{
+                        post:true,
+                        put:false
+                    },
                     tag:"select",
                     options:{
                         isMultiple:false,
@@ -533,6 +671,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"situation_id",
+                    forForm:{
+                        post:false,
+                        put:true
+                    },
                     tag:"select",
                     options:{
                         isMultiple:false,
@@ -545,14 +687,6 @@ const form:FormObjectProps = {
                             {
                                 label:"Cancelado",
                                 value:"cancelado"
-                            },
-                            {
-                                label:"Vencido",
-                                value:"vencido"
-                            },
-                            {
-                                label:"Pendente",
-                                value:"pendente"
                             }
                         ]
                     },
@@ -564,7 +698,11 @@ const form:FormObjectProps = {
                     tag:"input",
                     type:"date",
                     title:"Data de retirada",
-                    registerId:"data_retirada"
+                    registerId:"data_retirada",
+                    forForm:{
+                        post:false,
+                        put:true
+                    },
                 }
             ]
         },{
@@ -573,6 +711,10 @@ const form:FormObjectProps = {
             fields:[
                 {
                     id:"libraryUser_id",
+                    forForm:{
+                        post:true,
+                        put:false
+                    },
                     tag:"select",
                     options:{
                         isMultiple:false,
@@ -584,6 +726,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"value_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     type:"number",
                     numericFormat:{
@@ -597,6 +743,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"situation_id",
+                    forForm:{
+                        post:false,
+                        put:true
+                    },
                     tag:"select",
                     options:{
                         isMultiple:false,
@@ -609,14 +759,6 @@ const form:FormObjectProps = {
                             {
                                 label:"Cancelado",
                                 value:"cancelado"
-                            },
-                            {
-                                label:"Vencido",
-                                value:"vencido"
-                            },
-                            {
-                                label:"Pendente",
-                                value:"pendente"
                             }
                         ]
                     },
@@ -630,6 +772,10 @@ const form:FormObjectProps = {
             fields:[
                 {
                     id:"name_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     type:"text",
                     title:"Nome",
@@ -637,6 +783,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"telephone_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     type:"number",
                     maskFormat:"(11) ####-####",
@@ -645,6 +795,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"roadAdress_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     type:"text",
                     title:"Rua",
@@ -652,6 +806,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"numberAdress_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     type:"number",
                     title:"Número",
@@ -659,6 +817,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"cepAdress_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     type:"number",
                     maskFormat:"#####-###",
@@ -667,6 +829,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"neighborhoodAdress_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"input",
                     type:"text",
                     title:"Bairro",
@@ -674,6 +840,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"reserveOption_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"select",
                     options:{
                         hasQuery:false,
@@ -694,6 +864,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"amerceOption_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"select",
                     options:{
                         hasQuery:false,
@@ -714,6 +888,10 @@ const form:FormObjectProps = {
                 },
                 {
                     id:"userBlockOption_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
                     tag:"select",
                     options:{
                         hasQuery:false,

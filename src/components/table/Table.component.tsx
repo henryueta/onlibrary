@@ -6,8 +6,10 @@ import { TableType, tableTypeDataList,onFindTableIndex } from "../../objects/tab
 import triangleRetangle_icon from "../../../src/assets/imgs/icons/triangleRetangle_icon.png"
 import { path } from "../../objects/path.object"
 import { useNavigate } from "react-router-dom"
-import useHandleLibrary from "../../hooks/useHandleLibrary"
+import useHandleLibrary from "../../hooks/useHandleLibrary";
+import useHandlePath from "../../hooks/useHandlePath"
 import Warn from "../warn/Warn.component"
+import axios from "axios"
 
 interface TableProps {
 
@@ -18,24 +20,23 @@ const Table = ({type}:TableProps) => {
 
   const {currentLibraryContext} = useHandleLibrary()
   const {onQueryTable,tableData} = useHandleTable();
+  const {currentPathContext} = useHandlePath();
   const onNavigate = useNavigate();
-  const [maxOfData,setMaxOfData] = useState<number>(1);
+  const [maxOfData,setMaxOfData] = useState<number>(5);
   const [tableDataView,setTableDataView] = useState<string[][]>([]);
 
 
   useEffect(()=>{
+    const source = axios.CancelToken.source();
     onQueryTable({
       type:type
     },
-    "select")
-  },[currentLibraryContext.libraryId])
+    "select",source.token)
+    return ()=>{
+      source.cancel()
+    }
+  },[currentLibraryContext.libraryId,type])
 
-  useEffect(()=>{
-    onQueryTable({
-      type:type
-    },
-    "select")
-  },[type])
 
   const onLimitDataView = ()=>{
     setTableDataView(tableData?.dataList.slice(0,maxOfData).map((item)=>{
@@ -136,11 +137,12 @@ const Table = ({type}:TableProps) => {
                         item &&
                         item.map((item_data,index_data)=>
                         {
-                          return Object.values(item_data)[0] !== 'id' && Object.values(item_data)[0] !== "livraryId"
+                          return Object.values(item_data)[0] !== 'id' && Object.values(item_data)[0] !== "fk_id_biblioteca"
                            && <td key={index_data}>
                           {
-
-                          Object.values(item_data)[1].toString().slice(0,15).concat("...")
+                          Object.values(item_data)[1].toString().length >= 15 
+                          ? Object.values(item_data)[1].toString().slice(0,15).concat("...")
+                          : Object.values(item_data)[1].toString()
                           }
                         </td>
 

@@ -23,6 +23,7 @@
 .tableCardListContainer .iconCardContainer img{
     width: 2.5rem;
     height: 2.5rem;
+    opacity: 75%;
 }
 
 .tableCardListContainer .iconCardContainer{
@@ -45,6 +46,6 @@
 }
 
 .tableCardListContainer .textCardContainer>p{
-    color: black;
+    color: rgb(56, 56, 56);
     font-weight: bolder;
 }

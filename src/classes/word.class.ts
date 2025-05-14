@@ -1,5 +1,5 @@
 
-type WordFormatType = "cpf" | "name" | "isbn" | "cep" | "telephone";
+type WordFormatType = "cpf" | "name" | "isbn" | "cep" | "telephone" | "numeric";
 
 class Word {
     word:string | null = null

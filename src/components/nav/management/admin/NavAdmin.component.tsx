@@ -10,13 +10,12 @@ const NavAdmin = () => {
   const {libraries} = useHandleLibrary()
   const {authContext} = useHandleAuth();
 
-
   return (
     <nav className="navAdmin">
         <div className="adminOptionsContainer">
             <div className="NotificationContainer">
 
-              <Notification type="admin" id={authContext.userId || ""}/>
+              <Notification type="admin" id={authContext.userId}/>
             </div>
             <div className="currentLibraryContainer">
                 <Account libraries={libraries || []}/>

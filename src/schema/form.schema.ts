@@ -130,26 +130,22 @@ const schema = {
             usuarios_biblioteca:z.string().min(1,{
                 message:"Campo usuário inválido"
             }),
-            situacao:z.enum(['concluido','cancelado','vencido','pendente']),
-            // data_devolucao: z.string().refine((val) => !isNaN(Date.parse(val)), {
-            //     message: "Campo data de devolução inválido",
-            //   }).transform((val) => new Date(val)),
+            situacao:z.enum(['concluido','cancelado']).optional(),
+            data_devolucao: z.string().refine((val) => !isNaN(Date.parse(val)), {
+                message: "Campo data de devolução inválido",
+              }).transform((val) => new Date(val)).optional(),
         }),
         reserve:z.object({
             exemplares_biblioteca:z.array(z.string().min(1)).min(1,{
                 message:"Escolha pelo menos 1 exemplar"
             }),
-            biblioteca:z.string(),
-            bibliotecario:z.string().min(1,{
-                message:"Campo bibliotecário inválido"
-            }),
             usuarios_biblioteca:z.string().min(1,{
                 message:"Campo usuário inválido"
             }),
-            situacao:z.enum(['concluido','cancelado','vencido','pendente']),
+            situacao:z.enum(['concluido','cancelado']).optional(),
             data_retirada: z.string().refine((val) => !isNaN(Date.parse(val)), {
                 message: "Campo data de retirada inválido",
-              }).transform((val) => new Date(val)),
+              }).transform((val) => new Date(val)).optional(),
         }),
         amerce:z.object({
             usuarios_biblioteca:z.string().min(1,{
@@ -160,7 +156,7 @@ const schema = {
             }).max(7,{
                 message:"Campo valor deve ter no máximo 4 digitos"
             }),
-            situacao:z.enum(['concluido','cancelado','vencido','pendente'])
+            situacao:z.enum(['concluido','cancelado'])
         }),
         exemplary:z.object({
             livros_biblioteca:z.string().min(1,{

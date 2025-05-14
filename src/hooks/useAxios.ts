@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosResponse } from "axios"
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, CancelToken } from "axios"
 import { useEffect, useReducer } from "react";
 import Cookies from "js-cookie";
 
@@ -86,8 +86,7 @@ const initialQueryState:QueryStateProps = {
     error:{
         error:"",
         message:"",
-        status:0,
-        data:null
+        status:0
     },
     isLoading:false
 
@@ -101,7 +100,7 @@ const [queryState,setQueryState] = useReducer(handleQueryState,initialQueryState
 useEffect(()=>{
 },[queryState.isLoading])
 
-const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
+const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:CancelToken)=>{
     setQueryState({
         type:"isLoading",
         value:true
@@ -114,7 +113,6 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
     const axiosQueryList = {
 
         get:()=>{
-
             id = query.type.get?.id || null;
             data = query.type.get?.data || null;
 
@@ -128,7 +126,9 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
                 : url = query.url;
 
 
-                axios.get(url)
+                axios.get(url,{
+                    cancelToken:cancelToken
+                })
                 .then((result)=>query.onResolver.then(result))
                 .catch((error)=>{
                     const axiosError = error as AxiosError
@@ -180,7 +180,7 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>)=>{
                             error:current_error.error,
                             message:current_error.message,
                             status:current_error.status,
-                            data:current_error
+                            // data:current_error
                         }
                     })
                     const axiosError = error as AxiosError

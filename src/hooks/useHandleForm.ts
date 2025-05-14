@@ -3,12 +3,12 @@ import { BookAssociationProps, FormListProps, form as formObject, FormObjectProp
 import useAxios, { ActionQueryType, QueryStateProps, QuerySuccessProps } from "./useAxios";
 import {
   BookTableQueryProps,
-  LoanTableProps,
-  AccountTableProps,
+  LoanTableQueryProps,
+  AccountTableQueryProps,
   LibraryUserTableQueryProps,
    LibraryTableQueryProps,
     TableQueryProps,
-    ExemplaryTableProps,
+    ExemplaryTableQueryProps,
      TableType } from "../objects/table.object";
 import useHandleLibrary from "./useHandleLibrary";
 import Word from "../classes/word.class";
@@ -215,7 +215,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                         )
                     },
                     account:()=>{
-                      const account_data = form.data as AccountTableProps;
+                      const account_data = form.data as AccountTableQueryProps;
                         return (
                             {
                                 url:"http://localhost:5700/account/post",
@@ -239,13 +239,13 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                                   fk_id_usuario:library_user_data.usuarios,
                                   fk_id_perfil_usuario:library_user_data.perfis_biblioteca,
                                   tipo_usuario:library_user_data.tipo_usuario,
-                                  cpf:new Word(library_user_data.cpf,"numeric")
+                                  cpf:new Word(library_user_data.cpf,"numeric").word
                                 }
                             }
                         )
                     },
                     loan:()=>{
-                      const loanData = form.data as LoanTableProps;
+                      const loanData = form.data as LoanTableQueryProps;
                         return (
                             {
                                 url:"http://localhost:5700/loan/post",
@@ -254,7 +254,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                                   fk_id_biblioteca:currentLibraryContext.libraryId,
                                   fk_id_usuario_biblioteca:loanData.usuarios_biblioteca,
                                   fk_id_bibliotecario:current_userId.user_id,
-                                  situacao:loanData.situacao
+                                  situacao:"pendente"
                                 }
                             }
                         )
@@ -276,7 +276,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                         )
                     },
                     exemplary:()=>{
-                      const exemplaryData = form.data as ExemplaryTableProps
+                      const exemplaryData = form.data as ExemplaryTableQueryProps
                         return (
                             {
                                 url:"http://localhost:5700/exemplary/post",

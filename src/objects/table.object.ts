@@ -50,7 +50,7 @@ Record<'usuarios'|'perfis_biblioteca',AssociationTableProps>
 & Record<'tipo_usuario'|'numero_matricula'|'biblioteca'|'cpf',string>
 
 export type BookTableQueryProps =
-Record<'id'| 'isbn' | 'titulo' | 'descricao',string>
+Record<'id'| 'ISBN' | 'titulo' | 'descricao',string>
 &
 Record<'ano_lancamento',number>
 &

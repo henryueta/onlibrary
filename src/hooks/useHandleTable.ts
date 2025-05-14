@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {  TableQueryProps, TableType, tableTypeDataList, TableTypeProps } from "../objects/table.object";
-import { AxiosResponse } from "axios";
+import { AxiosResponse, CancelToken } from "axios";
 import useAxios from "./useAxios";
 import useHandleLibrary from "./useHandleLibrary";
 import { QueryType } from "../objects/form.object";
@@ -21,7 +21,8 @@ const useHandleTable = ()=>{
     useEffect(()=>{
     },[tableData])
 
-    const onQueryCountTable = async <T extends any>(type:string,action:(result:AxiosResponse)=>T)=>{
+    const onQueryCountTable = async <T extends any>(type:string,action:(result:AxiosResponse)=>T,cancelToken?:CancelToken)=>{
+        
         !!currentLibraryContext.libraryId &&
             onAxiosQuery("get",{
                 url:"http://localhost:5700/count?type="+type+"&id="+currentLibraryContext.libraryId,
@@ -34,8 +35,7 @@ const useHandleTable = ()=>{
 
                     }
                 }
-            })
-
+            },cancelToken)
     }
 
     const onQueryTable = (
@@ -49,7 +49,8 @@ const useHandleTable = ()=>{
         //select(unico) precisa do tipo de tabela e id {retorna todos os dados}(coloca em table)
         //update precisa do tipo de tabela, id e data {retorna confirmação}()
         //delete precisa do tipo de tabela e id {retorna confirmação}()
-        type:QueryType)=>{
+        type:QueryType,
+        cancelToken?:CancelToken)=>{
 
             let onThen:((data:AxiosResponse)=>void) = ()=>{}
             const checkQueryType = {
@@ -82,7 +83,7 @@ const useHandleTable = ()=>{
                         setTableData({
                                 headerList:headers.map((item,index)=>{
                                     return headers[index][0]
-                                }).filter((item)=>item !== "id" && item !== "livraryId"),
+                                }).filter((item)=>item !== "id" && item !== "fk_id_biblioteca"),
                                 dataList:data.map((item:TableQueryProps)=>{
                                     return  Object.entries(item)
                                 })
@@ -94,7 +95,7 @@ const useHandleTable = ()=>{
                     }
                     })()
                     onAxiosQuery("get",{
-                        url:`http://localhost:5700/tables/data?libraryId=${currentLibraryContext.libraryId}&type=${table.type}`,
+                        url:`http://localhost:5700/tables/data?id_biblioteca=${currentLibraryContext.libraryId}&type=${table.type}`,
                         type:{
                             get:{
                                 id:table.id,
@@ -110,7 +111,8 @@ const useHandleTable = ()=>{
                                 console.log(error)
                             }
                         }
-                    })
+                    },
+                    cancelToken)
                 },
                 update:()=>{
                     table?.id && table.data

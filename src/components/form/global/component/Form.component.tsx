@@ -6,11 +6,9 @@ import { useEffect, useState } from "react";
 import { InputProps } from "../../../../objects/form.object";
 import { NumericFormat, PatternFormat } from "react-number-format";
 import Warn from "../../../warn/Warn.component";
-// import Select from "../../../select/Select.component";
 import Select, { MultiValue, SingleValue } from "react-select"
 import useHandleForm from "../../../../hooks/useHandleForm";
 import useHandleLibrary from "../../../../hooks/useHandleLibrary";
-import axios from "axios";
 
 interface FormProps{
   formSchema:z.ZodObject<ZodRawShape>
@@ -19,6 +17,10 @@ interface FormProps{
   onSubmit:(data:{[x: string]:any})=>void
   defaultValues?:TableQueryProps
   orderPreference?:string[]
+  method:{
+    post:boolean,
+    put:boolean
+  },
   buttonRef?:React.RefObject<HTMLButtonElement | null>
 }
 
@@ -32,7 +34,7 @@ interface FormProps{
 //   })
 // })
 
-const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:FormProps) => {
+const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,method}:FormProps) => {
   const schemaObject = formSchema
 
 
@@ -95,11 +97,16 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef}:Fo
         {
           formBase &&
           formBase.map((item_input,index_input)=>
-         {
-
-              return item_input.type !== "hidden" && (
+         {  
+            
+              return item_input.type !== "hidden" 
+              && 
+              (
+                (item_input.forForm.post === method.post
+                || 
+                item_input.forForm.put === method.put)
+                &&
               <label htmlFor={item_input!.id} key={index_input}>
-
                 <div className="titleFieldContainer">
                   <p>
                     {

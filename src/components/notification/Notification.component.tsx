@@ -30,10 +30,8 @@ const Notification = ({type,id}:NotificationProps)=>{
 
 
   useEffect(()=>{
-    !!currentLibraryContext.libraryId && id &&
-    setInterval(()=>{
-      console.log("KSAIQJ")
-
+    !!currentLibraryContext.libraryId &&
+    // setInterval(()=>{
     onAxiosQuery("get",{
       url:"http://localhost:5700/notification/get?id_usuario="+id+"&id_biblioteca="+currentLibraryContext.libraryId+"&type="+type,
       type:{
@@ -50,9 +48,9 @@ const Notification = ({type,id}:NotificationProps)=>{
           catch:(error)=>console.log(error)
       }
     })
-  },30000)
+  // },90000)
 
-  },[type,id,currentPathContext.pathName,currentLibraryContext.libraryId])
+  },[currentLibraryContext.libraryId])
 
   return (
     <>

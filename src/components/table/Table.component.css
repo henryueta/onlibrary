@@ -6,7 +6,7 @@
 }
 
 .tableSection{
-    margin-top: 5rem;
+    margin-top: 2.5rem;
     padding: 0.5rem 0rem 0.5rem 0rem;
     border: 0.12rem solid var(--grayLine_var);
     border-radius: calc(var(--borderRadius_var) + 0.5rem);
@@ -142,14 +142,16 @@ cursor: pointer;
     align-items: center;
     justify-content: start;
     font-weight: 400;
-
+    font-size: 1.05rem;
+    padding: 0.5rem;
 }
 
 
 .tableContainer>table td{
     display: flex;
-    padding: 0.5rem 0rem 0.5rem 0rem;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
     flex: 1;
+    font-size: 1.05rem;
     align-items: center;
     justify-content: start;
 }
