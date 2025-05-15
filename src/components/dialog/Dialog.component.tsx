@@ -5,15 +5,16 @@ interface DialogProps {
     onClose?:()=>void,
     title?:string
     id?:string
-    children:React.ReactNode
+    children:React.ReactNode,
+    className?:string
 }
 
-const Dialog = ({onClose,title,id,children}:DialogProps) => {
+const Dialog = ({onClose,title,id,children,className}:DialogProps) => {
 
   return (
     <dialog
         id={id}
-        className="dialogPane">
+        className={!!className ? className : "dialogPane"}>
           {
         !!onClose &&
         <div className="dialogHeaderContainer">
@@ -21,7 +22,7 @@ const Dialog = ({onClose,title,id,children}:DialogProps) => {
                 <h1>{title}</h1>
             </div>
             <div className="dialogCloseContainer">
-                <button onClick={onClose}>
+                <button type="button" onClick={onClose}>
                     X
                 </button>
             </div>

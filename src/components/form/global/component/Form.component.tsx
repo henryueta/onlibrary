@@ -2,13 +2,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, DefaultValues, Path, useForm } from "react-hook-form";
 import { z, ZodRawShape} from "zod";
 import { TableQueryProps, TableType } from "../../../../objects/table.object";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { InputProps } from "../../../../objects/form.object";
 import { NumericFormat, PatternFormat } from "react-number-format";
 import Warn from "../../../warn/Warn.component";
 import Select, { MultiValue, SingleValue } from "react-select"
 import useHandleForm from "../../../../hooks/useHandleForm";
 import useHandleLibrary from "../../../../hooks/useHandleLibrary";
+import Dialog from "../../../dialog/Dialog.component";
+import bigWarning_icon from "../../../../assets/imgs/icons/bigWarning_icon.png";
+import bigValidated_icon from "../../../../assets/imgs/icons/bigValidated_icon.png"
 
 interface FormProps{
   formSchema:z.ZodObject<ZodRawShape>
@@ -34,6 +37,61 @@ interface FormProps{
 //   })
 // })
 
+
+interface FormQueryStateProps {
+  error:{
+    view:boolean,
+    close:boolean
+  },
+  success:{
+    view:boolean,
+    close:boolean
+  }
+}
+
+const initialFormQueryState:FormQueryStateProps = {
+
+  error:{
+    view:false,
+    close:true
+  },
+  success:{
+    view:false,
+    close:true
+  }
+
+}
+
+type ActionFormType =
+{
+
+  type:'error',
+  value:{
+    view:boolean,
+    close:boolean
+  }
+
+} 
+|
+{
+  type:"success",
+  value:{
+    view:boolean,
+    close:boolean
+  }
+}
+
+const handleFormQueryState = (state:FormQueryStateProps,action:ActionFormType)=>{
+  switch (action.type) {
+            case "success":
+              return {...state,success:action.value}
+            case "error":
+              return {...state,error:action.value};
+            default:
+              return state
+          }
+}
+
 const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,method}:FormProps) => {
   const schemaObject = formSchema
 
@@ -41,6 +99,8 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
   const [formBase,setFormBase] = useState<InputProps[]>();
   const {currentLibraryContext} = useHandleLibrary();
   const {form} = useHandleForm(typeOfData || "none")
+
+  const [formQueryState,setFormQueryState] = useReducer(handleFormQueryState,initialFormQueryState);
 
   useEffect(()=>{
 
@@ -88,12 +148,35 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
       })
   },[buttonRef])
 
+  useEffect(()=>{
+    !!formState.error.message
+    &&
+    (()=>{
+      setFormQueryState({
+        type:"error",
+        value:{
+          view:true,
+          close:false
+        }
+      })
 
+    })()
+  },[formState.error])
+
+  useEffect(()=>{
+    !!formState.success.message
+    &&
+    setFormQueryState({
+        type:"success",
+        value:{
+          view:true,
+          close:false
+        }
+      })
+  },[formState.success])
 
   return (
     <form>
-      {
-      }
         {
           formBase &&
           formBase.map((item_input,index_input)=>
@@ -220,14 +303,68 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
 
         }
         {
-          !!formState.error.message
-          && <Warn color="black" warning={formState.error.message}/>
+           !!formQueryState.success.view
+          && <Dialog
+          className={`dialogPane ${formQueryState.success.close ?"closeDialog" : ""}`} 
+           onClose={()=>{
+            setFormQueryState({
+              type:"success",
+              value:{
+                view:true,
+                close:true
+              }
+            })
+            setTimeout(()=>{
+              setFormQueryState({
+              type:"success",
+              value:{
+                view:false,
+                close:true
+              }
+            })
+            },1000)
+          }}>
+              <div className={"formSubmitErrorContainer"}>
+                <img src={bigValidated_icon} alt="bigValidated_icon" />
+                <h1>Success</h1>
+               <p>Cadastro realizado com sucesso!</p>
+              </div>
+          </Dialog>
+        }
+        {
+          !!formQueryState.error.view
+          && <Dialog
+          className={`dialogPane ${formQueryState.error.close ?"closeDialog" : ""}`}
+           onClose={()=>{
+            setFormQueryState({
+              type:"error",
+              value:{
+                view:true,
+                close:true
+              }
+            })
+            setTimeout(()=>{
+              setFormQueryState({
+              type:"error",
+              value:{
+                view:false,
+                close:true
+              }
+            })
+            },1000)
+          }}>
+              <div className={"formSubmitErrorContainer"}>
+                <img src={bigWarning_icon} alt="bigWarning_icon" />
+                <h1>Error</h1>
+               <p>{formState.error.message}</p>
+              </div>
+          </Dialog>
         }
         {
           !!!buttonRef
           &&
          <div className="submitFormDataContainer">
-            <button className="managementButton" type="submit" onClick={handleSubmit((data:SchemaType)=>
+            <button className="managementButton"  onClick={handleSubmit((data:SchemaType)=>
              {
               console.log(data)
               return typeOfData && data

@@ -343,7 +343,9 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                     onResolver:{
                         then:(result)=>{
                             result.data &&
-                            onNavigate("/management/library")
+                            setTimeout(()=>{
+                                onNavigate("/management/library")
+                            },1500)
                         },
                         catch:(error)=>console.log(error)
                       }

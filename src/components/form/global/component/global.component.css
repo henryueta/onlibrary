@@ -27,3 +27,29 @@ textarea{
     height: 2rem;
     margin-top: 0.3rem;
 }
+
+.formSubmitErrorContainer{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+.formSubmitErrorContainer>h1{
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+}
+
+.formSubmitErrorContainer>p{
+    font-size: 1.1rem;
+}
+
+.formSubmitErrorContainer>img{
+    height: 128px;
+    width:128px;
+    opacity: 80%;
+    margin-bottom: 2rem;
+}

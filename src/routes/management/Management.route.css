@@ -33,7 +33,7 @@
 
 .dataContentSection>.formDataContainer>form{
     background-color: rgb(255, 255, 255);
-    box-shadow: 0rem 0rem 0.5rem rgb(0, 0, 0,0.5);
+    border: 0.105rem solid rgb(0, 0, 0,0.3);
     width: 100%;
     height: 90%;
     padding: 2rem;
@@ -115,20 +115,49 @@
     width: 10rem;
 }
 
+@keyframes fadeIn_dialog {
+    0%{
+        opacity: 0%;
+          transform: translate(-50%,50%);
+    }
+    100%{
+        opacity: 100%;
+          transform: translate(-50%,-50%);
+    }
+}
+
+@keyframes  fadeOut_dialog{
+     0%{
+        opacity: 100%;
+          transform: translate(-50%,-50%);
+    }
+    100%{
+        opacity: 0%;
+        transform: translate(-50%,100%);
+    }
+   
+}
+
+.managementSection  .dialogPane:not(#loadingDialog).closeDialog{
+    animation: 1s  fadeOut_dialog;
+}
+
 .managementSection  .dialogPane:not(#loadingDialog){
+    animation: 1s  fadeIn_dialog;
     display: flex;
     border: none;
     position: fixed;
     left: 50%;
-    top: 50%;
-    height: 500px;
-    width: 500px;
+    top: 50%;   
+    height: 400px;
+    width: 600px;
     justify-content:start;
     flex-direction: column;
     transform: translate(-50%,-50%);
     --dialogBorder_var:calc(var(--borderRadius_var) + 0.5rem);
     border-radius: var(--dialogBorder_var);
-    box-shadow: 0px 0px 0.5rem rgb(0, 0, 0,0.5);
+    box-shadow: 0px 0.4rem 0.5rem rgb(0, 0, 0,0.2);
+    border: 0.105rem solid rgb(0, 0, 0,0.3);
     z-index: 1000;
 }
 
@@ -139,12 +168,11 @@
 }
 
 .managementSection .dialogPane:not(#loadingDialog) .dialogHeaderContainer{
-    background-color: var(--blue_var);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 1.3rem;
-    height: 10%;
+    height: 15%;
     border-top-right-radius: var(--dialogBorder_var);
     border-top-left-radius: var(--dialogBorder_var);
 }
@@ -157,10 +185,12 @@
 .managementSection  .dialogPane:not(#loadingDialog) .dialogHeaderContainer button{
     cursor: pointer;
     border-radius:100%;
-    border:0.1rem solid rgb(255, 255, 255);
+    border: none;
+    font-weight: 600;
     height: 30px;
     width: 30px;
-    background: none;
-    color: white;
-    font-size: 0.9rem;
+    color: rgb(0, 0, 0,0.8);
+    font-size: 1.15rem;
+    position: relative;
+    right: 0;
 }
