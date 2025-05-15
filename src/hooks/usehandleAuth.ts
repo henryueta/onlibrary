@@ -90,7 +90,7 @@ const useHandleAuth = ()=>{
         const handleTypes = {
             register:()=>{
                 onAxiosQuery("post",{
-                    url:"http://localhost:5700/create/account",
+                    url:"http://localhost:5900/create/account",
                     type:{
                         post:{
                         data:data
@@ -117,7 +117,7 @@ const useHandleAuth = ()=>{
             login:()=>{
                 axios.defaults.withCredentials = true;
                 onAxiosQuery("post",{
-                    url:"http://localhost:5700/check/account",
+                    url:"http://localhost:5900/check/account",
                     type:{
                         post:{
                             data:data

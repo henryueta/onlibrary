@@ -23,7 +23,7 @@ const Account = () => {
 
   useEffect(()=>{
     isAccountView
-    && onQueryLibraries("http://localhost:5700/auth/library")
+    && onQueryLibraries("http://localhost:5900/auth/library")
   },[isAccountView])
 
   useEffect(()=>{
