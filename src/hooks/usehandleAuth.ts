@@ -90,7 +90,7 @@ const useHandleAuth = ()=>{
         const handleTypes = {
             register:()=>{
                 onAxiosQuery("post",{
-                    url:"http://localhost:5900/create/account",
+                    url:"https://onlibrary-server-49me.vercel.app/create/account",
                     type:{
                         post:{
                         data:data
@@ -117,7 +117,7 @@ const useHandleAuth = ()=>{
             login:()=>{
                 axios.defaults.withCredentials = true;
                 onAxiosQuery("post",{
-                    url:"http://localhost:5900/check/account",
+                    url:"https://onlibrary-server-49me.vercel.app/check/account",
                     type:{
                         post:{
                             data:data

@@ -3,6 +3,7 @@ import useAxios from "./useAxios";
 import axios from "axios";
 import { useContext } from "react";
 import { LibraryContext } from "../context/LibraryContext";
+import Cookies from "js-cookie";
 
 export interface LibraryProps{
 
@@ -26,12 +27,14 @@ const useHandleLibrary = ()=>{
 
 
     const onQueryLibraries = (url:string)=>{
-        axios.defaults.withCredentials = true;
-        onAxiosQuery("get",{
+        // axios.defaults.withCredentials = true;
+        onAxiosQuery("post",{
             url:url,
             type:{
-                get:{
-
+                post:{
+                    data:{
+                        token:JSON.parse(Cookies.get("user_id") || "{}")
+                    }
                 }
             },
             onResolver:{

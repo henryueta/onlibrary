@@ -23,7 +23,7 @@ const Account = () => {
 
   useEffect(()=>{
     isAccountView
-    && onQueryLibraries("http://localhost:5900/auth/library")
+    && onQueryLibraries("https://onlibrary-server-49me.vercel.app/auth/library")
   },[isAccountView])
 
   useEffect(()=>{

@@ -85,7 +85,7 @@ const useHandleForm = (typeOfForm:TableType)=>{
     // useEffect(()=>{
     //     onAxiosQuery("get",
     //         {
-    //             url:"http://localhost:5900/data/group?type=book&id=1d8fq",
+    //             url:"https://onlibrary-server-49me.vercel.app/data/group?type=book&id=1d8fq",
     //             type:{
     //                 get:{
     //
@@ -118,7 +118,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
             select:()=>{
               console.log(form.type)
                 onAxiosQuery("get",{
-                    url:`http://localhost:5900/data/group?type=${form.type}&id=${libraryId}&userId=${current_userId.user_id}`,
+                    url:`https://onlibrary-server-49me.vercel.app/data/group?type=${form.type}&id=${libraryId}&userId=${current_userId.user_id}`,
                     type:{
                         get:{}
                     },
@@ -174,7 +174,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                         return (
                             {
                                 //https://onlibrary-api.onrender.com/api/bibliotecas/criar-biblioteca
-                                url:"http://localhost:5900/data/create?type=library&userId="+current_userId.user_id,
+                                url:"https://onlibrary-server-49me.vercel.app/data/create?type=library&userId="+current_userId.user_id,
                                 data:{
                                     nome:current_data.nome,
                                     endereco:{
@@ -194,7 +194,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                         const book_data = form.data as BookTableQueryProps
                         return (
                             {
-                                url:"http://localhost:5900/book/post",
+                                url:"https://onlibrary-server-49me.vercel.app/book/post",
                                 data:{
                                     ISBN:book_data.ISBN,
                                     titulo:book_data.titulo,
@@ -220,7 +220,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                       const account_data = form.data as AccountTableQueryProps;
                         return (
                             {
-                                url:"http://localhost:5900/account/post",
+                                url:"https://onlibrary-server-49me.vercel.app/account/post",
                                 data:{
                                   fk_id_biblioteca: currentLibraryContext.libraryId,
                                   nome:account_data.nome,
@@ -234,7 +234,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                         const library_user_data = form.data as LibraryUserTableQueryProps
                         return (
                             {
-                                url:"http://localhost:5900/library_user/post",
+                                url:"https://onlibrary-server-49me.vercel.app/library_user/post",
                                 data:{
                                   numero_matricula:library_user_data.numero_matricula,
                                   fk_id_biblioteca:libraryId,
@@ -250,7 +250,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                       const loanData = form.data as LoanTableQueryProps;
                         return (
                             {
-                                url:"http://localhost:5900/loan/post",
+                                url:"https://onlibrary-server-49me.vercel.app/loan/post",
                                 data:{
                                   exemplares:loanData.exemplares_biblioteca,
                                   fk_id_biblioteca:currentLibraryContext.libraryId,
@@ -282,7 +282,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                       const exemplaryData = form.data as ExemplaryTableQueryProps
                         return (
                             {
-                                url:"http://localhost:5900/exemplary/post",
+                                url:"https://onlibrary-server-49me.vercel.app/exemplary/post",
                                 data:{
                                   fk_id_livro:exemplaryData.livros_biblioteca,
                                   numero_tombo:exemplaryData.numero_tombo,
