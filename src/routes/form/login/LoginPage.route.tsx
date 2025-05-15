@@ -9,7 +9,7 @@ import { schema } from "../../../schema/form.schema";
 import Warn from "../../../components/warn/Warn.component";
 import Load from "../../../components/load/Load.component";
 import "../global/Form.route.css"
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 type LoginProps = z.infer<typeof schema.schemaList.user.login>
 
@@ -23,7 +23,6 @@ const LoginPage = () => {
   const {errors} = formState;
   const {onHandleAuth,queryState,authState} = useHandleAuth();
   const onNavigate = useNavigate();
-  const [teste,setTeste] = useState<string[]>([]);
 
   useEffect(()=>{
     !!authState.success
@@ -37,13 +36,7 @@ const LoginPage = () => {
       <Login handleLogin={handleSubmit((data)=>{onHandleAuth("login",data)
       })}>
           <Load loadState={queryState.isLoading}/>
-          <label>
-              {
-                teste.map((item)=>{
-                 return <p>{item}</p>
-                })
-              }
-          </label>
+
 
         <label htmlFor="">
           <p>Username ou email</p>

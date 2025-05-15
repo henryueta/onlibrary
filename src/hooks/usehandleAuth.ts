@@ -1,11 +1,10 @@
-import { useContext, useEffect, useReducer, useState } from "react"
+import { useContext, useEffect, useReducer } from "react"
 import { AuthContext } from "../context/AuthContext"
 import Cookies from "js-cookie";
 import user_model from "../models/user.json";
 import axios from "axios";
 import {  UserTableQueryProps } from "../objects/table.object";
 import useAxios, { ActionQueryType, QueryStateProps } from "./useAxios";
-import useHandleRegister from "./useHandleRegister";
 
 export type UserProps = Record<'id'|'name'|'lastName'|'cpf'|'username'|'email'|'telephone',string>;
 
@@ -139,7 +138,7 @@ const useHandleAuth = ()=>{
                         }
                     },
                     onResolver:{
-                        then:(result)=>{
+                        then:()=>{
                             Cookies.set("userStatus",JSON.stringify({
                                 errorStatus:{
                                   hasError:false,

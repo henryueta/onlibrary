@@ -1,8 +1,7 @@
 import "./Notification.component.css"
 import libraryNotification_icon from "../../assets/imgs/icons/libraryNotification_icon.webp"
-import useAxios, { ActionQueryType, QueryStateProps } from "../../hooks/useAxios";
+import useAxios from "../../hooks/useAxios";
 import useHandleLibrary from "../../hooks/useHandleLibrary";
-import useHandlePath from "../../hooks/useHandlePath";
 import {useEffect,useState} from "react"
 
 interface NotificationProps {
@@ -23,7 +22,6 @@ const Notification = ({type,id}:NotificationProps)=>{
   const [isNotificationsView,setIsNotificationsView] = useState<boolean>(false);
   const {onAxiosQuery} = useAxios();
   const {currentLibraryContext} = useHandleLibrary();
-  const {currentPathContext} = useHandlePath();
 
   useEffect(()=>{
   },[userNotifications])

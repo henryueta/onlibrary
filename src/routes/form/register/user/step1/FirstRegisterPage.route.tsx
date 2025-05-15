@@ -10,7 +10,6 @@ import Warn from "../../../../../components/warn/Warn.component";
 import useHandleRegister from "../../../../../hooks/useHandleRegister";
 import { FormDataProps } from "../../../../../context/RegisterContext";
 import Load from "../../../../../components/load/Load.component";
-import { useEffect } from "react";
 
 type RegisterStep1Props = z.infer<typeof schema.schemaList.user.register.step1>;
 

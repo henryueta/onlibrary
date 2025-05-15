@@ -76,7 +76,7 @@ const path:PathObjectProps = {
         },
         onCreatePathParams(type:string,paramsList){
             let current_path = this.onFindPath(type);
-            paramsList.forEach((item,index)=>{
+            paramsList.forEach((item)=>{
                 current_path = current_path.replace(":"+item.field,item.param)
             })
             return current_path          

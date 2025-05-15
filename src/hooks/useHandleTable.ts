@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {  TableQueryProps, TableType, tableTypeDataList, TableTypeProps } from "../objects/table.object";
+import {  TableQueryProps, TableType, tableTypeDataList } from "../objects/table.object";
 import { AxiosResponse, CancelToken } from "axios";
 import useAxios from "./useAxios";
 import useHandleLibrary from "./useHandleLibrary";
@@ -82,6 +82,7 @@ const useHandleTable = ()=>{
                         let headers = Object.entries(data[0]);
                         setTableData({
                                 headerList:headers.map((item,index)=>{
+                                    console.log(item)
                                     return headers[index][0]
                                 }).filter((item)=>item !== "id" && item !== "fk_id_biblioteca"),
                                 dataList:data.map((item:TableQueryProps)=>{

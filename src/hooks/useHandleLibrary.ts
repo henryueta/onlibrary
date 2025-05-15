@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import useAxios from "./useAxios";
-import axios from "axios";
 import { useContext } from "react";
 import { LibraryContext } from "../context/LibraryContext";
 import Cookies from "js-cookie";

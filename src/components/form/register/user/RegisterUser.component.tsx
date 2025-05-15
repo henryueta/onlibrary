@@ -1,4 +1,4 @@
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../../global/component/global.component.css"
 import "./RegisterUser.component.css";
 import userStep_icon from "../../../../assets/imgs/icons/userStep_icon.png";
@@ -13,7 +13,7 @@ type RegisterStepProps = 1 | 2 | 3;
 
 
 interface RegisterProps <T extends object>{
-
+    prov?:T
     children:React.ReactNode,
     registerStep:RegisterStepProps
     handleRegister:()=>boolean
@@ -24,7 +24,6 @@ interface RegisterProps <T extends object>{
 const RegisterUser = <T extends object>({children,registerStep,handleRegister}:RegisterProps<T>) => {
 
     const onNavigate = useNavigate();
-    const current_path = useLocation()
     const {authRegisterContext,registerSteps} = useHandleRegister()
     useEffect(()=>{
         !!!authRegisterContext.registerData

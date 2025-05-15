@@ -1,6 +1,6 @@
 import { FormDataProps, RegisterContext } from "../context/RegisterContext";
 import useHandleAuth from "./usehandleAuth";
-import { useContext, useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useReducer } from "react";
 import { form, InputProps } from "../objects/form.object";
 import {  ZodTypeAny } from "zod";
 import useAxios, { ActionQueryType, QueryStateProps } from "./useAxios";
@@ -25,7 +25,7 @@ const initialRegisterState:RegisterStateProps = {
         error:"",
         message:"",
         status:0,
-        data:null
+        // data:null
     },
     isComplete:false,
     currentStep: 0
@@ -54,7 +54,7 @@ const useHandleRegister = ()=>{
 
 
     const registerSteps = ["/register/user/step/name","/register/user/step/contact","/register/user/step/password"]
-    const {authContext,onHandleStatus,onHandleAuth,authState} = useHandleAuth();
+    const {onHandleAuth,authState} = useHandleAuth();
     const {onAxiosQuery,queryState} = useAxios();
     const authRegisterContext = useContext(RegisterContext)
     const onNavigate = useNavigate();

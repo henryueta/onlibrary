@@ -9,7 +9,6 @@ import { path } from "../../../objects/path.object";
 import Load from "../../load/Load.component"
 
 
-type AccountProps = Record<'libraries',LibraryProps[] |  null>;
 
 const Account = () => {
 

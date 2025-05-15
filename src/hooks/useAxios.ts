@@ -1,6 +1,5 @@
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, CancelToken } from "axios"
+import axios, { AxiosError, AxiosResponse, CancelToken } from "axios"
 import { useEffect, useReducer } from "react";
-import Cookies from "js-cookie";
 
 type QueryType = "get" | "post" | "put" | "delete";
 

@@ -5,13 +5,12 @@ import GroupTableCard from "../../components/group/table_card/GroupTableCard.com
 import cube_icon from "../../assets/imgs/icons/cube_icon.png"
 import { useEffect, useState } from "react";
 import { TableType, tableTypeDataList,onFindTableIndex,TableTypeProps, TableQueryProps } from "../../objects/table.object";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Table from "../../components/table/Table.component";
 import Form from "../../components/form/global/component/Form.component";
 import { form } from "../../objects/form.object";
 import useHandleTable from "../../hooks/useHandleTable";
 import useHandleLibrary from "../../hooks/useHandleLibrary";
-import useHandleForm from "../../hooks/useHandleForm";
 import useHandlePath from "../../hooks/useHandlePath";
 
 type ManagementMode = "default" | "get" | "post" | "put";
@@ -118,7 +117,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
                  }}
                 formSchema={form.formList.find((item)=>item.name == type)!.schema}
                 typeOfData={type as Exclude<TableType,"library"|"none">}
-                onSubmit={(data)=>{}}
+                onSubmit={()=>{}}
                 />
               </div>
             :

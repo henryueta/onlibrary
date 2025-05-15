@@ -1,11 +1,11 @@
-import { useState } from "react"
+// import { useState } from "react"
 
 const useHandleSearch = ()=>{
 
-    const [searchValue,setSearchValue] = useState<string>("");
+    // const [searchValue,setSearchValue] = useState<string>("");
     
-    const onSearch = (value:string,quantity:number,filter?:any)=>{
-
+    const onSearch = ()=>{
+// value:string,quantity:number,filter?:any
         
 
     }   

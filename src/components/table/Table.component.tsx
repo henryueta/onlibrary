@@ -7,7 +7,6 @@ import triangleRetangle_icon from "../../../src/assets/imgs/icons/triangleRetang
 import { path } from "../../objects/path.object"
 import { useNavigate } from "react-router-dom"
 import useHandleLibrary from "../../hooks/useHandleLibrary";
-import useHandlePath from "../../hooks/useHandlePath"
 import Warn from "../warn/Warn.component"
 import axios from "axios"
 
@@ -20,7 +19,6 @@ const Table = ({type}:TableProps) => {
 
   const {currentLibraryContext} = useHandleLibrary()
   const {onQueryTable,tableData} = useHandleTable();
-  const {currentPathContext} = useHandlePath();
   const onNavigate = useNavigate();
   const [maxOfData,setMaxOfData] = useState<number>(5);
   const [tableDataView,setTableDataView] = useState<string[][]>([]);
@@ -73,8 +71,8 @@ const Table = ({type}:TableProps) => {
                  title:"todos",
                  value:"default"
               },
-              onSelect:(e)=>{},
-              list: tableData?.headerList.map((item,index)=>{
+              onSelect:()=>{},
+              list: tableData?.headerList.map((item)=>{
                 return {
                   title:item,
                   value:item

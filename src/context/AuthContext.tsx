@@ -34,7 +34,7 @@ const AuthProvider = ({children}:{children:React.ReactNode})=>{
         setUserId(
           (()=>{
           return  !!Cookies.get("user_id")
-            ? JSON.parse(Cookies.get("user_id")).user_id
+            ? JSON.parse(Cookies.get("user_id") || "{}").user_id
             : ""
         })()
       );

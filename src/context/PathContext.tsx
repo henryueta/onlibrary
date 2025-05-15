@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 
 interface PathProps{
   pathName:string,
-  setPathName:React.Dispatch<React.SetStateAction<string | null>>
+  setPathName:React.Dispatch<React.SetStateAction<string>>
 }
 
 const PathContext = createContext({} as PathProps);

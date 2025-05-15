@@ -1,8 +1,8 @@
 import "./Search.component.css";
 import search_icon from "../../assets/imgs/icons/search_icon.png";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Select, { SelectProps } from "../select/Select.component";
-import useHandleSearch from "../../hooks/useHandleSearch";
+// import useHandleSearch from "../../hooks/useHandleSearch";
 
 interface SearchProps {
 
@@ -16,7 +16,7 @@ interface SearchProps {
 const Search = ({filter,quantity} : SearchProps) => {
   const [inputValue,setInputValue] = useState<string>("");
   const [selectValue,setSelectValue] = useState<string | number>("Todos");
-  const {onSearch} = useHandleSearch();
+  // const {onSearch} = useHandleSearch();
 
   // useEffect(()=>{
   // },[quantity])
@@ -30,7 +30,8 @@ const Search = ({filter,quantity} : SearchProps) => {
          !!filter && <Select defaultValue={{title:"todos",value:"todos"}} onSelect={(e)=>{setSelectValue(e.target.value)}} list={filter.list}/> 
         }
         <button onClick={()=>{
-          onSearch(inputValue,quantity,selectValue)
+          console.log(inputValue,quantity,selectValue)
+          // onSearch(inputValue,quantity,selectValue)
         }}>
             <img src={search_icon} alt="search_button" />
         </button>

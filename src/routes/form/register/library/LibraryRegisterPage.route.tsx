@@ -55,7 +55,7 @@ const LibraryRegisterPage = () => {
 
   const {errors,isValid} = formState;
 
-  const [libraryOptions,setLibraryOptions] = useState<LibraryDataProps[]>([
+  const [libraryOptions] = useState<LibraryDataProps[]>([
     {
       id:"reservationOption_id",
       title:"Reservas online",
@@ -72,7 +72,7 @@ const LibraryRegisterPage = () => {
       registerId:"userBlockOption_reg"
     }
   ])
-  const [libraryInformation,setLibraryInformation] = useState<LibraryDataProps[][]>([
+  const [libraryInformation] = useState<LibraryDataProps[][]>([
    [
     {
       id:"libraryName_id",
