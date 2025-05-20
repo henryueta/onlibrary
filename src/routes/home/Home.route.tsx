@@ -21,7 +21,6 @@ function Home() {
 
           <GroupBook
            title="Livros em destaque" 
-           itemList={[]}
           category=''
            />
 

@@ -4,21 +4,15 @@ import { useEffect, useState } from "react";
 import { BookTableQueryProps } from "../../../objects/table.object";
 import useAxios from "../../../hooks/useAxios";
 
-type ItemProps = Record<'image'|'title',string>
-
-
-
 interface GroupBookProps{
     title:string,
     category?:string,
-    itemList:ItemProps[]
 }
 
 type bookCardProps = Pick<BookTableQueryProps,'capa'|'titulo'|'id'>[];
 
 const GroupBook = ({
     title,
-    itemList
 }:GroupBookProps) => {
 
       const {onAxiosQuery} = useAxios()
@@ -52,7 +46,7 @@ const GroupBook = ({
         {
             !!books
             &&
-            books.map((item,index)=>{
+            books.map((item)=>{
                 return (
                          
                         <BookCard 
