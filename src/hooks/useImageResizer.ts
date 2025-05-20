@@ -1,0 +1,71 @@
+import { useEffect, useState } from "react"
+import FileResizer from "react-image-file-resizer"
+
+export interface ResizeProps {
+    width:number,
+    height:number,
+    format:"JPEG"|"PNG"|"WEBP",
+    quality:number
+}
+
+interface ImageResizerProps {
+    url:string,
+    name:string
+    mimetype:string
+    resize:ResizeProps
+}
+
+const useImageResizer = (image:ImageResizerProps)=>{
+
+    const [currentImage,setCurrentImage] = useState<string | null >(null);
+
+const urlConvert = async (url:string,fileName:string,mimeType:string)=>{
+        const res = await fetch(url)
+        const buffer = await res.blob()
+        return !!buffer && new File([buffer],fileName,{
+          type:mimeType
+        })
+      }
+
+const getImage = async()=>{
+
+
+       const result = await urlConvert(
+        image.url,
+        image.name,
+        image.mimetype
+      )
+           FileResizer.imageFileResizer(
+      result,
+      image.resize.width,
+      image.resize.height,
+      image.resize.format,
+      image.resize.quality,
+      0,
+      (uri)=>{
+        const convertedImage = uri as string;
+        setCurrentImage(convertedImage)
+      },
+      "base64"
+        ) 
+      }
+
+      useEffect(()=>{
+
+        (async()=>{
+            await getImage()
+        })()
+
+      },[])
+
+      return {
+        currentImage
+     }
+
+     }
+
+     
+
+
+
+export default useImageResizer

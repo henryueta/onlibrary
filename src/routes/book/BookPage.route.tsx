@@ -6,10 +6,11 @@ import { useParams } from "react-router-dom";
 import useAxios from "../../hooks/useAxios";
 import { useEffect, useState } from "react";
 import { BookTableQueryProps } from "../../objects/table.object";
-import default_cape from "../../assets/imgs/teste.webp"
+import default_cape from "../../assets/imgs/teste2.webp"
 import Word from "../../classes/word.class";
 import Load from "../../components/load/Load.component";
 import TableHome from "../../components/table/home/TableHome.component";
+import useImageResizer from "../../hooks/useImageResizer";
 
 interface TitleDescriptionProps {
   className?:string
@@ -45,11 +46,37 @@ const BookPage = () => {
   const {onAxiosQuery,queryState} = useAxios()
   const [bookData,setBookData] = useState<BookTableQueryProps | null>(null);
   const [bookLibraries,setBookLibraries] = useState<BookLibrariesProps[] | null>(null);
+  const [bookCape,setBookCape] = useState<string>("");
+  
+    const {currentImage} = useImageResizer({
+    url:bookCape,
+    mimetype:"image/webp",
+    name:"bookCape.webp",
+    resize:{
+      format:"WEBP",
+      quality:80,
+      width:344,
+      height:550
+    }
+  });
+
+   useEffect(()=>{
+      !!bookData
+      &&
+      setBookCape(bookData?.capa)
+    },[bookData])
+
+    
+    useEffect(()=>{
+      !!currentImage
+      &&
+      setBookCape(currentImage)
+    },[currentImage])
 
   useEffect(()=>{
 
     onAxiosQuery("get",{
-      url:"http://localhost:5900/book/get?id="+id,
+      url:"https://onlibrary-server-49me.vercel.app/book/get?id="+id,
       type:{
         get:{
           
@@ -66,8 +93,10 @@ const BookPage = () => {
       }
     })
 
+
+
     onAxiosQuery("get",{
-      url:"http://localhost:5900/book/libraries?id="+id,
+      url:"https://onlibrary-server-49me.vercel.app/book/libraries?id="+id,
       type:{
         get:{
 
@@ -111,7 +140,7 @@ const BookPage = () => {
               <>
                 <section className="bookDataSection">
                   <div className="capeContainer">
-                        <img src={default_cape} alt="book_cape" />
+                        <img src={bookCape} alt="book_cape" />
                   </div>
                   <div className="bookInformationContainer">
                       <section className="headerSection">
@@ -126,7 +155,7 @@ const BookPage = () => {
                             <TitleDescription 
                             className="descriptionContainer"
                             title="Descrição"
-                            description={bookData.descricao}
+                            description={bookData.descricao.slice(0,800).concat(". . . LER MAIS")}
                             />
                       </section>
                       <section className="bookAttributeSection">

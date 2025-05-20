@@ -38,8 +38,8 @@
 }
 
 .bookDataSection>.capeContainer>img{
-    height: 650px;
-    width: 500px;
+    width: 344px;
+    height: 550px;
 }
 
 .bookDataSection .bookInformationContainer{
@@ -63,7 +63,7 @@
 }
 
 .bookDataSection .bookInformationContainer .descriptionSection{
-    margin-top: 2rem;
+    margin-top: 3rem;
 }
 
 .bookDataSection .bookInformationContainer .descriptionSection h1{
@@ -73,7 +73,7 @@
 }
 
 .bookAttributeSection{
-    margin-top: 2rem;
+    margin-top: 3rem;
     display: grid;
     gap: 2rem;
     grid-template-columns: repeat(3,1fr);
@@ -93,6 +93,7 @@
 }
 
 .bookLibrarySection{
+    margin-top: 4rem;
     padding: 0rem 4rem 0rem 4rem;
 }
 

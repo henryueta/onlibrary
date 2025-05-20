@@ -31,7 +31,7 @@ const Notification = ({type,id}:NotificationProps)=>{
     !!currentLibraryContext.libraryId &&
     // setInterval(()=>{
     onAxiosQuery("get",{
-      url:"http://localhost:5900/notification/get?id_usuario="+id+"&id_biblioteca="+currentLibraryContext.libraryId+"&type="+type,
+      url:"https://onlibrary-server-49me.vercel.app/notification/get?id_usuario="+id+"&id_biblioteca="+currentLibraryContext.libraryId+"&type="+type,
       type:{
         get:{
 

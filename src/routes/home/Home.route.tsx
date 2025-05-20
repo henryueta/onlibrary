@@ -4,8 +4,7 @@ import FooterHome from '../../components/footer/home/FooterHome.component'
 import GroupBook from '../../components/group/book/GroupBook.component'
 import Slider from '../../components/slider/Slider.component'
 import Main from '../../components/main/Main.component'
-import teste from "../../assets/imgs/teste.webp"
-
+import teste from "../../assets/imgs/teste2.webp"
 
 const livros = [{
   image:teste,
