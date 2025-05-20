@@ -75,7 +75,7 @@ const BookPage = () => {
   useEffect(()=>{
 
     onAxiosQuery("get",{
-      url:"https://onlibrary-server-49me.vercel.app/book/get?id="+id,
+      url:"http://localhost:5900/book/get?id="+id,
       type:{
         get:{
           
@@ -95,7 +95,7 @@ const BookPage = () => {
 
 
     onAxiosQuery("get",{
-      url:"https://onlibrary-server-49me.vercel.app/book/libraries?id="+id,
+      url:"http://localhost:5900/book/libraries?id="+id,
       type:{
         get:{
 
@@ -104,7 +104,7 @@ const BookPage = () => {
       onResolver:{
         then(result) {
           const bookLibraries_data = result.data as BookLibrariesProps[]
-          setBookLibraries(bookLibraries_data)
+          setBookLibraries(bookLibraries_data)  
         },
         catch(error) {
           console.log(error)
@@ -186,7 +186,7 @@ const BookPage = () => {
               <section className="bookLibrarySection">
 
                 {
-                  !!bookLibraries
+                  !!bookLibraries?.length
                   &&
                   <TableHome
                   table={bookLibraries}

@@ -4,34 +4,6 @@ import FooterHome from '../../components/footer/home/FooterHome.component'
 import GroupBook from '../../components/group/book/GroupBook.component'
 import Slider from '../../components/slider/Slider.component'
 import Main from '../../components/main/Main.component'
-import teste from "../../assets/imgs/teste2.webp"
-
-const livros = [{
-  image:teste,
-  title:"A névoa da floresta"
-},
-{
-  image:teste,
-  title:"A névoa da floresta"
-},
-{
-  image:teste,
-  title:"A névoa da floresta"
-},
-{
-  image:teste,
-  title:"A névoa da floresta"
-},
-{
-  image:teste,
-  title:"A névoa da floresta"
-},{
-  image:teste,
-  title:"A névoa da floresta"
-},{
-  image:teste,
-  title:"A névoa da floresta"
-}]
 
 function Home() {
 
@@ -49,15 +21,9 @@ function Home() {
 
           <GroupBook
            title="Livros em destaque" 
-           itemList={livros}
+           itemList={[]}
           category=''
            />
-
-          <GroupBook 
-          title="Livros em destaque" 
-          itemList={livros}
-          category=''
-          />
 
         </Main>
       <FooterHome/>

@@ -296,7 +296,7 @@ const form:FormObjectProps = {
                     tag:"input",
                     title:"ISBN",
                     type:'text',
-                    maskFormat:"###-##-#####-##-#",
+                    maskFormat:"###-##########",
                     registerId:"ISBN"
                 },
                 {

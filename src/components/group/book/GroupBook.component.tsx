@@ -27,7 +27,7 @@ const GroupBook = ({
  useEffect(()=>{
     console.log(title)
     onAxiosQuery("get",{
-      url:"https://onlibrary-server-49me.vercel.app/book/list",
+      url:"http://localhost:5900/book/list",
       type:{
         get:{
 
@@ -45,27 +45,30 @@ const GroupBook = ({
     })
   },[])
 
+
   return (
     <section className="listBookSection">
+      <div className="itemContainer">  
         {
             !!books
             &&
             books.map((item,index)=>{
                 return (
-                    <div className="itemContainer">       
+                         
                         <BookCard 
                         image={{
-                          url:itemList[index].image,
+                          url:item.capa,
                           height:250,
                           width:157
                         }} 
                         title={item.titulo} 
                         id={item.id}
                         key={item.id}/>      
-                    </div> 
+                    
                 )
             })
         }
+        </div> 
     </section>
   )
 }

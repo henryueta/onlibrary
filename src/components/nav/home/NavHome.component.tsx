@@ -32,7 +32,7 @@ const NavHome = () => {
           </button>
           {
             authContext.userStatus?.authStatus?.hasAuth
-            ? <><p>{authContext.user?.username}</p> <Link to={"/management/library"}>Click</Link></> 
+            ? <><Link to={"/management/library"}>Click</Link></> 
             : <Link to="/login">
             <img src={user_icon} alt="user_icon" />
               Entre ou cadastre-se
