@@ -6,7 +6,7 @@ import useAxios from "../../../hooks/useAxios";
 
 type ItemProps = Record<'image'|'title',string>
 
-type CategoryProps = '';
+
 
 interface GroupBookProps{
     title:string,

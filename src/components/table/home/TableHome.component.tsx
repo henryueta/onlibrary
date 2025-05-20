@@ -9,7 +9,7 @@ interface TableHomeProps<T extends object> {
     onClick?:(data:T)=>void
 }
 
-const TableHome = ({table,headers,data,filter,onClick}:TableHomeProps<object>) => {
+const TableHome = ({table,filter,onClick}:TableHomeProps<object>) => {
 
 
 

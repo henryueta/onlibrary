@@ -6,7 +6,6 @@ import { useParams } from "react-router-dom";
 import useAxios from "../../hooks/useAxios";
 import { useEffect, useState } from "react";
 import { BookTableQueryProps } from "../../objects/table.object";
-import default_cape from "../../assets/imgs/teste2.webp"
 import Word from "../../classes/word.class";
 import Load from "../../components/load/Load.component";
 import TableHome from "../../components/table/home/TableHome.component";
