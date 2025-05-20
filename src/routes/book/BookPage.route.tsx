@@ -75,7 +75,7 @@ const BookPage = () => {
   useEffect(()=>{
 
     onAxiosQuery("get",{
-      url:"http://localhost:5900/book/get?id="+id,
+      url:"https://onlibrary-server-fkrn.vercel.app/book/get?id="+id,
       type:{
         get:{
           
@@ -95,7 +95,7 @@ const BookPage = () => {
 
 
     onAxiosQuery("get",{
-      url:"http://localhost:5900/book/libraries?id="+id,
+      url:"https://onlibrary-server-fkrn.vercel.app/book/libraries?id="+id,
       type:{
         get:{
 
