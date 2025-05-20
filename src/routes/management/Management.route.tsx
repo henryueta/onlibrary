@@ -6,7 +6,7 @@ import cube_icon from "../../assets/imgs/icons/cube_icon.png"
 import { useEffect, useState } from "react";
 import { TableType, tableTypeDataList,onFindTableIndex,TableTypeProps, TableQueryProps } from "../../objects/table.object";
 import { useParams } from "react-router-dom";
-import Table from "../../components/table/Table.component";
+import Table from "../../components/table/management/TableManagement.component";
 import Form from "../../components/form/global/component/Form.component";
 import { form } from "../../objects/form.object";
 import useHandleTable from "../../hooks/useHandleTable";

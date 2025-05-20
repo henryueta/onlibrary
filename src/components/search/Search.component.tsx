@@ -5,8 +5,6 @@ import Select, { SelectProps } from "../select/Select.component";
 // import useHandleSearch from "../../hooks/useHandleSearch";
 
 interface SearchProps {
-
-  
   filter?:SelectProps
   quantity:number
 }

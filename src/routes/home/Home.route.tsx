@@ -6,6 +6,7 @@ import Slider from '../../components/slider/Slider.component'
 import Main from '../../components/main/Main.component'
 import teste from "../../assets/imgs/teste.webp"
 
+
 const livros = [{
   image:teste,
   title:"A névoa da floresta"
@@ -46,10 +47,43 @@ function Home() {
           marginTop:"5rem",
         }}>
         <Slider/>
-          <GroupBook title="Livros em destaque" itemList={livros}/>
-          <GroupBook title="Livros em destaque" itemList={livros}/>
+
+          <GroupBook
+           title="Livros em destaque" 
+           itemList={livros}
+          category=''
+           />
+
+          <GroupBook 
+          title="Livros em destaque" 
+          itemList={livros}
+          category=''
+          />
+
         </Main>
       <FooterHome/>
+
+      {/* <form>
+        <input type="file" {...register("image")}/>
+        
+      </form>
+      <button type='button' onClick={()=>handleSubmit((data)=>
+          {
+            
+            const formData = new FormData();
+
+            formData.append("image",data.image[0])
+
+            axios.post("http://localhost:3500/upload",formData,{
+              headers:{
+                "Content-Type":"multipart/form-data"
+              }
+            })
+          .then((result)=>console.log(result.data))
+          .catch((error)=>console.log(error))
+          }
+        )()}>Enviar</button> */}
+
     </section>
   )
 }

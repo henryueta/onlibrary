@@ -28,7 +28,7 @@ const path:PathObjectProps = {
         },
         {
             type:"book_page",
-            path:"/book"
+            path:"/book/:id"
         },
         {
             type:"user_login",

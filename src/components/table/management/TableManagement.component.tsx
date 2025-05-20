@@ -1,21 +1,22 @@
-import Search from "../search/Search.component"
-import "./Table.component.css"
-import useHandleTable from "../../hooks/useHandleTable"
+import Search from "../../search/Search.component"
+import "./TableManagement.component.css"
+import "../global/Table.component.css"
+import useHandleTable from "../../../hooks/useHandleTable"
 import { useEffect, useState } from "react"
-import { TableType, tableTypeDataList,onFindTableIndex } from "../../objects/table.object"
-import triangleRetangle_icon from "../../../src/assets/imgs/icons/triangleRetangle_icon.png"
-import { path } from "../../objects/path.object"
+import { TableType, tableTypeDataList,onFindTableIndex } from "../../../objects/table.object"
+import triangleRetangle_icon from "../../../../src/assets/imgs/icons/triangleRetangle_icon.png"
+import { path } from "../../../objects/path.object"
 import { useNavigate } from "react-router-dom"
-import useHandleLibrary from "../../hooks/useHandleLibrary";
-import Warn from "../warn/Warn.component"
+import useHandleLibrary from "../../../hooks/useHandleLibrary";
+import Warn from "../../warn/Warn.component"
 import axios from "axios"
 
-interface TableProps {
+interface TableManagementProps {
 
     type:TableType
 
 }
-const Table = ({type}:TableProps) => {
+const TableManagement = ({type}:TableManagementProps) => {
 
   const {currentLibraryContext} = useHandleLibrary()
   const {onQueryTable,tableData} = useHandleTable();
@@ -55,7 +56,7 @@ const Table = ({type}:TableProps) => {
   return (
     <>
     <section className="tableSection">
-
+          
         <div className="titleContainer">
             <img src={triangleRetangle_icon} alt="title_icon" />
             <h1>
@@ -112,6 +113,7 @@ const Table = ({type}:TableProps) => {
       {
         !!tableData
         ?<table>
+          
       <thead>
       <tr>
         {
@@ -187,4 +189,4 @@ const Table = ({type}:TableProps) => {
   )
 }
 
-export default Table
+export default TableManagement

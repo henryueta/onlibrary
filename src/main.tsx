@@ -75,16 +75,7 @@ export const router = createBrowserRouter([
     <Private>
       <Management mode='put'  hasGroupTableCard={false}/>
     </Private>
-  },
-  // {
-  //   path:path.onFindPath("user_management"),
-  //   element:
-  //   <Private>
-  //     <Management item_management='user' hasGroupTableCard={true}>
-  //         <Table type='user'></Table>
-  //     </Management>
-  //   </Private>
-  // }
+  }
 ])
 
 createRoot(document.getElementById('root')!).render(

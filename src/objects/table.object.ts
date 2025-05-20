@@ -43,14 +43,14 @@ Record<'bibliotecario'|'valor'|'situacao'|'data_vencimento',string>
 & Record<'usuarios_biblioteca',AssociationTableProps>
 
 export type AccountTableQueryProps =
-Record<'biblioteca'|'nome'|'multa_padrao'|'prazo_devolucao_padrao',string>
+Record<'biblioteca'|'nome'|'multa_padrao'|'prazo_devolucao_padrao'|'prazo_multa_padrao',string>
 
 export type LibraryUserTableQueryProps =
 Record<'usuarios'|'perfis_biblioteca',AssociationTableProps>
 & Record<'tipo_usuario'|'numero_matricula'|'biblioteca'|'cpf',string>
 
 export type BookTableQueryProps =
-Record<'id'| 'ISBN' | 'titulo' | 'descricao',string>
+Record<'id'| 'ISBN' | 'titulo' | 'descricao'|'capa',string>
 &
 Record<'ano_lancamento',number>
 &

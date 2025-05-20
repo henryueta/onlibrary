@@ -48,7 +48,7 @@ class Word {
 
                         })()
                     )
-                    word = word.replace(letter,current_letter)
+                    word = word.replace(letter,current_letter).replace("_"," ")
 
                 }
                 this.word = word

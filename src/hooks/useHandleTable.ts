@@ -25,7 +25,7 @@ const useHandleTable = ()=>{
         
         !!currentLibraryContext.libraryId &&
             onAxiosQuery("get",{
-                url:"https://onlibrary-server-49me.vercel.app/count?type="+type+"&id="+currentLibraryContext.libraryId,
+                url:"http://localhost:5900/count?type="+type+"&id="+currentLibraryContext.libraryId,
                 onResolver:{
                     then:(result)=>action(result),
                     catch:(error)=>console.log(error)
@@ -96,7 +96,7 @@ const useHandleTable = ()=>{
                     }
                     })()
                     onAxiosQuery("get",{
-                        url:`https://onlibrary-server-49me.vercel.app/tables/data?id_biblioteca=${currentLibraryContext.libraryId}&type=${table.type}`,
+                        url:`http://localhost:5900/tables/data?id_biblioteca=${currentLibraryContext.libraryId}&type=${table.type}`,
                         type:{
                             get:{
                                 id:table.id,
