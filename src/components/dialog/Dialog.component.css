@@ -1,13 +1,7 @@
 
-
-.dialogPane:not(#loadingDialog){
-
-}
-
 .dialogPane{
     display: flex;
     border: none;
-    
 }
 
 

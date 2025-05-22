@@ -4,12 +4,13 @@ import NavHome from "../../components/nav/home/NavHome.component";
 import "./BookPage.route.css";
 import { useParams } from "react-router-dom";
 import useAxios from "../../hooks/useAxios";
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import Word from "../../classes/word.class";
 import Load from "../../components/load/Load.component";
 import TableHome from "../../components/table/home/TableHome.component";
 import Dialog from "../../components/dialog/Dialog.component";
 import useHandleBook, { BookLibrariesProps, TitleDescriptionProps } from "../../hooks/useHandleBook";
+import { ExemplaryTableQueryProps } from "../../objects/table.object";
 
 
 
@@ -29,7 +30,8 @@ const TitleDescription = ({className,title,description}:TitleDescriptionProps)=>
       visible:{
         view:boolean,
         close:boolean,
-      }
+      },
+      exemplaryQuantity:number | null
   }
 
   const initialLibraryState:LibraryStateProps = {
@@ -38,14 +40,15 @@ const TitleDescription = ({className,title,description}:TitleDescriptionProps)=>
     visible:{
       view:false,
       close:true,
-    }
+    },
+    exemplaryQuantity:0
 
   }
 
   type ActionLibraryType = 
   {
     type:"libraryData",
-    value:BookLibrariesProps
+    value:BookLibrariesProps | null
   } 
   |
   {
@@ -63,6 +66,11 @@ const TitleDescription = ({className,title,description}:TitleDescriptionProps)=>
       close:boolean
     }
   }
+  |
+  {
+    type:"exemplary",
+    value:number | null
+  }
     
 
   const handleLibraryState = (state:LibraryStateProps,action:ActionLibraryType)=>{
@@ -74,6 +82,8 @@ const TitleDescription = ({className,title,description}:TitleDescriptionProps)=>
           return {...state,visible:action.value}
         case "off":
           return {...state,visible:action.value}
+        case "exemplary":
+          return {...state,exemplaryQuantity:action.value}
       default:
         return state
     }
@@ -85,7 +95,8 @@ const BookPage = () => {
   const {id} = useParams();
   const {onAxiosQuery,queryState} = useAxios()
   const {bookState} = useHandleBook(!!id ? id : '' );
-  
+  const [reserveExemplaryQuantity,setReserveExemplaryQuantity] = useState<number>(1);
+
   const [libraryState,setLibraryState] = useReducer(handleLibraryState,initialLibraryState);
   
   return (
@@ -95,7 +106,7 @@ const BookPage = () => {
       &&
       <Dialog 
             className="libraryViewDialog"
-            closeOnExternalClick={true}
+            closeOnExternalClick={false}
             onClose={()=>{
               setLibraryState({
                 type:"off",
@@ -103,6 +114,14 @@ const BookPage = () => {
                   close:true,
                   view:false
                 }
+              })
+              setLibraryState({
+                type:"libraryData",
+                value:null
+              })
+              setLibraryState({
+                type:"exemplary",
+                value:null
               })
             }}
             >
@@ -129,7 +148,51 @@ const BookPage = () => {
                       title="CEP"
                       description={libraryState.libraryData.cep}
                       />
-
+                      <input 
+                      type="number" 
+                      value={reserveExemplaryQuantity}
+                      onChange={(e)=>{
+                        const current_numberValue = parseInt(e.target.value)
+                        typeof libraryState.exemplaryQuantity  === 'number'
+                        &&
+                        current_numberValue <= libraryState.exemplaryQuantity
+                        &&
+                        current_numberValue > 0
+                        &&
+                        setReserveExemplaryQuantity(current_numberValue)
+                      }}
+                      />
+                      <div className="reserveSubmitContainer">
+                          {
+                            libraryState.libraryData.reserva_online
+                            ? 
+                            <button onClick={()=>{
+                                onAxiosQuery("post",{
+                                  url:"http://localhost:5900/reserve/post",
+                                  type:{
+                                    post:{
+                                      data:{
+                                        fk_id_biblioteca:libraryState.libraryData?.fk_id_biblioteca,
+                                        fk_id_usuario:"9f520fa3-bd00-4f14-b27b-47ffeed1cbf8",
+                                        quantidade_total:reserveExemplaryQuantity
+                                      }
+                                    }
+                                  },
+                                  onResolver:{
+                                    then(result) {
+                                      console.log(result)
+                                    },
+                                    catch(error) {
+                                      console.log(error)
+                                    },
+                                  }  
+                                })
+                            }}>
+                              Reservar
+                            </button>
+                            : <p>Esta biblioteca não aceita reservas online</p>
+                          }
+                      </div>
                     </section>
                   )
               }
@@ -230,7 +293,7 @@ const BookPage = () => {
                     const current_libraryData = data as BookLibrariesProps
                     
                     onAxiosQuery("get",{
-                      url:"http://localhost:5900/tables/data?id_biblioteca="+current_libraryData.fk_id_biblioteca+"&type=exemplary",
+                      url:"http://localhost:5900/exemplary/get?id_biblioteca="+current_libraryData.fk_id_biblioteca,
                       type:{
                         get:{
 
@@ -238,7 +301,13 @@ const BookPage = () => {
                       },
                       onResolver:{
                         then(result) {
-                          console.log(result)
+                          const current_exemplaryListData = result.data as Pick<ExemplaryTableQueryProps,'disponivel'>[];
+                          const current_exemplaryQuantity = current_exemplaryListData.length
+                          setReserveExemplaryQuantity(1)
+                          setLibraryState({
+                            type:"exemplary",
+                            value:current_exemplaryQuantity
+                          })
                         },
                         catch(error) {
                           console.log(error)
