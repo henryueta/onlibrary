@@ -742,6 +742,16 @@ const form:FormObjectProps = {
                     registerId:"valor",
                 },
                 {
+                    id:"motive_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
+                    tag:"textarea",
+                    title:"Motivo",
+                    registerId:"motivo"
+                },
+                {
                     id:"situation_id",
                     forForm:{
                         post:false,
@@ -908,7 +918,7 @@ const form:FormObjectProps = {
                         ]
                     },
                     title:"Bloqueio de conta para devoluções vencidas",
-                    registerId:"aplicaco_bloqueio"
+                    registerId:"aplicacao_bloqueio"
                 }
             ]
         }

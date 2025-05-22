@@ -156,7 +156,10 @@ const schema = {
             }).max(7,{
                 message:"Campo valor deve ter no máximo 4 digitos"
             }),
-            situacao:z.enum(['concluido','cancelado'])
+            motivo:z.string().min(5,{
+                message:"Campo motivo inválido"
+            }),
+            situacao:z.enum(['concluido','cancelado']).optional()
         }),
         exemplary:z.object({
             livros_biblioteca:z.string().min(1,{
@@ -211,7 +214,7 @@ const schema = {
           }),
           reserva_online:z.boolean(),
           aplicacao_multa:z.boolean(),
-          aplicaco_bloqueio:z.boolean()
+          aplicacao_bloqueio:z.boolean()
         })
     },
     getSchemaValues(type:Exclude<TableType,"none">){

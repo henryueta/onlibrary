@@ -19,12 +19,16 @@ const Load = ({loadState,finalMessage}:LoadProps) => {
     <>
       {
         isLoading
-        ? <Dialog id="loadingDialog">
+        ? <Dialog 
+        closeOnExternalClick={false}
+        id="loadingDialog">
             <Spinner/>
           </Dialog>
         :
         isLoading && finalMessage
-        ? <Dialog>
+        ? <Dialog
+        closeOnExternalClick={false}
+        >
 
              { !!finalMessage
               &&

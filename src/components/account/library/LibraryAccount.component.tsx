@@ -22,7 +22,7 @@ const Account = () => {
 
   useEffect(()=>{
     isAccountView
-    && onQueryLibraries("https://onlibrary-server-fkrn.vercel.app/auth/library")
+    && onQueryLibraries("http://localhost:5900/auth/library")
   },[isAccountView])
 
   useEffect(()=>{
@@ -52,7 +52,10 @@ const Account = () => {
     <>
    {
     isAccountView &&
-    <Dialog title="Suas bibliotecas" onClose={()=>setIsAccountView(false)}>
+    <Dialog 
+    title="Suas bibliotecas"
+    closeOnExternalClick={true}
+     onClose={()=>setIsAccountView(false)}>
     {
       queryState.isLoading ? <div className="loadingDialogContainer">
           <Load loadState={queryState.isLoading}/>

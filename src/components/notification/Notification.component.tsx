@@ -6,7 +6,7 @@ import {useEffect,useState} from "react"
 
 interface NotificationProps {
       type:"admin" | "comum",
-      id:string
+      id:string,
 }
 
 interface UserNotificationProps{
@@ -31,7 +31,7 @@ const Notification = ({type,id}:NotificationProps)=>{
     !!currentLibraryContext.libraryId &&
     // setInterval(()=>{
     onAxiosQuery("get",{
-      url:"https://onlibrary-server-fkrn.vercel.app/notification/get?id_usuario="+id+"&id_biblioteca="+currentLibraryContext.libraryId+"&type="+type,
+      url:"http://localhost:5900/notification/get?id_usuario="+id+"&id_biblioteca="+currentLibraryContext.libraryId+"&type="+type,
       type:{
         get:{
 

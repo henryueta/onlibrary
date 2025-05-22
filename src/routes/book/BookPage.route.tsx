@@ -4,29 +4,14 @@ import NavHome from "../../components/nav/home/NavHome.component";
 import "./BookPage.route.css";
 import { useParams } from "react-router-dom";
 import useAxios from "../../hooks/useAxios";
-import { useEffect, useState } from "react";
-import { BookTableQueryProps } from "../../objects/table.object";
+import { useReducer } from "react";
 import Word from "../../classes/word.class";
 import Load from "../../components/load/Load.component";
 import TableHome from "../../components/table/home/TableHome.component";
-import useImageResizer from "../../hooks/useImageResizer";
+import Dialog from "../../components/dialog/Dialog.component";
+import useHandleBook, { BookLibrariesProps, TitleDescriptionProps } from "../../hooks/useHandleBook";
 
-interface TitleDescriptionProps {
-  className?:string
-  title:string,
-  description:string
-}
 
-interface BookLibrariesProps {
-  cep:string
-endereco:string
-fk_id_biblioteca:string
-fk_id_livro:string
-nome:string
-quantidade:number
-quantidade_disponivel:number
-reserva_online:boolean
-}
 
 const TitleDescription = ({className,title,description}:TitleDescriptionProps)=>{
 
@@ -39,89 +24,118 @@ const TitleDescription = ({className,title,description}:TitleDescriptionProps)=>
 
 }
 
+  interface LibraryStateProps {
+      libraryData:BookLibrariesProps | null,
+      visible:{
+        view:boolean,
+        close:boolean,
+      }
+  }
+
+  const initialLibraryState:LibraryStateProps = {
+
+    libraryData: null,
+    visible:{
+      view:false,
+      close:true,
+    }
+
+  }
+
+  type ActionLibraryType = 
+  {
+    type:"libraryData",
+    value:BookLibrariesProps
+  } 
+  |
+  {
+    type:"on",
+    value:{
+      view:boolean,
+      close:boolean
+    }
+  }
+  |
+  {
+    type:"off",
+    value:{
+      view:boolean,
+      close:boolean
+    }
+  }
+    
+
+  const handleLibraryState = (state:LibraryStateProps,action:ActionLibraryType)=>{
+
+    switch (action.type) {
+       case "libraryData":
+          return {...state,libraryData:action.value}
+        case "on":
+          return {...state,visible:action.value}
+        case "off":
+          return {...state,visible:action.value}
+      default:
+        return state
+    }
+
+  }
+
 const BookPage = () => {
 
   const {id} = useParams();
   const {onAxiosQuery,queryState} = useAxios()
-  const [bookData,setBookData] = useState<BookTableQueryProps | null>(null);
-  const [bookLibraries,setBookLibraries] = useState<BookLibrariesProps[] | null>(null);
-  const [bookCape,setBookCape] = useState<string>("");
+  const {bookState} = useHandleBook(!!id ? id : '' );
   
-    const {currentImage} = useImageResizer({
-    url:bookCape,
-    mimetype:"image/webp",
-    name:"bookCape.webp",
-    resize:{
-      format:"WEBP",
-      quality:80,
-      width:344,
-      height:550
-    }
-  });
-
-   useEffect(()=>{
-      !!bookData
-      &&
-      setBookCape(bookData?.capa)
-    },[bookData])
-
-    
-    useEffect(()=>{
-      !!currentImage
-      &&
-      setBookCape(currentImage)
-    },[currentImage])
-
-  useEffect(()=>{
-
-    onAxiosQuery("get",{
-      url:"https://onlibrary-server-fkrn.vercel.app/book/get?id="+id,
-      type:{
-        get:{
-          
-        }
-      },
-      onResolver:{
-        then(result) {
-          const book_data = result.data as BookTableQueryProps;
-          setBookData(book_data)
-        },
-        catch(error) {
-          console.log(error)
-        },
-      }
-    })
-
-
-
-    onAxiosQuery("get",{
-      url:"https://onlibrary-server-fkrn.vercel.app/book/libraries?id="+id,
-      type:{
-        get:{
-
-        }
-      },
-      onResolver:{
-        then(result) {
-          const bookLibraries_data = result.data as BookLibrariesProps[]
-          setBookLibraries(bookLibraries_data)  
-        },
-        catch(error) {
-          console.log(error)
-        },
-      }
-    })
-
-  },[id])
-
-  useEffect(()=>{
-      !!bookLibraries
-      &&
-      bookLibraries.map((item)=>console.log(Object.values(item)))
-  },[bookLibraries])
-
+  const [libraryState,setLibraryState] = useReducer(handleLibraryState,initialLibraryState);
+  
   return (
     <>
+    {
+      libraryState.visible.view
+      &&
+      <Dialog 
+            className="libraryViewDialog"
+            closeOnExternalClick={true}
+            onClose={()=>{
+              setLibraryState({
+                type:"off",
+                value:{
+                  close:true,
+                  view:false
+                }
+              })
+            }}
+            >
+              {
+                !!libraryState.libraryData
+                  && (
+                    <section className="libraryDataSection">
+                      <div className="titleContainer">
+                          <h1>Sobre a biblioteca</h1>
+                      </div>
+                      <TitleDescription 
+                      title="Nome"
+                      description={libraryState.libraryData.nome}
+                      />
+                      <TitleDescription 
+                      title="Telefone"
+                      description={libraryState.libraryData.telefone}
+                      />
+                      <TitleDescription 
+                      title="Endereço"
+                      description={libraryState.libraryData.endereco}
+                      />
+                      <TitleDescription 
+                      title="CEP"
+                      description={libraryState.libraryData.cep}
+                      />
+
+                    </section>
+                  )
+              }
+        </Dialog>
+    }
+            
     <NavHome/>
         <Main contentStyle={{
             display:"flex",
@@ -130,36 +144,35 @@ const BookPage = () => {
             marginTop:"13rem",
             width:"100vw"
         }}>
-          
-    
+            
              <section className="bookPageSection">
                   <Load loadState={queryState.isLoading}/>
-            {  !!bookData
+            {  !!bookState.data
             && 
               <>
                 <section className="bookDataSection">
                   <div className="capeContainer">
-                        <img src={bookCape} alt="book_cape" />
+                        <img src={bookState.cape} alt="book_cape" />
                   </div>
                   <div className="bookInformationContainer">
                       <section className="headerSection">
                         <div className="titleContainer">
-                            <h1>{bookData.titulo}</h1>
+                            <h1>{bookState.data.titulo}</h1>
                         </div>
                         <div className="authorsContainer">
-                            <h1>{bookData.autores.toString()}</h1>
+                            <h1>{bookState.data.autores.toString()}</h1>
                         </div>
                       </section>
                       <section className="descriptionSection">
                             <TitleDescription 
                             className="descriptionContainer"
                             title="Descrição"
-                            description={bookData.descricao.slice(0,800).concat(". . . LER MAIS")}
+                            description={bookState.data.descricao.slice(0,800).concat(". . . LER MAIS")}
                             />
                       </section>
                       <section className="bookAttributeSection">
                         {
-                          Object.entries(bookData).map((item)=>{
+                          Object.entries(bookState.data).map((item)=>{
                             return (
                               item[0] !== "capa" 
                               &&
@@ -184,14 +197,14 @@ const BookPage = () => {
                   </div>
               </section>
               <section className="bookLibrarySection">
-
+                        
                 {
-                  !!bookLibraries?.length
+                  !!bookState.libraries?.length
                   &&
                   <TableHome
-                  table={bookLibraries}
+                  table={bookState.libraries}
                   headers={
-                     Object.entries(bookLibraries[0]).map((item)=>{
+                     Object.entries(bookState.libraries[0]).map((item)=>{
                       return (
                         item[0] !== "fk_id_biblioteca"
                         &&
@@ -204,7 +217,7 @@ const BookPage = () => {
                     }).filter((item)=>item !== false)
                   }
                   data={
-                    bookLibraries.map((item)=>{             
+                    bookState.libraries.map((item)=>{             
                     return Object.entries(item).map((item_data)=>{
                         return (
                             item_data[1]
@@ -212,8 +225,39 @@ const BookPage = () => {
                     }).filter((item_noFalse)=>item_noFalse!==false)
                   })
                   }
-                  filter={["fk_id_biblioteca","fk_id_livro","fk_id_livro","reserva_online","0"]}
-                  onClick={(data)=>alert(data)}
+                  filter={["telefone","fk_id_biblioteca","fk_id_livro","fk_id_livro","reserva_online","0"]}
+                  onClick={(data)=>{
+                    const current_libraryData = data as BookLibrariesProps
+                    
+                    onAxiosQuery("get",{
+                      url:"http://localhost:5900/tables/data?id_biblioteca="+current_libraryData.fk_id_biblioteca+"&type=exemplary",
+                      type:{
+                        get:{
+
+                        }
+                      },
+                      onResolver:{
+                        then(result) {
+                          console.log(result)
+                        },
+                        catch(error) {
+                          console.log(error)
+                        },
+                      }
+                    })
+
+                    setLibraryState({
+                      type:"on",
+                      value:{
+                        view:true,
+                        close:false
+                      }
+                    })
+                    setLibraryState({
+                      type:"libraryData",
+                      value:current_libraryData
+                    })
+                  }}
                 />
                 }
 

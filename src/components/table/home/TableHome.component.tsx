@@ -41,12 +41,17 @@ const TableHome = ({table,filter,onClick}:TableHomeProps<object>) => {
                             }}>
                         {
                         item.map((item_data)=>{
-                            return Object.entries(item_data).map((item_dataLine,index_dataLine)=>{                             
+                            return Object.entries(item_data).map((item_dataLine,index_dataLine)=>{    
+                                const current_dataValue = item_dataLine[1] as string                         
                                     return (
                                     !filter.includes(item_dataLine[0])
                                     &&
                                     <td key={index_dataLine}>
-                                       {item_dataLine[1]}
+                                       {
+                                        typeof current_dataValue == "string"
+                                        ?current_dataValue.slice(0,20).concat("...")
+                                        : current_dataValue
+                                       }
                                     </td>     
                                 )
                             })

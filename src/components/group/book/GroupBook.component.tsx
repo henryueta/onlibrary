@@ -21,7 +21,7 @@ const GroupBook = ({
  useEffect(()=>{
     console.log(title)
     onAxiosQuery("get",{
-      url:"https://onlibrary-server-fkrn.vercel.app/book/list",
+      url:"http://localhost:5900/book/list",
       type:{
         get:{
 

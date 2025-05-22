@@ -305,6 +305,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
         {
            !!formQueryState.success.view
           && <Dialog
+          closeOnExternalClick={false}
           className={`dialogPane ${formQueryState.success.close ?"closeDialog" : ""}`} 
            onClose={()=>{
             setFormQueryState({
@@ -334,6 +335,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
         {
           !!formQueryState.error.view
           && <Dialog
+          closeOnExternalClick={false}
           className={`dialogPane ${formQueryState.error.close ?"closeDialog" : ""}`}
            onClose={()=>{
             setFormQueryState({
