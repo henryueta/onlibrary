@@ -6,10 +6,10 @@
 }
 
 .tableSection{
+    background-color: white;
     margin-top: 2rem;
     margin-bottom: 1.5rem;
     padding: 0.5rem 0rem 0.5rem 0rem;
-    border: 0.12rem solid var(--grayLine_var);
     border-radius: calc(var(--borderRadius_var) + 0.5rem);
     width: 95%;
     display: flex;  

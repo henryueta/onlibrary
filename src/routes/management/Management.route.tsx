@@ -81,6 +81,9 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
         <section className="managementContentSection">
           <NavAdmin/>
           <section className="dataContentSection">
+             <div className="currentPathContainer">
+              {currentPathContext.pathName.replace(/[/]/g," ◢ ")}
+            </div>
             {hasGroupTableCard
               &&(
             <GroupTableCard cardList={

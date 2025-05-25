@@ -13,6 +13,7 @@ import Management from './routes/management/Management.route.tsx'
 import Private from './routes/private/Private.route.tsx'
 import {path} from './objects/path.object.ts'
 import LibraryRegisterPage from './routes/form/register/library/LibraryRegisterPage.route.tsx'
+import Main from './components/main/Main.component.tsx'
 
 
 
@@ -52,7 +53,7 @@ export const router = createBrowserRouter([
     path:path.onFindPath("library_management"),
     element:
     <Private>
-      <Management mode='default' hasGroupTableCard={true}/>
+          <Management mode='default' hasGroupTableCard={true}/>
     </Private>
   },
   {

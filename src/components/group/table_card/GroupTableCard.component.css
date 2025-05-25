@@ -1,10 +1,9 @@
 
 .tableCardListContainer{
-    margin-top: 1rem;
     display: grid   ;
     grid-template-columns: repeat(5,1fr);
     gap: 2rem;
-    padding: 3rem;
+    padding: 2rem;
     width: 100%;
 }
 
@@ -13,8 +12,8 @@
 }
 
 .tableCardListContainer a{
+    background-color: white;
     text-decoration: none;
-    border: 0.15rem solid var(--grayLine_var);
     border-radius: calc(var(--borderRadius_var) + 0.5rem);
     display: flex; 
     padding: 2rem;
