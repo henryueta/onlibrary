@@ -4,12 +4,13 @@ icon?:string
 title?:string    
 keyList?:string | number
 children?:React.ReactNode
+style?:React.CSSProperties
 onClick?:()=>void
 }
 
-const ListItem = ({icon,title,keyList,children,onClick}:ListItemProps) => {
+const ListItem = ({icon,title,keyList,children,style,onClick}:ListItemProps) => {
   return (
-    <li key={keyList} onClick={onClick}>
+    <li style={style} key={keyList} onClick={onClick}>
         {
             !!icon && 
             (

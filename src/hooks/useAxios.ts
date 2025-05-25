@@ -143,9 +143,9 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
                 })
         },
         put:()=>{
-            axios.put(query.url,{
-                //data
-            })
+            axios.put(query.url,query.type.put?.data)
+            .then((result)=>query.onResolver.then(result))
+            .catch((error)=>query.onResolver.catch(error))
         },
         delete:()=>{
             axios.delete(query.url)

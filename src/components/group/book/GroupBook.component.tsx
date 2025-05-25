@@ -19,7 +19,6 @@ const GroupBook = ({
       const [books,setBooks] = useState<bookCardProps | null>(null);
 
  useEffect(()=>{
-    console.log(title)
     onAxiosQuery("get",{
       url:"http://localhost:5900/book/list",
       type:{

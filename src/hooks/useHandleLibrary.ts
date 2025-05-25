@@ -38,9 +38,7 @@ const useHandleLibrary = ()=>{
             },
             onResolver:{
                 then:(result)=>{
-                    console.log(result)
                     const current_result = result.data as LibraryProps[]
-                    console.log(current_result)
                     setLibraries(current_result)
                 },
                 catch:(error)=>console.log(error)

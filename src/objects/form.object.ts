@@ -47,7 +47,7 @@ export interface InputProps {
 
 export interface FormListProps {
     name:Exclude<TableType,"none">,
-    schema:z.ZodObject<ZodRawShape>
+    schema:Record<'post'|'put',z.ZodObject<ZodRawShape>>
     fields:InputProps[],
     // getQueryFields(type:"post"|"put"):Partial<InputProps[]>
 }
@@ -74,9 +74,12 @@ const form:FormObjectProps = {
     formList:[
         {
             name:"user",
-            schema:schema.schemaList['user'].register.step1
+            schema:{
+                post:schema.schemaList['user'].register.step1
             .merge(schema.schemaList['user'].register.step2)
             .merge(schema.schemaList['user'].register.step3 as any) as z.ZodObject<ZodRawShape>,
+                put:schema.schemaList['user'].register.step1
+            },
             fields:[
                 {
                     id:"nome_id",
@@ -138,7 +141,14 @@ const form:FormObjectProps = {
         },
         {
             name:"library_user",
-            schema:schema.schemaList['library_user'],
+            schema:{
+                post:schema.schemaList['library_user'],
+                put:schema.schemaList['library_user'].omit({
+                    usuarios:true,
+                    perfis_biblioteca:true,
+                    cpf:true
+                })
+            },
             fields:[
                 {
                     id:"users_id",
@@ -221,7 +231,10 @@ const form:FormObjectProps = {
         },
         {
             name:"account",
-            schema:schema.schemaList['account'],
+            schema:{
+                post:schema.schemaList['account'],
+                put:schema.schemaList['account']
+            },
             fields:[
                 {
                     id:"name_id",
@@ -285,7 +298,10 @@ const form:FormObjectProps = {
         },
         {
             name:"book",
-            schema:schema.schemaList['book'],
+            schema:{
+                post:schema.schemaList['book'],
+                put:schema.schemaList['book']
+            },
             fields:[
                 {
                     id:"ISBN_id",
@@ -410,7 +426,10 @@ const form:FormObjectProps = {
             ],
         },{
             name:"author",
-            schema:schema.schemaList['author'],
+            schema:{
+                post:schema.schemaList['author'],
+                put:schema.schemaList['author']
+            },
             fields:[
                 {
                     id:"name_id",
@@ -427,7 +446,10 @@ const form:FormObjectProps = {
 
         },{
             name:"publisher",
-            schema:schema.schemaList['publisher'],
+            schema:{
+                post:schema.schemaList['publisher'],
+                put:schema.schemaList['publisher']
+            },
             fields:[
                 {
                     id:"name_id",
@@ -444,7 +466,10 @@ const form:FormObjectProps = {
 
         },{
             name:"category",
-            schema:schema.schemaList['category'],
+            schema:{
+                post:schema.schemaList['category'],
+                put:schema.schemaList['category']
+            },
             fields:[
                 {
                     id:"name_id",
@@ -461,7 +486,10 @@ const form:FormObjectProps = {
 
         },{
             name:"gender",
-            schema:schema.schemaList['gender'],
+            schema:{
+                post:schema.schemaList['gender'],
+                put:schema.schemaList['gender']
+            },
             fields:[
                 {
                     id:"name_id",
@@ -478,7 +506,10 @@ const form:FormObjectProps = {
 
         },{
             name:"exemplary",
-            schema:schema.schemaList['exemplary'],
+            schema:{
+                post:schema.schemaList['exemplary'],
+                put:schema.schemaList['exemplary']
+            },
             fields:[
                 {
                     id:"bookId_id",
@@ -566,7 +597,13 @@ const form:FormObjectProps = {
         },
         {
             name:"loan",
-            schema:schema.schemaList['loan'],
+            schema:{
+                post:schema.schemaList['loan'],
+                put:schema.schemaList['loan'].omit({
+                    exemplares_biblioteca:true,
+                    usuarios_biblioteca:true,
+                })
+            },
             fields:[
                 {
                     id:"exemplary_id",
@@ -637,7 +674,10 @@ const form:FormObjectProps = {
         },
         {
             name:"reserve",
-            schema:schema.schemaList['reserve'],
+            schema:{
+                post:schema.schemaList['reserve'],
+                put:schema.schemaList['reserve']
+            },
             fields:[
                 {
                     id:"exemplary_id",
@@ -707,7 +747,12 @@ const form:FormObjectProps = {
             ]
         },{
             name:"amerce",
-            schema:schema.schemaList['amerce'],
+            schema:{
+                post:schema.schemaList['amerce'],
+                put:schema.schemaList['amerce'].omit({
+                    usuarios_biblioteca:true
+                })
+            },
             fields:[
                 {
                     id:"libraryUser_id",
@@ -778,7 +823,10 @@ const form:FormObjectProps = {
             ]
         },{
             name:"library",
-            schema:schema.schemaList['library'],
+            schema:{
+                post:schema.schemaList['library'],
+                put:schema.schemaList['library']
+            },
             fields:[
                 {
                     id:"name_id",

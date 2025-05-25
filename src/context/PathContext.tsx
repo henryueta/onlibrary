@@ -12,7 +12,6 @@ const PathProvider = ({children}:{children:React.ReactNode})=>{
     const [pathName,setPathName] = useState<string>("");
 
     useEffect(()=>{
-        console.log(pathName)
     },[pathName])
 
 return (

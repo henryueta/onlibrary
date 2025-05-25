@@ -7,13 +7,14 @@ import Details from "../../../details/Details.component";
 import { useNavigate,useLocation } from "react-router-dom";
 import ListItem from "../../../listItem/ListItem.component";
 import { onFindTablePath } from "../../../../objects/table.object";
+import useHandlePath from "../../../../hooks/useHandlePath";
 
 
 const NavLibrary = () => {
 
  const onNavigate = useNavigate();
   const location = useLocation();
-  
+  const {currentPathContext} = useHandlePath();
 
   return (
     <nav className="navLibrary">
@@ -22,8 +23,18 @@ const NavLibrary = () => {
       </div>
       <div className="libraryOptionsContainer">
         <ul>
-          <ListItem title="Dashboard" icon={dashboardHome_icon} onClick={()=>onNavigate("/management/library")}/> 
-          <ListItem title="Minha Biblioteca" icon={cubeTable_icon}/> 
+          <ListItem  
+          title="Dashboard" 
+          icon={dashboardHome_icon} 
+          onClick={()=>onNavigate("/management/library")}
+          style={currentPathContext.pathName === "/management/library" 
+            ? {backgroundColor:"var(--selectedBlue_var)"}
+            : {}
+          }
+          /> 
+          <ListItem 
+          title="Minha Biblioteca" 
+          icon={cubeTable_icon}/> 
           <li>
             <Details title="Gestão" icon={management_icon} list={[
               {
@@ -32,42 +43,89 @@ const NavLibrary = () => {
                 onClick:()=>onNavigate(onFindTablePath("library_user") || "")
               },
               {
-                children:<Details open={
+                children:<Details 
+                open={
                   location.pathname == onFindTablePath("book")
-                } onClick={()=>onNavigate(onFindTablePath("book") || "")} title="Livros" icon={cubeTable_icon} list={[
+                  ||
+                  location.pathname == onFindTablePath("author")
+                  ||
+                  location.pathname == onFindTablePath("category")
+                  ||
+                  location.pathname == onFindTablePath("gender")
+                  ||
+                  location.pathname == onFindTablePath("exemplary")
+                  ||
+                  location.pathname == onFindTablePath("publisher")
+
+                } onClick={()=>onNavigate(onFindTablePath("book") || "")} 
+                title="Livros" 
+                icon={cubeTable_icon} 
+                list={[
                   {
                     title:"Exemplares",
                     icon:cubeTable_icon,
+                    style: location.pathname == onFindTablePath("exemplary")
+                    ? {backgroundColor:"var(--selectedBlue_var)"}
+                    : {},
+                    onClick:()=>onNavigate(onFindTablePath("exemplary") || "")
                   },
                   {
                     title:"Autores",
                     icon:cubeTable_icon,
+                    style: location.pathname == onFindTablePath("author")
+                    ? {backgroundColor:"var(--selectedBlue_var)"}
+                    : {},
+                    onClick:()=>onNavigate(onFindTablePath("author") || "")
                   },
                   {
                     title:"Editoras",
                     icon:cubeTable_icon,
+                    style: location.pathname == onFindTablePath("publisher")
+                    ? {backgroundColor:"var(--selectedBlue_var)"}
+                    : {},
+                    onClick:()=>onNavigate(onFindTablePath("publisher") || "")
                   },
                   {
                     title:"Categorias",
                     icon:cubeTable_icon,
+                    style: location.pathname == onFindTablePath("category")
+                    ? {backgroundColor:"var(--selectedBlue_var)"}
+                    : {},
+                    onClick:()=>onNavigate(onFindTablePath("category") || "")
                   },
                   {
                     title:"Gêneros",
                     icon:cubeTable_icon,
+                    style: location.pathname == onFindTablePath("gender")
+                    ? {backgroundColor:"var(--selectedBlue_var)"}
+                    : {},
+                    onClick:()=>onNavigate(onFindTablePath("gender") || "")
                   }
                 ]}/>
               },
               {
                 title:"Empréstimos",
                 icon:cubeTable_icon,
+                style: location.pathname == onFindTablePath("loan")
+                ? {backgroundColor:"var(--selectedBlue_var)"}
+                : {},
+                onClick:()=>onNavigate(onFindTablePath("loan") || "")
               },
               {
                 title:"Reservas",
                 icon:cubeTable_icon,
+                style: location.pathname == onFindTablePath("reserve")
+                ? {backgroundColor:"var(--selectedBlue_var)"}
+                : {},
+                onClick:()=>onNavigate(onFindTablePath("reserve") || "")
               },
               {
                 title:"Multas",
                 icon:cubeTable_icon,
+                style: location.pathname == onFindTablePath("amerce")
+                ? {backgroundColor:"var(--selectedBlue_var)"}
+                : {},
+                onClick:()=>onNavigate(onFindTablePath("amerce") || "")
               }
             ]}>
             </Details>

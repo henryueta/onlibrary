@@ -173,6 +173,7 @@ const BookPage = () => {
                                     post:{
                                       data:{
                                         fk_id_biblioteca:libraryState.libraryData?.fk_id_biblioteca,
+                                        fk_id_livro:id,
                                         fk_id_usuario:"9f520fa3-bd00-4f14-b27b-47ffeed1cbf8",
                                         quantidade_total:reserveExemplaryQuantity
                                       }
@@ -293,7 +294,7 @@ const BookPage = () => {
                     const current_libraryData = data as BookLibrariesProps
                     
                     onAxiosQuery("get",{
-                      url:"http://localhost:5900/exemplary/get?id_biblioteca="+current_libraryData.fk_id_biblioteca,
+                      url:"http://localhost:5900/exemplary/get?id_biblioteca="+current_libraryData.fk_id_biblioteca+"&id_livro="+id,
                       type:{
                         get:{
 

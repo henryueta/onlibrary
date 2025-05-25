@@ -39,7 +39,6 @@ const Notification = ({type,id}:NotificationProps)=>{
       },
       onResolver:{
           then:(result)=>{
-            console.log(result)
             const notification_data = result.data as UserNotificationProps[];
             setUserNotifications(notification_data);
           },

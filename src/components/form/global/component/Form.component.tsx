@@ -12,6 +12,7 @@ import useHandleLibrary from "../../../../hooks/useHandleLibrary";
 import Dialog from "../../../dialog/Dialog.component";
 import bigWarning_icon from "../../../../assets/imgs/icons/bigWarning_icon.png";
 import bigValidated_icon from "../../../../assets/imgs/icons/bigValidated_icon.png"
+import { useParams } from "react-router-dom";
 
 interface FormProps{
   formSchema:z.ZodObject<ZodRawShape>
@@ -94,11 +95,10 @@ const handleFormQueryState = (state:FormQueryStateProps,action:ActionFormType)=>
 
 const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,method}:FormProps) => {
   const schemaObject = formSchema
-
-
   const [formBase,setFormBase] = useState<InputProps[]>();
   const {currentLibraryContext} = useHandleLibrary();
   const {form} = useHandleForm(typeOfData || "none")
+  const {id} = useParams()
 
   const [formQueryState,setFormQueryState] = useReducer(handleFormQueryState,initialFormQueryState);
 
@@ -129,6 +129,11 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
     setTeste(defaultValues)
   },[defaultValues])
 
+  useEffect(()=>{
+
+
+  },[teste])
+
   const {register,formState:{errors},handleSubmit,control,setValue} = useForm<SchemaType>({
     mode:"all",
     reValidateMode:"onSubmit",
@@ -144,7 +149,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
     buttonRef.current.addEventListener('click',()=>{
 
       handleSubmit((data:SchemaType)=>onSubmit(data))()
-
+      
       })
   },[buttonRef])
 
@@ -152,6 +157,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
     !!formState.error.message
     &&
     (()=>{
+     console.log(errors)
       setFormQueryState({
         type:"error",
         value:{
@@ -203,10 +209,11 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                     item_input.tag === "select" && !!item_input.options
                     ?
                      <Select
+                      defaultValue={teste && teste[item_input!.registerId]}
                      placeholder={` `}
                      className="selectOptions" isMulti={item_input.options.isMultiple}
                      options={item_input.options.list.map((item_option)=>{
-                       console.log(item_option)
+                 
                        return {
                       value:item_option.value,
                       label:item_option.label
@@ -368,13 +375,15 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
          <div className="submitFormDataContainer">
             <button className="managementButton"  onClick={handleSubmit((data:SchemaType)=>
              {
-              console.log(data)
               return typeOfData && data
               &&  onQueryForm(currentLibraryContext.libraryId || "",{
+               id:id,
                type:typeOfData,
                data:data as TableQueryProps
              },
-             "create")
+             method.post 
+             ? "create"
+             : "update")
              }
               )}>
             Cadastrar

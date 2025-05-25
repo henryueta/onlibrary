@@ -9,7 +9,6 @@ const location = useLocation();
 
 
 useEffect(()=>{
-    console.log(location)
     currentPathContext.setPathName(location.pathname)
 },[location])
 

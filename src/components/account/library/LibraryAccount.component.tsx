@@ -30,7 +30,7 @@ const Account = () => {
     && setCurrentLibrary(libraries.find((item)=>item.id === currentLibraryContext.libraryId) || null)
   },[libraries])
 
-  console.log(libraries)
+
 
   useEffect(()=>{
     currentLibrary?.id
@@ -54,7 +54,7 @@ const Account = () => {
     isAccountView &&
     <Dialog 
     title="Suas bibliotecas"
-    closeOnExternalClick={true}
+    closeOnExternalClick={false}
      onClose={()=>setIsAccountView(false)}>
     {
       queryState.isLoading ? <div className="loadingDialogContainer">

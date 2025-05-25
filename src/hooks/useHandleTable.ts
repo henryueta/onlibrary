@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {  TableQueryProps, TableType, tableTypeDataList } from "../objects/table.object";
+import {  TableQueryProps, TableType, tableTypeDataList,tableRoutes } from "../objects/table.object";
 import { AxiosResponse, CancelToken } from "axios";
 import useAxios from "./useAxios";
 import useHandleLibrary from "./useHandleLibrary";
@@ -17,6 +17,7 @@ const useHandleTable = ()=>{
     const [table,setTable] = useState<TableQueryProps | null>(null);
     const {onAxiosQuery} = useAxios();
     const {currentLibraryContext} = useHandleLibrary()
+
 
     useEffect(()=>{
     },[tableData])
@@ -62,8 +63,9 @@ const useHandleTable = ()=>{
                 select:()=>{
                     table?.id
                     ? (()=>{
+                        
                         onThen = (result)=>{
-                            console.log(result)
+                            
                             const {data} = result;
                             setTable(data)
                         }
@@ -95,17 +97,21 @@ const useHandleTable = ()=>{
                        : setTableData(null)
                     }
                     })()
+                    !table.id
                     onAxiosQuery("get",{
-                        url:`http://localhost:5900/tables/data?id_biblioteca=${currentLibraryContext.libraryId}&type=${table.type}`,
+                        url:!table.id
+                        ? `http://localhost:5900/tables/data?id_biblioteca=${currentLibraryContext.libraryId}&type=${table.type}`
+                        : tableRoutes[table.type].getById+"?id_biblioteca="+currentLibraryContext.libraryId+"&id="+table.id,
+                        // : "http://localhost:5900/library_user/get?id_biblioteca="+currentLibraryContext.libraryId+"&id="+table.id,
                         type:{
                             get:{
-                                id:table.id,
-                                data:table.data
+                                // id:table.id,
+                                // data:table.data
                             }
                         },
                         onResolver:{
                             then:(result)=>{                              
-                              console.log(result)
+                              console.warn(result)
                               onThen(result)
                             },
                             catch:(error)=>{

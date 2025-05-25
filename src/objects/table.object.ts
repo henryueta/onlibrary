@@ -107,6 +107,31 @@ const onFindTitleIndex = (title:TableTitleType)=>{
     return  tableTitleList.findIndex((item)=>item === title)
 }
 
+const tableRoutes = {
+  library_user:{
+    getById:"http://localhost:5900/library_user/get/dependencies",
+    post:"http://localhost:5900/library_user/post",
+    put:""
+  },
+  loan:{
+    getById:"http://localhost:5900/loan/get/dependencies",
+    post:"http://localhost:5900/loan/post",
+    put:"http://localhost:5900/loan/put"
+  },
+  account:{
+    getById:"http://localhost:5900/account/get/dependencies",
+    post:"http://localhost:5900/account/post",
+    put:""
+  },
+  exemplary:{
+    getById:"http://localhost:5900/exemplary/get/dependencies",
+    post:"http://localhost:5900/exemplary/post",
+    put:""
+  }
+
+
+}
+
 const tableTypeDataList:TableTypeProps[] = [
     {
         type:"none",
@@ -272,7 +297,9 @@ const tableTypeDataList:TableTypeProps[] = [
         headers:
         [],
         dependencies:
-        []
+        [
+          "Reserva Online"
+        ]
     },{
         type:"amerce",
         warning:false,
@@ -304,6 +331,22 @@ const tableTypeDataList:TableTypeProps[] = [
         [],
         dependencies:
         []
+    },
+    {
+      type:"online_reserve",
+      warning:false,
+      title:"Reserva Online",
+      quantity:0,
+      path:path.onCreatePathParams("list_data_management",[
+        {
+          field:"type",
+          param:"online_reserve"
+        }
+      ]),
+      headers:
+      [],
+      dependencies:
+      []
     }
 ];
 
@@ -317,6 +360,7 @@ const onFindTablePath = (type:TableType)=>{
 
 export {
     tableTypeDataList,
+    tableRoutes,
     onFindTableIndex,
     onFindTablePath
 }

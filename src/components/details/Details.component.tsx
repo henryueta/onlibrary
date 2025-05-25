@@ -2,7 +2,8 @@ import ListItem from "../listItem/ListItem.component"
 
 type ItemIdentityProps = {
     title?:string,
-    icon?:string
+    icon?:string,
+    style?:React.CSSProperties
 }
 
 interface ItemContentProps{
@@ -28,7 +29,7 @@ const Details = ({onClick,title,icon,list,open}:DetailsProps) => {
         <ul>
          {
             list.map((item,index)=>
-                <ListItem icon={item.icon} title={item.title} key={index} onClick={item.onClick}> 
+                <ListItem style={item.style} icon={item.icon} title={item.title} key={index} onClick={item.onClick}> 
                      {item.children}
                 </ListItem>
             )

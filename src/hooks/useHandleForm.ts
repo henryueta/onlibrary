@@ -9,7 +9,8 @@ import {
    LibraryTableQueryProps,
     TableQueryProps,
     ExemplaryTableQueryProps,
-     TableType } from "../objects/table.object";
+     TableType, 
+     tableRoutes} from "../objects/table.object";
 import useHandleLibrary from "./useHandleLibrary";
 import Word from "../classes/word.class";
 import axios, { CancelToken } from "axios";
@@ -112,11 +113,9 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
         },
         type:QueryType,
         cancelToken?:CancelToken)=>{
-            console.log(form.data)
         const checkQueryType = {
 
             select:()=>{
-              console.log(form.type)
                 onAxiosQuery("get",{
                     url:`http://localhost:5900/data/group?type=${form.type}&id=${libraryId}&userId=${current_userId.user_id}`,
                     type:{
@@ -150,7 +149,6 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                                 )}
                             }
                             )
-                            console.log(current_form)
 
                             setForm((prev)=>{
                                 return {...prev,formList:current_form as FormListProps[]}
@@ -279,7 +277,6 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                         )
                     },
                     exemplary:()=>{
-                        console.log(form.data)
                       const exemplaryData = form.data as ExemplaryTableQueryProps
                         return (
                             {
@@ -355,6 +352,23 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                })()
             },
             update:()=>{
+                
+                onAxiosQuery("put",{
+                    url:tableRoutes.loan.put+"?id="+form.id,
+                    type:{
+                        put:{
+                            data:form.data
+                        }
+                    },
+                    onResolver:{
+                        then(result) {
+                            console.log(result)
+                        },
+                        catch(error) {
+                            console.log(error)
+                        },
+                    }
+                })
 
             },
             delete:()=>{
@@ -368,7 +382,6 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
 
 useEffect(()=>{
     const source = axios.CancelToken.source();
-    console.log("AAA")
     !!formObject
     && !!typeOfForm
     && typeOfForm !== "none"

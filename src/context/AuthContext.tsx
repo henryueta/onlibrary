@@ -41,7 +41,6 @@ const AuthProvider = ({children}:{children:React.ReactNode})=>{
     },[Cookies.get("user_id")])
 
     useEffect(()=>{
-      console.log(userId)
 
     },[userId])
 

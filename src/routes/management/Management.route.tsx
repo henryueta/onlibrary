@@ -34,11 +34,12 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
 
   useEffect(()=>{
     !!id &&
-    onQueryTable({
+      onQueryTable({
       type:type as TableType || "none",
       id:id
     },
     "select")
+
 
     mode !== "put"
     &&  setDefaultForm(null)
@@ -48,7 +49,10 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
 
   useEffect(()=>{
     table &&
-    setDefaultForm(table || [])
+   (()=>{
+    
+    return  setDefaultForm(table || [])
+   })()
 
   },[table])
 
@@ -56,14 +60,12 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
 
     cardList.forEach((button)=>{
         onQueryCountTable(button.type,(result)=>{
-          console.log(result.data)
           setcardList((prev)=>{
             return prev.map((item)=>{
                if(item.type === button.type){
                    item.quantity = result.data.quantidade
                    item.warning = result.data.aviso
                }
-               console.log(item.type+"-"+item.quantity)
                return item
              })
            })
@@ -115,7 +117,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
                   post:true,
                   put:false
                  }}
-                formSchema={form.formList.find((item)=>item.name == type)!.schema}
+                formSchema={form.formList.find((item)=>item.name == type)!.schema[mode]}
                 typeOfData={type as Exclude<TableType,"library"|"none">}
                 onSubmit={()=>{}}
                 />
@@ -130,7 +132,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
                     post:false,
                     put:true
                   }}
-                  formSchema={form.formList.find((item)=>item.name == type)!.schema}
+                  formSchema={form.formList.find((item)=>item.name == type)!.schema[mode]}
                   typeOfData={type as Exclude<TableType,"none"|"library">}
                   onSubmit={(data)=>console.log(data)}
                   defaultValues={defaultForm}

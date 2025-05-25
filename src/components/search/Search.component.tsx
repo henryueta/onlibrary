@@ -28,7 +28,6 @@ const Search = ({filter,quantity} : SearchProps) => {
          !!filter && <Select defaultValue={{title:"todos",value:"todos"}} onSelect={(e)=>{setSelectValue(e.target.value)}} list={filter.list}/> 
         }
         <button onClick={()=>{
-          console.log(inputValue,quantity,selectValue)
           // onSearch(inputValue,quantity,selectValue)
         }}>
             <img src={search_icon} alt="search_button" />
