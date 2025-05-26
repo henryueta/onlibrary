@@ -14,3 +14,13 @@
     color: white;
     padding: 0.2rem;
 }
+
+.iconCardContainer>img{
+    background-color: var(--grayContainer_var);
+    border: 0.1rem solid var(--grayLine_var);
+    border-radius: 0.5rem;
+    padding: 0.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

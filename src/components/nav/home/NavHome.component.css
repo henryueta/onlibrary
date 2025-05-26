@@ -42,21 +42,4 @@
     cursor: pointer;
 }
 
-.userOptionsContainer>a{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    width: 165px;
-    text-decoration: none;
-    background-color: white;
-    color: var(--blue_var);
-    font-size: 0.95rem;
-    font-weight: 600;
-    padding: 0.8rem;
-    border-radius:var(--borderRadius_var);
-}
 
-.userOptionsContainer>a:hover{
-    background-color:var(--whiteHover_var);
-}

@@ -3,17 +3,11 @@ import "./NavHome.component.css";
 import onlibrary_logo from "../../../assets/imgs/logo/onlibrary_logo.png";
 import notification_icon from "../../../assets/imgs/icons/notification_icon.png";
 import favorite_icon from "../../../assets/imgs/icons/favorite_icon.png";
-import user_icon from "../../../assets/imgs/icons/user_icon.png";
 import { Link } from "react-router-dom";
-import useHandleAuth from "../../../hooks/usehandleAuth";
-import { useEffect } from "react";
+import UserAccount from "../../account/user/UserAccount.component";
 
 const NavHome = () => {
 
-  const {authContext} = useHandleAuth();
-
-  useEffect(()=>{
-  },[])
 
   return (
     <nav className="navHomeBar">
@@ -30,14 +24,7 @@ const NavHome = () => {
           <button>
               <img src={favorite_icon} alt="favorite_icon" />
           </button>
-          {
-            authContext.userStatus?.authStatus?.hasAuth
-            ? <><Link to={"/management/library"}>Click</Link></> 
-            : <Link to="/login">
-            <img src={user_icon} alt="user_icon" />
-              Entre ou cadastre-se
-              </Link> 
-          }        
+          <UserAccount/>  
         </div>
     </nav>
   )

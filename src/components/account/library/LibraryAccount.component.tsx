@@ -96,14 +96,14 @@ const Account = () => {
     </Dialog>
    }
 
-    <div className="currentLibraryAccountContainer" onClick={()=>setIsAccountView(true)}>
+    <div className="currentLibraryAccountContainer" onClick={()=>onNavigate("/management/library/choice")}>
     <img src={
       !!currentLibraryContext.libraryId
       ? libraryOpenned_icon
       : libraryClosed_icon
     } alt="admin_account_icon" />
       <span>
-        {currentLibrary?.nome
+        {currentLibrary
         ? currentLibrary?.nome.slice(0,currentLibrary.nome.length-3).concat("...")
         : "Selecione sua biblioteca"}
       </span>

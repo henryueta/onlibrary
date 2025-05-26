@@ -16,13 +16,119 @@
 }
 
 ::-webkit-scrollbar{
-  width: 0.7rem;
+  width: 0.5rem;
 }
 
 ::-webkit-scrollbar-thumb{
-  background-color: rgb(80, 121, 187);
+  background-color: rgb(212, 212, 212);
+  border-radius: 1rem;
 }
 
+.cancelButton{
+  cursor: pointer;
+    border: none;
+    background-color: white;
+    color: var(--blue_var);
+    width: 150px;
+    height: 45px;
+    border-radius: var(--borderRadius_var);
+    border: 0.1rem solid var(--blue_var);
+    font-size: 0.9rem;
+}
+
+.cancelButton:hover{
+  background-color: rgb(222, 222, 222); 
+}
+
+.acceptButton{
+  cursor: pointer;
+  border: none;
+  background-color: var(--blue_var);
+  color: white;
+  width: 150px;
+  height: 45px;
+  border-radius: var(--borderRadius_var);
+  font-size: 0.9rem;
+}
+
+.acceptButton:hover{
+  background-color: var(--selectedBlue_var);
+}
+
+
+/* Table */
+
+
+.dialogTable>table{
+  display: flex;
+}
+
+.dialogTable>table thead{
+  flex: 1;
+}
+
+.dialogTable>table tr:has(th){
+  background-color: var(--grayContainer_var);
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: start;
+  gap: 2rem;
+  font-weight: 400;
+  font-size: 1.05rem;
+  padding: 0.5rem;
+}
+
+.dialogTable>table td{
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+  flex: 1;
+  font-size: 1.05rem;
+}
+
+.tableContainer{
+  margin-top: 1.8rem;
+}
+
+.tableContainer>table{
+  display: flex;
+  }
+
+.tableContainer>table thead{
+  flex: 1;
+}
+
+.tableContainer>table tr{
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+
+.tableContainer>table tr:has(th){
+  background-color: var(--blue_var);
+  color: white;
+  font-weight: 600;
+}
+
+.tableContainer>table th{
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: start;
+  font-weight: 400;
+  font-size: 1.05rem;
+  padding: 1rem;
+}
+
+
+.tableContainer>table td{
+  display: flex;
+  padding: 1rem;
+  flex: 1;
+  font-size: 1.05rem;
+  align-items: center;
+  justify-content: start;
+  border-bottom: 0.1rem solid var(--grayLine_var);
+}
 
 
 @media (max-width:1024px)  {

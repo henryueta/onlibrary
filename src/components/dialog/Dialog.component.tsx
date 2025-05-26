@@ -54,6 +54,7 @@ const Dialog = ({onClose,title,id,children,className,closeOnExternalClick}:Dialo
         className={!!className ? className : "dialogPane"}>
           {
         !!onClose &&
+        <>
         <div className="dialogHeaderContainer">
             <div className="dialogTitleContainer">
                 <h1>{title}</h1>
@@ -62,8 +63,10 @@ const Dialog = ({onClose,title,id,children,className,closeOnExternalClick}:Dialo
                 <button type="button" onClick={onClose}>
                     X
                 </button>
-            </div>
+            </div>    
         </div>
+        <hr />
+        </>
         }
 
         <div className="dialogContentContainer">

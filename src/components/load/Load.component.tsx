@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Dialog from "../dialog/Dialog.component"
 import Spinner from "../spinner/Spinner.component";
+import "./Load.component.css"
 
 interface LoadProps{
   loadState:boolean,

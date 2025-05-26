@@ -14,6 +14,7 @@ import Private from './routes/private/Private.route.tsx'
 import {path} from './objects/path.object.ts'
 import LibraryRegisterPage from './routes/form/register/library/LibraryRegisterPage.route.tsx'
 import Main from './components/main/Main.component.tsx'
+import LibraryChoice from './routes/choice/LibraryChoice.component.tsx'
 
 
 
@@ -75,6 +76,13 @@ export const router = createBrowserRouter([
     element:
     <Private>
       <Management mode='put'  hasGroupTableCard={false}/>
+    </Private>
+  },
+  {
+    path:path.onFindPath("library_choice"),
+    element:
+    <Private>
+        <LibraryChoice/>
     </Private>
   }
 ])

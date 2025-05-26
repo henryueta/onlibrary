@@ -5,7 +5,10 @@ import GroupBook from '../../components/group/book/GroupBook.component'
 import Slider from '../../components/slider/Slider.component'
 import Main from '../../components/main/Main.component'
 
+
 function Home() {
+
+   
 
   return (
     <section className='homeSection'>

@@ -1,6 +1,5 @@
 import Search from "../../search/Search.component"
 import "./TableManagement.component.css"
-import "../global/Table.component.css"
 import useHandleTable from "../../../hooks/useHandleTable"
 import { useEffect, useState } from "react"
 import { TableType, tableTypeDataList,onFindTableIndex } from "../../../objects/table.object"

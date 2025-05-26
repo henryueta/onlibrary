@@ -76,7 +76,7 @@ const TitleDescription = ({className,title,description}:TitleDescriptionProps)=>
   const handleLibraryState = (state:LibraryStateProps,action:ActionLibraryType)=>{
 
     switch (action.type) {
-       case "libraryData":
+       case "libraryData":  
           return {...state,libraryData:action.value}
         case "on":
           return {...state,visible:action.value}
@@ -105,6 +105,7 @@ const BookPage = () => {
       libraryState.visible.view
       &&
       <Dialog 
+            title="Sobre a biblioteca"
             className="libraryViewDialog"
             closeOnExternalClick={false}
             onClose={()=>{
@@ -129,70 +130,119 @@ const BookPage = () => {
                 !!libraryState.libraryData
                   && (
                     <section className="libraryDataSection">
-                      <div className="titleContainer">
-                          <h1>Sobre a biblioteca</h1>
+                      
+                      <div className="libraryDataContainer">
+
+                        <div>
+                          <TitleDescription 
+                          title="Nome"
+                          description={libraryState.libraryData.nome}
+                          />
+                        </div>
+
+                       <div>
+                        <TitleDescription 
+                          title="Telefone"
+                          description={libraryState.libraryData.telefone}
+                          />
+                       </div>
+
+                        <div>
+                          <TitleDescription 
+                          title="Endereço"
+                          description={libraryState.libraryData.endereco}
+                          />
+                        </div>
+
+                        <div>
+                          <TitleDescription 
+                          title="CEP"
+                          description={libraryState.libraryData.cep}
+                          />
+                        </div>
+                       
                       </div>
-                      <TitleDescription 
-                      title="Nome"
-                      description={libraryState.libraryData.nome}
-                      />
-                      <TitleDescription 
-                      title="Telefone"
-                      description={libraryState.libraryData.telefone}
-                      />
-                      <TitleDescription 
-                      title="Endereço"
-                      description={libraryState.libraryData.endereco}
-                      />
-                      <TitleDescription 
-                      title="CEP"
-                      description={libraryState.libraryData.cep}
-                      />
-                      <input 
-                      type="number" 
-                      value={reserveExemplaryQuantity}
-                      onChange={(e)=>{
-                        const current_numberValue = parseInt(e.target.value)
-                        typeof libraryState.exemplaryQuantity  === 'number'
-                        &&
-                        current_numberValue <= libraryState.exemplaryQuantity
-                        &&
-                        current_numberValue > 0
-                        &&
-                        setReserveExemplaryQuantity(current_numberValue)
-                      }}
-                      />
-                      <div className="reserveSubmitContainer">
-                          {
-                            libraryState.libraryData.reserva_online
-                            ? 
-                            <button onClick={()=>{
-                                onAxiosQuery("post",{
-                                  url:"http://localhost:5900/reserve/post",
-                                  type:{
-                                    post:{
-                                      data:{
-                                        fk_id_biblioteca:libraryState.libraryData?.fk_id_biblioteca,
-                                        fk_id_livro:id,
-                                        fk_id_usuario:"9f520fa3-bd00-4f14-b27b-47ffeed1cbf8",
-                                        quantidade_total:reserveExemplaryQuantity
-                                      }
-                                    }
-                                  },
-                                  onResolver:{
-                                    then(result) {
-                                      console.log(result)
-                                    },
-                                    catch(error) {
-                                      console.log(error)
-                                    },
-                                  }  
-                                })
-                            }}>
-                              Reservar
+                      <div className="reserveContainer">
+                          <div className="dialogTable">
+                              <table>
+                              <thead>
+                              <tr>
+                                <th>Livro</th>
+                                <th>Quantidade</th>
+                              </tr>
+                              <tr>
+                                <td>Livro</td>
+                                <td>
+                                  <input 
+                                  type="number" 
+                                  value={reserveExemplaryQuantity}
+                                  onChange={(e)=>{
+                                    const current_numberValue = parseInt(e.target.value)
+                                    typeof libraryState.exemplaryQuantity  === 'number'
+                                    &&
+                                    current_numberValue <= libraryState.exemplaryQuantity
+                                    &&
+                                    current_numberValue > 0
+                                    &&
+                                    setReserveExemplaryQuantity(current_numberValue)
+                                  }}
+                                  />
+                                </td>
+                              </tr>
+                              </thead>
+                          </table>
+                          </div>
+                      
+                      </div>
+                      <hr />
+                      <div className="reserveOptionsContainer">
+                        <div className="reserveCancelContainer">
+                            <button className="cancelButton"
+                            onClick={()=>{
+                              setLibraryState({
+                                type:"off",
+                                value:{
+                                  close:true,
+                                  view:false
+                                }
+                              })
+                                            }}>
+                              Cancelar
                             </button>
-                            : <p>Esta biblioteca não aceita reservas online</p>
-                          }
+                        </div>
+                        <div className="reserveSubmitContainer">
+                            {
+                              libraryState.libraryData.reserva_online
+                              ? 
+                              <button className="acceptButton" onClick={()=>{
+                                  onAxiosQuery("post",{
+                                    url:"http://localhost:5900/reserve/post",
+                                    type:{
+                                      post:{
+                                        data:{
+                                          fk_id_biblioteca:libraryState.libraryData?.fk_id_biblioteca,
+                                          fk_id_livro:id,
+                                          fk_id_usuario:"9f520fa3-bd00-4f14-b27b-47ffeed1cbf8",
+                                          quantidade_total:reserveExemplaryQuantity
+                                        }
+                                      }
+                                    },
+                                    onResolver:{
+                                      then(result) {
+                                        console.log(result)
+                                      },
+                                      catch(error) {
+                                        console.log(error)
+                                      },
+                                    }  
+                                  })
+                              }}>
+                                Reservar
+                              </button>
+
+                              : <p>Esta biblioteca não aceita reservas online</p>
+                            }
+                        </div>
                       </div>
                     </section>
                   )
@@ -210,7 +260,7 @@ const BookPage = () => {
         }}>
             
              <section className="bookPageSection">
-                  <Load loadState={queryState.isLoading}/>
+                  {/* <Load loadState={queryState.isLoading}/> */}
             {  !!bookState.data
             && 
               <>

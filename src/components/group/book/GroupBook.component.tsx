@@ -17,6 +17,46 @@ const GroupBook = ({
 
       const {onAxiosQuery} = useAxios()
       const [books,setBooks] = useState<bookCardProps | null>(null);
+      
+          const [categories,setCategories] = useState<string[] | null>(null);
+          const [randomChoice,setRandomChoice] = useState<number | null>(null);
+      
+          useEffect(()=>{
+      
+            onAxiosQuery("get",{
+              url:"http://localhost:5900/category/get",
+              type:{
+                get:{
+      
+                }
+              },
+              onResolver:{
+                then(result) {
+                  const category_data = result.data as {nome:string}[]
+                  setCategories( category_data.map((item)=>item.nome))
+                },
+                catch(error) {
+                  console.log(error)
+                },
+              }
+            })
+      
+          },[])
+      
+            useEffect(()=>{
+              !!categories?.length
+              &&
+              (()=>{
+              setRandomChoice(Math.floor(Math.random()*categories?.length-1))
+            })()
+      
+            },[categories])
+      
+            useEffect(()=>{
+              !!randomChoice && !!categories
+              &&
+              console.log(categories[randomChoice])
+            },[randomChoice])
 
  useEffect(()=>{
     onAxiosQuery("get",{
