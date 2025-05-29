@@ -284,7 +284,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                                 data:{
                                   fk_id_livro:exemplaryData.livros_biblioteca,
                                   numero_tombo:exemplaryData.numero_tombo,
-                                  disponivel:exemplaryData.disponivel,
+                                  situacao:exemplaryData.situacao,
                                   estante:exemplaryData.estante,
                                   prateleira:exemplaryData.prateleira,
                                   setor:exemplaryData.setor,
@@ -352,9 +352,9 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                })()
             },
             update:()=>{
-                
+                console.log(form.data)
                 onAxiosQuery("put",{
-                    url:tableRoutes.loan.put+"?id="+form.id,
+                    url:tableRoutes.loan.put+"/"+form.id,
                     type:{
                         put:{
                             data:form.data

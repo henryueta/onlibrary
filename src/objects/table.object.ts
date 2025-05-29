@@ -27,7 +27,15 @@ Record<'id'|'nome',string>
 
 export type ExemplaryTableQueryProps =
 Record<'id'|'livros_biblioteca'|'setor'|'prateleira'|'estante',string>
-& Record<'disponivel',boolean>
+& 
+Record<'situacao',
+Record<
+'disponivel'|
+'indisponivel'|
+'reservado'|
+'emprestado',
+string>>
+
 & Record<'numero_tombo',number>
 
 export type LoanTableQueryProps =
@@ -116,7 +124,8 @@ const tableRoutes = {
   loan:{
     getById:"http://localhost:5900/loan/get/dependencies",
     post:"http://localhost:5900/loan/post",
-    put:"http://localhost:5900/loan/put"
+    put:"https://onlibrary-api.onrender.com/api/bibliotecas/atualizar-emprestimo"
+    // "http://localhost:5900/loan/put"
   },
   account:{
     getById:"http://localhost:5900/account/get/dependencies",
@@ -126,7 +135,7 @@ const tableRoutes = {
   exemplary:{
     getById:"http://localhost:5900/exemplary/get/dependencies",
     post:"http://localhost:5900/exemplary/post",
-    put:""
+    put:"https://onlibrary-api.onrender.com/api/bibliotecas/atualizar-exemplar"
   }
 
 

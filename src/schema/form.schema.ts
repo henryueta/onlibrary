@@ -52,7 +52,7 @@ const schema = {
                 login:z.string().refine((val)=>val.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) || val.match(/^[a-zA-Z0-9]{5,20}$/) && val.trim().length > 0,{
                     message:"Campo username/email inválido"
                 }),
-                senha:z.string().refine((val)=>val.trim().length >= 8,{
+                senha:z.string().refine((val)=>val.trim().length >= 3,{
                     message:"Campo senha inválido"
                 })
               }),
@@ -131,7 +131,7 @@ const schema = {
                 message:"Campo usuário inválido"
             }),
             situacao:z.enum(['concluido','cancelado']).optional(),
-            data_devolucao: z.string().refine((val) => !isNaN(Date.parse(val)), {
+            dataDevolucao: z.string().refine((val) => !isNaN(Date.parse(val)), {
                 message: "Campo data de devolução inválido",
               }).transform((val) => new Date(val)).optional(),
         }),
@@ -168,7 +168,7 @@ const schema = {
             numero_tombo:z.string().refine((val)=>val.length > 0,{
                 message:"Campo identificador inválido"
             }),
-            disponivel:z.boolean(),
+            situacao:z.enum(['disponivel','indisponivel']),
             setor:z.string().optional(),
             prateleira:z.string().optional(),
             estante:z.string().optional()

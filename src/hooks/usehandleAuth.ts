@@ -88,18 +88,18 @@ const useHandleAuth = ()=>{
 
         const handleTypes = {
             register:()=>{
-                onAxiosQuery("post",{
-                    url:"http://localhost:5900/create/account",
-                    type:{
-                        post:{
-                        data:data
-                        }
-                    },
-                    onResolver:{
-                        then:(result)=>console.log(result),
-                        catch:(error)=>console.log(error)
-                    }
-                })
+                // onAxiosQuery("post",{
+                //     url:"http://localhost:5900/create/account",
+                //     type:{
+                //         post:{
+                //         data:data
+                //         }
+                //     },
+                //     onResolver:{
+                //         then:(result)=>console.log(result),
+                //         catch:(error)=>console.log(error)
+                //     }
+                // })
                 onAxiosQuery("post",{
                     url:"https://onlibrary-api.onrender.com/api/auth/register",
                     type:{
@@ -115,21 +115,7 @@ const useHandleAuth = ()=>{
             },
             login:()=>{
                 axios.defaults.withCredentials = true;
-                onAxiosQuery("post",{
-                    url:"http://localhost:5900/check/account",
-                    type:{
-                        post:{
-                            data:data
-                        }
-                    },
-                    onResolver:{
-                        then:(result)=>{
-                            console.log(result.data)
-                            Cookies.set("user_id",JSON.stringify({user_id:result.data.id}))
-                        },
-                        catch:(error)=>console.log(error)
-                    }
-                })
+               
                 onAxiosQuery("post",{
                     url:"https://onlibrary-api.onrender.com/api/auth/login",
                     type:{
@@ -138,7 +124,12 @@ const useHandleAuth = ()=>{
                         }
                     },
                     onResolver:{
-                        then:()=>{
+                        then:(result)=>{
+                            console.log(result.data)
+                            const auth = result.data as {data:{accessToken:string}}
+                            Cookies.set("jwt",JSON.stringify({
+                                accessToken:auth.data.accessToken
+                            }))
                             Cookies.set("userStatus",JSON.stringify({
                                 errorStatus:{
                                   hasError:false,
@@ -154,6 +145,21 @@ const useHandleAuth = ()=>{
                         catch:(error)=>{
                             console.log(error)
                         }
+                    }
+                })
+                 onAxiosQuery("post",{
+                    url:"http://localhost:5900/check/account",
+                    type:{
+                        post:{
+                            data:data
+                        }
+                    },
+                    onResolver:{
+                        then:(result)=>{
+                            console.log(result.data)
+                            Cookies.set("user_id",JSON.stringify({user_id:result.data.id}))
+                        },
+                        catch:(error)=>console.log(error)
                     }
                 })
             }

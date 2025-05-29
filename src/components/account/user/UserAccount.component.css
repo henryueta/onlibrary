@@ -2,15 +2,23 @@
 .loggedAccountContainer{
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+    justify-content: start;
+    gap: 1rem;
+    width: 165px;
     text-decoration: none;
-    color:white;
+    color: white;
     font-size: 0.95rem;
     font-weight: 600;
-    padding: 0.5rem 0.7rem 0.5rem 0.7rem;
-    border-radius:var(--borderRadius_var);  
+    padding: 0.5rem;
+    border-radius:var(--borderRadius_var);
+    border:0.1rem solid white;
     cursor: pointer;
+}
+
+.loggedAccountContainer img{
+    border: 0.1rem solid white;
+    border-radius: 100%;
+    padding: 0.1rem;
 }
 
 .noLoggedAccountContainer{

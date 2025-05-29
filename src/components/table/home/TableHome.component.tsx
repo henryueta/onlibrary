@@ -31,7 +31,10 @@ const TableHome = ({table,filter,onClick}:TableHomeProps<object>) => {
                      }
                     )}
                 </tr>
-                
+                </thead>
+        </table>
+        <table>
+            <thead>
                     {
                     Object.entries(table).map((item,index)=>
                        {

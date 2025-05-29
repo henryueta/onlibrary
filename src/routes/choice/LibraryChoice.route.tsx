@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useHandleLibrary, { LibraryProps } from "../../hooks/useHandleLibrary";
-import "./LibraryChoice.component.css";
+import "./LibraryChoice.route.css";
 import Load from "../../components/load/Load.component";
 import libraryOpenned_icon from "../../assets/imgs/icons/libraryOpenned_icon.webp"
 import useHandleAuth from "../../hooks/usehandleAuth";
@@ -44,7 +44,7 @@ const LibraryChoice = () => {
 
 
   useEffect(()=>{
-    onQueryLibraries("http://localhost:5900/auth/library")
+    onQueryLibraries("https://onlibrary-api.onrender.com/api/biblioteca/minhas-bibliotecas")
   },[])
 
   useEffect(()=>{
@@ -90,6 +90,7 @@ const LibraryChoice = () => {
                     : ""
                     }
                   onClick={()=>{
+                    alert(item.id)
                     setCurrentLibrary({
                     id:item.id,
                     nome:item.nome

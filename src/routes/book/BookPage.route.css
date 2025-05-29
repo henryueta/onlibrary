@@ -37,9 +37,9 @@
     height: 100%;
 }
 
-.bookDataSection>.capeContainer>img{
-    width: 344px;
-    height: 550px;
+.bookDataSection>.capeContainer>img:hover{
+   transform: scale(1.05);
+   opacity: 90%;
 }
 
 .bookDataSection .bookInformationContainer{
@@ -48,6 +48,11 @@
     gap: 1rem;
     padding: 1rem;
     width: 50%;
+}
+
+.bookDataSection .bookInformationContainer .reserveSection{
+    margin-top: 2rem;
+    padding:1rem 0rem 1rem 0rem;
 }
 
 .bookDataSection .bookInformationContainer .headerSection>*{
@@ -103,6 +108,10 @@
 
 .bookLibrarySection .dataLine:hover{
     background-color: rgb(0, 0, 0,0.2);
+}
+
+.bookLibrarySection .titleContainer{
+    font-size: 1.5rem;
 }
 
 .reserveContainer{

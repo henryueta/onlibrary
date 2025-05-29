@@ -13,8 +13,8 @@ import Management from './routes/management/Management.route.tsx'
 import Private from './routes/private/Private.route.tsx'
 import {path} from './objects/path.object.ts'
 import LibraryRegisterPage from './routes/form/register/library/LibraryRegisterPage.route.tsx'
-import Main from './components/main/Main.component.tsx'
-import LibraryChoice from './routes/choice/LibraryChoice.component.tsx'
+import LibraryChoice from './routes/choice/LibraryChoice.route.tsx'
+import OnlineReserve from './routes/reserve/OnlineReserve.route.tsx'
 
 
 
@@ -26,6 +26,10 @@ export const router = createBrowserRouter([
   {
     path:path.onFindPath("book_page"),
     element:<BookPage/>
+  },
+  {
+    path:path.onFindPath("online_reserve"),
+    element:<OnlineReserve/>
   },
   {
     path:path.onFindPath("user_login"),

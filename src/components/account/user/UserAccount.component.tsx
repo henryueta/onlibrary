@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import useHandleAuth from "../../../hooks/usehandleAuth";
 import blueUser_icon from "../../../assets/imgs/icons/blueUser_icon.png";
-import whiteUser_icon from "../../../assets/imgs/icons/whiteUser_icon.png"
+import userLogged_icon from "../../../assets/imgs/icons/userLogged_icon.png"
 import { useEffect, useState } from "react";
 import useAxios from "../../../hooks/useAxios";
 import "./UserAccount.component.css"
@@ -56,12 +56,13 @@ const UserAccount = () => {
             ? 
             <>
             {
-            <Link to={"/management/library/choice"}>Click</Link>
-            /* <div className="loggedAccountContainer" onClick={()=>console.log("AAA")}> 
-                <img src={whiteUser_icon} alt="user_icon"/>
+            // <Link to={"/management/library/choice"}>Click</Link>
+           <div className="loggedAccountContainer" onClick={()=>console.log("AAA")}> 
+                <img src={userLogged_icon} alt="user_icon"/>
+                P3nisvald0
             </div>
             
-            <UserAccountOptios/> */}
+           }
             </>
             : 
             <Link className="noLoggedAccountContainer" to="/login">

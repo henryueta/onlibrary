@@ -15,9 +15,13 @@ interface ImageResizerProps {
     resize:ResizeProps
 }
 
-const useImageResizer = (image:ImageResizerProps)=>{
+const useImageResizer = (image?:ImageResizerProps)=>{
 
     const [currentImage,setCurrentImage] = useState<string | null >(null);
+
+  useEffect(()=>{
+     
+  },[currentImage])
 
 const urlConvert = async (url:string,fileName:string,mimeType:string)=>{
         const res = await fetch(url)
@@ -27,7 +31,7 @@ const urlConvert = async (url:string,fileName:string,mimeType:string)=>{
         })
       }
 
-const getImage = async()=>{
+const getImage = async(image:ImageResizerProps)=>{
 
 
        const result = await urlConvert(
@@ -53,12 +57,15 @@ const getImage = async()=>{
       useEffect(()=>{
 
         (async()=>{
-            await getImage()
+          !!image
+          &&
+            await getImage(image)
         })()
 
       },[])
 
       return {
+        getImage,
         currentImage
      }
 

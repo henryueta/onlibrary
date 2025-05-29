@@ -27,7 +27,7 @@ const useHandleLibrary = ()=>{
 
     const onQueryLibraries = (url:string)=>{
         // axios.defaults.withCredentials = true;
-        onAxiosQuery("post",{
+        onAxiosQuery("get",{
             url:url,
             type:{
                 post:{
@@ -38,8 +38,9 @@ const useHandleLibrary = ()=>{
             },
             onResolver:{
                 then:(result)=>{
-                    const current_result = result.data as LibraryProps[]
-                    setLibraries(current_result)
+                    console.log(result)
+                    // const current_result = result.data as LibraryProps[]
+                    // setLibraries(current_result)
                 },
                 catch:(error)=>console.log(error)
             }

@@ -31,6 +31,10 @@ const path:PathObjectProps = {
             path:"/book/:id"
         },
         {
+            type:"online_reserve",
+            path:"/book/online_reserve/:id"
+        },
+        {
             type:"user_login",
             path:"/login"
         },

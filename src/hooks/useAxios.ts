@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosResponse, CancelToken } from "axios"
 import { useEffect, useReducer } from "react";
+import Cookies from "js-cookie";
 
 type QueryType = "get" | "post" | "put" | "delete";
 
@@ -123,10 +124,15 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
 
                 ? url = query.url+"&data=" //mapear dados
                 : url = query.url;
+                
+               (()=>{
 
-
-                axios.get(url,{
-                    cancelToken:cancelToken
+                const bearerCookie = JSON.parse(Cookies.get("jwt") || "{}") as {accessToken:string}
+                 axios.get(url,{
+                    cancelToken:cancelToken,
+                    headers:{
+                         Authorization:`Bearer ${bearerCookie.accessToken}`
+                    }
                 })
                 .then((result)=>query.onResolver.then(result))
                 .catch((error)=>{
@@ -141,6 +147,7 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
                         value:false
                     })
                 })
+               })()
         },
         put:()=>{
             axios.put(query.url,query.type.put?.data)
@@ -152,11 +159,15 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
 
         },
         post:()=>{
+
+            (()=>{
+                const bearerCookie = JSON.parse(Cookies.get("jwt") || "{}") as {accessToken:string}
+           
             axios.post(query.url,query.type.post?.data,{
                 withCredentials:true,
-                // headers:{
-                //     'Cookie':Cookies.get("jwt") ?  Cookies.get("jwt") : ""
-                // }
+                headers:{
+                    Authorization:`Bearer ${bearerCookie.accessToken}`
+                }
             })
             .then((result)=>{
                 const current_success = result.data as QuerySuccessProps
@@ -192,6 +203,7 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
                         value:false
                     })
                 })
+            })()
         }
 
     }

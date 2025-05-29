@@ -92,7 +92,7 @@ const GroupBook = ({
                         image={{
                           url:item.capa,
                           height:250,
-                          width:157
+                          width:156
                         }} 
                         title={item.titulo} 
                         id={item.id}

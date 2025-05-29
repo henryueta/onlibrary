@@ -2,15 +2,15 @@ import FooterHome from "../../components/footer/home/FooterHome.component";
 import Main from "../../components/main/Main.component";
 import NavHome from "../../components/nav/home/NavHome.component";
 import "./BookPage.route.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useAxios from "../../hooks/useAxios";
 import { useReducer, useState } from "react";
 import Word from "../../classes/word.class";
-import Load from "../../components/load/Load.component";
 import TableHome from "../../components/table/home/TableHome.component";
 import Dialog from "../../components/dialog/Dialog.component";
 import useHandleBook, { BookLibrariesProps, TitleDescriptionProps } from "../../hooks/useHandleBook";
 import { ExemplaryTableQueryProps } from "../../objects/table.object";
+import useHandleAuth from "../../hooks/usehandleAuth";
 
 
 
@@ -94,8 +94,11 @@ const BookPage = () => {
 
   const {id} = useParams();
   const {onAxiosQuery,queryState} = useAxios()
-  const {bookState} = useHandleBook(!!id ? id : '' );
+ const {bookState} = useHandleBook(!!id ? id : '' ,{width:344,height:550});
   const [reserveExemplaryQuantity,setReserveExemplaryQuantity] = useState<number>(1);
+  const {authContext} = useHandleAuth();
+
+  const onNavigate = useNavigate();
 
   const [libraryState,setLibraryState] = useReducer(handleLibraryState,initialLibraryState);
   
@@ -215,14 +218,16 @@ const BookPage = () => {
                               libraryState.libraryData.reserva_online
                               ? 
                               <button className="acceptButton" onClick={()=>{
-                                  onAxiosQuery("post",{
+                                  !!authContext.userId
+
+                                  ? onAxiosQuery("post",{
                                     url:"http://localhost:5900/reserve/post",
                                     type:{
                                       post:{
                                         data:{
                                           fk_id_biblioteca:libraryState.libraryData?.fk_id_biblioteca,
                                           fk_id_livro:id,
-                                          fk_id_usuario:"9f520fa3-bd00-4f14-b27b-47ffeed1cbf8",
+                                          fk_id_usuario:authContext.userId,
                                           quantidade_total:reserveExemplaryQuantity
                                         }
                                       }
@@ -236,6 +241,7 @@ const BookPage = () => {
                                       },
                                     }  
                                   })
+                                  : alert("Faça seu login");
                               }}>
                                 Reservar
                               </button>
@@ -277,6 +283,17 @@ const BookPage = () => {
                             <h1>{bookState.data.autores.toString()}</h1>
                         </div>
                       </section>
+                      <section className="reserveSection">
+                          <button className="acceptButton"
+                          onClick={()=>{
+                            onNavigate("/book/online_reserve/"+id)
+                            // !!authContext.userId
+                            // ? onNavigate("/book/online_reserve/"+id)
+                            // : onNavigate("/login")
+                          }}>
+                            Reservar
+                          </button>
+                      </section>
                       <section className="descriptionSection">
                             <TitleDescription 
                             className="descriptionContainer"
@@ -311,8 +328,11 @@ const BookPage = () => {
                   </div>
               </section>
               <section className="bookLibrarySection">
-                        
+                 <div className="titleContainer">
+                      <h1>Bibliotecas disponíveis</h1>
+                </div>       
                 {
+                  
                   !!bookState.libraries?.length
                   &&
                   <TableHome
@@ -352,7 +372,7 @@ const BookPage = () => {
                       },
                       onResolver:{
                         then(result) {
-                          const current_exemplaryListData = result.data as Pick<ExemplaryTableQueryProps,'disponivel'>[];
+                          const current_exemplaryListData = result.data as Pick<ExemplaryTableQueryProps,'situacao'>[];
                           const current_exemplaryQuantity = current_exemplaryListData.length
                           setReserveExemplaryQuantity(1)
                           setLibraryState({

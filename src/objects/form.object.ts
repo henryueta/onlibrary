@@ -538,7 +538,7 @@ const form:FormObjectProps = {
                     registerId:"numero_tombo"
                 },
                 {
-                    id:"available_id",
+                    id:"situation_id",
                     forForm:{
                         post:true,
                         put:true
@@ -548,17 +548,17 @@ const form:FormObjectProps = {
                         isMultiple:false,
                         list:[
                             {
-                                value:true,
+                                value:'disponivel',
                                 label:"Disponível"
                             },{
-                                value:false,
+                                value:'indisponivel',
                                 label:"Indisponível"
                             },
                         ],
                         hasQuery:false
                     },
                     title:"Situação",
-                    registerId:"disponivel"
+                    registerId:"situacao"
                 },
                 {
                     id:"sector_id",
@@ -668,7 +668,7 @@ const form:FormObjectProps = {
                     tag:"input",
                     type:"date",
                     title:"Data de devolução",
-                    registerId:"data_devolucao"
+                    registerId:"dataDevolucao"
                 }
             ]
         },

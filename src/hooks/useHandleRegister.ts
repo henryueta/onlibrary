@@ -111,7 +111,7 @@ const useHandleRegister = ()=>{
 
         const onCheckFields = (fieldList:string[])=>{
 
-            const stepSchema =  Object.entries(findUserForm?.schema.shape || {}).filter((item)=>
+            const stepSchema =  Object.entries(findUserForm?.schema.post || {}).filter((item)=>
                         fieldList.includes(item[0])                                                
                     )
                
