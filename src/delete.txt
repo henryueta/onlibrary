@@ -1,0 +1,65 @@
+
+Biblioteca(delete){
+
+    info:
+    Verificar se não existem pendencias como reservas,empréstimos e multas ativos(atendido e pendente).
+    Caso exista avisar bibliotecário.
+    Caso não exista tornar campo excluido como TRUE.
+
+},
+Usuário(delete){
+
+    info:
+    Verificar se não existem pendencias como reservas,empréstimos e multas ativos(atendido e pendente).
+     Verificar se não existem bibliotecas e pendências nela em que ele seja o admin_master
+     Caso exista avisar usuário.
+    Caso não exista tornar campo excluido como TRUE.
+    Caso ele seja admin_master de uma biblioteca  tornar campo excluido como TRUE.
+
+},
+Exemplar(delete){
+    
+    info:
+    Verificar se não existem pendencias como reservas e empréstimos(atendido e pendente)
+    Caso exista avisar bibliotecário
+    Caso não exista tornar campo excluido como TRUE.
+    
+},
+Perfil_usuario(delete){
+
+    info:
+    Verificar se não existem pendencias como usuários biblioteca usando o perfil
+    Caso exista avisar Bibliotecario
+    Caso não exista tornar campo excluido como TRUE.
+
+},
+Usuario_biblioteca(delete){
+
+    info:
+    Verificar se não existem pendencias como reservas e empréstimos(atendido e pendente)
+    Caso exista avisar Bibliotecario
+    Caso não exista tornar campo excluido como TRUE.
+
+},
+Empréstimo(delete){
+
+    info:
+    Verificar se não está com situacao pendente
+    Caso exista avisar Bibliotecario
+    Caso não exista tornar campo excluido como TRUE.
+
+},
+Reserva(delete){
+
+    info:
+    Verificar se não está com situacao pendente ou atendido
+    Caso exista avisar Bibliotecario
+    Caso não exista tornar campo excluido como TRUE.
+
+},
+Multa(delete){
+    info:
+    Verificar se não está com situacao pendente
+    Caso exista avisar Bibliotecario
+    Caso não exista tornar campo excluido como TRUE.
+}

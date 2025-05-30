@@ -110,7 +110,10 @@ const LibraryChoice = () => {
               }
             </div> 
             <div className="createLibraryContainer">
-                <button className="acceptButton">
+                <button className="acceptButton"
+                onClick={()=>{
+                  onNavigate("/register/library")
+                }}>
                   Criar biblioteca
                 </button>
             </div>

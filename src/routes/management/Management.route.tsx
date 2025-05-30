@@ -13,7 +13,7 @@ import useHandleTable from "../../hooks/useHandleTable";
 import useHandleLibrary from "../../hooks/useHandleLibrary";
 import useHandlePath from "../../hooks/useHandlePath";
 
-type ManagementMode = "default" | "get" | "post" | "put";
+type ManagementMode = "default" | "get" | "post" | "put" | "library";
 
 interface ManagementProps {
 hasGroupTableCard:boolean,
@@ -105,6 +105,14 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
           }
 
           {
+            mode == 'library'
+            ? 
+            <section className="libraryDataSection">
+
+
+                
+            </section>
+            :
             mode == "default"
             ? <></>
             :
@@ -121,7 +129,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
                   put:false
                  }}
                 formSchema={form.formList.find((item)=>item.name == type)!.schema[mode]}
-                typeOfData={type as Exclude<TableType,"library"|"none">}
+                typeOfData={type as Exclude<TableType,"none">}
                 onSubmit={()=>{}}
                 />
               </div>
@@ -136,7 +144,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
                     put:true
                   }}
                   formSchema={form.formList.find((item)=>item.name == type)!.schema[mode]}
-                  typeOfData={type as Exclude<TableType,"none"|"library">}
+                  typeOfData={type as Exclude<TableType,"none">}
                   onSubmit={(data)=>console.log(data)}
                   defaultValues={defaultForm}
                   />

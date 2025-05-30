@@ -88,6 +88,13 @@ export const router = createBrowserRouter([
     <Private>
         <LibraryChoice/>
     </Private>
+  },
+  {
+    path:path.onFindPath("library_about"),
+    element:
+    <Private>
+      <Management mode='library'  hasGroupTableCard={false}/>
+    </Private>
   }
 ])
 

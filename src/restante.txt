@@ -1,0 +1,142 @@
+book(livro):{
+
+    post:{
+
+         data:{
+              ISBN:string,
+              titulo:string,
+              descricao:string,
+              ano_lancamento:string|number,
+              autores:array de ids,
+              categorias:array de ids,
+              generos:array de ids,
+              editoras:array de ids
+        },
+        info:
+        Cadastrar livros, mas impedir que haja repetição de título e ISBN
+    },
+    put:{
+        data:{      
+              ISBN:string,
+              titulo:string,
+              descricao:string,
+              ano_lancamento:string|number,
+              autores:array de ids,
+              categorias:array de ids,
+              generos:array de ids,
+              editoras:array de ids
+        },
+        info:
+        Atualizar livros, mas impedir que haja repetição de título e ISBN
+    }
+
+},
+author(autor){
+    post:{
+        data:{nome:string},
+        info:
+        Cadastrar autor e impedir que haja repetição de nome
+    },
+    put:{
+        data:{nome:string},
+        info:
+        Atualizar autor e impedir que haja repetição de nome
+    }
+},
+category(categoria){
+    post:{
+        data:{nome:string},
+        info:
+        Cadastrar categoria e impedir que haja repetição de nome
+    },
+    put:{
+        data:{nome:string},
+        info:
+        Atualizar categoria e impedir que haja repetição de nome
+    }
+},
+gender(genero){
+    post:{
+        data:{nome:string},
+        info:
+        Cadastrar genero e impedir que haja repetição de nome
+    },
+    put:{
+        data:{nome:string},
+        info:
+        Atualizar genero e impedir que haja repetição de nome
+    }
+},
+publisher(editora){
+    post:{
+        data:{nome:string},
+        info:
+        Cadastrar editora e impedir que haja repetição de nome
+    },
+    put:{
+        data:{nome:string},
+        info:
+        Atualizar editora e impedir que haja repetição de nome
+    }
+},
+amerce(multa){
+    post:{
+        data:{
+            fk_id_usuario:string,
+            fk_id_bibliotecario:string,
+            motivo:string
+        },
+        info:
+        Coletar dados e cadastrar multa. 
+        O campo valor e data_vencimento devem ser consultados de acordo com o perfil do usuário(fk_id_usuario).
+        A data de emissão deve ser a data atual do cadastro.
+        A situação é automaticamente "pendente" no cadastro.
+    },
+    put:{
+        data:{
+            motivo:string
+        },
+        info:
+        Coletar dados e atualizar multa
+    }
+},
+reserve(reserva){
+    post:{
+        data:{
+            fk_id_biblioteca:string,
+            fk_id_usuario:string,
+            fk_id_bibliotecario:string,
+            fk_id_livro:string,
+            tipo:string,
+            quantidade_total:number|string
+        },
+        info:
+         Coletar dados e cadastrar reserva.
+         Verificar todos os exemplares disponíveis por meio do fk_id_livro
+        e coletar o id de cada um.
+         A quantidade pendente deve ser o número pendente de exemplares
+         de acordo com os exemplares disponíveis encontrados.
+         A data de emissão deve ser a data atual do cadastro.
+         A data de retirada é null até os exemplares estiverem prontos.
+         A situacao deve ser "pendente".
+        Após ser cadastrado a reserva, usar os ids dos exemplares disponíveis e o
+        id da reserva cadastrada para a tabela reserva_exemplar.
+        Após o cadastro na tabela reserva_exemplar, atualizar exemplares usados 
+        para situacao "reservado"
+    },
+    post:{
+        data:{
+            data_retirada:string,
+            fk_id_bibliotecario:string
+        },
+        info:
+         Coletar dados e atualizar reserva.
+         Se todos os exemplares da reserva alvo estiverem com situacao "reservado"
+         pode atualizar data_retirada, 
+         tornar situacao da reserva como "atendido_completamente"
+        e inserir o fk_id_bibliotecario(pois agora tem um).
+         Caso contrário deve se não atualizar e enviar 
+         uma mensagem "Reserva não esta completa para definir data".
+    }
+}
+

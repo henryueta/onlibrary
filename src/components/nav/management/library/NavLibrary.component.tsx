@@ -34,6 +34,7 @@ const NavLibrary = () => {
           /> 
           <ListItem 
           title="Minha Biblioteca" 
+          onClick={()=>onNavigate("/management/library/about")}
           icon={cubeTable_icon}/> 
           <li>
             <Details title="Gestão" icon={management_icon} list={[

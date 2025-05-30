@@ -55,7 +55,10 @@ const Account = () => {
     <Dialog 
     title="Suas bibliotecas"
     closeOnExternalClick={false}
-     onClose={()=>setIsAccountView(false)}>
+     close={{
+      onClose:()=>setIsAccountView(false),
+      closeButton:false
+     }}>
     {
       queryState.isLoading ? <div className="loadingDialogContainer">
           <Load loadState={queryState.isLoading}/>

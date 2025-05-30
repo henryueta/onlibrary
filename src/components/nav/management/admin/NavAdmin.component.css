@@ -8,6 +8,14 @@
   background-color: white;
   }
 
+/* .navAdmin dialog{
+      position: fixed;
+      top:50%;
+      right:0;
+      margin: 0;
+      z-index: 100;
+} */
+
 .navAdmin .adminOptionsContainer{
   display: flex;
   gap: 2rem;

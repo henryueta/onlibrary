@@ -2,7 +2,9 @@ import "./Notification.component.css"
 import libraryNotification_icon from "../../assets/imgs/icons/libraryNotification_icon.webp"
 import useAxios from "../../hooks/useAxios";
 import useHandleLibrary from "../../hooks/useHandleLibrary";
-import {useEffect,useState} from "react"
+import {useEffect,useState,useRef} from "react"
+import Dialog from "../dialog/Dialog.component";
+
 
 interface NotificationProps {
       type:"admin" | "comum",
@@ -22,6 +24,7 @@ const Notification = ({type,id}:NotificationProps)=>{
   const [isNotificationsView,setIsNotificationsView] = useState<boolean>(false);
   const {onAxiosQuery} = useAxios();
   const {currentLibraryContext} = useHandleLibrary();
+  const notification_ref = useRef<HTMLDivElement>(null);
 
   useEffect(()=>{
   },[userNotifications])
@@ -51,9 +54,30 @@ const Notification = ({type,id}:NotificationProps)=>{
 
   return (
     <>
-    {
+   
+
+
+    <div className="currentNotificationContainer" onClick={()=>setIsNotificationsView((prev)=>true)}>
+        {
+          !!userNotifications.length &&
+          !!userNotifications.filter((item)=>{
+            return item.marcado_lido
+          })
+          ? <div className="newNotificationContainer"></div>
+          : <></>
+        }
+      <img src={libraryNotification_icon} alt="admin_notification_icon"/>
+       {
       !!isNotificationsView &&
-      <div className="notificationsContainer">
+      <Dialog closeOnExternalClick={true}
+      className="notificationDialog"
+      close={{
+        onClose:()=>setIsNotificationsView(false),
+        closeButton:false,
+        timer:400
+      }}
+      >
+      <div ref={notification_ref} className="notificationsContainer">
         {
           !!userNotifications.length ?
           userNotifications.map((item,index)=>{
@@ -71,19 +95,8 @@ const Notification = ({type,id}:NotificationProps)=>{
           : <>Nenhuma notificação</>
         }
       </div>
+      </Dialog>
     }
-
-
-    <div className="currentNotificationContainer" onClick={()=>setIsNotificationsView((prev)=>!prev)}>
-        {
-          !!userNotifications.length &&
-          !!userNotifications.filter((item)=>{
-            return item.marcado_lido
-          })
-          ? <div className="newNotificationContainer"></div>
-          : <></>
-        }
-      <img src={libraryNotification_icon} alt="admin_notification_icon"/>
     </div>
     </>
   )

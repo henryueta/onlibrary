@@ -162,7 +162,6 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
 
             (()=>{
                 const bearerCookie = JSON.parse(Cookies.get("jwt") || "{}") as {accessToken:string}
-           
             axios.post(query.url,query.type.post?.data,{
                 withCredentials:true,
                 headers:{

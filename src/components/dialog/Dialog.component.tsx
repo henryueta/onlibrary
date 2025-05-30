@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useReducer, useState } from "react"
 import { useRef } from "react"
 
 interface DialogProps {
-    onClose?:()=>void,
+    close?:{
+        onClose:()=>void,
+        closeButton:boolean,
+        timer:number
+    },
     title?:string
     id?:string
     children:React.ReactNode,
@@ -10,10 +14,53 @@ interface DialogProps {
     closeOnExternalClick:boolean
 }
 
-const Dialog = ({onClose,title,id,children,className,closeOnExternalClick}:DialogProps) => {
+interface DialogStateProps {
+    close:boolean,
+    view:boolean
+}
+
+const initialDialogState:DialogStateProps = {
+    close:false,
+    view:true
+}
+
+type DialogActionProps =
+{
+    type:"visual",
+    value:{
+        close:boolean,
+        view:boolean
+    }
+}
+
+const handleDialogState = (state:DialogStateProps,action:DialogActionProps)=>{
+    switch (action.type) {
+        case "visual":
+            return {
+                close:action.value.close,
+                view:action.value.view
+            }            
+        default:
+            return state
+    }
+}
+
+const Dialog = ({close,title,id,children,className,closeOnExternalClick}:DialogProps) => {
 
     const dialogRef = useRef<HTMLDialogElement>(null)
     const [iscloseExternal,setIsCloseExternal] = useState<boolean>(false);
+    const [dialogState,setDialogState] = useReducer(handleDialogState,initialDialogState);
+
+    useEffect(()=>{
+        console.log(dialogState.view)
+        !dialogState.view && !!close?.onClose
+        &&
+       (()=>{
+         close?.onClose()
+
+       })()
+
+    },[dialogState.view])
 
     useEffect(()=>{
 
@@ -21,25 +68,45 @@ const Dialog = ({onClose,title,id,children,className,closeOnExternalClick}:Dialo
         &&
         dialogRef.current 
         &&
-        onClose
+        close?.onClose
         &&
         setTimeout(()=>{
                 !iscloseExternal
                 ? (()=>{
                     document.onclick = (e)=>{
                     const clickedElement = e.target as Node;
+                    console.log(dialogRef.current?.contains(clickedElement))
                     !dialogRef.current?.contains(clickedElement)
                     &&
                     (()=>{
                         setIsCloseExternal(true)
                         setTimeout(()=>{
-                            onClose()
+                             setDialogState({
+                            type:"visual",
+                            value:{
+                                view:true,
+                                close:true
+                            }
+                            })
+
+                            setTimeout(()=>{
+                            setDialogState({
+                            type:"visual",
+                            value:{
+                                view:false,
+                                close:true
+                            }
+                            })
+                            },close.timer)
+
+
                         },80)
+                        
                     })()
                 }
                 })()
                 : (()=>{
-                    document.onclick = ()=>{}
+                    
                 })()
 
             },80)
@@ -53,14 +120,14 @@ const Dialog = ({onClose,title,id,children,className,closeOnExternalClick}:Dialo
         id={id}
         className={!!className ? className : "dialogPane"}>
           {
-        !!onClose &&
+        !!close?.closeButton &&
         <>
         <div className="dialogHeaderContainer">
             <div className="dialogTitleContainer">
                 <h1>{title}</h1>
             </div>
             <div className="dialogCloseContainer">
-                <button type="button" onClick={onClose}>
+                <button type="button" onClick={close.onClose}>
                     X
                 </button>
             </div>    

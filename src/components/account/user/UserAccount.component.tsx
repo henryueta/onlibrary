@@ -5,11 +5,13 @@ import userLogged_icon from "../../../assets/imgs/icons/userLogged_icon.png"
 import { useEffect, useState } from "react";
 import useAxios from "../../../hooks/useAxios";
 import "./UserAccount.component.css"
+import Dialog from "../../dialog/Dialog.component";
 
 const UserAccount = () => {
     const {authContext} = useHandleAuth();
     const {onAxiosQuery} = useAxios();
     const [username,setUsername] = useState<string | null>(null)
+  const [isAccountView,setIsAccountView] = useState<boolean>(false);
     
 
     useEffect(()=>{
@@ -37,40 +39,66 @@ const UserAccount = () => {
 
     },[authContext.userId])
 
-    const UserAccountOptios = ()=>{
-
-        return (
-            <div className="userAccountOptionsContainer">
-
-            </div>  
-        )
-
-    }
 
   return (
-    <div className="userAccountContainer">
-        {
-            authContext.userStatus?.authStatus?.hasAuth
+    <>
 
-            
-            ? 
-            <>
+   
+        <div className="userAccountContainer">
             {
-            // <Link to={"/management/library/choice"}>Click</Link>
-           <div className="loggedAccountContainer" onClick={()=>console.log("AAA")}> 
-                <img src={userLogged_icon} alt="user_icon"/>
-                P3nisvald0
-            </div>
-            
-           }
-            </>
-            : 
-            <Link className="noLoggedAccountContainer" to="/login">
-                <img src={blueUser_icon} alt="user_icon" />
-                Entre ou cadastre-se
-            </Link> 
-          }  
-    </div>
+                authContext.userStatus?.authStatus?.hasAuth
+                ? 
+                <>
+                {
+                // <Link to={"/management/library/choice"}>Click</Link>
+            <div className="loggedAccountContainer" onClick={()=>{
+                setIsAccountView(true)
+            }}> 
+                    <img src={userLogged_icon} alt="user_icon"/>
+                    P3nisvald0
+                </div>
+                 
+            }
+             {
+        isAccountView
+        &&
+        <Dialog
+        className="userAccountDialog"
+        close={{
+            closeButton:false,
+            onClose:()=>setIsAccountView(false),
+            timer:400
+        }}
+    closeOnExternalClick={true}
+    
+    >
+        <div className="userAccountOptionsContainer">
+            <ul>
+                <li>
+                    <Link to={"/management/library/choice"}>Sua biblioteca</Link>
+                </li>
+                <li>
+                    <Link to={"#"}>Seus pedidos</Link>
+                </li>
+                <li>
+                    <Link to={"#"}>Seu Perfil</Link>
+                </li>
+            </ul>
+        </div>
+
+    </Dialog>
+    }
+                </>
+                : 
+                <Link className="noLoggedAccountContainer" to="/login">
+                    <img src={blueUser_icon} alt="user_icon" />
+                    Entre ou cadastre-se
+                </Link> 
+            }  
+        </div>
+           
+    </>
+
   )
 }
 

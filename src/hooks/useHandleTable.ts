@@ -19,8 +19,26 @@ const useHandleTable = ()=>{
     const {currentLibraryContext} = useHandleLibrary()
 
 
-    useEffect(()=>{
-    },[tableData])
+    const onFilterTable = (type:Exclude<TableType,"none">,value:string,filter:string)=>{
+        alert("Procurar por "+value+" e filtro "+filter+" na tabela "+type)
+        onAxiosQuery("get",{
+            url:"",
+            type:{
+                get:{
+
+                }
+            },
+            onResolver:{
+                then(result) {
+                    console.log(result)
+                },
+                catch(error) {
+                    console.log(error)
+                },
+            }
+        })
+
+    }
 
     const onQueryCountTable = async <T extends any>(type:string,action:(result:AxiosResponse)=>T,cancelToken?:CancelToken)=>{
         
@@ -159,7 +177,8 @@ const useHandleTable = ()=>{
         onQueryTable,
         onQueryCountTable,
         onQueryTableList,
-        onQueryTableListPath
+        onQueryTableListPath,
+        onFilterTable
     }
 
 }

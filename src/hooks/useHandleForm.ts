@@ -103,7 +103,7 @@ const useHandleForm = (typeOfForm:TableType)=>{
     //         }
     //     )
     // },[])
-const current_userId = JSON.parse(Cookies.get("user_id") || "");
+const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
     const onQueryForm = (
         libraryId:string,
         form:{
@@ -171,19 +171,18 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "");
                         const current_data = form.data as LibraryTableQueryProps
                         return (
                             {
+                                // "http://localhost:5900/data/create?type=library&userId="+current_userId.user_id
                                 //https://onlibrary-api.onrender.com/api/bibliotecas/criar-biblioteca
-                                url:"http://localhost:5900/data/create?type=library&userId="+current_userId.user_id,
+                                url:"https://onlibrary-api.onrender.com/api/biblioteca/criar-biblioteca",
                                 data:{
                                     nome:current_data.nome,
-                                    endereco:{
-                                        cep:new Word(current_data.cep,"cep").word,
-                                        numero:current_data.numero,
-                                        rua:current_data.rua
-                                    },
+                                    cep:new Word(current_data.cep,"cep").word,
+                                    numero:current_data.numero,
+                                    rua:current_data.rua,
                                     telefone:new Word(current_data.telefone,"telephone").word,
-                                    aplicacao_multa:!!current_data.aplicacao_multa,
-                                    aplicacao_bloqueio:!!current_data.aplicacao_bloqueio,
-                                    reserva_online:!!current_data.reserva_online
+                                    aplicacaoMulta:!!current_data.aplicacao_multa,
+                                    aplicacaoBloqueio:!!current_data.aplicacao_bloqueio,
+                                    reservaOnline:!!current_data.reserva_online
                                 }
                             }
                         )

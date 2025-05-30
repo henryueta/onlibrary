@@ -63,6 +63,10 @@ const path:PathObjectProps = {
             path:onCreateManagementPath("")
         },
         {
+            type:"library_about",
+            path:onCreateManagementPath("/about")
+        },
+        {
             type:"list_data_management",
             path:onCreateManagementPath("/data/list/:type")
         },

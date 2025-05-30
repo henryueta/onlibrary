@@ -21,6 +21,7 @@
     padding: 0.1rem;
 }
 
+
 .noLoggedAccountContainer{
     display: flex;
     align-items: center;
@@ -42,4 +43,19 @@
 
 .userAccountOptionsContainer{
     position: absolute;
+}
+
+.userAccountDialog{
+    display: flex;
+    border: none;
+    width: 200px;
+    height: 200px;
+    background-color: white;
+    position: absolute;
+    top:100%;
+    left:70%;
+}
+
+.userAccountOptionsContainer{
+    
 }

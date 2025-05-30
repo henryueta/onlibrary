@@ -16,7 +16,7 @@ import { useParams } from "react-router-dom";
 
 interface FormProps{
   formSchema:z.ZodObject<ZodRawShape>
-  typeOfData?:Exclude<TableType,"none"|"library">
+  typeOfData?:Exclude<TableType,"none">
   fields?:InputProps[]
   onSubmit:(data:{[x: string]:any})=>void
   defaultValues?:TableQueryProps
@@ -273,6 +273,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                     >
                     </Controller>
                     :<input
+                    
                     value={teste && teste[item_input!.registerId]}
                     type={item_input!.type}
                     id={item_input!.id}
@@ -314,7 +315,10 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
           && <Dialog
           closeOnExternalClick={false}
           className={`dialogPane ${formQueryState.success.close ?"closeDialog" : ""}`} 
-           onClose={()=>{
+           close={{
+            timer:1000,
+            closeButton:true,
+            onClose:()=>{
             setFormQueryState({
               type:"success",
               value:{
@@ -331,7 +335,8 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
               }
             })
             },1000)
-          }}>
+          }
+           }}>
               <div className={"formSubmitErrorContainer"}>
                 <img src={bigValidated_icon} alt="bigValidated_icon" />
                 <h1>Success</h1>
@@ -344,7 +349,10 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
           && <Dialog
           closeOnExternalClick={false}
           className={`dialogPane ${formQueryState.error.close ?"closeDialog" : ""}`}
-           onClose={()=>{
+           close={{
+            timer:100,
+            closeButton:true,
+              onClose:()=>{
             setFormQueryState({
               type:"error",
               value:{
@@ -361,7 +369,8 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
               }
             })
             },1000)
-          }}>
+          }
+           }}>
               <div className={"formSubmitErrorContainer"}>
                 <img src={bigWarning_icon} alt="bigWarning_icon" />
                 <h1>Error</h1>

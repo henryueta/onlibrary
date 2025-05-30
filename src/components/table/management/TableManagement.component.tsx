@@ -18,9 +18,11 @@ interface TableManagementProps {
 const TableManagement = ({type}:TableManagementProps) => {
 
   const {currentLibraryContext} = useHandleLibrary()
-  const {onQueryTable,tableData} = useHandleTable();
+  const {onQueryTable,tableData,onFilterTable} = useHandleTable();
   const onNavigate = useNavigate();
   const [maxOfData,setMaxOfData] = useState<number>(5);
+  const [filterOfData,setFilterOfData] = useState<string>("todos");
+  const [searchOfData,setSearchOfData] = useState<string | null>(null);
   const [tableDataView,setTableDataView] = useState<string[][]>([]);
 
 
@@ -35,6 +37,12 @@ const TableManagement = ({type}:TableManagementProps) => {
     }
   },[currentLibraryContext.libraryId,type])
 
+
+  useEffect(()=>{
+    
+
+
+  },[filterOfData])
 
   const onLimitDataView = ()=>{
     setTableDataView(tableData?.dataList.slice(0,maxOfData).map((item)=>{
@@ -66,12 +74,23 @@ const TableManagement = ({type}:TableManagementProps) => {
         </div>
       <div className="managementContainer">
             <Search
+            onChange={(e)=>{setSearchOfData(e.target.value)}}
+            onSearch={()=>{
+              type != "none" 
+              &&
+              !!searchOfData?.length
+              && 
+              null
+              // onFilterTable(type,searchOfData,filterOfData)
+            }}
             filter={{
               defaultValue:{
                  title:"todos",
                  value:"default"
               },
-              onSelect:()=>{},
+              onSelect:(e)=>{
+                setFilterOfData(e.target.value)
+              },
               list: tableData?.headerList.map((item)=>{
                 return {
                   title:item,
