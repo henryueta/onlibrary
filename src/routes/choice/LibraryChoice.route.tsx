@@ -7,6 +7,7 @@ import useHandleAuth from "../../hooks/usehandleAuth";
 import useAxios from "../../hooks/useAxios";
 import { Link } from "react-router-dom";
 import onlibrary_logo from "../../assets/imgs/logo/onlibrary_logoBig.png";
+import white_onlibrary_logo from "../../assets/imgs/logo/white_onlibrary_logo.png";
 import { useNavigate } from "react-router-dom";
 
 const LibraryChoice = () => {
@@ -64,7 +65,7 @@ const LibraryChoice = () => {
             <div className="welcomeContainer">
               <div className="logoContainer">
                 <Link to="/">
-                  <img src={onlibrary_logo} alt="onlibrary_logo" />
+                  <img src={white_onlibrary_logo} alt="onlibrary_logo" />
                 </Link>
               </div>
               {/* <div className="titleContainer">
@@ -73,9 +74,9 @@ const LibraryChoice = () => {
                   </h1>
               </div> */}
               <div className="subTitleContainer">
-                  <p>
+                  <h1>
                     Escolha sua biblioteca
-                  </p>
+                  </h1>
               </div>
           </div>
             <div className="librariesListContainer">
@@ -102,21 +103,27 @@ const LibraryChoice = () => {
                     
                   } key={item.id}>
                     <img src={libraryOpenned_icon}/>
-                    {item.nome}
+                    {item.nome.slice(0,40).concat(
+                      item.nome.length > 40
+                      ? " . . . "
+                      : "")}
                     </div>
                 }
                 )
                 :<>Nenhuma biblioteca encontrada</>
               }
             </div> 
-            <div className="createLibraryContainer">
-                <button className="acceptButton"
-                onClick={()=>{
-                  onNavigate("/register/library")
-                }}>
-                  Criar biblioteca
-                </button>
+            <div className="libraryChoiceOptionsContainer">
+                <div className="createLibraryContainer">
+                  <button className="acceptButton"
+                  onClick={()=>{
+                    onNavigate("/register/library")
+                  }}>
+                    Criar biblioteca
+                  </button>
+              </div>
             </div>
+          
         </div>
     </section>
   )

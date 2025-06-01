@@ -1,5 +1,6 @@
 import "./NavLibrary.component.css";
 import onlibrary_logo from "../../../../assets/imgs/logo/onlibrary_logo.png";
+import white_onlibrary_logo from "../../../../assets/imgs/logo/white_onlibrary_logo.png";
 import management_icon from "../../../../assets/imgs/icons/management_icon.webp"
 import dashboardHome_icon from "../../../../assets/imgs/icons/dashboardHome_icon.webp";
 import cubeTable_icon from "../../../../assets/imgs/icons/cubeTable_icon.webp"
@@ -8,6 +9,7 @@ import { useNavigate,useLocation } from "react-router-dom";
 import ListItem from "../../../listItem/ListItem.component";
 import { onFindTablePath } from "../../../../objects/table.object";
 import useHandlePath from "../../../../hooks/useHandlePath";
+import useHandleLibrary from "../../../../hooks/useHandleLibrary";
 
 
 const NavLibrary = () => {
@@ -15,6 +17,7 @@ const NavLibrary = () => {
  const onNavigate = useNavigate();
   const location = useLocation();
   const {currentPathContext} = useHandlePath();
+  const {currentLibraryContext} = useHandleLibrary()
 
   return (
     <nav className="navLibrary">
@@ -34,7 +37,7 @@ const NavLibrary = () => {
           /> 
           <ListItem 
           title="Minha Biblioteca" 
-          onClick={()=>onNavigate("/management/library/about")}
+          onClick={()=>onNavigate("/management/library/data/update/library/"+"68e6de0d-16ab-4841-af45-9a786a531b8e")}
           icon={cubeTable_icon}/> 
           <li>
             <Details title="Gestão" icon={management_icon} list={[

@@ -12,6 +12,8 @@ import { form } from "../../objects/form.object";
 import useHandleTable from "../../hooks/useHandleTable";
 import useHandleLibrary from "../../hooks/useHandleLibrary";
 import useHandlePath from "../../hooks/useHandlePath";
+import GraphicManagement from "../../components/graphic/management/GraphicManagement.component";
+import Cookies from "js-cookie";
 
 type ManagementMode = "default" | "get" | "post" | "put" | "library";
 
@@ -30,6 +32,10 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
   const {currentPathContext} = useHandlePath();
   const {type,id} = useParams()
 
+
+  useEffect(()=>{
+      Cookies.set("user_id",JSON.stringify({user_id:"b011be5e-4d07-4052-9763-6a6fb76e085a"}))
+  },[])
 
 
   useEffect(()=>{
@@ -81,6 +87,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
         <section className="managementContentSection">
           <NavAdmin/>
           <section className="dataContentSection">
+              
              <div className="currentPathContainer">
               {currentPathContext.pathName.replace(/[/]/g," ◢ ")}
             </div>
@@ -109,12 +116,11 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
             ? 
             <section className="libraryDataSection">
 
-
-                
             </section>
             :
             mode == "default"
-            ? <></>
+            ? 
+                <GraphicManagement/>
             :
             !!type &&
             mode == "get"

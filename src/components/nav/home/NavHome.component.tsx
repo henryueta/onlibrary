@@ -19,7 +19,7 @@ const NavHome = () => {
                 <img src={onlibrary_logo} alt="onlibrary_logo" />
             </Link>
         </div>
-        <Search quantity={0}/>
+        <Search onSearch={()=>{}} onChange={()=>{}} quantity={0}/>
         <div className="userOptionsContainer">
           {/* <button>
               <img src={notification_icon} alt="notification_icon" />

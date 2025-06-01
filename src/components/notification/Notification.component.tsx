@@ -4,7 +4,7 @@ import useAxios from "../../hooks/useAxios";
 import useHandleLibrary from "../../hooks/useHandleLibrary";
 import {useEffect,useState,useRef} from "react"
 import Dialog from "../dialog/Dialog.component";
-
+import notification_info_icon from "../../assets/imgs/icons/info_notification_icon.png";
 
 interface NotificationProps {
       type:"admin" | "comum",
@@ -52,6 +52,8 @@ const Notification = ({type,id}:NotificationProps)=>{
 
   },[currentLibraryContext.libraryId])
 
+
+
   return (
     <>
    
@@ -69,12 +71,15 @@ const Notification = ({type,id}:NotificationProps)=>{
       <img src={libraryNotification_icon} alt="admin_notification_icon"/>
        {
       !!isNotificationsView &&
-      <Dialog closeOnExternalClick={true}
+      <Dialog
+      title={`Notificações (${!!userNotifications.length ? userNotifications.filter((item)=>!item.marcado_lido).length.toString() : "0"})`}
+      closeClass="notificationDialogClose"
+      closeOnExternalClick={true}
       className="notificationDialog"
       close={{
         onClose:()=>setIsNotificationsView(false),
         closeButton:false,
-        timer:400
+        timer:50
       }}
       >
       <div ref={notification_ref} className="notificationsContainer">
@@ -82,14 +87,28 @@ const Notification = ({type,id}:NotificationProps)=>{
           !!userNotifications.length ?
           userNotifications.map((item,index)=>{
               return <>
-                <div key={index} className="notificationItem">
+                <div key={index} className="notificationItemContainer">
+                  <div className="notificationItemIconContainer">
+                      <img src={notification_info_icon} alt="info_notification_icon" />
+                  </div>
+                  <div className="notificationItemInfoContainer">
+                      
+                    <div className="notificationItemContentContainer">
+                      {item.conteudo}
+                    </div>
+                    <div className="notificationItemDateContainer">
+                      {
+                      new Date(item.data_emissao).toLocaleDateString("pt-BR")
+                      }
+                    </div>
+                  </div>
                   {
                     !item.marcado_lido
                     &&
                     <div key={index} className="notificationSituationContainer"></div>
                   }
-                  {item.conteudo}
                 </div>
+                
               </>
           })
           : <>Nenhuma notificação</>

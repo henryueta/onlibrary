@@ -97,8 +97,11 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
   const schemaObject = formSchema
   const [formBase,setFormBase] = useState<InputProps[]>();
   const {currentLibraryContext} = useHandleLibrary();
+  const [isUpdate,setIsUpdate] = useState<boolean>(false);
   const {form} = useHandleForm(typeOfData || "none")
   const {id} = useParams()
+
+
 
   const [formQueryState,setFormQueryState] = useReducer(handleFormQueryState,initialFormQueryState);
 
@@ -131,7 +134,8 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
 
   useEffect(()=>{
 
-
+    // teste&&
+    // Object.entries(teste).map((item)=>console.log(item[1]))
   },[teste])
 
   const {register,formState:{errors},handleSubmit,control,setValue} = useForm<SchemaType>({
@@ -187,14 +191,13 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
           formBase &&
           formBase.map((item_input,index_input)=>
          {  
-            
-              return item_input.type !== "hidden" 
-              && 
-              (
-                (item_input.forForm.post === method.post
-                || 
-                item_input.forForm.put === method.put)
-                &&
+              
+              return item_input.type !== "hidden"
+              &&(
+                // (item_input.forForm.post === method.post
+                // || 
+                // item_input.forForm.put === method.put)
+                // &&
               <label htmlFor={item_input!.id} key={index_input}>
                 <div className="titleFieldContainer">
                   <p>
@@ -209,6 +212,13 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                     item_input.tag === "select" && !!item_input.options
                     ?
                      <Select
+                     isDisabled={
+                      ( method.put && !isUpdate)
+                      ||
+                       !(item_input.forForm.post === method.post
+                      || 
+                      item_input.forForm.put === method.put)
+                    }
                       defaultValue={teste && teste[item_input!.registerId]}
                      placeholder={` `}
                      className="selectOptions" isMulti={item_input.options.isMultiple}
@@ -247,6 +257,13 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                     control={control}
                     render={({field})=>
                       <PatternFormat
+                      disabled={
+                        ( method.put && !isUpdate)
+                        ||
+                       !(item_input.forForm.post === method.post
+                      || 
+                      item_input.forForm.put === method.put)
+                      }
                      {...field}
                      format={item_input?.maskFormat || ""}
                     mask={"_"}/>
@@ -261,6 +278,13 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                     control={control}
                     render={({field})=>
                       <NumericFormat
+                      disabled={
+                        ( method.put && !isUpdate)
+                        ||
+                       !(item_input.forForm.post === method.post
+                      || 
+                      item_input.forForm.put === method.put)
+                      }
                      {...field}
                      prefix={item_input.numericFormat?.prefix || ""}
                      decimalScale={item_input.numericFormat?.decimalScale || 0}
@@ -273,14 +297,30 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                     >
                     </Controller>
                     :<input
-                    
+                    disabled={
+                      ( method.put && !isUpdate)
+                      ||
+                       !(item_input.forForm.post === method.post
+                      || 
+                      item_input.forForm.put === method.put)
+                    }
                     value={teste && teste[item_input!.registerId]}
                     type={item_input!.type}
                     id={item_input!.id}
                     {...register(item_input!.registerId as Path<SchemaType>)}/>
                     : item_input!.tag === "textarea"
                     &&
-                    <textarea id={item_input!.id} {...register(item_input!.registerId as Path<SchemaType>)}></textarea>
+                    <textarea
+                    disabled={
+                      ( method.put && !isUpdate)
+                      ||
+                       !(item_input.forForm.post === method.post
+                      || 
+                      item_input.forForm.put === method.put)
+                    }
+                   id={item_input!.id} 
+                  {...register(item_input!.registerId as Path<SchemaType>)}>
+                  </textarea>
 
 
                   }
@@ -306,7 +346,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
               </div>
             </label>
             )
-            }
+          }
           )
 
         }
@@ -382,7 +422,27 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
           !!!buttonRef
           &&
          <div className="submitFormDataContainer">
-            <button className="managementButton"  onClick={handleSubmit((data:SchemaType)=>
+            
+            {
+              
+              <button type="button" className="cancelButton"
+              onClick={()=>{
+                setIsUpdate((prev)=>!prev)
+              }}
+              >
+             {
+              method.put && !isUpdate
+              ?
+              "Editar"
+              :
+              "Cancelar"
+             }
+            </button>
+            }
+            {
+              (method.post || method.put && isUpdate)
+              &&
+              <button className="managementButton"  onClick={handleSubmit((data:SchemaType)=>
              {
               return typeOfData && data
               &&  onQueryForm(currentLibraryContext.libraryId || "",{
@@ -395,8 +455,15 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
              : "update")
              }
               )}>
-            Cadastrar
+            {
+              method.post
+              ? "Cadastrar"
+              : "Editar"
+            }
             </button>
+            }
+            
+
          </div>
         }
 

@@ -1,9 +1,112 @@
 
-.registerLibraryContainer .inputContainer{
-    display: flex;
-    flex-direction: row;
+.libraryFormSection{
+    border-top: 0.5rem solid var(--blue_var);
+    padding:2rem;
+    margin: 3rem;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 1rem;
+   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: white;
+  width: 65dvw;
+  place-self: center;
 }
 
-.registerLibraryContainer .inputContainer>label{
-   flex: 1;
+.libraryFormSection>.headerContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.libraryFormSection>.headerContainer>div>img{
+    width: 350px;
+    height: 55px;
+}
+
+.libraryFormSection>.headerContainer>.titleContainer{
+    margin-top: 1rem;
+    color: var(--blue_var);
+}
+
+.libraryFormSection>form{
+    width: 75%;
+    padding: 1rem;
+    /* border: 2px solid red; */
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 1rem;
+}
+
+.libraryFormSection>form>label:nth-child(3){
+    grid-column-start: 1;
+      grid-column-end: 3;
+}
+
+.libraryFormSection>form>label{
+    padding: 0.5rem;
+     display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+}
+
+
+
+.libraryFormSection>form>label>div>div>input{
+    border: 0.1rem solid var(--grayLine_var);
+    border-radius: var(--borderRadius_var);
+    height: 40px;
+    width: 90%;
+    padding: 0.5rem;
+    outline: none;
+    font-size: 1rem;
+}
+
+.libraryFormSection>form>label:nth-child(3) input{
+    width: 95%;
+}
+
+.libraryFormSection>form>div:last-child{
+    margin-top: 2rem;
+    grid-column-start: 1;
+      grid-column-end: 3;
+      display: flex;
+      justify-content: space-between;
+}
+
+.libraryFormSection>form>div:last-child>button{
+    width: 30%;
+    height: 55px;
+}
+
+.libraryFormSection>form>label:nth-child(7){
+    grid-column-start: 1;
+      grid-column-end: 3;
+}
+
+.libraryFormSection>form>label:nth-child(8){
+    grid-column-start: 1;
+      grid-column-end: 3;
+}
+
+.libraryFormSection>form>label:nth-child(9){
+    grid-column-start: 1;
+      grid-column-end: 3;
+}
+
+
+.libraryFormSection>form>label:nth-child(7)>div>div>div{
+        width: 30%;
+}
+
+
+.libraryFormSection>form>label:nth-child(8)>div>div>div{
+        width: 30%;
+}
+
+.libraryFormSection>form>label:nth-child(9)>div>div>div{
+        width: 30%;
 }

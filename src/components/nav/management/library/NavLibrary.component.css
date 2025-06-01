@@ -99,3 +99,116 @@ summary::after {
     content: "^";    
     margin-left: 7.5rem;
   }
+
+
+
+
+  
+
+/* .navLibrary{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 300px;
+    position: fixed;
+    overflow-y: auto;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    padding: 1rem;
+}
+
+.navLibrary .logoContainer{
+    padding: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navLibrary .logoContainer>img{
+    width: 170px;
+    height: 24px;
+}
+
+.libraryOptionsContainer{
+    margin-top: 5rem;
+
+}
+
+.libraryOptionsContainer details{
+ 
+        color: var(--blue_var);
+
+    width: 100%;
+}
+
+
+.libraryOptionsContainer li>img{
+    margin-left: 10px;
+}
+
+.libraryOptionsContainer summary{
+    outline: none;
+    list-style-type: '';
+    cursor: pointer;
+    display: flex;
+    align-items:center;
+    gap: 0.5rem;
+    padding: 0.6rem;
+    
+}
+
+.libraryOptionsContainer details[open]>summary{
+    background-color: var(--selectedBlue_var);
+}
+
+
+.libraryOptionsContainer ul{
+    /* border: 2px solid red; 
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.2rem;
+}
+
+.libraryOptionsContainer li{
+    display: flex;
+    align-items:center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+        color: var(--blue_var);
+
+    cursor: pointer;
+    padding: 0.5rem 0rem 0.5rem 0rem;
+}
+
+
+
+.libraryOptionsContainer details details{
+}
+
+
+.libraryOptionsContainer li> span{
+    display: flex;
+}
+
+.libraryOptionsContainer a {
+}
+
+.libraryOptionsContainer a{
+    text-decoration: none;
+        color: var(--blue_var);
+
+    flex: 1;
+}
+
+summary::after {
+    content: "^";
+    font-size: 20px;
+    transition: transform 0.3s ease; 
+    margin-left: 7.5rem;
+  }
+  
+  details[open] summary::after {
+    content: "^";    
+    margin-left: 7.5rem;
+  } */

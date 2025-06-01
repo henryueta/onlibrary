@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer, useState } from "react"
 import { useRef } from "react"
+import useHandlePath from "../../hooks/useHandlePath"
 
 interface DialogProps {
     close?:{
@@ -11,6 +12,7 @@ interface DialogProps {
     id?:string
     children:React.ReactNode,
     className?:string,
+    closeClass?:string
     closeOnExternalClick:boolean
 }
 
@@ -45,11 +47,34 @@ const handleDialogState = (state:DialogStateProps,action:DialogActionProps)=>{
     }
 }
 
-const Dialog = ({close,title,id,children,className,closeOnExternalClick}:DialogProps) => {
+const Dialog = ({close,title,id,children,className,closeOnExternalClick,closeClass}:DialogProps) => {
 
     const dialogRef = useRef<HTMLDialogElement>(null)
     const [iscloseExternal,setIsCloseExternal] = useState<boolean>(false);
     const [dialogState,setDialogState] = useReducer(handleDialogState,initialDialogState);
+    const {currentPathContext} = useHandlePath();
+    const [dialogPath,setDialogPath] = useState<string>();
+
+    useEffect(()=>{
+
+        setDialogPath(currentPathContext.pathName)
+
+    },[])
+
+    useEffect(()=>{
+        !!dialogPath
+        &&
+        dialogPath !== currentPathContext.pathName
+        &&
+        setDialogState({
+            type:"visual",
+            value:{
+                close:true,
+                view:false
+            }
+         })
+
+    },[currentPathContext.pathName])
 
     useEffect(()=>{
         console.log(dialogState.view)
@@ -57,7 +82,7 @@ const Dialog = ({close,title,id,children,className,closeOnExternalClick}:DialogP
         &&
        (()=>{
          close?.onClose()
-
+         
        })()
 
     },[dialogState.view])
@@ -118,19 +143,31 @@ const Dialog = ({close,title,id,children,className,closeOnExternalClick}:DialogP
     <dialog
         ref={dialogRef}
         id={id}
-        className={!!className ? className : "dialogPane"}>
+        className={`
+        ${ className || "dialogPane"} 
+        ${ dialogState.close && closeClass
+        ? !!className 
+        ? className+" "+closeClass
+        : "dialogPane "+closeClass
+        : ""}
+            
+        `
+        }>
           {
-        !!close?.closeButton &&
+        
         <>
         <div className="dialogHeaderContainer">
             <div className="dialogTitleContainer">
                 <h1>{title}</h1>
             </div>
+            {
+                !!close?.closeButton &&
             <div className="dialogCloseContainer">
                 <button type="button" onClick={close.onClose}>
                     X
                 </button>
-            </div>    
+            </div> 
+            }   
         </div>
         <hr />
         </>
