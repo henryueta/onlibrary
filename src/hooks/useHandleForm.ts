@@ -10,7 +10,10 @@ import {
     TableQueryProps,
     ExemplaryTableQueryProps,
      TableType, 
-     tableRoutes} from "../objects/table.object";
+     tableRoutes,
+     onFindTablePath,
+     tableTypeDataList,
+     onFindTableIndex} from "../objects/table.object";
 import useHandleLibrary from "./useHandleLibrary";
 import Word from "../classes/word.class";
 import axios, { CancelToken } from "axios";
@@ -29,7 +32,8 @@ const initialFormState:FormStateProps = {
     error:{
         error:"",
         message:"",
-        status:0
+        status:0,
+        data:""
     },
     isLoading:false
 }
@@ -113,6 +117,221 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
         },
         type:QueryType,
         cancelToken?:CancelToken)=>{
+
+            const checkTables = {
+                    library:()=>{
+                        const current_data = form.data as LibraryTableQueryProps
+                        return (
+                            {
+                                // "http://localhost:5900/data/create?type=library&userId="+current_userId.user_id
+                                //https://onlibrary-api.onrender.com/api/bibliotecas/criar-biblioteca
+                                url:"https://onlibrary-api.onrender.com/api/biblioteca/criar-biblioteca",
+                                data:{
+                                   post:{
+                                     nome:current_data.nome,
+                                    cep:new Word(current_data.cep,"cep").word,
+                                    numero:current_data.numero,
+                                    rua:current_data.rua,
+                                    telefone:new Word(current_data.telefone,"telephone").word,
+                                    aplicacaoMulta:!!current_data.aplicacao_multa,
+                                    aplicacaoBloqueio:!!current_data.aplicacao_bloqueio,
+                                    reservaOnline:!!current_data.reserva_online
+                                   },
+                                   put:{
+
+                                   }
+                                }
+                            }
+                        )
+                    },
+                    book:()=>{
+                        const book_data = form.data as BookTableQueryProps
+                        return (
+                            {
+                                url:"http://localhost:5900/book/post",
+                                data:{
+                                    post:{
+                                        ISBN:book_data.ISBN,
+                                        titulo:book_data.titulo,
+                                        descricao:book_data.descricao,
+                                        ano_lancamento:book_data.ano_lancamento,
+                                        autores:book_data.autores,
+                                        categorias:book_data.categorias,
+                                        generos:book_data.generos,
+                                        editoras:book_data.editoras
+                                    },
+                                    put:{
+
+                                    }
+                                }
+                            }
+                        )
+                    },
+                    user:()=>{
+                        return (
+                            {
+                                url:"",
+                                data:{
+                                    post:{},
+                                    put:{}
+                                }
+                            }
+                        )
+                    },
+                    account:()=>{
+                      const account_data = form.data as AccountTableQueryProps;
+                        return (
+                            {
+                                url:tableRoutes['account'].post,
+                                data:{
+                                    post:{
+                                    fk_id_biblioteca: currentLibraryContext.libraryId,
+                                    nome:account_data.nome,
+                                    multa_padrao:new Word(account_data.multa_padrao,"numeric").word,
+                                    prazo_devolucao_padrao:new Word(account_data.prazo_devolucao_padrao,"numeric").word,
+                                    prazo_multa_padrao:new Word(account_data.prazo_multa_padrao,"numeric").word
+                                    },
+                                    put:{
+
+                                    }
+                                  
+                                }
+                            }
+                        )
+                    },
+                    library_user:()=>{
+                        const library_user_data = form.data as LibraryUserTableQueryProps
+                        return (
+                            {
+                                url:"http://localhost:5900/library_user/post",
+                                data:{
+                                 post:{
+                                     numero_matricula:library_user_data.numero_matricula,
+                                    fk_id_biblioteca:libraryId,
+                                    fk_id_usuario:library_user_data.usuarios,
+                                    fk_id_perfil_usuario:library_user_data.perfis_biblioteca,
+                                    tipo_usuario:library_user_data.tipo_usuario,
+                                    cpf:new Word(library_user_data.cpf,"numeric").word
+                                 },
+                                 put:{
+                                    numero_matricula:library_user_data.numero_matricula,
+                                    fk_id_perfil_usuario:library_user_data.perfis_biblioteca,
+                                    tipo_usuario:library_user_data.tipo_usuario,
+                                 }
+                                }
+                            }
+                        )
+                    },
+                    loan:()=>{
+                      const loanData = form.data as LoanTableQueryProps;
+                        return (
+                            {
+                                url:"http://localhost:5900/loan/post",
+                                data:{
+                                 post:{
+                                    exemplares:loanData.exemplares_biblioteca,
+                                    fk_id_biblioteca:currentLibraryContext.libraryId,
+                                    fk_id_usuario_biblioteca:loanData.usuarios_biblioteca,
+                                    fk_id_bibliotecario:current_userId.user_id,
+                                    situacao:"pendente"
+                                    },
+                                put:{
+
+                                }
+                                }
+                            }
+                        )
+                    },
+                    reserve:()=>{
+                        return (
+                            {
+                                url:"",
+                                data:{
+                                    post:{
+
+                                    },
+                                    put:{}
+                                }
+                            }
+                        )
+                    },
+                    amerce:()=>{
+                        return (
+                            {
+                                url:"",
+                                data:{
+                                    post:{},
+                                    put:{}
+                                }
+                            }
+                        )
+                    },
+                    exemplary:()=>{
+                      const exemplaryData = form.data as ExemplaryTableQueryProps
+                        return (
+                            {
+                                url:"http://localhost:5900/exemplary/post",
+                                data:{
+                                 post:{
+                                     fk_id_livro:exemplaryData.livros_biblioteca,
+                                    numero_tombo:exemplaryData.numero_tombo,
+                                    situacao:exemplaryData.situacao,
+                                    estante:exemplaryData.estante,
+                                    prateleira:exemplaryData.prateleira,
+                                    setor:exemplaryData.setor,
+                                    fk_id_biblioteca:libraryId
+                                 },
+                                 put:{}
+                              }
+                            }
+                        )
+                    },
+                    author:()=>{
+                        return (
+                            {
+                                url:"",
+                                data:{
+                                    post:{},
+                                    put:{}
+                                }
+                            }
+                        )
+                    },
+                    publisher:()=>{
+                        return (
+                            {
+                                url:"",
+                                data:{
+                                    post:{},
+                                    put:{}
+                                }
+                            }
+                        )
+                    },
+                    category:()=>{
+                        return (
+                            {
+                                url:"",
+                                data:{
+                                    post:{},
+                                    put:{}
+                                }
+                            }
+                        )
+                    },
+                    gender:()=>{
+                        return (
+                            {
+                                url:"",
+                                data:{
+                                    post:{},
+                                    put:{}
+                                }
+                            }
+                        )
+                    },
+            }
+
         const checkQueryType = {
 
             select:()=>{
@@ -166,165 +385,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
 
                 !!form.data &&
                (()=>{
-                const checkTables = {
-                    library:()=>{
-                        const current_data = form.data as LibraryTableQueryProps
-                        return (
-                            {
-                                // "http://localhost:5900/data/create?type=library&userId="+current_userId.user_id
-                                //https://onlibrary-api.onrender.com/api/bibliotecas/criar-biblioteca
-                                url:"https://onlibrary-api.onrender.com/api/biblioteca/criar-biblioteca",
-                                data:{
-                                    nome:current_data.nome,
-                                    cep:new Word(current_data.cep,"cep").word,
-                                    numero:current_data.numero,
-                                    rua:current_data.rua,
-                                    telefone:new Word(current_data.telefone,"telephone").word,
-                                    aplicacaoMulta:!!current_data.aplicacao_multa,
-                                    aplicacaoBloqueio:!!current_data.aplicacao_bloqueio,
-                                    reservaOnline:!!current_data.reserva_online
-                                }
-                            }
-                        )
-                    },
-                    book:()=>{
-                        const book_data = form.data as BookTableQueryProps
-                        return (
-                            {
-                                url:"http://localhost:5900/book/post",
-                                data:{
-                                    ISBN:book_data.ISBN,
-                                    titulo:book_data.titulo,
-                                    descricao:book_data.descricao,
-                                    ano_lancamento:book_data.ano_lancamento,
-                                    autores:book_data.autores,
-                                    categorias:book_data.categorias,
-                                    generos:book_data.generos,
-                                    editoras:book_data.editoras
-                                }
-                            }
-                        )
-                    },
-                    user:()=>{
-                        return (
-                            {
-                                url:"",
-                                data:{}
-                            }
-                        )
-                    },
-                    account:()=>{
-                      const account_data = form.data as AccountTableQueryProps;
-                        return (
-                            {
-                                url:"http://localhost:5900/account/post",
-                                data:{
-                                  fk_id_biblioteca: currentLibraryContext.libraryId,
-                                  nome:account_data.nome,
-                                  multa_padrao:new Word(account_data.multa_padrao,"numeric").word,
-                                  prazo_devolucao_padrao:new Word(account_data.prazo_devolucao_padrao,"numeric").word,
-                                  prazo_multa_padrao:new Word(account_data.prazo_multa_padrao,"numeric").word
-                                }
-                            }
-                        )
-                    },
-                    library_user:()=>{
-                        const library_user_data = form.data as LibraryUserTableQueryProps
-                        return (
-                            {
-                                url:"http://localhost:5900/library_user/post",
-                                data:{
-                                  numero_matricula:library_user_data.numero_matricula,
-                                  fk_id_biblioteca:libraryId,
-                                  fk_id_usuario:library_user_data.usuarios,
-                                  fk_id_perfil_usuario:library_user_data.perfis_biblioteca,
-                                  tipo_usuario:library_user_data.tipo_usuario,
-                                  cpf:new Word(library_user_data.cpf,"numeric").word
-                                }
-                            }
-                        )
-                    },
-                    loan:()=>{
-                      const loanData = form.data as LoanTableQueryProps;
-                        return (
-                            {
-                                url:"http://localhost:5900/loan/post",
-                                data:{
-                                  exemplares:loanData.exemplares_biblioteca,
-                                  fk_id_biblioteca:currentLibraryContext.libraryId,
-                                  fk_id_usuario_biblioteca:loanData.usuarios_biblioteca,
-                                  fk_id_bibliotecario:current_userId.user_id,
-                                  situacao:"pendente"
-                                }
-                            }
-                        )
-                    },
-                    reserve:()=>{
-                        return (
-                            {
-                                url:"",
-                                data:{}
-                            }
-                        )
-                    },
-                    amerce:()=>{
-                        return (
-                            {
-                                url:"",
-                                data:{}
-                            }
-                        )
-                    },
-                    exemplary:()=>{
-                      const exemplaryData = form.data as ExemplaryTableQueryProps
-                        return (
-                            {
-                                url:"http://localhost:5900/exemplary/post",
-                                data:{
-                                  fk_id_livro:exemplaryData.livros_biblioteca,
-                                  numero_tombo:exemplaryData.numero_tombo,
-                                  situacao:exemplaryData.situacao,
-                                  estante:exemplaryData.estante,
-                                  prateleira:exemplaryData.prateleira,
-                                  setor:exemplaryData.setor,
-                                  fk_id_biblioteca:libraryId
-                              }
-                            }
-                        )
-                    },
-                    author:()=>{
-                        return (
-                            {
-                                url:"",
-                                data:{}
-                            }
-                        )
-                    },
-                    publisher:()=>{
-                        return (
-                            {
-                                url:"",
-                                data:{}
-                            }
-                        )
-                    },
-                    category:()=>{
-                        return (
-                            {
-                                url:"",
-                                data:{}
-                            }
-                        )
-                    },
-                    gender:()=>{
-                        return (
-                            {
-                                url:"",
-                                data:{}
-                            }
-                        )
-                    },
-            }
+                
 
             //   const current_url = checkTables[form.type]().url+"&userId="+current_userId.user_id;
               !!form.data &&
@@ -334,14 +395,16 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                     url:checkTables[form.type]().url,
                     type:{
                       post:{
-                        data:checkTables[form.type]().data
+                        data:checkTables[form.type]().data.post
                       }
                     },
                     onResolver:{
                         then:(result)=>{
                             result.data &&
                             setTimeout(()=>{
-                                onNavigate("/management/library")
+                                onNavigate(onFindTablePath(typeOfForm) || "",{
+                                    replace:true
+                                })
                             },1500)
                         },
                         catch:(error)=>console.log(error)
@@ -353,15 +416,20 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
             update:()=>{
                 console.log(form.data)
                 onAxiosQuery("put",{
-                    url:tableRoutes.loan.put+"/"+form.id,
+                    url:tableRoutes[form.type as string].put+"/"+form.id,
                     type:{
                         put:{
-                            data:form.data
+                           data:checkTables[form.type]().data.put
                         }
                     },
                     onResolver:{
                         then(result) {
-                            console.log(result)
+                            result.data &&
+                            setTimeout(()=>{
+                                onNavigate(onFindTablePath(typeOfForm) || "",{
+                                    replace:true
+                                })
+                            },1500)
                         },
                         catch(error) {
                             console.log(error)

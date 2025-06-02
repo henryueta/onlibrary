@@ -145,7 +145,6 @@ const form:FormObjectProps = {
                 post:schema.schemaList['library_user'],
                 put:schema.schemaList['library_user'].omit({
                     usuarios:true,
-                    perfis_biblioteca:true,
                     cpf:true
                 })
             },
@@ -680,19 +679,19 @@ const form:FormObjectProps = {
             },
             fields:[
                 {
-                    id:"exemplary_id",
+                    id:"book_id",
                     forForm:{
                         post:true,
                         put:false
                     },
                     tag:"select",
                     options:{
-                        isMultiple:true,
+                        isMultiple:false,
                         hasQuery:true,
                         list:[]
                     },
-                    title:"Exemplares",
-                    registerId:"exemplares_biblioteca"
+                    title:"Livros",
+                    registerId:"livros_biblioteca"
                 },
                 {
                     id:"libraryUser_id",

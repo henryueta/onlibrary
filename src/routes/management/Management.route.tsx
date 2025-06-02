@@ -4,8 +4,8 @@ import NavLibrary from "../../components/nav/management/library/NavLibrary.compo
 import GroupTableCard from "../../components/group/table_card/GroupTableCard.component";
 import cube_icon from "../../assets/imgs/icons/cube_icon.png"
 import { useEffect, useState } from "react";
-import { TableType, tableTypeDataList,onFindTableIndex,TableTypeProps, TableQueryProps } from "../../objects/table.object";
-import { useParams } from "react-router-dom";
+import { TableType, tableTypeDataList,onFindTableIndex,TableTypeProps, TableQueryProps, onFindTablePath } from "../../objects/table.object";
+import { useNavigate, useParams } from "react-router-dom";
 import Table from "../../components/table/management/TableManagement.component";
 import Form from "../../components/form/global/component/Form.component";
 import { form } from "../../objects/form.object";
@@ -29,9 +29,9 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
   const [defaultForm,setDefaultForm] = useState<TableQueryProps | null>();
   const {currentLibraryContext} = useHandleLibrary()
   const {onQueryTable,table,onQueryCountTable} = useHandleTable();
-  const {currentPathContext} = useHandlePath();
+  const {currentPathContext,pathManagement} = useHandlePath();
   const {type,id} = useParams()
-
+  const onNavigate = useNavigate();
 
   useEffect(()=>{
       Cookies.set("user_id",JSON.stringify({user_id:"b011be5e-4d07-4052-9763-6a6fb76e085a"}))
@@ -84,12 +84,23 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
     <>
     <NavLibrary />
       <section className="managementSection">
+         <NavAdmin/>
         <section className="managementContentSection">
-          <NavAdmin/>
+         
           <section className="dataContentSection">
               
              <div className="currentPathContainer">
-              {currentPathContext.pathName.replace(/[/]/g," ◢ ")}
+              {
+              !!pathManagement
+              &&
+              `${pathManagement.replace(/[/]/g," ◢ ")}
+              ${!!type
+                ? tableTypeDataList[onFindTableIndex(type as TableType)].title
+                : ""
+              }
+              `
+
+              }
             </div>
             {hasGroupTableCard
               &&(
@@ -129,6 +140,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
             mode == "post"
             ?
               <div className="formDataContainer">
+
                  <Form
                  method={{
                   post:true,
@@ -136,7 +148,13 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
                  }}
                 formSchema={form.formList.find((item)=>item.name == type)!.schema[mode]}
                 typeOfData={type as Exclude<TableType,"none">}
-                onSubmit={()=>{}}
+                onSubmit={()=>
+                    {
+                     const formatedTypeParam = type as TableType;
+                     onNavigate(onFindTablePath(formatedTypeParam) || "")
+                    }
+                  }
+                 
                 />
               </div>
             :
@@ -151,7 +169,12 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
                   }}
                   formSchema={form.formList.find((item)=>item.name == type)!.schema[mode]}
                   typeOfData={type as Exclude<TableType,"none">}
-                  onSubmit={(data)=>console.log(data)}
+                  onSubmit={()=>
+                    {
+                     const formatedTypeParam = type as TableType;
+                     onNavigate(onFindTablePath(formatedTypeParam) || "")
+                    }
+                  }
                   defaultValues={defaultForm}
                   />
                 </div>

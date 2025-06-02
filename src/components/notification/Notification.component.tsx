@@ -72,7 +72,15 @@ const Notification = ({type,id}:NotificationProps)=>{
        {
       !!isNotificationsView &&
       <Dialog
-      title={`Notificações (${!!userNotifications.length ? userNotifications.filter((item)=>!item.marcado_lido).length.toString() : "0"})`}
+      title={
+        <h1>
+          {`Notificações (
+          ${!!userNotifications.length 
+          ? userNotifications.filter((item)=>!item.marcado_lido).length.toString() 
+          : "0"}
+          )`}
+        </h1>
+      }
       closeClass="notificationDialogClose"
       closeOnExternalClick={true}
       className="notificationDialog"

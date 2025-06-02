@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react";
 import useHandleLibrary, { LibraryProps } from "../../../hooks/useHandleLibrary";
-import Dialog from "../../dialog/Dialog.component";
 import "./LibraryAccount.component.css"
 import libraryOpenned_icon from "../../../assets/imgs/icons/libraryOpenned_icon.webp"
 import libraryClosed_icon from "../../../assets/imgs/icons/libraryClosed_icon.webp"
 import { useNavigate } from "react-router-dom";
-import { path } from "../../../objects/path.object";
-import Load from "../../load/Load.component"
 
 
 
-const Account = () => {
+const LibraryAccount = () => {
 
   const onNavigate = useNavigate();
   const {onLibraryId,currentLibraryContext,onQueryLibraries,libraries,queryState} = useHandleLibrary()
@@ -35,6 +32,7 @@ const Account = () => {
   useEffect(()=>{
     currentLibrary?.id
     && onLibraryId(currentLibrary.id)
+
   },[currentLibrary])
 
   // useEffect(()=>{
@@ -50,7 +48,7 @@ const Account = () => {
 
   return (
     <>
-   {
+   {/* {
     isAccountView &&
     <Dialog 
     title="Suas bibliotecas"
@@ -97,7 +95,7 @@ const Account = () => {
       </section>
 
     </Dialog>
-   }
+   } */}
 
     <div className="currentLibraryAccountContainer" onClick={()=>onNavigate("/management/library/choice")}>
     <img src={
@@ -106,9 +104,9 @@ const Account = () => {
       : libraryClosed_icon
     } alt="admin_account_icon" />
       <span>
-        {currentLibrary
-        ? currentLibrary?.nome.slice(0,currentLibrary.nome.length-3).concat("...")
-        : "Selecione sua biblioteca"}
+        {
+         currentLibrary?.nome.slice(0,currentLibrary.nome.length-3).concat("...")
+         || "Selecione sua biblioteca"}
       </span>
     </div>
     {/* <Select defaultValue={{
@@ -131,4 +129,4 @@ const Account = () => {
   )
 }
 
-export default Account
+export default LibraryAccount

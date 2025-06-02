@@ -1,6 +1,6 @@
 import "./NavAdmin.component.css";
 import Notification from "../../../notification/Notification.component";
-import Account from "../../../account/library/LibraryAccount.component";
+import LibraryAccount from "../../../account/library/LibraryAccount.component";
 import useHandleAuth from "../../../../hooks/usehandleAuth";
 
 
@@ -20,7 +20,7 @@ const NavAdmin = () => {
               <Notification type="admin" id={authContext.userId}/>
             </div>
             <div className="currentLibraryContainer">
-                <Account/>
+                <LibraryAccount/>
             </div>
         </div>
     </nav>

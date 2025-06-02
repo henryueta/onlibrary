@@ -8,7 +8,7 @@ interface DialogProps {
         closeButton:boolean,
         timer:number
     },
-    title?:string
+    title?:React.ReactNode
     id?:string
     children:React.ReactNode,
     className?:string,
@@ -143,22 +143,20 @@ const Dialog = ({close,title,id,children,className,closeOnExternalClick,closeCla
     <dialog
         ref={dialogRef}
         id={id}
-        className={`
-        ${ className || "dialogPane"} 
+        className={
+        `${ className || "dialogPane"} 
         ${ dialogState.close && closeClass
         ? !!className 
         ? className+" "+closeClass
-        : "dialogPane "+closeClass
-        : ""}
-            
-        `
+        : " "+closeClass
+        :""}`
         }>
           {
         
         <>
         <div className="dialogHeaderContainer">
             <div className="dialogTitleContainer">
-                <h1>{title}</h1>
+                <>{title}</>
             </div>
             {
                 !!close?.closeButton &&

@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom"
 import useHandleLibrary from "../../../hooks/useHandleLibrary";
 import Warn from "../../warn/Warn.component"
 import axios from "axios"
+import white_edit_icon from "../../../assets/imgs/icons/white_edit_icon.png";
+import white_delete_icon from "../../../assets/imgs/icons/white_delete_icon.webp";
 
 interface TableManagementProps {
 
@@ -114,7 +116,10 @@ const TableManagement = ({type}:TableManagementProps) => {
                 Registros
             </span>
 
-           <button onClick={()=>(onNavigate(path.onCreatePathParams("create_data_management",[
+           {
+            tableTypeDataList[onFindTableIndex(type)].operations.post
+            &&
+            <button onClick={()=>(onNavigate(path.onCreatePathParams("create_data_management",[
             {
               field:"type",
               param:type
@@ -123,8 +128,12 @@ const TableManagement = ({type}:TableManagementProps) => {
              ))
            )
            }>
+
                 {`Cadastrar ${tableTypeDataList[onFindTableIndex(type)].title}`}
            </button>
+           
+           }
+
         </div>
       </div>
       <div className="tableContainer">
@@ -142,7 +151,7 @@ const TableManagement = ({type}:TableManagementProps) => {
           )
         }
             <th>
-              Action
+              {/* Action */}
             </th>
        </tr>
 
@@ -168,27 +177,46 @@ const TableManagement = ({type}:TableManagementProps) => {
                         )
                       }
                           <td>
-                            <button onClick={
-                              ()=>{
-                               onNavigate(path.onCreatePathParams("update_data_management",[
-                               {
-                                 field:"type",
-                                 param:type
-                               },
-                               {
-                                 field:"id",
-                                 param:tableDataView[index].find((item_tableId)=>{
-                                   return item_tableId[0] == "id"
-                                 })![1].toString()
-                               }
-                                ]
+                           <div className="tableDataOptionsContainer">
+
+                              {
+                                tableTypeDataList[onFindTableIndex(type)].operations.put
+                                &&
+                                <button className="editDataButton" onClick={
+                                ()=>{
+                                onNavigate(path.onCreatePathParams("update_data_management",[
+                                {
+                                  field:"type",
+                                  param:type
+                                },
+                                {
+                                  field:"id",
+                                  param:tableDataView[index].find((item_tableId)=>{
+                                    return item_tableId[0] == "id"
+                                  })![1].toString()
+                                }
+                                  ]
+                                  )
                                 )
-                               )
+                                }
+                                }>
+                                <img src={white_edit_icon} alt="edit_icon" />
+                              </button>
+                              
                               }
-                              }>
-                              Editar
-                            </button>
+
+                              {
+                                tableTypeDataList[onFindTableIndex(type)].operations.delete
+                                &&
+                                <button className="deleteDataButton">
+                                <img src={white_delete_icon} alt="delete_icon" />
+                              </button>
+                              
+                              }
+
+                           </div>
                           </td>
+                         
                 </tr>
                 }
               )

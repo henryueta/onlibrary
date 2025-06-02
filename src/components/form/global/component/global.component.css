@@ -28,7 +28,7 @@ textarea{
     margin-top: 0.3rem;
 }
 
-.formSubmitErrorContainer{
+.formSubmitResponseContainer{
     height: 100%;
     width: 100%;
     display: flex;
@@ -38,16 +38,16 @@ textarea{
 }
 
 
-.formSubmitErrorContainer>h1{
+.formSubmitResponseContainer>h1{
       font-size: 1.3rem;
       margin-bottom: 1rem;
 }
 
-.formSubmitErrorContainer>p{
+.formSubmitResponseContainer>p{
     font-size: 1.1rem;
 }
 
-.formSubmitErrorContainer>img{
+.formSubmitResponseContainer>img{
     height: 128px;
     width:128px;
     opacity: 80%;

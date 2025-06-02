@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react"
 import useAxios from "./useAxios"
+import Word from "../classes/word.class"
 
-type GraphicTableType = 
+export type GraphicTableType = 
 {
-    title:"empréstimo" 
+    title:"Empréstimo" 
     type:"loan" 
 }
 | 
 {
-    title:"reserva",
+    title:"Reserva",
     type:"reserve"
 }
 |
 {
-    title:"multa",
+    title:"Multa",
     type:"amerce"
 }
 
@@ -22,28 +23,49 @@ type GraphicTableType =
 const useHandleGraphic = ()=>{
 
     const [graphicTable,setGraphicTable] = useState<GraphicTableType>({
-        title:"empréstimo",
+        title:"Empréstimo",
         type:"loan"
     });
+    const [graphicData,setGraphicData] = useState<number[]>([]);
+
     const {onAxiosQuery} = useAxios();
+
+    const checkGraphicType = {
+
+        loan:{
+            table:"tb_emprestimo",
+            url:""
+        },
+        reserve:{
+            table:"tb_reserva",
+            url:""
+        },
+        amerce:{
+            table:"tb_multa",
+            url:""
+        }
+
+    }
 
     useEffect(()=>{
 
-        console.log(graphicTable)
-
+        console.log(checkGraphicType[graphicTable.type].table)
+        
     },[graphicTable])
+
+  
 
     const onDrawGraphic = (type:GraphicTableType['type'])=>{
         setGraphicTable((prev)=>{
             return (
             type == "loan"
-            ? {type:"loan",title:"empréstimo"}
+            ? {type:"loan",title:"Empréstimo"}
             : 
             type == "reserve"
-            ? {type:"reserve",title:"reserva"}
+            ? {type:"reserve",title:"Reserva"}
             :
             type == "amerce"
-            ? {type:"amerce",title:"multa"}
+            ? {type:"amerce",title:"Multa"}
             : prev
             )
             
@@ -51,7 +73,10 @@ const useHandleGraphic = ()=>{
     }
 
 return {
-    onDrawGraphic
+    onDrawGraphic,
+    graphicTable,
+    graphicData
+ 
 }
 
 }

@@ -136,8 +136,8 @@ const schema = {
               }).transform((val) => new Date(val)).optional(),
         }),
         reserve:z.object({
-            exemplares_biblioteca:z.array(z.string().min(1)).min(1,{
-                message:"Escolha pelo menos 1 exemplar"
+            livros_biblioteca:z.array(z.string().min(1)).min(1,{
+                message:"Escolha pelo menos 1 livro"
             }),
             usuarios_biblioteca:z.string().min(1,{
                 message:"Campo usuário inválido"

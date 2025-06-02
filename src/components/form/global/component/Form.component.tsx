@@ -10,9 +10,10 @@ import Select, { MultiValue, SingleValue } from "react-select"
 import useHandleForm from "../../../../hooks/useHandleForm";
 import useHandleLibrary from "../../../../hooks/useHandleLibrary";
 import Dialog from "../../../dialog/Dialog.component";
-import bigWarning_icon from "../../../../assets/imgs/icons/bigWarning_icon.png";
-import bigValidated_icon from "../../../../assets/imgs/icons/bigValidated_icon.png"
+import validated_icon from "../../../../assets/imgs/icons/small_validated_icon.webp";
+import warning_icon from "../../../../assets/imgs/icons/small_warning_icon.webp";
 import { useParams } from "react-router-dom";
+import Spinner from "../../../spinner/Spinner.component";
 
 interface FormProps{
   formSchema:z.ZodObject<ZodRawShape>
@@ -40,54 +41,44 @@ interface FormProps{
 
 
 interface FormQueryStateProps {
-  error:{
-    view:boolean,
-    close:boolean
-  },
-  success:{
-    view:boolean,
-    close:boolean
-  }
+  isErrorView:boolean,
+  isSuccessView:boolean,
+  isSent:boolean
 }
 
 const initialFormQueryState:FormQueryStateProps = {
 
-  error:{
-    view:false,
-    close:true
-  },
-  success:{
-    view:false,
-    close:true
-  }
-
+  isErrorView:false,
+  isSuccessView:false,
+  isSent:false
 }
 
 type ActionFormType =
 {
 
   type:'error',
-  value:{
-    view:boolean,
-    close:boolean
-  }
+  value:boolean
 
 } 
 |
 {
   type:"success",
-  value:{
-    view:boolean,
-    close:boolean
-  }
+  value:boolean
+}
+|
+{
+  type:"submited",
+  value:boolean
 }
 
 const handleFormQueryState = (state:FormQueryStateProps,action:ActionFormType)=>{
   switch (action.type) {
             case "success":
-              return {...state,success:action.value}
+              return {...state,isSuccessView:action.value}
             case "error":
-              return {...state,error:action.value};
+              return {...state,isErrorView:action.value}
+            case "submited":
+              return {...state,isSent:action.value}
             default:
               return state
           }
@@ -101,9 +92,10 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
   const {form} = useHandleForm(typeOfData || "none")
   const {id} = useParams()
 
-
+ 
 
   const [formQueryState,setFormQueryState] = useReducer(handleFormQueryState,initialFormQueryState);
+
 
   useEffect(()=>{
 
@@ -144,6 +136,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
     resolver:zodResolver(schemaObject),
   });
 
+  
 
   const {onQueryForm,formState} = useHandleForm(typeOfData || "none")
 
@@ -158,31 +151,38 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
   },[buttonRef])
 
   useEffect(()=>{
-    !!formState.error.message
+    console.log(formState.error)
+    !!formState.error.data
     &&
-    (()=>{
-     console.log(errors)
-      setFormQueryState({
+      (()=>{
+        setFormQueryState({
         type:"error",
-        value:{
-          view:true,
-          close:false
-        }
+        value:true
       })
-
-    })()
+      setFormQueryState({
+        type:"submited",
+        value:false
+      })
+      })()
+  
   },[formState.error])
 
   useEffect(()=>{
-    !!formState.success.message
+    ///-------
+    console.log(formState.success.data)
+    !!formState.success.data
     &&
-    setFormQueryState({
+    (()=>{
+      setFormQueryState({
         type:"success",
-        value:{
-          view:true,
-          close:false
-        }
+        value:true
       })
+
+      setFormQueryState({
+        type:"submited",
+        value:false
+      })
+    })()
   },[formState.success])
 
   return (
@@ -194,10 +194,8 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
               
               return item_input.type !== "hidden"
               &&(
-                // (item_input.forForm.post === method.post
-                // || 
-                // item_input.forForm.put === method.put)
-                // &&
+                (item_input.forForm.post)
+                &&
               <label htmlFor={item_input!.id} key={index_input}>
                 <div className="titleFieldContainer">
                   <p>
@@ -304,7 +302,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                       || 
                       item_input.forForm.put === method.put)
                     }
-                    value={teste && teste[item_input!.registerId]}
+                    defaultValue={teste && teste[item_input!.registerId]}
                     type={item_input!.type}
                     id={item_input!.id}
                     {...register(item_input!.registerId as Path<SchemaType>)}/>
@@ -351,81 +349,65 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
 
         }
         {
-           !!formQueryState.success.view
+           !!formQueryState.isSuccessView
           && <Dialog
-          closeOnExternalClick={false}
-          className={`dialogPane ${formQueryState.success.close ?"closeDialog" : ""}`} 
+          title={
+            <div>
+              <img src={validated_icon} alt="success_icon" />
+             {formState.success.data}
+            </div>
+          }
+          closeOnExternalClick={true}
+          closeClass="closeDialog"
            close={{
-            timer:1000,
-            closeButton:true,
+            timer:900,
+            closeButton:false,
             onClose:()=>{
-            setFormQueryState({
-              type:"success",
-              value:{
-                view:true,
-                close:true
-              }
-            })
-            setTimeout(()=>{
               setFormQueryState({
-              type:"success",
-              value:{
-                view:false,
-                close:true
-              }
-            })
-            },1000)
+                type:"success",
+                value:false
+              })
+         
           }
            }}>
-              <div className={"formSubmitErrorContainer"}>
-                <img src={bigValidated_icon} alt="bigValidated_icon" />
-                <h1>Success</h1>
-               <p>Cadastro realizado com sucesso!</p>
-              </div>
+              <></>
           </Dialog>
         }
         {
-          !!formQueryState.error.view
+          !!formQueryState.isErrorView
           && <Dialog
-          closeOnExternalClick={false}
-          className={`dialogPane ${formQueryState.error.close ?"closeDialog" : ""}`}
+          title={
+            <div>
+              <img src={warning_icon} alt="error_icon" />
+              {formState.error.data}
+            </div>
+            }
+          closeOnExternalClick={true}
+          closeClass  ="closeDialog"
            close={{
-            timer:100,
-            closeButton:true,
+            timer:900,
+            closeButton:false,
               onClose:()=>{
-            setFormQueryState({
-              type:"error",
-              value:{
-                view:true,
-                close:true
-              }
-            })
-            setTimeout(()=>{
               setFormQueryState({
-              type:"error",
-              value:{
-                view:false,
-                close:true
-              }
-            })
-            },1000)
+                type:"error",
+                value:false
+              })
+      
           }
            }}>
-              <div className={"formSubmitErrorContainer"}>
-                <img src={bigWarning_icon} alt="bigWarning_icon" />
-                <h1>Error</h1>
-               <p>{formState.error.message}</p>
-              </div>
+            <></>
           </Dialog>
         }
         {
           !!!buttonRef
           &&
          <div className="submitFormDataContainer">
-            
             {
-              
-              <button type="button" className="cancelButton"
+              method.put
+              &&
+              <button type="button" 
+              style={{border:"0.1rem solid var(--blue_var)"}}
+              className="cancelButton"
               onClick={()=>{
                 setIsUpdate((prev)=>!prev)
               }}
@@ -439,11 +421,29 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
              }
             </button>
             }
+            
             {
               (method.post || method.put && isUpdate)
               &&
-              <button className="managementButton"  onClick={handleSubmit((data:SchemaType)=>
+              <button className="managementButton"  
+              disabled={
+                formQueryState.isSent
+              }
+              style={{
+                backgroundColor:
+                formQueryState.isSent
+                ? "var(--selectedBlue_var)"
+                : "var(--blue_var)" 
+              }}
+              onClick={
+                handleSubmit((data:SchemaType)=>
              {
+              formQueryState.isSent == false
+              ?(()=>
+              {setFormQueryState({
+                type:"submited",
+                value:true
+              })
               return typeOfData && data
               &&  onQueryForm(currentLibraryContext.libraryId || "",{
                id:id,
@@ -452,13 +452,19 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
              },
              method.post 
              ? "create"
-             : "update")
+             : "update")})()
+             : alert("já foi enviado")
              }
               )}>
+                {
+                  formQueryState.isSent
+                  &&
+                  <Spinner/>
+                }
             {
               method.post
               ? "Cadastrar"
-              : "Editar"
+              : "Concluir"
             }
             </button>
             }

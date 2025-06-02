@@ -91,7 +91,12 @@ export interface TableTypeProps {
     type:string,
     title:string,
     quantity:number,
-    warning?:boolean
+    warning?:boolean,
+    operations:{
+      post:boolean,
+      put:boolean,
+      delete:boolean
+    }
     path:string,
     headers:string[],
     dependencies:string[]
@@ -118,24 +123,54 @@ const onFindTitleIndex = (title:TableTitleType)=>{
 const tableRoutes = {
   library_user:{
     getById:"http://localhost:5900/library_user/get/dependencies",
-    post:"http://localhost:5900/library_user/post",
-    put:""
+    post:"https://onlibrary-api.onrender.com/api/usuarioBiblioteca/criar-usuarioBiblioteca",
+    put:" https://onlibrary-api.onrender.com/api/usuarioBiblioteca/atualizar-usuarioBiblioteca",
+    graphic:""
   },
   loan:{
     getById:"http://localhost:5900/loan/get/dependencies",
-    post:"http://localhost:5900/loan/post",
-    put:"https://onlibrary-api.onrender.com/api/bibliotecas/atualizar-emprestimo"
-    // "http://localhost:5900/loan/put"
+    post:"https://onlibrary-api.onrender.com/api/emprestimo/criar-emprestimo",
+    put:"https://onlibrary-api.onrender.com/api/emprestimo/atualizar-emprestimo",
+    graphic:""
+    // "http://localhost:5900/loan/put",
   },
   account:{
     getById:"http://localhost:5900/account/get/dependencies",
-    post:"http://localhost:5900/account/post",
-    put:""
+    post:"https://onlibrary-api.onrender.com/api/perfil/criar-perfil",
+    //http://localhost:5900/account/post
+    put:"https://onlibrary-api.onrender.com/api/perfil/atualizar-perfil",
+    graphic:""
+
   },
   exemplary:{
     getById:"http://localhost:5900/exemplary/get/dependencies",
     post:"http://localhost:5900/exemplary/post",
-    put:"https://onlibrary-api.onrender.com/api/bibliotecas/atualizar-exemplar"
+    put:"https://onlibrary-api.onrender.com/api/bibliotecas/atualizar-exemplar",
+    graphic:""
+  },
+  author:{
+    getById:"",
+    post:"https://onlibrary-api.onrender.com/api/autor/criar-autor",
+    put:"https://onlibrary-api.onrender.com/api/autor/atualizar-autor",
+    graphic:""
+  },
+  category:{
+    getById:"",
+    post:"https://onlibrary-api.onrender.com/api/categoria/criar-categoria",
+    put:"https://onlibrary-api.onrender.com/api/categoria/atualizar-categoria",
+    graphic:""
+  },
+  publisher:{
+    getById:"",
+    post:"https://onlibrary-api.onrender.com/api/editora/criar-editora",
+    put:"https://onlibrary-api.onrender.com/api/editora/atualizar-editora",
+    graphic:""
+  },
+  gender:{
+    getById:"",
+    post:"https://onlibrary-api.onrender.com/api/genero/criar-genero",
+    put:"https://onlibrary-api.onrender.com/api/genero/atualizar-genero",
+    graphic:""
   }
 
 
@@ -147,6 +182,11 @@ const tableTypeDataList:TableTypeProps[] = [
         title:"",
         quantity:0,
         warning:false,
+        operations:{
+          post:true,
+          put:true,
+          delete:true
+        },
         path:path.onFindPath("library_management"),
         headers:[],
         dependencies:
@@ -163,6 +203,11 @@ const tableTypeDataList:TableTypeProps[] = [
         title:tableTitleList[onFindTitleIndex("Livro")],
         quantity:0,
         warning:false,
+        operations:{
+          post:true,
+          put:true,
+          delete:true
+        },
         path: path.onCreatePathParams("list_data_management",[
             {
               field:"type",
@@ -185,6 +230,11 @@ const tableTypeDataList:TableTypeProps[] = [
         title:"Autor",
         quantity:0,
         warning:false,
+        operations:{
+          post:true,
+          put:true,
+          delete:true
+        },
         path: path.onCreatePathParams("list_data_management",[
             {
               field:"type",
@@ -201,6 +251,11 @@ const tableTypeDataList:TableTypeProps[] = [
         title:"Editora",
         quantity:0,
         warning:false,
+        operations:{
+          post:true,
+          put:true,
+          delete:true
+        },
         path: path.onCreatePathParams("list_data_management",[
             {
               field:"type",
@@ -217,6 +272,11 @@ const tableTypeDataList:TableTypeProps[] = [
         title:"Categoria",
         quantity:0,
         warning:false,
+        operations:{
+          post:true,
+          put:true,
+          delete:true
+        },
         path: path.onCreatePathParams("list_data_management",[
             {
               field:"type",
@@ -233,6 +293,11 @@ const tableTypeDataList:TableTypeProps[] = [
         title:"Gênero",
         quantity:0,
         warning:false,
+        operations:{
+          post:true,
+          put:true,
+          delete:true
+        },
         path: path.onCreatePathParams("list_data_management",[
             {
               field:"type",
@@ -247,6 +312,11 @@ const tableTypeDataList:TableTypeProps[] = [
     {
         type:"library_user",
         warning:false,
+        operations:{
+          post:true,
+          put:true,
+          delete:true
+        },
         title:tableTitleList[onFindTitleIndex("Usuário")],
         quantity:0,
         path:path.onCreatePathParams("list_data_management",[
@@ -259,13 +329,16 @@ const tableTypeDataList:TableTypeProps[] = [
         [],
         dependencies:
             [
-                "Leitores",
-                "Bibliotecários",
                 tableTitleList[onFindTitleIndex("Perfil")]
             ]
     },{
         type:"account",
         warning:false,
+        operations:{
+          post:true,
+          put:true,
+          delete:true
+        },
         title:tableTitleList[onFindTitleIndex("Perfil")],
         headers:[],
         dependencies:[],
@@ -279,6 +352,11 @@ const tableTypeDataList:TableTypeProps[] = [
     }, {
         type:"loan",
         warning:false,
+        operations:{
+          post:true,
+          put:true,
+          delete:true
+        },
         title:tableTitleList[onFindTitleIndex("Empréstimo")],
         quantity:0,
         path:path.onCreatePathParams("list_data_management",[
@@ -295,6 +373,11 @@ const tableTypeDataList:TableTypeProps[] = [
     {
         type:"reserve",
         warning:false,
+        operations:{
+          post:true,
+          put:true,
+          delete:true
+        },
         title:tableTitleList[onFindTitleIndex("Reserva")],
         quantity:0,
         path:path.onCreatePathParams("list_data_management",[
@@ -312,6 +395,11 @@ const tableTypeDataList:TableTypeProps[] = [
     },{
         type:"amerce",
         warning:false,
+        operations:{
+          post:true,
+          put:true,
+          delete:true
+        },
         title:"Multa",
         quantity:0,
         path:path.onCreatePathParams("list_data_management",[
@@ -328,6 +416,11 @@ const tableTypeDataList:TableTypeProps[] = [
     {
         type:"exemplary",
         warning:false,
+        operations:{
+          post:true,
+          put:true,
+          delete:true
+        },
         title:tableTitleList[onFindTitleIndex("Exemplar")],
         quantity:0,
         path:path.onCreatePathParams("list_data_management",[
@@ -344,6 +437,11 @@ const tableTypeDataList:TableTypeProps[] = [
     {
       type:"online_reserve",
       warning:false,
+      operations:{
+          post:false,
+          put:false,
+          delete:false
+        },
       title:"Reserva Online",
       quantity:0,
       path:path.onCreatePathParams("list_data_management",[

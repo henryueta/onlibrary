@@ -2,13 +2,14 @@ import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 
 interface GraphicProps {
-    title:string
+    title:string,
+    categories:string[],
+    data:number[]
 }
 
-const Graphic = ({title}:GraphicProps) => {
+const Graphic = ({title,categories,data}:GraphicProps) => {
 
     const options:ApexOptions = {
-        
         fill: {
             type: "gradient",
             gradient: {
@@ -29,7 +30,7 @@ const Graphic = ({title}:GraphicProps) => {
             type:"area",
         },
         xaxis:{
-            categories:['domingo','segunda','terça','quarta','quinta','sexta','sábado']
+            categories:categories
         },
         yaxis:{
             tooltip:{
@@ -47,8 +48,7 @@ const Graphic = ({title}:GraphicProps) => {
 
     const series = [
         {
-            name:"teste",
-            data:[10,20,15,40]
+            data:data
         }
     ]
 

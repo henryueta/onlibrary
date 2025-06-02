@@ -91,14 +91,15 @@ const LibraryChoice = () => {
                     : ""
                     }
                   onClick={()=>{
-                    alert(item.id)
                     setCurrentLibrary({
                     id:item.id,
                     nome:item.nome
                   })
                   setTimeout(()=>{
-                    onNavigate("/management/library")
-                  },1000)
+                    onNavigate("/management/library",{
+                      replace:true
+                    })
+                  },500)
                 }
                     
                   } key={item.id}>
@@ -117,7 +118,9 @@ const LibraryChoice = () => {
                 <div className="createLibraryContainer">
                   <button className="acceptButton"
                   onClick={()=>{
-                    onNavigate("/register/library")
+                    onNavigate("/register/library",{
+                      replace:true
+                    })
                   }}>
                     Criar biblioteca
                   </button>

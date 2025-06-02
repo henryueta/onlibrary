@@ -8,6 +8,7 @@ export interface QueryErrorProps {
     error:string
     message:string
     status:number
+    data:string
 }
 
 export interface QuerySuccessProps {
@@ -86,7 +87,8 @@ const initialQueryState:QueryStateProps = {
     error:{
         error:"",
         message:"",
-        status:0
+        status:0,
+        data:""
     },
     isLoading:false
 
@@ -105,7 +107,6 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
         type:"isLoading",
         value:true
     })
-
 
     let url:string = "";
     let id:string | null = null;
@@ -150,9 +151,40 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
                })()
         },
         put:()=>{
-            axios.put(query.url,query.type.put?.data)
-            .then((result)=>query.onResolver.then(result))
-            .catch((error)=>query.onResolver.catch(error))
+            const bearerCookie = JSON.parse(Cookies.get("jwt") || "{}") as {accessToken:string}
+            axios.put(query.url,query.type.put?.data,{
+                cancelToken:cancelToken,
+                headers:{
+                    Authorization:`Bearer ${bearerCookie.accessToken}`
+                }
+            })
+            .then((result)=>{
+                const current_success = result.data as QuerySuccessProps
+                setQueryState({
+                    type:"success",
+                    value:{
+                        data:current_success,
+                        message:current_success.message,
+                        success:current_success.success
+                    }
+                })
+                
+                query.onResolver.then(result)
+
+            })
+            .catch((error)=>{
+                    const current_error = error.response?.data as QueryErrorProps
+                setQueryState({
+                        type:"error",
+                        value:{
+                            error:current_error.error,
+                            message:current_error.message,
+                            status:current_error.status,
+                            data:error.response.data
+                        }
+                    })
+                query.onResolver.catch(error)
+            })
         },
         delete:()=>{
             axios.delete(query.url)
@@ -169,11 +201,12 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
                 }
             })
             .then((result)=>{
+                console.log(result.data)
                 const current_success = result.data as QuerySuccessProps
                 setQueryState({
                     type:"success",
                     value:{
-                        data:current_success.data,
+                        data:current_success,
                         message:current_success.message,
                         success:current_success.success
                     }
@@ -183,13 +216,14 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
             })
                 .catch((error)=>{
                     const current_error = error.response?.data as QueryErrorProps
+                    console.log(error.response.data)
                     setQueryState({
                         type:"error",
                         value:{
                             error:current_error.error,
                             message:current_error.message,
                             status:current_error.status,
-                            // data:current_error
+                            data:error.response.data
                         }
                     })
                     const axiosError = error as AxiosError
