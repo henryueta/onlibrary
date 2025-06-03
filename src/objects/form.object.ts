@@ -597,11 +597,17 @@ const form:FormObjectProps = {
         {
             name:"loan",
             schema:{
-                post:schema.schemaList['loan'],
-                put:schema.schemaList['loan'].omit({
-                    exemplares_biblioteca:true,
-                    usuarios_biblioteca:true,
-                })
+                post:schema.schemaList['loan'].omit(
+                {
+                    data_devolucao:true,
+                    situacao:true
+                }),
+                put:schema.schemaList['loan'].omit(
+                    {
+                        exemplares_biblioteca:true,
+                        usuarios_biblioteca:true
+                    }
+                )
             },
             fields:[
                 {
@@ -667,7 +673,7 @@ const form:FormObjectProps = {
                     tag:"input",
                     type:"date",
                     title:"Data de devolução",
-                    registerId:"dataDevolucao"
+                    registerId:"data_devolucao"
                 }
             ]
         },

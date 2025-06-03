@@ -32,9 +32,7 @@ const NavHome = () => {
             : ""
           }
           />
-          <button>
-              <img src={favorite_icon} alt="favorite_icon" />
-          </button>
+       
           <UserAccount/>  
           {/* <Link to={"/management/librCliary/choice"}>ck</Link> */}
         </div>

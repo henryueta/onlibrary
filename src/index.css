@@ -15,6 +15,10 @@
   transition: 0.2s ease-in-out;
 }
 
+body{
+  overflow-x: hidden;
+}
+
 ::-webkit-scrollbar{
   width: 0.5rem;
 }
@@ -104,9 +108,10 @@
 }
 
 .tableContainer>table tr:has(th){
-  background-color: var(--blue_var);
-  color: white;
-  font-weight: 600;
+  background-color: white;
+  color: rgb(119, 119, 119);
+  font-weight: bolder;
+  border-bottom: 0.1rem solid var(--grayLine_var);
 }
 
 .tableContainer>table th{
@@ -114,7 +119,7 @@
   flex: 1;
   align-items: center;
   justify-content: start;
-  font-weight: 400;
+  font-weight: bold;
   font-size: 1.05rem;
   padding: 1rem;
 }
@@ -128,6 +133,7 @@
   align-items: center;
   justify-content: start;
   border-bottom: 0.1rem solid var(--grayLine_var);
+  background-color: white;
 }
 
 

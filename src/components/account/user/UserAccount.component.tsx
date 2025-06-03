@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useHandleAuth from "../../../hooks/usehandleAuth";
 import blueUser_icon from "../../../assets/imgs/icons/blueUser_icon.png";
 import userLogged_icon from "../../../assets/imgs/icons/userLogged_icon.png"
@@ -12,7 +12,7 @@ const UserAccount = () => {
     const {onAxiosQuery} = useAxios();
     const [username,setUsername] = useState<string | null>(null)
   const [isAccountView,setIsAccountView] = useState<boolean>(false);
-    
+    const onNavigate = useNavigate();
 
     useEffect(()=>{
         !!authContext.userId
@@ -52,10 +52,12 @@ const UserAccount = () => {
                 {
                 // <Link to={"/management/library/choice"}>Click</Link>
             <div className="loggedAccountContainer" onClick={()=>{
-                setIsAccountView(true)
+                !!authContext.userId
+                &&
+                onNavigate("/user");
             }}> 
                     <img src={userLogged_icon} alt="user_icon"/>
-                    P3nisvald0
+                   Usuario
                 </div>
                  
             }

@@ -15,6 +15,7 @@ import {path} from './objects/path.object.ts'
 import LibraryRegisterPage from './routes/form/register/library/LibraryRegisterPage.route.tsx'
 import LibraryChoice from './routes/choice/LibraryChoice.route.tsx'
 import OnlineReserve from './routes/reserve/OnlineReserve.route.tsx'
+import UserPage from './routes/account/UserPage.route.tsx'
 
 
 
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
   {
     path:path.onFindPath("user_register_step3"),
     element:<ThirdRegisterStep/>
+  },
+  {
+    path:path.onFindPath("user_page"),
+    element:<UserPage/>
   },
   {
     path:path.onFindPath("library_register"),

@@ -203,7 +203,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                         const library_user_data = form.data as LibraryUserTableQueryProps
                         return (
                             {
-                                url:"http://localhost:5900/library_user/post",
+                                url:tableRoutes['library_user'].post,
                                 data:{
                                  post:{
                                      numero_matricula:library_user_data.numero_matricula,
@@ -233,7 +233,6 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                                     fk_id_biblioteca:currentLibraryContext.libraryId,
                                     fk_id_usuario_biblioteca:loanData.usuarios_biblioteca,
                                     fk_id_bibliotecario:current_userId.user_id,
-                                    situacao:"pendente"
                                     },
                                 put:{
 
@@ -416,14 +415,15 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
             update:()=>{
                 console.log(form.data)
                 onAxiosQuery("put",{
-                    url:tableRoutes[form.type as string].put+"/"+form.id,
+                    url:tableRoutes[form.type as TableType].put+"/"+form.id,
                     type:{
                         put:{
-                           data:checkTables[form.type]().data.put
+                           data:checkTables[form.type]().data.post
                         }
                     },
                     onResolver:{
                         then(result) {
+                            console.log(result)
                             result.data &&
                             setTimeout(()=>{
                                 onNavigate(onFindTablePath(typeOfForm) || "",{

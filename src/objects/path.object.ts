@@ -51,6 +51,10 @@ const path:PathObjectProps = {
             path:onCreateRegisterPath("/user/step/password")
         },
         {
+            type:"user_page",
+            path:"/user"
+        },
+        {
             type:"library_choice",
             path:onCreateManagementPath("/choice")
         },

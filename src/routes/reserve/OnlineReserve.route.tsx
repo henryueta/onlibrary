@@ -2,13 +2,14 @@ import { useNavigate, useParams } from "react-router-dom"
 import NavHome from "../../components/nav/home/NavHome.component";
 import "./OnlineReserve.route.css";
 import useAxios from "../../hooks/useAxios";
-import useHandleBook, { BookLibrariesProps, TitleDescriptionProps } from "../../hooks/useHandleBook";
+import useHandleBook, { BookLibrariesProps } from "../../hooks/useHandleBook";
 import { useEffect, useReducer, useState } from "react";
 import useHandleAuth from "../../hooks/usehandleAuth";
 import TableHome from "../../components/table/home/TableHome.component";
 import Word from "../../classes/word.class";
 import { ExemplaryTableQueryProps } from "../../objects/table.object";
 import useImageResizer from "../../hooks/useImageResizer";
+import TitleDescription from "../../components/title_description/TitleDescription.component";
 
 
   interface LibraryStateProps {
@@ -75,22 +76,6 @@ import useImageResizer from "../../hooks/useImageResizer";
     }
 
   }
-
-const TitleDescription = ({className,title,description}:TitleDescriptionProps)=>{
-
-  return (
-    <div className={className}>
-      {
-        title.length
-        ? <h1>{title}</h1>
-        : null
-      }
-      <p>{description}</p>
-    </div>
-  )
-
-}
-
 
 
 const OnlineReserve = () => {

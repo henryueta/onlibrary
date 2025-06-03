@@ -1,0 +1,102 @@
+
+.userAccountDataSection{
+    width: 90%;
+    height: 90%;
+    border-radius: 1rem;
+}   
+
+.userAccountDataSection>.headerSection{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem;
+}
+
+.userAccountDataSection>.headerSection>.dataOptionsContainer>button{
+    margin-right: 1rem;
+    /* display: flex;
+    gap: 1rem; */
+}
+
+.userAccountDataSection>.dataContentSection{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.userAccountDataSection>.dataContentSection>section{
+    border:  0.1rem solid var(--grayLine_var);
+    border-radius: 1rem;
+    padding: 3rem;
+    
+}
+
+.userAccountDataSection>.dataContentSection>.simpleContentSection{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.userAccountDataSection>.dataContentSection>.simpleContentSection>.userUsernameContainer>*{
+    margin: 0.2rem;
+}
+
+.userAccountDataSection>.dataContentSection>.simpleContentSection>.userUsernameContainer>h1{
+    font-size: 1.5rem;
+}
+
+.userAccountDataSection>.dataContentSection>.simpleContentSection>.userUsernameContainer>p{
+    font-size: 1.1rem;
+}
+
+.userAccountDataSection>.dataContentSection .userIconContainer>img{
+    background-color: var(--blue_var);
+    display: block;
+    height: 45px;
+    width: 45px;
+    border-radius: 100%;
+}
+
+.userAccountDataSection>.dataContentSection>.fullContentSection>div{
+    margin-top: 0.5rem;
+}
+
+.userAccountDataSection>.dataContentSection>.fullContentSection>.headerContainer{
+    display: flex;
+}
+
+.userAccountDataSection>.dataContentSection>.fullContentSection .fullContentContainer{
+    display: grid;
+    /* grid-template-columns: repeat(3,1fr); */
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.dataContentSection>.fullContentSection .fullContentContainer div{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.dataContentSection>.fullContentSection hr{
+    margin-bottom: 3rem;
+}
+
+.dataContentSection>.fullContentSection .titleContainer{
+    width: 90%;
+    font-size: 2rem;
+}
+
+.dataContentSection>.fullContentSection .fullContentContainer h1{
+        font-size: 1.2rem;
+}
+
+.dataContentSection>.fullContentSection .fullContentContainer input{
+    font-size: 1.2rem;
+    border-radius: var(--borderRadius_var);
+    border: 0.1rem solid var(--grayLine_var);
+    padding: 0.5rem;    
+    width:75%;
+}

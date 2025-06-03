@@ -1,14 +1,8 @@
 import { useEffect,useReducer } from "react"
 import { BookTableQueryProps } from "../objects/table.object"
-import { LibraryTableQueryProps } from "../objects/table.object"
 import useAxios from "./useAxios"
 import useImageResizer from "./useImageResizer"
 
-export interface TitleDescriptionProps {
-  className?:string
-  title:string,
-  description:React.ReactNode
-}
 
 export interface BookLibrariesProps {
     cep:string
@@ -70,17 +64,24 @@ const useHandleBook = (id:string,imageResize:{
 
 const [bookState,setBookState] = useReducer(handleBookState,initialBookState);
 
-  // const {currentImage} = useImageResizer({
-  //   url:bookState.cape,
-  //   mimetype:"image/webp",
-  //   name:"bookCape.webp",
-  //   resize:{
-  //     format:"WEBP",
-  //     quality:80,
-  //     width:imageResize.width,
-  //     height:imageResize.height
-  //   }
-  // });
+  const {getImage,currentImage} = useImageResizer();
+
+  useEffect(()=>{
+    !!bookState.data
+    &&
+    getImage({
+      url:bookState.data.capa,
+      mimetype:"image/webp",
+      name:"bookImage.webp",
+      resize:{
+        format:"WEBP",
+        height:550,
+        width:344,
+        quality:80
+      }
+    })
+
+  },[bookState.data])
 
 const {onAxiosQuery} = useAxios()
 
@@ -145,18 +146,18 @@ const {onAxiosQuery} = useAxios()
     },[bookState.data])
 
     
-    // useEffect(()=>{
-    //   !!currentImage
-    //   &&
-    // //   setBookCape(currentImage)
-    //   (()=>{
-    //     setBookState({
-    //     type:"cape",
-    //     value:currentImage
-    //   })
+    useEffect(()=>{
+      !!currentImage
+      &&
+    //   setBookCape(currentImage)
+      (()=>{
+        setBookState({
+        type:"cape",
+        value:currentImage
+      })
      
-    //   })()
-    // },[bookState.data])
+      })()
+    },[bookState.data])
 
 
 

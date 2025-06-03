@@ -131,7 +131,7 @@ const schema = {
                 message:"Campo usuário inválido"
             }),
             situacao:z.enum(['concluido','cancelado']).optional(),
-            dataDevolucao: z.string().refine((val) => !isNaN(Date.parse(val)), {
+            data_devolucao: z.string().refine((val) => !isNaN(Date.parse(val)), {
                 message: "Campo data de devolução inválido",
               }).transform((val) => new Date(val)).optional(),
         }),

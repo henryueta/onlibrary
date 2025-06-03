@@ -33,9 +33,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
   const {type,id} = useParams()
   const onNavigate = useNavigate();
 
-  useEffect(()=>{
-      Cookies.set("user_id",JSON.stringify({user_id:"b011be5e-4d07-4052-9763-6a6fb76e085a"}))
-  },[])
+  
 
 
   useEffect(()=>{

@@ -7,23 +7,10 @@ import useAxios from "../../hooks/useAxios";
 import { useReducer, useState } from "react";
 import Word from "../../classes/word.class";
 import TableHome from "../../components/table/home/TableHome.component";
-import Dialog from "../../components/dialog/Dialog.component";
-import useHandleBook, { BookLibrariesProps, TitleDescriptionProps } from "../../hooks/useHandleBook";
+import useHandleBook, { BookLibrariesProps } from "../../hooks/useHandleBook";
 import { ExemplaryTableQueryProps } from "../../objects/table.object";
 import useHandleAuth from "../../hooks/usehandleAuth";
-
-
-
-const TitleDescription = ({className,title,description}:TitleDescriptionProps)=>{
-
-  return (
-    <div className={className}>
-      <h1>{title}</h1>
-      <p>{description}</p>
-    </div>
-  )
-
-}
+import TitleDescription from "../../components/title_description/TitleDescription.component";
 
   interface LibraryStateProps {
       libraryData:BookLibrariesProps | null,
@@ -104,7 +91,7 @@ const BookPage = () => {
   
   return (
     <>
-    {
+    {/* {
       libraryState.visible.view
       &&
       <Dialog 
@@ -254,7 +241,7 @@ const BookPage = () => {
                   )
               }
         </Dialog>
-    }
+    } */}
             
     <NavHome/>
         <Main contentStyle={{

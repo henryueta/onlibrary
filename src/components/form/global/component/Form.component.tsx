@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, DefaultValues, Path, useForm } from "react-hook-form";
 import { z, ZodRawShape} from "zod";
-import { TableQueryProps, TableType } from "../../../../objects/table.object";
+import { onFindTableIndex, TableQueryProps, TableType, tableTypeDataList } from "../../../../objects/table.object";
 import { useEffect, useReducer, useState } from "react";
 import { InputProps } from "../../../../objects/form.object";
 import { NumericFormat, PatternFormat } from "react-number-format";
@@ -14,6 +14,7 @@ import validated_icon from "../../../../assets/imgs/icons/small_validated_icon.w
 import warning_icon from "../../../../assets/imgs/icons/small_warning_icon.webp";
 import { useParams } from "react-router-dom";
 import Spinner from "../../../spinner/Spinner.component";
+import cube_icon from "../../../../assets/imgs/icons/black_cubeTable_icon.png"
 
 interface FormProps{
   formSchema:z.ZodObject<ZodRawShape>
@@ -152,7 +153,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
 
   useEffect(()=>{
     console.log(formState.error)
-    !!formState.error.data
+    !!formState.error.message
     &&
       (()=>{
         setFormQueryState({
@@ -169,8 +170,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
 
   useEffect(()=>{
     ///-------
-    console.log(formState.success.data)
-    !!formState.success.data
+    !!formState.success.message
     &&
     (()=>{
       setFormQueryState({
@@ -185,8 +185,21 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
     })()
   },[formState.success])
 
+  console.log(formSchema.shape)
+
   return (
     <form>
+      <div className="titleContainer">
+        <img src={cube_icon} alt="table_icon" />
+        <h1>
+          {
+          !!typeOfData
+          &&
+          tableTypeDataList[onFindTableIndex(typeOfData)].title
+        }
+        </h1>
+      </div>
+      <hr />
         {
           formBase &&
           formBase.map((item_input,index_input)=>
@@ -194,13 +207,17 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
               
               return item_input.type !== "hidden"
               &&(
-                (item_input.forForm.post)
-                &&
-              <label htmlFor={item_input!.id} key={index_input}>
+                // ((item_input.forForm.post || !item_input.forForm.put)
+                //   || 
+                //   (item_input.forForm.put || item_input.forForm.post))
+                // &&
+              <label 
+              style={!method.put && item_input.forForm.put && !item_input.forForm.post ? {display:"none"} : {}}
+              htmlFor={item_input!.id} key={index_input}>
                 <div className="titleFieldContainer">
                   <p>
                     {
-                      item_input!.title.concat(" :")
+                      item_input!.title
                     }
                   </p>
                 </div>
@@ -210,6 +227,12 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                     item_input.tag === "select" && !!item_input.options
                     ?
                      <Select
+                     styles={{
+                      control:(base)=>({
+                        ...base,
+                        height:"45px"
+                      })
+                     }}
                      isDisabled={
                       ( method.put && !isUpdate)
                       ||
@@ -354,7 +377,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
           title={
             <div>
               <img src={validated_icon} alt="success_icon" />
-             {formState.success.data}
+             {formState.success.message}
             </div>
           }
           closeOnExternalClick={true}
@@ -379,7 +402,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
           title={
             <div>
               <img src={warning_icon} alt="error_icon" />
-              {formState.error.data}
+              {formState.error.message}
             </div>
             }
           closeOnExternalClick={true}

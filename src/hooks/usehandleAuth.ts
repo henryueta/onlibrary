@@ -34,6 +34,7 @@ const initialAuthState:AuthStateProps = {
         success:false
     },
     error:{
+        data:"",
         error:"",
         message:"",
         status:0
@@ -127,6 +128,9 @@ const useHandleAuth = ()=>{
                         then:(result)=>{
                             console.log(result.data)
                             const auth = result.data as {data:{accessToken:string}}
+                         
+                            Cookies.set("user_id",JSON.stringify({user_id:"b011be5e-4d07-4052-9763-6a6fb76e085a"}))
+                                
                             Cookies.set("jwt",JSON.stringify({
                                 accessToken:auth.data.accessToken
                             }))
@@ -140,6 +144,7 @@ const useHandleAuth = ()=>{
                                   authValue:"KJK1"
                                 }
                               }))
+                              
                               authContext.setUserStatus(onHandleStatus())
                         },
                         catch:(error)=>{
@@ -157,7 +162,8 @@ const useHandleAuth = ()=>{
                     onResolver:{
                         then:(result)=>{
                             console.log(result.data)
-                            Cookies.set("user_id",JSON.stringify({user_id:result.data.id}))
+                            
+                            // Cookies.set("user_id",JSON.stringify({user_id:result.data.id}))
                         },
                         catch:(error)=>console.log(error)
                     }
