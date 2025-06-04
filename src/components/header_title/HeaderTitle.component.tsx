@@ -1,7 +1,11 @@
 
-type HeaderTitleProps = Record<'title',string>
 
-const HeaderTitle = ({title}:HeaderTitleProps) => {
+interface HeaderTitleProps {
+  title:string,
+  hasHrLine?:boolean
+}
+
+const HeaderTitle = ({title,hasHrLine}:HeaderTitleProps) => {
   return (
     <>
         <div className="headerContainer">
@@ -11,7 +15,11 @@ const HeaderTitle = ({title}:HeaderTitleProps) => {
                 </h1>
              </div>    
         </div>
-        <hr />
+       {
+        !!hasHrLine
+        &&
+         <hr/>
+       }
     </>
   )
 }

@@ -16,6 +16,7 @@ import LibraryRegisterPage from './routes/form/register/library/LibraryRegisterP
 import LibraryChoice from './routes/choice/LibraryChoice.route.tsx'
 import OnlineReserve from './routes/reserve/OnlineReserve.route.tsx'
 import UserPage from './routes/account/UserPage.route.tsx'
+import SearchPage from './routes/search/SearchPage.route.tsx'
 
 
 
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
   {
     path:path.onFindPath("book_page"),
     element:<BookPage/>
+  },
+  {
+    path:path.onFindPath("search_page"),
+    element:<SearchPage/>
   },
   {
     path:path.onFindPath("online_reserve"),

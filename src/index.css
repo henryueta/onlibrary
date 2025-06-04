@@ -17,6 +17,7 @@
 
 body{
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 ::-webkit-scrollbar{
@@ -139,6 +140,6 @@ body{
 
 @media (max-width:1024px)  {
   body{
-    
+    display: none;
   }
 }

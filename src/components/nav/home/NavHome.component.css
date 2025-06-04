@@ -30,6 +30,10 @@
     color: var(--blackFont_var);
 }
 
+.navHomeBar .suggestionContainer{
+    width: 700px;
+}
+
 .userOptionsContainer{
     display: flex;
     justify-content: space-around;

@@ -42,6 +42,7 @@ const UserContent = ({id}:{id:string}) => {
     <section className="userAccountDataSection">
         <section className="headerSection">
             <HeaderTitle 
+            hasHrLine = {false}
             title="Conta"
             />
             <div className="dataOptionsContainer">
@@ -90,6 +91,7 @@ const UserContent = ({id}:{id:string}) => {
             </section>
             <section className="fullContentSection">
                 <HeaderTitle
+                hasHrLine
                     title="Informações pessoais"
                 />
                 <div className="fullContentContainer">

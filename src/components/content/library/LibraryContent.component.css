@@ -1,0 +1,50 @@
+
+.libraryContentDataSection{
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    width: 90%;
+    padding: 2rem;
+    height: 100dvh;
+}
+
+.libraryContentDataSection .dataSection{
+    width: 100%;
+}
+
+.libraryContentDataSection .dataSection .dataContentContainer{
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.libraryContentDataSection .dataSection .dataContentContainer>div{
+    border: 0.1rem solid var(--grayLine_var);
+    border-radius: var(--borderRadius_var);
+    display: flex;
+    height: 150px;
+    width: 350px;
+    padding: 1rem;
+    flex-direction: column;
+    align-items: start;
+    cursor: pointer;
+}
+
+.libraryContentDataSection .dataSection .dataContentContainer>div:hover{
+    background-color: var(--grayLine_var);
+}
+
+
+.libraryContentDataSection .dataSection .dataContentContainer>div .nameContainer{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+
+.libraryContentDataSection .dataSection .dataContentContainer>div .nameContainer h1{
+    font-weight: normal;
+}
+

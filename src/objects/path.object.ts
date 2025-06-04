@@ -31,6 +31,10 @@ const path:PathObjectProps = {
             path:"/book/:id"
         },
         {
+            type:"search_page",
+            path:"/search/:value/:filter"
+        },
+        {
             type:"online_reserve",
             path:"/book/online_reserve/:id"
         },

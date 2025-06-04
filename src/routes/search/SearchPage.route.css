@@ -1,0 +1,133 @@
+.searchPageSection{
+    width: 100dvw;
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+    gap: 2rem;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont,
+     'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.searchPageSection .filterSeaction{
+    margin-top: 7rem;
+    border: 0.1rem solid var(--grayLine_var);
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 20dvw;
+    padding: 4rem;
+    background-color: white;
+    position: fixed;
+    margin-right: 78.1dvw;
+}   
+
+.searchPageSection .filterSeaction .typeTitleContainer{
+    font-size: 1.2rem;
+}
+
+.searchPageSection .filterSeaction .filterListContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.searchPageSection .filterSeaction .filterListContainer>button{
+    display: flex;
+    padding: 0.5rem;
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.searchPageSection .filterSeaction .filterListContainer>button:hover{
+    color: var(--blue_var);
+}
+
+.searchPageSection .titleContainer{
+    font-size: 1.3rem;
+}
+
+.bookSearchSection{
+    margin-left: 20dvw;
+    margin-top: 7rem;
+    border: 0.1rem solid var(--grayLine_var);
+    border-radius: 1rem;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    gap: 2rem;
+    width: 80dvw;
+}
+
+.bookSearchSection .resultSection{
+    height: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    width: 95%;
+    padding: 2rem;
+}
+
+.bookSearchSection .resultSection .resultContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: 100%;
+}
+
+.bookSearchSection .resultSection .resultContainer .titleContainer{
+    height: 100%;
+}
+
+.bookSearchSection .resultSection .resultContainer .resultQuantityContainer{
+    height: 4%;
+}
+
+
+.bookSearchSection .resultSection .resultQuantityContainer{
+    font-size: 1.2rem;
+}
+
+
+
+
+.dataContainer{
+    width: 100%;
+    height: 100%;
+    font-family: arial;
+    color: var(--blackFont_var);
+    background-color: white;
+    border-radius: calc(var(--borderRadius_var) + 0.2rem);
+    overflow-y: hidden;
+    overflow-x: hidden;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 2rem;
+    padding: 2rem;
+    align-items: center;
+    justify-content: center;
+
+  }
+  
+  
+  
+  .dataContainer>div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;  
+    cursor: pointer;
+  }
+
+
+  .dataContainer>div:hover{
+    transform: scale(1.1);
+  }
+  
+  .dataContainer>div>p{
+    padding: 0.5rem;
+  }
+  

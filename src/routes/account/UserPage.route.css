@@ -11,6 +11,8 @@
     place-self: center;
 }
 
+
+
 .userPageSection .titleContainer{
     font-size: 1.3rem;
     margin-bottom: 2rem;
@@ -22,7 +24,7 @@
     height: 100%;
 }
 
-.userPageSection .userOptionsContainer{
+.userPageSection .userNavBar{
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -30,12 +32,14 @@
     padding: 3rem;
     gap: 2rem;
     border-right: 0.1rem solid var(--grayLine_var);
-    height: 100%;
     width: 15%;
-    }
+    
+}
 
-.userPageSection .userOptionsContainer>button{
+.userPageSection .userNavBar a{
     font-size: 1.2rem;
+    text-decoration: none;
+    color: black;
 }
 
 .userPageSection .userDataContainer{
@@ -45,7 +49,8 @@
 
 .userDataContainer .dataContainer{
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: center;
-    padding: 1rem;
+    padding: 4rem 1rem 8rem 1rem;
 }
+

@@ -1,8 +1,8 @@
 
 .userAccountDataSection{
     width: 90%;
-    height: 90%;
     border-radius: 1rem;
+    padding: 1rem 0rem 1rem 0rem;
 }   
 
 .userAccountDataSection>.headerSection{
@@ -12,6 +12,8 @@
     padding: 2rem;
 }
 
+.userAccountDataSection hr{
+}
 .userAccountDataSection>.headerSection>.dataOptionsContainer>button{
     margin-right: 1rem;
     /* display: flex;

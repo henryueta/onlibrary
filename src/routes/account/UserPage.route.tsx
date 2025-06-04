@@ -2,52 +2,54 @@ import "./UserPage.route.css";
 import NavHome from "../../components/nav/home/NavHome.component";
 import UserContent from "../../components/content/user/UserContent.component";
 import useHandleAuth from "../../hooks/usehandleAuth";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import OrderContent from "../../components/content/order/OrderContent.component";
+import LibraryContent from "../../components/content/library/LibraryContent.component";
+
+const NavUser = ()=>{
+
+  return (
+    <nav className="userNavBar">
+      <div className="titleContainer">
+          <h1>
+            Sua conta
+          </h1>
+      </div>
+      <Link
+      to={"/user/info"}
+      replace
+      >
+        Conta
+      </Link>
+      <Link
+      to={"/user/orders"}
+      replace
+      >
+        Pedidos e multas
+      </Link>
+      <Link
+      to={"/user/libraries"}
+      replace
+      >
+        Biblioteca
+      </Link>
+    </nav>
+  )
+
+}
+
 
 const UserPage = () => {
-  const onNavigate = useNavigate();
   const {authContext} = useHandleAuth();
   const {type} = useParams();
 
   return (
     <>
       <NavHome/>
-      <section className="userPageSection">      
-          
+      <section className="userPageSection"> 
           <section className="userInfoSection">
-              <div className="userOptionsContainer">
-                <div className="titleContainer">
-                  <h1>
-                    Sua conta
-                  </h1>
-              </div>
-                  <button 
-                  onClick={()=>{
-                      onNavigate("/user/info")
-                  }}>
-                    Conta
-                  </button>
-                  <button 
-                  onClick={()=>{
-                    onNavigate("/user/orders")
-                  }}>
-                    Pedidos
-                  </button>
-                  <button>
-                    Livros
-                  </button>
-                  <button 
-                  onClick={()=>{
-                    onNavigate("/management/library/choice")
-                  }}>
-                    Biblioteca
-                  </button>
-              </div>
+            <NavUser/>
               <div className="userDataContainer">
-                  <div className="titleContainer">
-
-                  </div>
                   <div className="dataContainer">
                     {
                       !!authContext.userId
@@ -59,8 +61,12 @@ const UserPage = () => {
                       <UserContent id={authContext.userId}/>
                       :
                       type == "orders"
-                      && 
+                      ?
                       <OrderContent id={authContext.userId}/>
+                      : 
+                      type == "libraries"
+                      &&
+                      <LibraryContent id={authContext.userId}/>
                     }
  
                   </div>

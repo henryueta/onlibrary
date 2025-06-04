@@ -2,12 +2,14 @@ import { createContext,Dispatch,SetStateAction,useContext,useState } from "react
 
   export type FormDataProps = Record<"nome"|"sobrenome"|"cpf"|"username"|"email"|"senha",string> | null
 
-const RegisterContext = createContext({} as RegisterProps)
-
 interface RegisterProps {
     registerData:FormDataProps | null
     setRegisterData:Dispatch<SetStateAction<FormDataProps>>
 } 
+
+const RegisterContext = createContext({} as RegisterProps)
+
+
 
 const RegisterProvider = ({children}:{children:React.ReactNode}) => {
 
@@ -20,13 +22,7 @@ const RegisterProvider = ({children}:{children:React.ReactNode}) => {
   )
 }
 
-const useRegisterContext = ()=>{
-    const context = useContext(RegisterContext);
-    return context
-}
-
 export {
     RegisterContext,
-    RegisterProvider,
-    useRegisterContext
+    RegisterProvider
 }

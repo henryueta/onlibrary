@@ -26,4 +26,24 @@
     height: 15px;
 }
 
+.suggestionContainer{
+    position: absolute;
+    bottom: -221%;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    /* border-bottom-right-radius: 1rem;
+    border-bottom-left-radius: 1rem; */
+}
 
+
+.suggestionContainer>p{
+    height: 20%;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    padding: 0rem 0.5rem 0rem 0.5rem;
+}
