@@ -80,6 +80,12 @@
 .libraryFormSection>form>div:last-child>button{
     width: 30%;
     height: 55px;
+    border:none;
+    color: white;    
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .libraryFormSection>form>label:nth-child(7){

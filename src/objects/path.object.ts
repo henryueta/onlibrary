@@ -52,7 +52,7 @@ const path:PathObjectProps = {
         },
         {
             type:"user_page",
-            path:"/user"
+            path:"/user/:type"
         },
         {
             type:"library_choice",

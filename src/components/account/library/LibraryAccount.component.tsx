@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useState } from "react";
 import useHandleLibrary, { LibraryProps } from "../../../hooks/useHandleLibrary";
 import "./LibraryAccount.component.css"
 import libraryOpenned_icon from "../../../assets/imgs/icons/libraryOpenned_icon.webp"
@@ -10,41 +10,15 @@ import { useNavigate } from "react-router-dom";
 const LibraryAccount = () => {
 
   const onNavigate = useNavigate();
-  const {onLibraryId,currentLibraryContext,onQueryLibraries,libraries,queryState} = useHandleLibrary()
-  const [isAccountView,setIsAccountView] = useState<boolean>(false);
+  const {onLibraryId,currentLibraryContext,libraries,queryState} = useHandleLibrary()
   const [currentLibrary,setCurrentLibrary] = useState<LibraryProps | null>(null);
 
-  useEffect(()=>{
-  },[queryState.isLoading])
-
-  useEffect(()=>{
-    isAccountView
-    && onQueryLibraries("http://localhost:5900/auth/library")
-  },[isAccountView])
-
-  useEffect(()=>{
-    !!libraries && currentLibraryContext
-    && setCurrentLibrary(libraries.find((item)=>item.id === currentLibraryContext.libraryId) || null)
-  },[libraries])
-
-
-
-  useEffect(()=>{
-    currentLibrary?.id
-    && onLibraryId(currentLibrary.id)
-
-  },[currentLibrary])
-
   // useEffect(()=>{
-  //   window.addEventListener('click',
-  //     (e)=>{
-  //      return isAccountView
-  //       && e.target !==
-  //       document.querySelector("dialog")
-  //       && console.log("AA")
-  //     }
-  //     )
-  // },[isAccountView])
+  //   alert(libraries)
+  //   !!libraries && currentLibraryContext
+  //   && setCurrentLibrary(libraries.find((item)=>item.id === currentLibraryContext.libraryId) || null)
+  // },[libraries])
+
 
   return (
     <>
@@ -105,8 +79,15 @@ const LibraryAccount = () => {
     } alt="admin_account_icon" />
       <span>
         {
-         currentLibrary?.nome.slice(0,currentLibrary.nome.length-3).concat("...")
-         || "Selecione sua biblioteca"}
+         !!currentLibraryContext.libraryName
+         ? 
+         currentLibraryContext.libraryName
+         .slice(0,20)
+         .concat(currentLibraryContext.libraryName.length > 20
+          ? "..."
+          : ""
+         )
+         : "Selecione sua biblioteca"}
       </span>
     </div>
     {/* <Select defaultValue={{

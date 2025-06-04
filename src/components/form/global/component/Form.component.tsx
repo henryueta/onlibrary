@@ -189,7 +189,15 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
 
   return (
     <form>
-      <div className="titleContainer">
+
+      {
+        !!typeOfData
+          &&
+          tableTypeDataList[onFindTableIndex(typeOfData)]
+          &&
+          <>
+        <div className="titleContainer">
+        
         <img src={cube_icon} alt="table_icon" />
         <h1>
           {
@@ -199,7 +207,11 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
         }
         </h1>
       </div>
+      
+
       <hr />
+      </>
+      }
         {
           formBase &&
           formBase.map((item_input,index_input)=>

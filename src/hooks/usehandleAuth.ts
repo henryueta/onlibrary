@@ -129,8 +129,9 @@ const useHandleAuth = ()=>{
                             console.log(result.data)
                             const auth = result.data as {data:{accessToken:string}}
                          
+                         //b011be5e-4d07-4052-9763-6a6fb76e085a
                             Cookies.set("user_id",JSON.stringify({user_id:"b011be5e-4d07-4052-9763-6a6fb76e085a"}))
-                                
+                            Cookies.set("library",JSON.stringify({library_id:"",name:""}))
                             Cookies.set("jwt",JSON.stringify({
                                 accessToken:auth.data.accessToken
                             }))

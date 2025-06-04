@@ -3,8 +3,7 @@ import "../global/Table.component.css"
 
 interface TableHomeProps<T extends object> {
     table:object[]
-    headers:string[],
-    data:string[][],
+
     filter:string[]
     onClick?:(data:T)=>void
 }

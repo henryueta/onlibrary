@@ -18,10 +18,14 @@ const useHandleLibrary = ()=>{
 
     const {onAxiosQuery,queryState} = useAxios();
 
-    const onLibraryId = (id:string)=>{
+    const onLibraryId = (id:string,name:string)=>{
 
         currentLibraryContext.setLibraryId(id)
-
+        currentLibraryContext.setLibraryName(name)
+        Cookies.set("library",JSON.stringify({
+            library_id:id,
+            name:name
+        }))
     }
 
 

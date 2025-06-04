@@ -104,7 +104,11 @@ const useHandleTable = ()=>{
                                 headerList:headers.map((item,index)=>{
                                     console.log(item)
                                     return headers[index][0]
-                                }).filter((item)=>item !== "id" && item !== "fk_id_biblioteca"),
+                                }).filter((item)=>
+                                    item !== "id" 
+                                    && item !== "fk_id_biblioteca"
+                                    && item !== "fk_id_usuario"
+                                ),
                                 dataList:data.map((item:TableQueryProps)=>{
                                     return  Object.entries(item)
                                 })

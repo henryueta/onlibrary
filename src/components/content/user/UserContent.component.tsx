@@ -5,6 +5,7 @@ import { UserTableQueryProps } from "../../../objects/table.object";
 import TitleDescription from "../../title_description/TitleDescription.component";
 import Word from "../../../classes/word.class";
 import userLogged_icon from "../../../assets/imgs/icons/userLogged_icon.png"
+import HeaderTitle from "../../header_title/HeaderTitle.component";
 
 const UserContent = ({id}:{id:string}) => {
 
@@ -40,9 +41,9 @@ const UserContent = ({id}:{id:string}) => {
   return (
     <section className="userAccountDataSection">
         <section className="headerSection">
-            <div className="titleContainer">
-                <h1>Conta</h1>
-            </div>
+            <HeaderTitle 
+            title="Conta"
+            />
             <div className="dataOptionsContainer">
                 <button>
 
@@ -88,13 +89,9 @@ const UserContent = ({id}:{id:string}) => {
                 </div>
             </section>
             <section className="fullContentSection">
-                <div className="headerContainer">
-                    <div className="titleContainer">
-                        <h1>Informações pessoais</h1>
-                    </div>
-                   
-                </div>
-                <hr />
+                <HeaderTitle
+                    title="Informações pessoais"
+                />
                 <div className="fullContentContainer">
                     {
                         !!userContent

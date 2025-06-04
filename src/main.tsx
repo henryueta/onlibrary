@@ -53,6 +53,10 @@ export const router = createBrowserRouter([
     element:<UserPage/>
   },
   {
+    path:"",
+    element:""
+  },
+  {
     path:path.onFindPath("library_register"),
     element:
     <Private>

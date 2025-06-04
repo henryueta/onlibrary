@@ -2,6 +2,7 @@ import "./LibraryRegisterPage.route.css";
 import Form from "../../../../components/form/global/component/Form.component"
 import { form } from "../../../../objects/form.object"
 import white_onlibrary_logo from "../../../../assets/imgs/logo/white_onlibrary_logo.png";
+import { onFindTablePath } from "../../../../objects/table.object";
 
 const LibraryRegisterPage = ()=>{
 

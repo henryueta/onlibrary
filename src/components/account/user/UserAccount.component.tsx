@@ -54,7 +54,7 @@ const UserAccount = () => {
             <div className="loggedAccountContainer" onClick={()=>{
                 !!authContext.userId
                 &&
-                onNavigate("/user");
+                onNavigate("/user/info");
             }}> 
                     <img src={userLogged_icon} alt="user_icon"/>
                    Usuario

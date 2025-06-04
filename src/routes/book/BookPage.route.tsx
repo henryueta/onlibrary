@@ -324,28 +324,28 @@ const BookPage = () => {
                   &&
                   <TableHome
                   table={bookState.libraries}
-                  headers={
-                     Object.entries(bookState.libraries[0]).map((item)=>{
-                      return (
-                        item[0] !== "fk_id_biblioteca"
-                        &&
-                        item[0] !== "fk_id_livro"
-                        &&
-                        item[0] !== "reserva_online"
-                        &&
-                        new Word(item[0],"name").word as string
-                      )
-                    }).filter((item)=>item !== false)
-                  }
-                  data={
-                    bookState.libraries.map((item)=>{             
-                    return Object.entries(item).map((item_data)=>{
-                        return (
-                            item_data[1]
-                        )
-                    }).filter((item_noFalse)=>item_noFalse!==false)
-                  })
-                  }
+                  // headers={
+                  //    Object.entries(bookState.libraries[0]).map((item)=>{
+                  //     return (
+                  //       item[0] !== "fk_id_biblioteca"
+                  //       &&
+                  //       item[0] !== "fk_id_livro"
+                  //       &&
+                  //       item[0] !== "reserva_online"
+                  //       &&
+                  //       new Word(item[0],"name").word as string
+                  //     )
+                  //   }).filter((item)=>item !== false)
+                  // }
+                  // data={
+                  //   bookState.libraries.map((item)=>{             
+                  //   return Object.entries(item).map((item_data)=>{
+                  //       return (
+                  //           item_data[1]
+                  //       )
+                  //   }).filter((item_noFalse)=>item_noFalse!==false)
+                  // })
+                  // }
                   filter={["telefone","fk_id_biblioteca","fk_id_livro","fk_id_livro","reserva_online","0"]}
                   onClick={(data)=>{
                     const current_libraryData = data as BookLibrariesProps

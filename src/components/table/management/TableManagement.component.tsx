@@ -164,7 +164,9 @@ const TableManagement = ({type}:TableManagementProps) => {
                         item &&
                         item.map((item_data,index_data)=>
                         {
-                          return Object.values(item_data)[0] !== 'id' && Object.values(item_data)[0] !== "fk_id_biblioteca"
+                          return Object.values(item_data)[0] !== 'id' 
+                          && Object.values(item_data)[0] !== "fk_id_biblioteca"
+                          && Object.values(item_data)[0] !== "fk_id_usuario"
                            && <td key={index_data}>
                           {
                           Object.values(item_data)[1].toString().length >= 15 

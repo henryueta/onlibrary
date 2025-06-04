@@ -12,8 +12,7 @@ import {
      TableType, 
      tableRoutes,
      onFindTablePath,
-     tableTypeDataList,
-     onFindTableIndex} from "../objects/table.object";
+     } from "../objects/table.object";
 import useHandleLibrary from "./useHandleLibrary";
 import Word from "../classes/word.class";
 import axios, { CancelToken } from "axios";
@@ -226,7 +225,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                       const loanData = form.data as LoanTableQueryProps;
                         return (
                             {
-                                url:"http://localhost:5900/loan/post",
+                                url:tableRoutes['loan'].post,
                                 data:{
                                  post:{
                                     exemplares:loanData.exemplares_biblioteca,

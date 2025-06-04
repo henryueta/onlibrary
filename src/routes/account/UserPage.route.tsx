@@ -2,12 +2,14 @@ import "./UserPage.route.css";
 import NavHome from "../../components/nav/home/NavHome.component";
 import UserContent from "../../components/content/user/UserContent.component";
 import useHandleAuth from "../../hooks/usehandleAuth";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, useParams } from "react-router-dom";
+import OrderContent from "../../components/content/order/OrderContent.component";
 
 const UserPage = () => {
   const onNavigate = useNavigate();
   const {authContext} = useHandleAuth();
+  const {type} = useParams();
+
   return (
     <>
       <NavHome/>
@@ -20,10 +22,16 @@ const UserPage = () => {
                     Sua conta
                   </h1>
               </div>
-                  <button>
+                  <button 
+                  onClick={()=>{
+                      onNavigate("/user/info")
+                  }}>
                     Conta
                   </button>
-                  <button>
+                  <button 
+                  onClick={()=>{
+                    onNavigate("/user/orders")
+                  }}>
                     Pedidos
                   </button>
                   <button>
@@ -44,7 +52,15 @@ const UserPage = () => {
                     {
                       !!authContext.userId
                       &&
+                      type
+                      &&
+                      type == "info"
+                      ?
                       <UserContent id={authContext.userId}/>
+                      :
+                      type == "orders"
+                      && 
+                      <OrderContent id={authContext.userId}/>
                     }
  
                   </div>

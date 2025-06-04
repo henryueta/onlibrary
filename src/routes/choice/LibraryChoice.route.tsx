@@ -55,7 +55,7 @@ const LibraryChoice = () => {
 
   useEffect(()=>{
     currentLibrary?.id
-    && onLibraryId(currentLibrary.id)
+    && onLibraryId(currentLibrary.id,currentLibrary.nome)
   },[currentLibrary])
 
   return (
@@ -68,11 +68,6 @@ const LibraryChoice = () => {
                   <img src={white_onlibrary_logo} alt="onlibrary_logo" />
                 </Link>
               </div>
-              {/* <div className="titleContainer">
-                  <h1>
-                    Bem vindo, {username} !
-                  </h1>
-              </div> */}
               <div className="subTitleContainer">
                   <h1>
                     Escolha sua biblioteca

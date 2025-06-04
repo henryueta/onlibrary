@@ -88,7 +88,7 @@ AccountTableQueryProps |
 LibraryUserTableQueryProps;
 
 export interface TableTypeProps {
-    type:string,
+    type:TableType | 'online_reserve',
     title:string,
     quantity:number,
     warning?:boolean,
@@ -177,6 +177,20 @@ const tableRoutes = {
 }
 
 const tableTypeDataList:TableTypeProps[] = [
+  {
+    type:"library",
+    title:"",
+    quantity:0,
+    warning:false,
+    operations:{
+      post:true,
+      delete:true,
+      put:true
+    },
+    path:path.onFindPath("library_choice"),
+    headers:[],
+    dependencies:[]
+  },
     {
         type:"none",
         title:"",
