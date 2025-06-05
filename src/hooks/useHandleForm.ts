@@ -268,7 +268,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                       const exemplaryData = form.data as ExemplaryTableQueryProps
                         return (
                             {
-                                url:"http://localhost:5900/exemplary/post",
+                                url:tableRoutes['exemplary'].post,
                                 data:{
                                  post:{
                                      fk_id_livro:exemplaryData.livros_biblioteca,

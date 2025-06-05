@@ -35,9 +35,6 @@ const filterList =
 ]
 
 
-    const initialDataFilterState = {
-
-    }
 
 const SearchPage = () => {
 
@@ -62,6 +59,9 @@ useEffect(()=>{
             filter:filter
         }
     })
+    
+    !!filter?.length
+    && setDataFilter(filter)
 
 },[value,filter])
 

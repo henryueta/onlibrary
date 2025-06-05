@@ -128,6 +128,13 @@ body{
     height: 45px;
 }
 
+.managementContentSection .dataContentSection .formDataContainer .selectOptions input{
+    height: 100%;
+    display: none;
+}
+
+
+
 .managementContentSection .dataContentSection .formDataContainer .selectOptions>div>div{
     height: 100%;
 }

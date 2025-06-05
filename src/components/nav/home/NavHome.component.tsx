@@ -18,13 +18,17 @@ const NavHome = () => {
                 <img src={onlibrary_logo} alt="onlibrary_logo" />
             </Link>
         </div>
-        <Search onSearch={(value,quantity,filter)=>{
+        <Search 
+        suggestion={{
+          active:true,
+          url:"http://localhost:5900/suggestion/get?value="
+        }}
+        onSearch={(value,quantity,filter)=>{
           onNavigate("/search/"+value+"/"+filter)
-        }} onChange={()=>{}} quantity={0}/>
+        }} onChange={(e)=>{
+          
+        }} quantity={0}/>
         <div className="userOptionsContainer">
-          {/* <button>
-              <img src={notification_icon} alt="notification_icon" />
-          </button> */}
           <Notification 
           type="comum"
           id={
@@ -35,7 +39,6 @@ const NavHome = () => {
           />
        
           <UserAccount/>  
-          {/* <Link to={"/management/librCliary/choice"}>ck</Link> */}
         </div>
     </nav>
   )

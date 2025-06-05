@@ -53,9 +53,14 @@
     font-size: 1.1rem;
 }
 
+.userAccountDataSection>.dataContentSection .userIconContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .userAccountDataSection>.dataContentSection .userIconContainer>img{
     background-color: var(--blue_var);
-    display: block;
     height: 45px;
     width: 45px;
     border-radius: 100%;

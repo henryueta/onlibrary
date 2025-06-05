@@ -22,7 +22,7 @@ const TableManagement = ({type}:TableManagementProps) => {
   const {currentLibraryContext} = useHandleLibrary()
   const {onQueryTable,tableData,onFilterTable} = useHandleTable();
   const onNavigate = useNavigate();
-  const [maxOfData,setMaxOfData] = useState<number>(5);
+  const [maxOfData,setMaxOfData] = useState<number>(15);
   const [filterOfData,setFilterOfData] = useState<string>("todos");
   const [searchOfData,setSearchOfData] = useState<string | null>(null);
   const [tableDataView,setTableDataView] = useState<string[][]>([]);

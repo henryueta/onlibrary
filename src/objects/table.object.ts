@@ -144,7 +144,7 @@ const tableRoutes = {
   },
   exemplary:{
     getById:"http://localhost:5900/exemplary/get/dependencies",
-    post:"http://localhost:5900/exemplary/post",
+    post:"https://onlibrary-api.onrender.com/api/exemplar/criar-exemplar",
     put:"https://onlibrary-api.onrender.com/api/bibliotecas/atualizar-exemplar",
     graphic:""
   },

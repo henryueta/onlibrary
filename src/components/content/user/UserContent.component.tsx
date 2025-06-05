@@ -4,7 +4,7 @@ import useAxios from "../../../hooks/useAxios";
 import { UserTableQueryProps } from "../../../objects/table.object";
 import TitleDescription from "../../title_description/TitleDescription.component";
 import Word from "../../../classes/word.class";
-import userLogged_icon from "../../../assets/imgs/icons/userLogged_icon.png"
+import userLogged_icon from "../../../assets/imgs/icons/userStep_icon.png"
 import HeaderTitle from "../../header_title/HeaderTitle.component";
 
 const UserContent = ({id}:{id:string}) => {
