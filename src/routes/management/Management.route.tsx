@@ -13,7 +13,6 @@ import useHandleTable from "../../hooks/useHandleTable";
 import useHandleLibrary from "../../hooks/useHandleLibrary";
 import useHandlePath from "../../hooks/useHandlePath";
 import GraphicManagement from "../../components/graphic/management/GraphicManagement.component";
-import Cookies from "js-cookie";
 
 type ManagementMode = "default" | "get" | "post" | "put" | "library";
 
@@ -32,8 +31,6 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
   const {currentPathContext,pathManagement} = useHandlePath();
   const {type,id} = useParams()
   const onNavigate = useNavigate();
-
-  
 
 
   useEffect(()=>{
@@ -133,7 +130,10 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
             :
             !!type &&
             mode == "get"
-            ? <Table type={type as TableType}/>
+            ? 
+            <section className="tableManagemenwtSection">
+                <Table type={type as TableType}/>
+            </section>
             :
             mode == "post"
             ?

@@ -24,7 +24,7 @@ const GroupBook = ({
           useEffect(()=>{
       
             onAxiosQuery("get",{
-              url:"http://localhost:5900/category/get",
+              url:"http://localhost:3300/category/get",
               type:{
                 get:{
       
@@ -60,7 +60,7 @@ const GroupBook = ({
 
  useEffect(()=>{
     onAxiosQuery("get",{
-      url:"http://localhost:5900/book/list",
+      url:"http://localhost:3300/book/list",
       type:{
         get:{
 

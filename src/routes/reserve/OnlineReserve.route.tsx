@@ -6,10 +6,10 @@ import useHandleBook, { BookLibrariesProps } from "../../hooks/useHandleBook";
 import { useEffect, useReducer, useState } from "react";
 import useHandleAuth from "../../hooks/usehandleAuth";
 import TableHome from "../../components/table/home/TableHome.component";
-import Word from "../../classes/word.class";
 import { ExemplaryTableQueryProps } from "../../objects/table.object";
 import useImageResizer from "../../hooks/useImageResizer";
 import TitleDescription from "../../components/title_description/TitleDescription.component";
+import HeaderTitle from "../../components/header_title/HeaderTitle.component";
 
 
   interface LibraryStateProps {
@@ -124,45 +124,16 @@ const OnlineReserve = () => {
     <NavHome/>
     <section className="onlineReserveSection">
 
-      <div className="titleContainer">
-        <h1>Finalizar reserva</h1>
-      </div>
+    {/* <HeaderTitle
+      title="Finalizar reserva"
+      /> */}
 
      <section className="reserveDataSection">
-         <div className="libraryReserveDataContainer">
-              <div className="titleContainer">
-                <h1>Escolha de biblioteca</h1>
-              </div>
-              <div className="libraryReserveInfoContainer">
-                {
-                  // libraryState.libraryData 
-                  // &&
-                 <>
-                   <TitleDescription 
-                  title="Nome"
-                  description={libraryState.libraryData?.nome || " - - - - - "}
-                  />                
-                  <TitleDescription 
-                  title="Telefone"
-                  description={libraryState.libraryData?.telefone || " - - - - - " }
-                  />
-                  <TitleDescription 
-                  title="Endereço"
-                  description={libraryState.libraryData?.endereco || " - - - - - " }
-                  />     
-                  <TitleDescription 
-                  title="CEP"
-                  description={libraryState.libraryData?.cep || " - - - - - " }
-                  />   
-                 </>
-                  }
-              </div>
-        </div>
-
-        <div className="reserveResumeContainer">
-            <div className="titleContainer">
-                <h1>Resumo da reserva</h1>
-            </div>
+     <div className="reserveResumeContainer">
+            <HeaderTitle
+              title="Resumo da reserva"
+              hasHrLine
+              />
             <div className="reserveInfoContainer">
                 <div className="bookCapeReserveContainer">
                   <TitleDescription
@@ -206,60 +177,94 @@ const OnlineReserve = () => {
                 </div>        
           </div>
           <div className="reserveOptionsContainer">
-                    <div className="reserveCancelContainer">
-                      <button className="cancelButton"
-                      onClick={()=>{
-                        onNavigate("/book/"+id)
-                      }}>
-                        Cancelar 
-                      </button>
-                    </div>
-                    <div className="reserveSubmitContainer">                  
-                      <button className="acceptButton">
-                        Finalizar reserva
-                      </button>
-                    </div>
-                  </div>
+              <div className="reserveCancelContainer">
+                <button className="cancelButton"
+                onClick={()=>{
+                  onNavigate("/book/"+id)
+                }}>
+                  Cancelar 
+                </button>
               </div>
+              <div className="reserveSubmitContainer">                  
+                <button className="acceptButton">
+                    Finalizar reserva
+                </button>
+              </div>
+          </div>
+        </div>  
+         <div className="libraryReserveDataContainer">
+              <HeaderTitle
+              title="Escolha de biblioteca"
+              hasHrLine
+              />
+              <div className="libraryReserveInfoContainer">
+                {
+                  // libraryState.libraryData 
+                  // &&
+                 <>
+                   <TitleDescription 
+                  title="Nome"
+                  description={libraryState.libraryData?.nome || " - - - - - "}
+                  />                
+                  <TitleDescription 
+                  title="Telefone"
+                  description={libraryState.libraryData?.telefone || " - - - - - " }
+                  />
+                  <TitleDescription 
+                  title="Endereço"
+                  description={libraryState.libraryData?.endereco || " - - - - - " }
+                  />     
+                  <TitleDescription 
+                  title="CEP"
+                  description={libraryState.libraryData?.cep || " - - - - - " }
+                  />   
+                 </>
+                  }
+              </div>
+        </div>
+
+        
       </section>
       <section className="libraryTableListSection">
-        <div className="titleContainer">
-          <h1>Bibliotecas disponíveis</h1>
-        </div>
+        <div className="libraryTableListContainer">
+          <HeaderTitle
+          title="Bibliotecas disponíveis"
+          hasHrLine
+          />
           {
                     
                     !!bookState.libraries?.length
                     &&
                     <TableHome
                     table={bookState.libraries}
-                    headers={
-                      Object.entries(bookState.libraries[0]).map((item)=>{
-                        return (
-                          item[0] !== "fk_id_biblioteca"
-                          &&
-                          item[0] !== "fk_id_livro"
-                          &&
-                          item[0] !== "reserva_online"
-                          &&
-                          new Word(item[0],"name").word as string
-                        )
-                      }).filter((item)=>item !== false)
-                    }
-                    data={
-                      bookState.libraries.map((item)=>{             
-                      return Object.entries(item).map((item_data)=>{
-                          return (
-                              item_data[1]
-                          )
-                      }).filter((item_noFalse)=>item_noFalse!==false)
-                    })
-                    }
+                    // headers={
+                    //   Object.entries(bookState.libraries[0]).map((item)=>{
+                    //     return (
+                    //       item[0] !== "fk_id_biblioteca"
+                    //       &&
+                    //       item[0] !== "fk_id_livro"
+                    //       &&
+                    //       item[0] !== "reserva_online"
+                    //       &&
+                    //       new Word(item[0],"name").word as string
+                    //     )
+                    //   }).filter((item)=>item !== false)
+                    // }
+                    // data={
+                    //   bookState.libraries.map((item)=>{             
+                    //   return Object.entries(item).map((item_data)=>{
+                    //       return (
+                    //           item_data[1]
+                    //       )
+                    //   }).filter((item_noFalse)=>item_noFalse!==false)
+                    // })
+                    // }
                     filter={["telefone","fk_id_biblioteca","fk_id_livro","fk_id_livro","reserva_online","0"]}
                     onClick={(data)=>{
                       const current_libraryData = data as BookLibrariesProps
                       
                       onAxiosQuery("get",{
-                        url:"http://localhost:5900/exemplary/get?id_biblioteca="+current_libraryData.fk_id_biblioteca+"&id_livro="+id,
+                        url:"http://localhost:3300/exemplary/get?id_biblioteca="+current_libraryData.fk_id_biblioteca+"&id_livro="+id,
                         type:{
                           get:{
 
@@ -294,7 +299,8 @@ const OnlineReserve = () => {
                       })
                     }}
                   />
-                  }
+                  }        
+          </div>
       </section>     
     </section>
     </>

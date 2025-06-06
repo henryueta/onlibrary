@@ -73,7 +73,7 @@ const useHandleOrder = (id:string)=>{
           (()=>
            { 
             onAxiosQuery("get",{
-              url:"http://localhost:5900/reserve/get/user?id="+id,
+              url:"http://localhost:3300/reserve/get/user?id="+id,
               type:{
                 get:{}
               },
@@ -93,7 +93,7 @@ const useHandleOrder = (id:string)=>{
             })
     
             onAxiosQuery("get",{
-              url:"http://localhost:5900/loan/get/user?id="+id,
+              url:"http://localhost:3300/loan/get/user?id="+id,
               type:{
                 get:{}
               },
@@ -112,7 +112,7 @@ const useHandleOrder = (id:string)=>{
             })
     
             onAxiosQuery("get",{
-              url:"http://localhost:5900/amerce/get/user?id="+id,
+              url:"http://localhost:3300/amerce/get/user?id="+id,
               type:{
                 get:{}
               },

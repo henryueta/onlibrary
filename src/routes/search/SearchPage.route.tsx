@@ -2,8 +2,8 @@ import "./SearchPage.route.css";
 import NavHome from "../../components/nav/home/NavHome.component";
 import HeaderTitle from "../../components/header_title/HeaderTitle.component";
 import BookCard from "../../components/card/book/BookCard.component";
-import { data, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useReducer, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import useHandleSearch from "../../hooks/useHandleSearch";
 
 const filterList = 
@@ -41,15 +41,14 @@ const SearchPage = () => {
 
     const {value,filter} = useParams();
     const {currentSearchContext} = useHandleSearch();
-    // const [dataFilterState,setDataFilterState] = useReducer(onHandleDataFilterState,initialDataFilterState);
+
     const [dataFilter,setDataFilter] = useState<string>(
         !!filter?.length
         ? filter
         : filterList[0].value
     );
     const onNavigate = useNavigate();
-    // const [searchPageState,setSearchPageState] = useReducer(onHandleSearchPageState,initialSearchPageState);
-useEffect(()=>{
+    useEffect(()=>{
     !!value?.length && !!filter?.length
     &&
     currentSearchContext.setSearchContextState({

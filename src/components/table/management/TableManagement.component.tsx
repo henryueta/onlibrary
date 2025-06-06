@@ -20,10 +20,10 @@ interface TableManagementProps {
 const TableManagement = ({type}:TableManagementProps) => {
 
   const {currentLibraryContext} = useHandleLibrary()
-  const {onQueryTable,tableData,onFilterTable} = useHandleTable();
+  const {onQueryTable,tableData} = useHandleTable();
   const onNavigate = useNavigate();
   const [maxOfData,setMaxOfData] = useState<number>(15);
-  const [filterOfData,setFilterOfData] = useState<string>("todos");
+  // const [filterOfData,setFilterOfData] = useState<string>("todos");
   const [searchOfData,setSearchOfData] = useState<string | null>(null);
   const [tableDataView,setTableDataView] = useState<string[][]>([]);
 
@@ -38,13 +38,6 @@ const TableManagement = ({type}:TableManagementProps) => {
       source.cancel()
     }
   },[currentLibraryContext.libraryId,type])
-
-
-  useEffect(()=>{
-    
-
-
-  },[filterOfData])
 
   const onLimitDataView = ()=>{
     setTableDataView(tableData?.dataList.slice(0,maxOfData).map((item)=>{
@@ -74,24 +67,32 @@ const TableManagement = ({type}:TableManagementProps) => {
                 }
             </h1>
         </div>
+        
       <div className="managementContainer">
             <Search
             onChange={(e)=>{setSearchOfData(e.target.value)}}
-            onSearch={()=>{
-              type != "none" 
+            onSearch={(value,quantity,filter)=>{
+              type != "none"
+              &&
+              !!filter 
               &&
               !!searchOfData?.length
               && 
-              null
-              // onFilterTable(type,searchOfData,filterOfData)
+              onQueryTable({
+                type:type,
+                referenceText:{
+                  value:value,
+                  filter:filter
+                }
+              },"select")
             }}
             filter={{
               defaultValue:{
                  title:"todos",
                  value:"default"
               },
-              onSelect:(e)=>{
-                setFilterOfData(e.target.value)
+              onSelect:()=>{
+                
               },
               list: tableData?.headerList.map((item)=>{
                 return {

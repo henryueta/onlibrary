@@ -2,7 +2,8 @@ import { createContext, useEffect, useReducer } from "react"
 
 interface SearchProps {
   searchContextState:SearchContextStateProps,
-  setSearchContextState:React.ActionDispatch<[action: SearchContextActionType]>
+  setSearchContextState:React.ActionDispatch<[action: SearchContextActionType]>,
+  onResetSearch:()=>void
 }
 
 const SearchContext = createContext({} as SearchProps)
@@ -58,8 +59,18 @@ const SearchProvider = ({children}:{children:React.ReactNode}) => {
 
     const [searchContextState,setSearchContextState] = useReducer(onHandleSearchContextState,initialSearchContextState);
 
+    const onResetSearch = ()=>{
+      setSearchContextState({
+         type:"currentValueFilter",
+         value:{
+          currentValue:"",
+          filter:"todos"
+         }
+      })
+    }
+
   return (
-    <SearchContext.Provider value={{searchContextState,setSearchContextState}}>
+    <SearchContext.Provider value={{searchContextState,setSearchContextState,onResetSearch}}>
         {children}
     </SearchContext.Provider>
 
@@ -70,5 +81,5 @@ const SearchProvider = ({children}:{children:React.ReactNode}) => {
 
 export {
   SearchProvider,
-  SearchContext
+  SearchContext,
 }

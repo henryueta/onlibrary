@@ -88,7 +88,7 @@ const {onAxiosQuery} = useAxios()
  useEffect(()=>{
 
     onAxiosQuery("get",{
-      url:"http://localhost:5900/book/get?id="+id,
+      url:"http://localhost:3300/book/get?id="+id,
       type:{
         get:{
           
@@ -111,7 +111,7 @@ const {onAxiosQuery} = useAxios()
 
 
     onAxiosQuery("get",{
-      url:"http://localhost:5900/book/libraries?id="+id,
+      url:"http://localhost:3300/book/libraries?id="+id,
       type:{
         get:{
 

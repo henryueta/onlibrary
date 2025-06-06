@@ -19,7 +19,7 @@ const UserAccount = () => {
         &&
         onAxiosQuery("get",
             {
-                url:"http://localhost:5900/user/get/username?id="+authContext.userId,
+                url:"http://localhost:3300/user/get/username?id="+authContext.userId,
                 type:{
                     get:{
 

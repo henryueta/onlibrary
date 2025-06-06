@@ -1,72 +1,145 @@
-import { useContext, useReducer } from "react"
+import { useContext, useEffect, useReducer } from "react"
 import { SearchContext } from "../context/SearchContext"
+import useAxios from "./useAxios"
+import useHandleSuggestion from "./useHandleSuggestion"
+import useHandlePath from "./useHandlePath"
 
-    interface SearchStateProps {
-        value:string,
-        filter:string
+interface SearchStateProps {
+  inputValue:string,
+  selectValue:string | number
+}
+
+type SearchActionProps = 
+{
+  type:"input",
+  value:string
+}
+|
+{
+  type:"select",
+  value:string | number
+}
+|
+{
+  type:"inputSelect",
+  value:{
+    inputValue:string,
+    selectValue:string | number
+  }
+}
+
+  const onHandleSearchState = (state:SearchStateProps,action:SearchActionProps)=>{
+
+    switch (action.type) {
+      case "input":
+        return {...state,inputValue:action.value};
+      case "select":
+        return {...state,selectValue:action.value};
+      case "inputSelect":
+        return {...state,...{
+          inputValue:action.value.inputValue,
+          selectValue:action.value.selectValue
+        }};
+      default:
+        return state;
     }
+
+  }
+
+const useHandleSearch = (suggestion?:{
+  active:boolean,
+  url:string
+})=>{
+
+    const {onAxiosQuery} = useAxios();
+    const currentSearchContext = useContext(SearchContext)
+    const {setSuggestionState,suggestionState} = useHandleSuggestion();
+    const {currentPathContext} = useHandlePath();
 
     const initialSearchState:SearchStateProps = {
-        value:"",
-        filter:"Todos"
-    } 
-
-    type SearchActionProps =
-    {
-        type:"value",
-        value:string
+      inputValue:"",
+      selectValue:currentSearchContext.searchContextState.filter
     }
-    |
-    {
-        type:"filter",
-        value:string
-    }
-    |
-    {
-        type:"filterValue",
-        value:{
-            value:string,
-            filter:string
-        }
-    }
-
-    const onHandleSearchState = (state:SearchStateProps,action:SearchActionProps)=>{
-
-        switch (action.type) {
-            case "filter":
-                return {...state,filter:action.value}
-            case "value":
-                return {...state,value:action.value}
-            case "filterValue":
-                return {...state,...{
-                    value:action.value.value,
-                    filter:action.value.filter
-                }}
-            default:
-                return state;
-        }
-
-    }
-
-const useHandleSearch = ()=>{
-
-    const currentSearchContext = useContext(SearchContext)
-    
     const [searchState,setSearchState] = useReducer(onHandleSearchState,initialSearchState);
-    
-    const onSearch = (search:SearchStateProps)=>{
-        
-        setSearchState({
-            type:"filterValue",
-            value:search
-        })
 
-    }   
+      useEffect(()=>{
+        currentSearchContext.onResetSearch();
+        setSearchState({
+          type:"inputSelect",
+          value:{
+            inputValue:"",
+            selectValue:"todos"
+          }
+        })
+      },[currentPathContext.pathName])
+    
+      useEffect(()=>{
+        !!currentSearchContext.searchContextState.currentValue.length
+        &&
+        setSearchState({
+          type:"input",
+          value:currentSearchContext.searchContextState.currentValue
+        })
+    
+      },[currentSearchContext.searchContextState.currentValue])
+    
+      useEffect(()=>{
+          setSearchState({
+            type:"select",
+            value:currentSearchContext.searchContextState.filter
+          })
+      },[currentSearchContext.searchContextState.filter])
+      
+
+      
+  useEffect(()=>{
+
+    !!suggestion
+    &&
+    !!suggestion?.active
+    &&
+    !!suggestion.url.length
+    &&
+    !!searchState.inputValue.length
+    &&
+    onAxiosQuery("get",{
+      url:suggestion.url+searchState.inputValue,
+      type:{
+        get:{}
+      },
+      onResolver:{
+        then(result) {
+          const suggestion_list_data = result.data as {
+            sugestao:string,
+            tipo:string
+          }[]
+          setSuggestionState({
+            type:"list",
+            value:suggestion_list_data
+          })
+        },
+        catch(error) {
+          console.log(error)
+        },
+      }
+    })
+
+    !searchState.inputValue.length
+    && 
+    setSuggestionState({
+      type:"list",
+      value:[]
+    })
+
+
+  },[searchState.inputValue])
+
 
     return {
         currentSearchContext,
         searchState,
-        onSearch
+        setSearchState,
+        suggestionState
     }
 
 

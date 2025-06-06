@@ -90,7 +90,7 @@ const useHandleAuth = ()=>{
         const handleTypes = {
             register:()=>{
                 // onAxiosQuery("post",{
-                //     url:"http://localhost:5900/create/account",
+                //     url:"http://localhost:3300/create/account",
                 //     type:{
                 //         post:{
                 //         data:data
@@ -154,7 +154,7 @@ const useHandleAuth = ()=>{
                     }
                 })
                  onAxiosQuery("post",{
-                    url:"http://localhost:5900/check/account",
+                    url:"http://localhost:3300/check/account",
                     type:{
                         post:{
                             data:data

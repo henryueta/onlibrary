@@ -122,54 +122,62 @@ const onFindTitleIndex = (title:TableTitleType)=>{
 
 const tableRoutes = {
   library_user:{
-    getById:"http://localhost:5900/library_user/get/dependencies",
+    getById:"http://localhost:3300/library_user/get/dependencies",
     post:"https://onlibrary-api.onrender.com/api/usuarioBiblioteca/criar-usuarioBiblioteca",
     put:" https://onlibrary-api.onrender.com/api/usuarioBiblioteca/atualizar-usuarioBiblioteca",
+    referenceText:"http://localhost:3300/library_user/get/search",
     graphic:""
   },
   loan:{
-    getById:"http://localhost:5900/loan/get/dependencies",
+    getById:"http://localhost:3300/loan/get/dependencies",
     post:"https://onlibrary-api.onrender.com/api/emprestimo/criar-emprestimo",
     put:"https://onlibrary-api.onrender.com/api/emprestimo/atualizar-emprestimo",
+    referenceText:"",
     graphic:""
-    // "http://localhost:5900/loan/put",
+    // "http://localhost:3300/loan/put",
   },
   account:{
-    getById:"http://localhost:5900/account/get/dependencies",
+    getById:"http://localhost:3300/account/get/dependencies",
     post:"https://onlibrary-api.onrender.com/api/perfil/criar-perfil",
-    //http://localhost:5900/account/post
+    //http://localhost:3300/account/post
     put:"https://onlibrary-api.onrender.com/api/perfil/atualizar-perfil",
+    referenceText:"",
     graphic:""
 
   },
   exemplary:{
-    getById:"http://localhost:5900/exemplary/get/dependencies",
+    getById:"http://localhost:3300/exemplary/get/dependencies",
     post:"https://onlibrary-api.onrender.com/api/exemplar/criar-exemplar",
     put:"https://onlibrary-api.onrender.com/api/bibliotecas/atualizar-exemplar",
+    referenceText:"",
     graphic:""
   },
   author:{
     getById:"",
     post:"https://onlibrary-api.onrender.com/api/autor/criar-autor",
     put:"https://onlibrary-api.onrender.com/api/autor/atualizar-autor",
+    referenceText:"",
     graphic:""
   },
   category:{
     getById:"",
     post:"https://onlibrary-api.onrender.com/api/categoria/criar-categoria",
     put:"https://onlibrary-api.onrender.com/api/categoria/atualizar-categoria",
+    referenceText:"",
     graphic:""
   },
   publisher:{
     getById:"",
     post:"https://onlibrary-api.onrender.com/api/editora/criar-editora",
     put:"https://onlibrary-api.onrender.com/api/editora/atualizar-editora",
+    referenceText:"",
     graphic:""
   },
   gender:{
     getById:"",
     post:"https://onlibrary-api.onrender.com/api/genero/criar-genero",
     put:"https://onlibrary-api.onrender.com/api/genero/atualizar-genero",
+    referenceText:"",
     graphic:""
   }
 

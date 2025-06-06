@@ -19,13 +19,14 @@ const NavHome = () => {
             </Link>
         </div>
         <Search 
+        hasSearchButton
         suggestion={{
           active:true,
-          url:"http://localhost:5900/suggestion/get?value="
+          url:"http://localhost:3300/suggestion/get?value="
         }}
         onSearch={(value,quantity,filter)=>{
           onNavigate("/search/"+value+"/"+filter)
-        }} onChange={(e)=>{
+        }} onChange={()=>{
           
         }} quantity={0}/>
         <div className="userOptionsContainer">

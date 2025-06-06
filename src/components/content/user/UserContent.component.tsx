@@ -14,7 +14,7 @@ const UserContent = ({id}:{id:string}) => {
     useEffect(()=>{
   
       onAxiosQuery("get",{
-        url:"http://localhost:5900/user/get?id="+id,
+        url:"http://localhost:3300/user/get?id="+id,
         type:{
           get:{
   

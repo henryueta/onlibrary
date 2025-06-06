@@ -4,11 +4,14 @@ import useHandleLibrary, { LibraryProps } from "../../../hooks/useHandleLibrary"
 import HeaderTitle from "../../header_title/HeaderTitle.component"
 import libraryOpenned_icon from "../../../assets/imgs/icons/libraryOpenned_icon.webp"
 import { useNavigate } from "react-router-dom";
+import Load from "../../load/Load.component";
+import Spinner from "../../spinner/Spinner.component";
 
 const LibraryContent = ({id}:{id:string}) => {
-    const {onLibraryId,currentLibraryContext,onQueryLibraries,libraries} = useHandleLibrary()
+    const {onLibraryId,currentLibraryContext,onQueryLibraries,libraries,queryState} = useHandleLibrary()
     const [currentLibrary,setCurrentLibrary] = useState<LibraryProps | null>(null);
     const onNavigate = useNavigate();
+
 
      useEffect(()=>{
         onQueryLibraries("https://onlibrary-api.onrender.com/api/biblioteca/minhas-bibliotecas")
@@ -36,9 +39,15 @@ const LibraryContent = ({id}:{id:string}) => {
           title="Escolha sua biblioteca"
           hasHrLine
           />
-            <div className="dataContentContainer">
             {
-                !!libraries
+              queryState.isLoading
+              ? <div className="loadLibrariesContainer">
+                  <Spinner/>
+              </div>
+            : <div className="dataContentContainer">
+            {
+              
+                !!libraries?.length
                 ? libraries.map((item)=>
                 {
                   return <div
@@ -73,9 +82,10 @@ const LibraryContent = ({id}:{id:string}) => {
                     </div>
                 }
                 )
-                :<>Nenhuma biblioteca encontrada</>
+                : <>Nenhuma biblioteca encontrada</>
               }
             </div>
+            }
       </section>
     </section>
   )

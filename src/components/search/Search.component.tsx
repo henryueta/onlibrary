@@ -1,15 +1,15 @@
 import "./Search.component.css";
 import search_icon from "../../assets/imgs/icons/search_icon.png";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Select, { SelectProps } from "../select/Select.component";
 import useHandleSearch from "../../hooks/useHandleSearch";
-import useAxios from "../../hooks/useAxios";
 import { useNavigate } from "react-router-dom";
-// import useHandleSearch from "../../hooks/useHandleSearch";
+import Spinner from "../spinner/Spinner.component";
 
 interface SearchProps {
   filter?:SelectProps
   quantity:number,
+  hasSearchButton?:boolean
   suggestion?:{
     active:boolean,
     url:string
@@ -18,74 +18,92 @@ interface SearchProps {
   onSearch:(value:string,quantity?:number,filter?:string | number)=>void
 }
 
+interface SearchLoadStateProps {
+  timer:number,
+  isLoading:boolean
+}
 
+const initialSearchLoadState:SearchLoadStateProps = {
+    timer:0,
+    isLoading:false
+}
 
-const Search = ({filter,quantity,suggestion,onSearch,onChange} : SearchProps) => {
+type SearchLoadAction = 
+{
+  type:"timer",
+  value:number
+}
+|
+{
+  type:"load",
+  value:boolean
+}
+|
+{
+  type:"timerLoad",
+  value:{
+    timer:number,
+    isLoading:boolean
+  }
+}
 
-  const {currentSearchContext} = useHandleSearch();
-  const {onAxiosQuery} = useAxios();
-  const [inputValue,setInputValue] = useState<string>("");
-  const [selectValue,setSelectValue] = useState<string | number>(
-    currentSearchContext.searchContextState.filter
-  );
-  const [suggestionList,setSuggestionList] = useState<{
-    sugestao:string,
-    tipo:string
-  }[]>();
-  const [suggestionListView,setSuggestionListView] = useState<boolean>(false);
+const onHandleSearchLoadState = (state:SearchLoadStateProps,action:SearchLoadAction) =>{
+
+  switch (action.type) {
+    case "timer":
+      return {...state,timer:action.value};
+    case "load":
+      return {...state,isLoading:action.value}
+    case "timerLoad":
+      return {...state,...{
+        timer:action.value.timer,
+        isLoading:action.value.isLoading
+      }}
+    default:
+      return state;
+  }
+
+}
+
+const Search = ({filter,quantity,hasSearchButton,suggestion,onSearch,onChange} : SearchProps) => {
+
+  const {currentSearchContext,searchState,suggestionState,setSearchState} = useHandleSearch(suggestion);;
   const onNavigate = useNavigate();
-  
-
-  useEffect(()=>{
-    !!currentSearchContext.searchContextState.currentValue.length
-    &&
-    setInputValue(currentSearchContext.searchContextState.currentValue)
-
-  },[currentSearchContext.searchContextState.currentValue])
-
-  useEffect(()=>{
-      setSelectValue(currentSearchContext.searchContextState.filter)
-  },[currentSearchContext.searchContextState.filter])
+  const [suggestionListView,setSuggestionListView] = useState<boolean>(false);
+  const [searchLoadState,setSearchLoadState] = useReducer(onHandleSearchLoadState,initialSearchLoadState);
 
   useEffect(()=>{
 
-    !!suggestion
+    !!searchState.inputValue.length
     &&
-    !!suggestion?.active
-    &&
-    !!suggestion.url.length
-    &&
-    !!inputValue.length
-    &&
-    onAxiosQuery("get",{
-      url:suggestion.url+inputValue,
-      type:{
-        get:{}
-      },
-      onResolver:{
-        then(result) {
-          console.log(result.data)
-          const suggestion_list_data = result.data as {
-            sugestao:string,
-            tipo:string
-          }[]
-          setSuggestionList(suggestion_list_data)
-        },
-        catch(error) {
-          console.log(error)
-        },
-      }
-    })
+    (()=>{
+      setSearchLoadState({
+        type:"load",
+        value:true
+      })
+      clearTimeout(searchLoadState.timer)
+      setSearchLoadState(
+        {
+          type:"timer",
+          value:(
+            setTimeout(()=>{
+              onSearch(searchState.inputValue,quantity,searchState.selectValue)
+              setSearchLoadState({
+                type:"load",
+                value:false
+              })
+          },1000)
+          )
+        }
+      ) 
+    })()
 
-    !inputValue.length
-    && 
-    setSuggestionList([])
-
-  },[inputValue])
+  },[searchState.inputValue])
 
   return (
     <div className="searchContainer">
         <input 
+        
         onBlur={()=>{
           setTimeout(()=>{
             setSuggestionListView(false)
@@ -96,9 +114,12 @@ const Search = ({filter,quantity,suggestion,onSearch,onChange} : SearchProps) =>
         }}
         
         type="search" 
-        value={inputValue} 
+        value={searchState.inputValue} 
         onChange={(e)=>{
-          setInputValue(e.target.value)
+          setSearchState({
+            type:"input",
+            value:e.target.value
+          })  
           onChange(e)
         }}/>
         {
@@ -107,26 +128,40 @@ const Search = ({filter,quantity,suggestion,onSearch,onChange} : SearchProps) =>
          defaultValue={{title:"todos",value:"todos"}}
           onSelect={(e)=>{
             filter.onSelect(e)
-            setSelectValue(e.target.value)}} 
+            setSearchState({
+              type:"select",
+              value:e.target.value
+            })
+          }} 
           list={filter.list}/> 
         }
-        <button onClick={()=>{
-          inputValue.trim().length
+        {
+          !!hasSearchButton
           &&
-          (()=>{
-            currentSearchContext.setSearchContextState({
-            type:"currentValueFilter",
-            value:{
-              currentValue: inputValue,
-              filter:selectValue
-            }
-          })
-           onSearch(inputValue,quantity,selectValue) 
-          })()         
-        }}>
-            <img src={search_icon} alt="search_button" />
-        </button>
-
+          <button onClick={()=>{
+            searchState.inputValue.trim().length
+            &&
+            (()=>{
+              currentSearchContext.setSearchContextState({
+              type:"currentValueFilter",
+              value:{
+                currentValue: searchState.inputValue,
+                filter:searchState.selectValue
+              }
+            })
+             onSearch(searchState.inputValue,quantity,searchState.selectValue) 
+            })()         
+          }}>
+              <img src={search_icon} alt="search_button" />
+          </button>
+        }
+        {
+          !!searchLoadState.isLoading
+          &&
+          <div className="loadingSearchContainer">
+            <Spinner/>
+          </div>
+        }
         {
           !!suggestion
           &&
@@ -138,13 +173,15 @@ const Search = ({filter,quantity,suggestion,onSearch,onChange} : SearchProps) =>
           
           >
             {
-              !!suggestionList?.length
+              !!suggestionState.list?.length
               &&
-              !suggestionList.find((item)=>item.sugestao === inputValue)
+              !suggestionState.list.find((item)=>item.sugestao === searchState.inputValue)
               &&
-              suggestionList.map((item)=>{
+              suggestionState.list.map((item,index)=>{
                 return (
-                  <div className="suggestion"
+                  <div 
+                  key={index}
+                  className="suggestion"
                   onClick={()=>{
                     onNavigate(`/search/${item.sugestao}/${item.tipo}`)
                   }}>
