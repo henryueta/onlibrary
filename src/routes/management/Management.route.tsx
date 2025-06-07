@@ -131,7 +131,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
             !!type &&
             mode == "get"
             ? 
-            <section className="tableManagemenwtSection">
+            <section className="tableManagementSection">
                 <Table type={type as TableType}/>
             </section>
             :

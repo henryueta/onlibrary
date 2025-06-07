@@ -124,6 +124,10 @@
    animation: notifications_fadeIn 0.2s;
 }
 
+.notificationDialog h1{
+  font-size: 1.2rem;
+}
+
 .notificationDialogClose{
    animation: notifications_fadeOut 0.2s;
 }

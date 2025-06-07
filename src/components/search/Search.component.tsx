@@ -74,6 +74,8 @@ const Search = ({filter,quantity,hasSearchButton,suggestion,onSearch,onChange} :
 
   useEffect(()=>{
 
+    !hasSearchButton
+    &&
     !!searchState.inputValue.length
     &&
     (()=>{
@@ -156,6 +158,8 @@ const Search = ({filter,quantity,hasSearchButton,suggestion,onSearch,onChange} :
           </button>
         }
         {
+          !hasSearchButton
+          &&
           !!searchLoadState.isLoading
           &&
           <div className="loadingSearchContainer">

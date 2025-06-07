@@ -1,96 +1,26 @@
 import { useNavigate, useParams } from "react-router-dom"
 import NavHome from "../../components/nav/home/NavHome.component";
 import "./OnlineReserve.route.css";
-import useAxios from "../../hooks/useAxios";
-import useHandleBook, { BookLibrariesProps } from "../../hooks/useHandleBook";
-import { useEffect, useReducer, useState } from "react";
+import useHandleBook from "../../hooks/useHandleBook";
+import { useEffect, useState } from "react";
 import useHandleAuth from "../../hooks/usehandleAuth";
 import TableHome from "../../components/table/home/TableHome.component";
-import { ExemplaryTableQueryProps } from "../../objects/table.object";
 import useImageResizer from "../../hooks/useImageResizer";
 import TitleDescription from "../../components/title_description/TitleDescription.component";
 import HeaderTitle from "../../components/header_title/HeaderTitle.component";
-
-
-  interface LibraryStateProps {
-      libraryData:BookLibrariesProps | null,
-      visible:{
-        view:boolean,
-        close:boolean,
-      },
-      exemplaryQuantity:number | null
-  }
-
-  const initialLibraryState:LibraryStateProps = {
-
-    libraryData: null,
-    visible:{
-      view:false,
-      close:true,
-    },
-    exemplaryQuantity:0
-
-  }
-
-  type ActionLibraryType = 
-  {
-    type:"libraryData",
-    value:BookLibrariesProps | null
-  } 
-  |
-  {
-    type:"on",
-    value:{
-      view:boolean,
-      close:boolean
-    }
-  }
-  |
-  {
-    type:"off",
-    value:{
-      view:boolean,
-      close:boolean
-    }
-  }
-  |
-  {
-    type:"exemplary",
-    value:number | null
-  }
-    
-
-  const handleLibraryState = (state:LibraryStateProps,action:ActionLibraryType)=>{
-
-    switch (action.type) {
-       case "libraryData":  
-          return {...state,libraryData:action.value}
-        case "on":
-          return {...state,visible:action.value}
-        case "off":
-          return {...state,visible:action.value}
-        case "exemplary":
-          return {...state,exemplaryQuantity:action.value}
-      default:
-        return state
-    }
-
-  }
-
+import useHandleOnlineReserve from "../../hooks/useHandleOnlineReserve";
 
 const OnlineReserve = () => {
 
     const {id} = useParams();
-    const {onAxiosQuery,queryState} = useAxios()
     const {bookState} = useHandleBook(!!id ? id : '' ,{width:156,height:250});
+    const {onlineReserveState,onGetLibraryData} = useHandleOnlineReserve();
     const [reserveExemplaryQuantity,setReserveExemplaryQuantity] = useState<number>(1);
     const {authContext} = useHandleAuth();
     const onNavigate = useNavigate();
     const {getImage,currentImage} = useImageResizer()
     const [imageView,setImageView] = useState<string>();
 
-
-  const [libraryState,setLibraryState] = useReducer(handleLibraryState,initialLibraryState);
 
 
   useEffect(()=>{
@@ -161,9 +91,9 @@ const OnlineReserve = () => {
                       value={reserveExemplaryQuantity}
                       onChange={(e)=>{
                       const current_numberValue = parseInt(e.target.value)
-                      typeof libraryState.exemplaryQuantity  === 'number'
+                      typeof onlineReserveState.exemplaryQuantity  === 'number'
                       &&
-                      current_numberValue <= libraryState.exemplaryQuantity
+                      current_numberValue <= onlineReserveState.exemplaryQuantity
                       &&
                       current_numberValue > 0
                       &&
@@ -172,7 +102,7 @@ const OnlineReserve = () => {
                       />
                     }
                     />
-                    <span style={{color:"red"}}>{"max: "+libraryState.exemplaryQuantity}</span>
+                    <span style={{color:"red"}}>{"max: "+onlineReserveState.exemplaryQuantity}</span>
                   </div>
                 </div>        
           </div>
@@ -199,24 +129,24 @@ const OnlineReserve = () => {
               />
               <div className="libraryReserveInfoContainer">
                 {
-                  // libraryState.libraryData 
+                  // onlineReserveState.libraryData 
                   // &&
                  <>
                    <TitleDescription 
                   title="Nome"
-                  description={libraryState.libraryData?.nome || " - - - - - "}
+                  description={onlineReserveState.libraryData?.nome || " - - - - - "}
                   />                
                   <TitleDescription 
                   title="Telefone"
-                  description={libraryState.libraryData?.telefone || " - - - - - " }
+                  description={onlineReserveState.libraryData?.telefone || " - - - - - " }
                   />
                   <TitleDescription 
                   title="Endereço"
-                  description={libraryState.libraryData?.endereco || " - - - - - " }
+                  description={onlineReserveState.libraryData?.endereco || " - - - - - " }
                   />     
                   <TitleDescription 
                   title="CEP"
-                  description={libraryState.libraryData?.cep || " - - - - - " }
+                  description={onlineReserveState.libraryData?.cep || " - - - - - " }
                   />   
                  </>
                   }
@@ -237,66 +167,15 @@ const OnlineReserve = () => {
                     &&
                     <TableHome
                     table={bookState.libraries}
-                    // headers={
-                    //   Object.entries(bookState.libraries[0]).map((item)=>{
-                    //     return (
-                    //       item[0] !== "fk_id_biblioteca"
-                    //       &&
-                    //       item[0] !== "fk_id_livro"
-                    //       &&
-                    //       item[0] !== "reserva_online"
-                    //       &&
-                    //       new Word(item[0],"name").word as string
-                    //     )
-                    //   }).filter((item)=>item !== false)
-                    // }
-                    // data={
-                    //   bookState.libraries.map((item)=>{             
-                    //   return Object.entries(item).map((item_data)=>{
-                    //       return (
-                    //           item_data[1]
-                    //       )
-                    //   }).filter((item_noFalse)=>item_noFalse!==false)
-                    // })
-                    // }
                     filter={["telefone","fk_id_biblioteca","fk_id_livro","fk_id_livro","reserva_online","0"]}
                     onClick={(data)=>{
-                      const current_libraryData = data as BookLibrariesProps
-                      
-                      onAxiosQuery("get",{
-                        url:"http://localhost:3300/exemplary/get?id_biblioteca="+current_libraryData.fk_id_biblioteca+"&id_livro="+id,
-                        type:{
-                          get:{
+                      !!id?.length
+                      &&
+                      (()=>{
+                        onGetLibraryData(data,id)
+                        setReserveExemplaryQuantity(1)
+                      })()
 
-                          }
-                        },
-                        onResolver:{
-                          then(result) {
-                            const current_exemplaryListData = result.data as Pick<ExemplaryTableQueryProps,'situacao'>[];
-                            const current_exemplaryQuantity = current_exemplaryListData.length
-                            setReserveExemplaryQuantity(1)
-                            setLibraryState({
-                              type:"exemplary",
-                              value:current_exemplaryQuantity
-                            })
-                          },
-                          catch(error) {
-                            console.log(error)
-                          },
-                        }
-                      })
-
-                      setLibraryState({
-                        type:"on",
-                        value:{
-                          view:true,
-                          close:false
-                        }
-                      })
-                      setLibraryState({
-                        type:"libraryData",
-                        value:current_libraryData
-                      })
                     }}
                   />
                   }        

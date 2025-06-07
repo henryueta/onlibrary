@@ -464,12 +464,12 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
               disabled={
                 formQueryState.isSent
               }
-              style={{
-                backgroundColor:
-                formQueryState.isSent
-                ? "var(--selectedBlue_var)"
-                : "var(--blue_var)" 
-              }}
+              // style={{
+              //   backgroundColor:
+              //   formQueryState.isSent
+              //   ? "var(--selectedBlue_var)"
+              //   : "var(--blue_var)" ,
+              // }}
               onClick={
                 handleSubmit((data:SchemaType)=>
              {

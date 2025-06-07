@@ -11,6 +11,7 @@ import Warn from "../../warn/Warn.component"
 import axios from "axios"
 import white_edit_icon from "../../../assets/imgs/icons/white_edit_icon.png";
 import white_delete_icon from "../../../assets/imgs/icons/white_delete_icon.webp";
+import white_add_icon from "../../../assets/imgs/icons/white_add_icon.webp";
 
 interface TableManagementProps {
 
@@ -129,7 +130,7 @@ const TableManagement = ({type}:TableManagementProps) => {
              ))
            )
            }>
-
+              <img src={white_add_icon} alt="add_icon" />
                 {`Cadastrar ${tableTypeDataList[onFindTableIndex(type)].title}`}
            </button>
            

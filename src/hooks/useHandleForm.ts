@@ -232,6 +232,8 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                                     fk_id_biblioteca:currentLibraryContext.libraryId,
                                     fk_id_usuario_biblioteca:loanData.usuarios_biblioteca,
                                     fk_id_bibliotecario:current_userId.user_id,
+                                    situacao:loanData.situacao,
+                                    dataDevolucao:loanData.data_devolucao
                                     },
                                 put:{
 
