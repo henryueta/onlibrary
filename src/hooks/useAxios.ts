@@ -107,7 +107,7 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
         type:"isLoading",
         value:true
     })
-
+    const bearerCookie = JSON.parse(Cookies.get("jwt") || "{}") as {accessToken:string}
     let url:string = "";
     let id:string | null = null;
     let data:T | null = null;
@@ -128,7 +128,6 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
                 
                (()=>{
 
-                const bearerCookie = JSON.parse(Cookies.get("jwt") || "{}") as {accessToken:string}
                  axios.get(url,{
                     cancelToken:cancelToken,
                     headers:{
@@ -151,7 +150,6 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
                })()
         },
         put:()=>{
-            const bearerCookie = JSON.parse(Cookies.get("jwt") || "{}") as {accessToken:string}
             axios.put(query.url,query.type.put?.data,{
                 cancelToken:cancelToken,
                 headers:{
@@ -187,13 +185,48 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
             })
         },
         delete:()=>{
-            axios.delete(query.url)
+            (()=>{
+                axios.delete(query.url,{
+                withCredentials:true,
+                headers:{
+                    Authorization:`Bearer ${bearerCookie.accessToken}`
+                    }
+                })
+                .then((result)=>{
+                const current_success = result.data as QuerySuccessProps
+                console.log(result)
+                setQueryState({
+                    type:"success",
+                    value:{
+                        data:current_success,
+                        message:current_success.message,
+                        success:current_success.success
+                    }
+                })
+                
+                query.onResolver.then(result)
+
+            })
+            .catch((error)=>{
+                    const current_error = error.response?.data as QueryErrorProps
+                setQueryState({
+                        type:"error",
+                        value:{
+                            error:current_error.error,
+                            message:current_error.message,
+                            status:current_error.status,
+                            data:error.response.data
+                        }
+                    })
+                query.onResolver.catch(error)
+            })
+        })()
+         
 
         },
         post:()=>{
 
             (()=>{
-                const bearerCookie = JSON.parse(Cookies.get("jwt") || "{}") as {accessToken:string}
             axios.post(query.url,query.type.post?.data,{
                 withCredentials:true,
                 headers:{

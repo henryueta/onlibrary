@@ -40,7 +40,7 @@ const SearchPage = () => {
 
 
     const {value,filter} = useParams();
-    const {currentSearchContext} = useHandleSearch();
+    const {currentSearchContext,onSearch} = useHandleSearch();
 
     const [dataFilter,setDataFilter] = useState<string>(
         !!filter?.length
@@ -52,15 +52,20 @@ const SearchPage = () => {
     !!value?.length && !!filter?.length
     &&
     currentSearchContext.setSearchContextState({
-        type:"currentValueFilter",
+        type:"currentValueFilterSearch",
         value:{
             currentValue:value,
-            filter:filter
+            filter:filter,
+            isSearch:true
         }
     })
+
     
+
     !!filter?.length
     && setDataFilter(filter)
+
+    
 
 },[value,filter])
 

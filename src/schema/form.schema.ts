@@ -130,19 +130,22 @@ const schema = {
             usuarios_biblioteca:z.string().min(1,{
                 message:"Campo usuário inválido"
             }),
-            situacao:z.enum(['concluido','cancelado']).optional(),
+            situacao:z.enum(['concluido','cancelado','pendente']).optional(),
             data_devolucao: z.string().refine((val) => !isNaN(Date.parse(val)), {
                 message: "Campo data de devolução inválido",
               }).transform((val) => new Date(val)).optional(),
         }),
         reserve:z.object({
-            livros_biblioteca:z.array(z.string().min(1)).min(1,{
+            livros_biblioteca:z.string().min(1,{
                 message:"Escolha pelo menos 1 livro"
+            }),
+            quantidade_total:z.string().min(1,{
+                message:"Campo quantidade inválido"
             }),
             usuarios_biblioteca:z.string().min(1,{
                 message:"Campo usuário inválido"
             }),
-            situacao:z.enum(['concluido','cancelado']).optional(),
+            situacao:z.enum(['concluido','cancelado','atendido_parcialmente','atendido_completamente']).optional(),
             data_retirada: z.string().refine((val) => !isNaN(Date.parse(val)), {
                 message: "Campo data de retirada inválido",
               }).transform((val) => new Date(val)).optional(),
@@ -155,11 +158,11 @@ const schema = {
                 message:"Campo valor deve ter pelo menos 1 digito"
             }).max(7,{
                 message:"Campo valor deve ter no máximo 4 digitos"
-            }),
+            }).optional(),
             motivo:z.string().min(5,{
                 message:"Campo motivo inválido"
             }),
-            situacao:z.enum(['concluido','cancelado']).optional()
+            situacao:z.enum(['concluido','cancelado','pendente']).optional()
         }),
         exemplary:z.object({
             livros_biblioteca:z.string().min(1,{
@@ -168,7 +171,7 @@ const schema = {
             numero_tombo:z.string().refine((val)=>val.length > 0,{
                 message:"Campo identificador inválido"
             }),
-            situacao:z.enum(['disponivel','indisponivel']),
+            situacao:z.enum(['disponivel','indisponivel','reservado','emprestado']),
             setor:z.string().optional(),
             prateleira:z.string().optional(),
             estante:z.string().optional()

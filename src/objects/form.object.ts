@@ -680,7 +680,11 @@ const form:FormObjectProps = {
         {
             name:"reserve",
             schema:{
-                post:schema.schemaList['reserve'],
+                post:schema.schemaList['reserve']
+                .omit({
+                    data_retirada:true,
+                    situacao:true
+                }),
                 put:schema.schemaList['reserve']
             },
             fields:[
@@ -698,6 +702,17 @@ const form:FormObjectProps = {
                     },
                     title:"Livros",
                     registerId:"livros_biblioteca"
+                },
+                {
+                    id:"book_quantity_id",
+                    forForm:{
+                        post:true,
+                        put:true
+                    },
+                    tag:"input",
+                    type:"number",
+                    title:"Quantidade",
+                    registerId:"quantidade_total"
                 },
                 {
                     id:"libraryUser_id",
@@ -753,9 +768,12 @@ const form:FormObjectProps = {
         },{
             name:"amerce",
             schema:{
-                post:schema.schemaList['amerce'],
+                post:schema.schemaList['amerce'].omit({
+                    valor:true
+                }),
                 put:schema.schemaList['amerce'].omit({
-                    usuarios_biblioteca:true
+                    usuarios_biblioteca:true,
+                    valor:true
                 })
             },
             fields:[
@@ -777,8 +795,8 @@ const form:FormObjectProps = {
                 {
                     id:"value_id",
                     forForm:{
-                        post:true,
-                        put:true
+                        post:false,
+                        put:false
                     },
                     tag:"input",
                     type:"number",

@@ -10,12 +10,14 @@ const SearchContext = createContext({} as SearchProps)
 
 interface SearchContextStateProps {
   currentValue:string,
-  filter:string | number
+  filter:string | number,
+  isSearch:boolean
 }
 
 const initialSearchContextState:SearchContextStateProps = {
   currentValue:"",
-  filter:"todos"
+  filter:"todos",
+  isSearch:false
 }
 
 type SearchContextActionType =
@@ -30,10 +32,16 @@ type SearchContextActionType =
 }
 |
 {
-  type:"currentValueFilter",
+  type:"search",
+  value:boolean
+}
+|
+{
+  type:"currentValueFilterSearch",
   value:{
       currentValue:string,
-      filter:string | number
+      filter:string | number,
+      isSearch:boolean
   }
 }
 
@@ -44,10 +52,13 @@ const onHandleSearchContextState = (state:SearchContextStateProps,action:SearchC
       return {...state,currentValue:action.value}
     case "filter":
       return {...state,filter:action.value}
-    case "currentValueFilter":
+    case "search":
+      return {...state,isSearch:action.value}
+    case "currentValueFilterSearch":
       return {...state,...{
         currentValue:action.value.currentValue,
-        filter:action.value.filter
+        filter:action.value.filter,
+        isSearch:action.value.isSearch
       }}
     default:
       return state;
@@ -61,10 +72,11 @@ const SearchProvider = ({children}:{children:React.ReactNode}) => {
 
     const onResetSearch = ()=>{
       setSearchContextState({
-         type:"currentValueFilter",
+         type:"currentValueFilterSearch",
          value:{
           currentValue:"",
-          filter:"todos"
+          filter:"todos",
+          isSearch:false
          }
       })
     }

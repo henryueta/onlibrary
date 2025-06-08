@@ -12,6 +12,7 @@ import axios from "axios"
 import white_edit_icon from "../../../assets/imgs/icons/white_edit_icon.png";
 import white_delete_icon from "../../../assets/imgs/icons/white_delete_icon.webp";
 import white_add_icon from "../../../assets/imgs/icons/white_add_icon.webp";
+import useHandleForm from "../../../hooks/useHandleForm"
 
 interface TableManagementProps {
 
@@ -22,6 +23,7 @@ const TableManagement = ({type}:TableManagementProps) => {
 
   const {currentLibraryContext} = useHandleLibrary()
   const {onQueryTable,tableData} = useHandleTable();
+  const {onQueryForm} = useHandleForm(type);
   const onNavigate = useNavigate();
   const [maxOfData,setMaxOfData] = useState<number>(15);
   // const [filterOfData,setFilterOfData] = useState<string>("todos");
@@ -212,7 +214,24 @@ const TableManagement = ({type}:TableManagementProps) => {
                               {
                                 tableTypeDataList[onFindTableIndex(type)].operations.delete
                                 &&
-                                <button className="deleteDataButton">
+                                <button className="deleteDataButton"
+                                onClick={()=>{
+                                  let current_data_id:string | undefined;
+                                  current_data_id = (item.find((item_data,index_data)=>
+                                    item_data[0] === 'id'
+                                  ))
+
+                                  !!currentLibraryContext.libraryId
+                                  &&
+                                  type !== "none"
+                                  &&
+                                  current_data_id
+                                  &&
+                                  onQueryTable({
+                                    type:type,
+                                    id:current_data_id[1]
+                                  },"delete")
+                                }}>
                                 <img src={white_delete_icon} alt="delete_icon" />
                               </button>
                               

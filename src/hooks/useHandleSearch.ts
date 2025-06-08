@@ -6,7 +6,8 @@ import useHandlePath from "./useHandlePath"
 
 interface SearchStateProps {
   inputValue:string,
-  selectValue:string | number
+  selectValue:string | number,
+  isSearch:boolean
 }
 
 type SearchActionProps = 
@@ -19,6 +20,11 @@ type SearchActionProps =
   type:"select",
   value:string | number
 }
+|
+{
+type:"search",
+  value:boolean
+} 
 |
 {
   type:"inputSelect",
@@ -35,10 +41,13 @@ type SearchActionProps =
         return {...state,inputValue:action.value};
       case "select":
         return {...state,selectValue:action.value};
+      case "search":
+        return {...state,isSearch:action.value}
       case "inputSelect":
         return {...state,...{
           inputValue:action.value.inputValue,
-          selectValue:action.value.selectValue
+          selectValue:action.value.selectValue,
+          
         }};
       default:
         return state;
@@ -58,9 +67,46 @@ const useHandleSearch = (suggestion?:{
 
     const initialSearchState:SearchStateProps = {
       inputValue:"",
-      selectValue:currentSearchContext.searchContextState.filter
+      selectValue:currentSearchContext.searchContextState.filter,
+      isSearch:false
     }
     const [searchState,setSearchState] = useReducer(onHandleSearchState,initialSearchState);
+
+      useEffect(()=>{
+        !!currentSearchContext.searchContextState.isSearch
+        &&
+        currentSearchContext.searchContextState.filter !== "todos"
+        &&
+        (()=>{
+          console.log(currentSearchContext.searchContextState.currentValue)
+
+          onAxiosQuery("get",{
+            url:"http://localhost:3300/book/get/search?value="
+            +currentSearchContext.searchContextState.currentValue+"&filter="
+            +currentSearchContext.searchContextState.filter,
+            type:{get:{}},
+            onResolver:{
+              then(result) {
+                console.log(result)
+              },
+              catch(error) {
+                console.log(error)
+              },
+            }
+          })
+
+          currentSearchContext.setSearchContextState({
+            type:"search",
+            value:false
+          })
+
+          
+
+        })()
+        
+      },[currentSearchContext.searchContextState.isSearch])
+
+    
 
       useEffect(()=>{
         currentSearchContext.onResetSearch();
@@ -90,8 +136,22 @@ const useHandleSearch = (suggestion?:{
           })
       },[currentSearchContext.searchContextState.filter])
       
-
+      const onSearch = ()=>{
+        alert("procurar por "+searchState.inputValue+" com filtro "+searchState.selectValue)
+      }
       
+      useEffect(()=>{ 
+
+        !!searchState.isSearch
+        &&
+        !!searchState.inputValue
+        &&
+        !!searchState.selectValue
+        &&
+        console.log("AAA")
+
+      },[searchState])
+
   useEffect(()=>{
 
     !!suggestion
@@ -139,7 +199,8 @@ const useHandleSearch = (suggestion?:{
         currentSearchContext,
         searchState,
         setSearchState,
-        suggestionState
+        suggestionState,
+        onSearch
     }
 
 

@@ -186,7 +186,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
   },[formState.success])
 
   console.log(formSchema.shape)
-
+  console.warn(errors)
   return (
     <form>
 
@@ -224,7 +224,22 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                 //   (item_input.forForm.put || item_input.forForm.post))
                 // &&
               <label 
-              style={!method.put && item_input.forForm.put && !item_input.forForm.post ? {display:"none"} : {}}
+              style={
+                !method.put
+                && 
+                (item_input.forForm.put 
+                && 
+                !item_input.forForm.post )
+                ||
+                (
+                  method.post
+                  &&
+                  !item_input.forForm.post
+                  
+                )
+                ? {display:"none"} 
+                : {}
+              }
               htmlFor={item_input!.id} key={index_input}>
                 <div className="titleFieldContainer">
                   <p>
@@ -251,6 +266,10 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                        !(item_input.forForm.post === method.post
                       || 
                       item_input.forForm.put === method.put)
+                      ||
+                      (!item_input.forForm.post
+                      && 
+                      !item_input.forForm.put)
                     }
                       defaultValue={teste && teste[item_input!.registerId]}
                      placeholder={` `}
@@ -296,6 +315,10 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                        !(item_input.forForm.post === method.post
                       || 
                       item_input.forForm.put === method.put)
+                      ||
+                      (!item_input.forForm.post
+                      && 
+                      !item_input.forForm.put)
                       }
                      {...field}
                      format={item_input?.maskFormat || ""}
@@ -317,6 +340,10 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                        !(item_input.forForm.post === method.post
                       || 
                       item_input.forForm.put === method.put)
+                      ||
+                      (!item_input.forForm.post
+                      && 
+                      !item_input.forForm.put)
                       }
                      {...field}
                      prefix={item_input.numericFormat?.prefix || ""}
@@ -336,6 +363,10 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                        !(item_input.forForm.post === method.post
                       || 
                       item_input.forForm.put === method.put)
+                      ||
+                      (!item_input.forForm.post
+                      && 
+                      !item_input.forForm.put)
                     }
                     defaultValue={teste && teste[item_input!.registerId]}
                     type={item_input!.type}
@@ -344,12 +375,17 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                     : item_input!.tag === "textarea"
                     &&
                     <textarea
+                    defaultValue={teste && teste[item_input!.registerId]}
                     disabled={
                       ( method.put && !isUpdate)
                       ||
                        !(item_input.forForm.post === method.post
                       || 
                       item_input.forForm.put === method.put)
+                      ||
+                      (!item_input.forForm.post
+                      && 
+                      !item_input.forForm.put)
                     }
                    id={item_input!.id} 
                   {...register(item_input!.registerId as Path<SchemaType>)}>

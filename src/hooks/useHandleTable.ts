@@ -57,6 +57,25 @@ const useHandleTable = ()=>{
             },cancelToken)
     }
 
+     const onSetTableStructure = (data:any)=>{
+        let headers = Object.entries(data[0]);
+        setTableData({
+          headerList:headers.map((item,index)=>{
+            console.log(item)
+              return headers[index][0]
+               }).filter((item)=>
+                 item !== "id" 
+                 && item !== "fk_id_biblioteca"
+                 && item !== "fk_id_usuario"
+               ),
+            dataList:data.map((item:TableQueryProps)=>{
+               return  Object.entries(item)
+              })
+           }
+
+           )
+        }
+
     const onQueryTable = (
         table:{
             type:TableType,
@@ -74,26 +93,6 @@ const useHandleTable = ()=>{
         //delete precisa do tipo de tabela e id {retorna confirmação}()
         type:QueryType,
         cancelToken?:CancelToken)=>{
-
-            const onSetTableStructure = (data:any)=>{
-                let headers = Object.entries(data[0]);
-                        setTableData({
-                                headerList:headers.map((item,index)=>{
-                                    console.log(item)
-                                    return headers[index][0]
-                                }).filter((item)=>
-                                    item !== "id" 
-                                    && item !== "fk_id_biblioteca"
-                                    && item !== "fk_id_usuario"
-                                ),
-                                dataList:data.map((item:TableQueryProps)=>{
-                                    return  Object.entries(item)
-                                })
-                            }
-
-                        )
-            }
-
             let onThen:((data:AxiosResponse)=>void) = ()=>{}
             const checkQueryType = {
                 create:()=>{
@@ -169,7 +168,20 @@ const useHandleTable = ()=>{
                 },
                 delete:()=>{
                     table.id && (
-                        console.log()
+                        onAxiosQuery("delete",{
+                            url:tableRoutes[table.type].delete+"?id="+table.id,
+                            type:{},
+                            onResolver:{
+                                then(result) {
+                                    const {data} = result;
+                                    onSetTableStructure(data)
+                                        
+                                },
+                                catch(error) {
+                                    console.log(error)
+                                },
+                                }
+                        })
                     )
                 }
             }
@@ -189,11 +201,14 @@ const useHandleTable = ()=>{
         return tableResult?.dependencies || []
     }
 
+
+
     return {
         tableData,
         setTableData,
         table,
         onQueryTable,
+        onSetTableStructure,
         onQueryCountTable,
         onQueryTableList,
         onQueryTableListPath,

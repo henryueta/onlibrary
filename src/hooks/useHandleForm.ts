@@ -12,12 +12,16 @@ import {
      TableType, 
      tableRoutes,
      onFindTablePath,
+     AmerceTableQueryProps,
+     AuthorTableQueryProps,
+     ReserveTableQueryProps,
      } from "../objects/table.object";
 import useHandleLibrary from "./useHandleLibrary";
 import Word from "../classes/word.class";
 import axios, { CancelToken } from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import useHandleTable from "./useHandleTable";
 
 
 type FormStateProps = QueryStateProps;
@@ -243,12 +247,18 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                         )
                     },
                     reserve:()=>{
+                        const reserve_data = form.data as ReserveTableQueryProps
                         return (
                             {
-                                url:"",
+                                url:tableRoutes['reserve'].post,
                                 data:{
                                     post:{
-
+                                        fk_id_biblioteca:currentLibraryContext.libraryId,
+                                        fk_id_usuario:reserve_data.usuarios_biblioteca,
+                                        fk_id_bibliotecario:null,
+                                        fk_id_livro:reserve_data.livros_biblioteca,
+                                        tipo:"fisico",
+                                        quantidade_total:reserve_data.quantidade_total
                                     },
                                     put:{}
                                 }
@@ -256,12 +266,20 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                         )
                     },
                     amerce:()=>{
+                        const amerce_data = form.data as AmerceTableQueryProps;
                         return (
                             {
-                                url:"",
+                                url:tableRoutes['amerce'].post,
                                 data:{
-                                    post:{},
-                                    put:{}
+                                    post:{
+                                        fk_id_usuario:amerce_data.usuarios_biblioteca,
+                                        fk_id_bibliotecario:current_userId.user_id,
+                                        fk_id_biblioteca:currentLibraryContext.libraryId,
+                                        motivo:amerce_data.motivo
+                                    },
+                                    put:{
+
+                                    }
                                 }
                             }
                         )
@@ -281,18 +299,25 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                                     setor:exemplaryData.setor,
                                     fk_id_biblioteca:libraryId
                                  },
-                                 put:{}
+                                 put:{
+                                    
+                                 }
                               }
                             }
                         )
                     },
                     author:()=>{
+                        const author_data = form.data as AuthorTableQueryProps;
                         return (
                             {
-                                url:"",
+                                url:tableRoutes['author'].post,
                                 data:{
-                                    post:{},
-                                    put:{}
+                                    post:{
+                                        nome:author_data.nome
+                                    },
+                                    put:{
+                                        nome:author_data.nome
+                                    }
                                 }
                             }
                         )
@@ -413,8 +438,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
               })()
                })()
             },
-            update:()=>{
-                console.log(form.data)
+            update:()=>{                
                 onAxiosQuery("put",{
                     url:tableRoutes[form.type as TableType].put+"/"+form.id,
                     type:{
@@ -440,7 +464,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
 
             },
             delete:()=>{
-
+               
             }
 
         }

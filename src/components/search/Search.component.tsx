@@ -145,10 +145,11 @@ const Search = ({filter,quantity,hasSearchButton,suggestion,onSearch,onChange} :
             &&
             (()=>{
               currentSearchContext.setSearchContextState({
-              type:"currentValueFilter",
+              type:"currentValueFilterSearch",
               value:{
                 currentValue: searchState.inputValue,
-                filter:searchState.selectValue
+                filter:searchState.selectValue,
+                isSearch:true
               }
             })
              onSearch(searchState.inputValue,quantity,searchState.selectValue) 

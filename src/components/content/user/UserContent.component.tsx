@@ -6,11 +6,15 @@ import TitleDescription from "../../title_description/TitleDescription.component
 import Word from "../../../classes/word.class";
 import userLogged_icon from "../../../assets/imgs/icons/userStep_icon.png"
 import HeaderTitle from "../../header_title/HeaderTitle.component";
+import useHandleForm from "../../../hooks/useHandleForm";
+import useHandleLibrary from "../../../hooks/useHandleLibrary";
 
 const UserContent = ({id}:{id:string}) => {
 
     const {onAxiosQuery} = useAxios();
-
+    const {onQueryForm,formState} = useHandleForm("user");
+    const {currentLibraryContext} = useHandleLibrary();
+    
     useEffect(()=>{
   
       onAxiosQuery("get",{
@@ -37,6 +41,7 @@ const UserContent = ({id}:{id:string}) => {
 
     const [userContent,setUserContent] = useState<UserTableQueryProps | null>(null);
     const [isUserUpdate,setIsUserUpdate] = useState<boolean>(false);
+    
 
   return (
     <section className="userAccountDataSection">
@@ -46,9 +51,21 @@ const UserContent = ({id}:{id:string}) => {
             title="Conta"
             />
             <div className="dataOptionsContainer">
-                <button>
-
-                </button>
+                {
+                    !!isUserUpdate
+                    &&
+                    <button
+                    onClick={()=>{
+                        onQueryForm(currentLibraryContext.libraryId || "",{
+                            type:"user",
+                            id:id
+                        },"update")
+                    }}
+                    className="acceptButton"
+                    >
+                        Salvar alterações
+                    </button>
+                }
                 <button
                 className={
                     !!isUserUpdate
@@ -64,15 +81,6 @@ const UserContent = ({id}:{id:string}) => {
                         : "Editar"
                     }
                  </button>
-                {
-                    !!isUserUpdate
-                    &&
-                    <button
-                    className="acceptButton"
-                    >
-                        Salvar alterações
-                    </button>
-                }
             </div>
         </section>
         <section className="dataContentSection">
