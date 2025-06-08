@@ -75,6 +75,19 @@
     gap: 2rem;
 }
 
+.reserveSubmitContainer>button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.reserveSubmitContainer>button>div{
+    height: 20px;
+    width: 20px;
+    border: 0.2rem solid;
+     border-style: outset;
+}
 
 .libraryReserveInfoContainer{
     display: flex;

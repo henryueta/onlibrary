@@ -249,18 +249,17 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
             })
                 .catch((error)=>{
                     console.log(error)
-                    // const current_error = error.response?.data as QueryErrorProps
-                    // console.log(error.response.data)
-                    // setQueryState({
-                    //     type:"error",
-                    //     value:{
-                    //         error:current_error.error,
-                    //         message:current_error.message,
-                    //         status:current_error.status,
-                    //         data:error.response.data
-                    //     }
-                    // })
-                    //"{"exemplares":["569b63bf-218f-424c-bcb4-ecc368192dcd","e0b27ddd-e3d4-42ac-9b9a-38d21ef7656d"],"fk_id_biblioteca":"68e6de0d-16ab-4841-af45-9a786a531b8e","fk_id_usuario_biblioteca":"005b07ac-8e33-4658-9f30-c913c87b8718","fk_id_bibliotecario":"b011be5e-4d07-4052-9763-6a6fb76e085a","situacao":"pendente"}"
+                    const current_error = error.response?.data as QueryErrorProps
+                    console.log(error.response.data)
+                    setQueryState({
+                        type:"error",
+                        value:{
+                            error:current_error.error,
+                            message:current_error.message,
+                            status:current_error.status,
+                            data:""
+                        }
+                    })
                     const axiosError = error as AxiosError
                     query.onResolver.catch(axiosError)
 

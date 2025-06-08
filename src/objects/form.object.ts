@@ -909,17 +909,6 @@ const form:FormObjectProps = {
                     registerId:"cep"
                 },
                 {
-                    id:"neighborhoodAdress_id",
-                    forForm:{
-                        post:true,
-                        put:true
-                    },
-                    tag:"input",
-                    type:"text",
-                    title:"Bairro",
-                    registerId:"bairro"
-                },
-                {
                     id:"reserveOption_id",
                     forForm:{
                         post:true,

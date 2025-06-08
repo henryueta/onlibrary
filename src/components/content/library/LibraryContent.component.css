@@ -8,6 +8,18 @@
     height: 100dvh;
 }
 
+.libraryContentDataSection .headerSection{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+
+.libraryContentDataSection .headerSection button{
+    
+}
+
 .libraryContentDataSection .dataSection{
     width: 100%;
 }
@@ -17,6 +29,8 @@
     display: flex;
     gap: 1rem;
 }
+
+
 
 .libraryContentDataSection .dataSection .dataContentContainer>div{
     border: 0.1rem solid var(--grayLine_var);
@@ -54,3 +68,4 @@
     justify-content: center;
     padding: 1rem;
 }
+

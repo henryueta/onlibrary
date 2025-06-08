@@ -212,9 +212,6 @@ const schema = {
           cep:z.string().refine((val)=>val.trim().length > 0,{
             message:"Campo cep inválido"
           }),
-          bairro:z.string().refine((val)=>val.trim().length > 0,{
-            message:"Campo bairro inválido"
-          }),
           reserva_online:z.boolean(),
           aplicacao_multa:z.boolean(),
           aplicacao_bloqueio:z.boolean()

@@ -1,7 +1,8 @@
-import { useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { BookLibrariesProps } from "./useHandleBook";
-import useAxios from "./useAxios";
-import { ExemplaryTableQueryProps } from "../objects/table.object";
+import useAxios, { QueryStateProps } from "./useAxios";
+import { ExemplaryTableQueryProps, tableRoutes } from "../objects/table.object";
+import useHandleAuth from "./usehandleAuth";
 
 
   interface OnlineReserveStateProps {
@@ -46,7 +47,22 @@ const useHandleOnlineReserve = ()=>{
 
     
       const [onlineReserveState,setOnlineReserveState] = useReducer(handleOnlineReserveState,initialOnlineReserveState);
-      const {onAxiosQuery} = useAxios();
+      const {onAxiosQuery,queryState} = useAxios();
+      const {authContext} = useHandleAuth();
+      
+      const [reserveQueryState,setReserveQueryState] = useState<QueryStateProps>(queryState);
+
+      useEffect(()=>{
+
+        setReserveQueryState(queryState)
+
+      },[queryState])
+
+      useEffect(()=>{
+
+        console.log(reserveQueryState)
+
+      },[reserveQueryState])
 
     const onGetLibraryData = (library_data:object,id:string)=>{
         const current_libraryData = library_data as BookLibrariesProps
@@ -79,19 +95,43 @@ const useHandleOnlineReserve = ()=>{
          })
     }
 
-    const onOnlineReserve = (book:{
+    const onOnlineReserve = (library_id:string,book:{
         id:string,
         exemplary_quantity:number
     })=>{
 
-        
+        onAxiosQuery("post",{
+          url:tableRoutes['reserve'].put,
+          type:{
+            post:{
+              data:{
+                fk_id_biblioteca:library_id,
+                fk_id_usuario:authContext.userId,
+                fk_id_bibliotecario:null,
+                fk_id_livro:book.id,
+                tipo:"online",
+                quantidade_total:book.exemplary_quantity
+              }
+            }
+          },
+          onResolver:{
+            then(result) {
+              console.log(result)
+            },
+            catch(error) {
+              console.log(error)
+            },
+          }
+
+        })
 
     }
 
     return {
         onlineReserveState,
         onGetLibraryData,
-        onOnlineReserve
+        onOnlineReserve,
+        reserveQueryState
     }
 
 }

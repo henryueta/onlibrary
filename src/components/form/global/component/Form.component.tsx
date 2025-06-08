@@ -9,12 +9,10 @@ import Warn from "../../../warn/Warn.component";
 import Select, { MultiValue, SingleValue } from "react-select"
 import useHandleForm from "../../../../hooks/useHandleForm";
 import useHandleLibrary from "../../../../hooks/useHandleLibrary";
-import Dialog from "../../../dialog/Dialog.component";
-import validated_icon from "../../../../assets/imgs/icons/small_validated_icon.webp";
-import warning_icon from "../../../../assets/imgs/icons/small_warning_icon.webp";
 import { useParams } from "react-router-dom";
 import Spinner from "../../../spinner/Spinner.component";
 import cube_icon from "../../../../assets/imgs/icons/black_cubeTable_icon.png"
+import ServerMessage from "../../../message/ServerMessage.component";
 
 interface FormProps{
   formSchema:z.ZodObject<ZodRawShape>
@@ -421,53 +419,33 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
         }
         {
            !!formQueryState.isSuccessView
-          && <Dialog
-          title={
-            <div>
-              <img src={validated_icon} alt="success_icon" />
-             {formState.success.message}
-            </div>
-          }
-          closeOnExternalClick={true}
-          closeClass="closeDialog"
-           close={{
-            timer:900,
-            closeButton:false,
-            onClose:()=>{
+          && <ServerMessage
+          message={formState.success.message}
+          type="success"
+          onClose={
+            ()=>{
               setFormQueryState({
                 type:"success",
                 value:false
               })
-         
+            }
           }
-           }}>
-              <></>
-          </Dialog>
+          />
         }
         {
           !!formQueryState.isErrorView
-          && <Dialog
-          title={
-            <div>
-              <img src={warning_icon} alt="error_icon" />
-              {formState.error.message}
-            </div>
-            }
-          closeOnExternalClick={true}
-          closeClass  ="closeDialog"
-           close={{
-            timer:900,
-            closeButton:false,
-              onClose:()=>{
+          &&  <ServerMessage
+          message={formState.error.message}
+          type="error"
+          onClose={
+            ()=>{
               setFormQueryState({
                 type:"error",
                 value:false
               })
-      
+            }
           }
-           }}>
-            <></>
-          </Dialog>
+          />
         }
         {
           !!!buttonRef

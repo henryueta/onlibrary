@@ -197,7 +197,7 @@ body{
   color: var(--blackFont_var);
 }
 
-.managementSection  .dialogPane:not(#loadingDialog).closeDialog{
+/* .managementSection  .dialogPane:not(#loadingDialog).closeDialog{
     animation: 1s  fadeOut_dialog;
 }
 
@@ -226,7 +226,7 @@ body{
 .managementSection  .dialogPane:not(#loadingDialog) .dialogContentContainer{
     /* width: 100%;
     height: 90%;
-    padding: 1.3rem; */
+    padding: 1.3rem; 
 }
 
 .managementSection .dialogPane:not(#loadingDialog) .dialogHeaderContainer{
@@ -270,7 +270,7 @@ body{
     font-size: 1.15rem;
     position: relative;
     right: 0;
-}
+} */
 
 
 .tableManagementSection{

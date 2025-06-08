@@ -306,7 +306,10 @@ const BookPage = () => {
                               ?new Word(item[0],"name").word || ""
                               : item[0]
                             }
-                            description={item[1].toString()}
+                            description={
+                              typeof item[1] === "string"
+                              && item[1]
+                            }
                             />
                             )
                           })

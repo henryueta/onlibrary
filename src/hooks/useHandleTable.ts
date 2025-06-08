@@ -140,7 +140,10 @@ const useHandleTable = ()=>{
                         url:!table.id && !table.referenceText
                         ? `http://localhost:3300/tables/data?id_biblioteca=${currentLibraryContext.libraryId}&type=${table.type}`
                         : !table.id && !!table.referenceText
-                        ? tableRoutes[table.type].referenceText+"?value="+table.referenceText.value+"&filter="+table.referenceText.filter
+                        ? tableRoutes[table.type].referenceText
+                        +"?value="+table.referenceText.value
+                        +"&filter="+table.referenceText.filter
+                        +"&id_biblioteca="+currentLibraryContext.libraryId
                         : tableRoutes[table.type].getById+"?id_biblioteca="+currentLibraryContext.libraryId+"&id="+table.id,
                         // : "http://localhost:3300/library_user/get?id_biblioteca="+currentLibraryContext.libraryId+"&id="+table.id,
                         type:{

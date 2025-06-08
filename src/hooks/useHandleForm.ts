@@ -2,26 +2,25 @@ import { useEffect, useReducer, useState } from "react"
 import { BookAssociationProps, FormListProps, form as formObject, FormObjectProps, QueryType } from "../objects/form.object"
 import useAxios, { ActionQueryType, QueryStateProps } from "./useAxios";
 import {
-  BookTableQueryProps,
-  LoanTableQueryProps,
-  AccountTableQueryProps,
-  LibraryUserTableQueryProps,
-   LibraryTableQueryProps,
+    BookTableQueryProps,
+    LoanTableQueryProps,
+    AccountTableQueryProps,
+    LibraryUserTableQueryProps,
+    LibraryTableQueryProps,
     TableQueryProps,
     ExemplaryTableQueryProps,
-     TableType, 
-     tableRoutes,
-     onFindTablePath,
-     AmerceTableQueryProps,
-     AuthorTableQueryProps,
-     ReserveTableQueryProps,
-     } from "../objects/table.object";
+    TableType, 
+    tableRoutes,
+    onFindTablePath,
+    AmerceTableQueryProps,
+    AuthorTableQueryProps,
+    ReserveTableQueryProps,
+} from "../objects/table.object";
 import useHandleLibrary from "./useHandleLibrary";
 import Word from "../classes/word.class";
 import axios, { CancelToken } from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import useHandleTable from "./useHandleTable";
 
 
 type FormStateProps = QueryStateProps;
@@ -64,6 +63,7 @@ const useHandleForm = (typeOfForm:TableType)=>{
     const [form,setForm] = useState<FormObjectProps>(formObject);
     const {onAxiosQuery,queryState} = useAxios();
     const [formState,setFormState] = useReducer(onHandleFormState,initialFormState);
+
     const onNavigate = useNavigate();
 
     useEffect(()=>{

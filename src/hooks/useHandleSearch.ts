@@ -3,10 +3,15 @@ import { SearchContext } from "../context/SearchContext"
 import useAxios from "./useAxios"
 import useHandleSuggestion from "./useHandleSuggestion"
 import useHandlePath from "./useHandlePath"
+import useHandleLibrary from "./useHandleLibrary"
+
+
+type SearchResultProps = Record<'titulo'|'capa',string>
 
 interface SearchStateProps {
   inputValue:string,
   selectValue:string | number,
+  result:SearchResultProps[]
   isSearch:boolean
 }
 
@@ -27,6 +32,11 @@ type:"search",
 } 
 |
 {
+  type:"result",
+  value:SearchResultProps[]
+}
+|
+{
   type:"inputSelect",
   value:{
     inputValue:string,
@@ -42,7 +52,9 @@ type:"search",
       case "select":
         return {...state,selectValue:action.value};
       case "search":
-        return {...state,isSearch:action.value}
+        return {...state,isSearch:action.value};
+      case "result":
+        return {...state,result:action.value}
       case "inputSelect":
         return {...state,...{
           inputValue:action.value.inputValue,
@@ -61,13 +73,16 @@ const useHandleSearch = (suggestion?:{
 })=>{
 
     const {onAxiosQuery} = useAxios();
+    const {currentLibraryContext} = useHandleLibrary();
     const currentSearchContext = useContext(SearchContext)
     const {setSuggestionState,suggestionState} = useHandleSuggestion();
     const {currentPathContext} = useHandlePath();
+    
 
     const initialSearchState:SearchStateProps = {
       inputValue:"",
       selectValue:currentSearchContext.searchContextState.filter,
+      result:[],
       isSearch:false
     }
     const [searchState,setSearchState] = useReducer(onHandleSearchState,initialSearchState);
@@ -87,7 +102,12 @@ const useHandleSearch = (suggestion?:{
             type:{get:{}},
             onResolver:{
               then(result) {
+                const result_data = result.data as SearchResultProps[]
                 console.log(result)
+                setSearchState({
+                  type:"result",
+                  value:result_data
+                })
               },
               catch(error) {
                 console.log(error)

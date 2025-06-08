@@ -1,4 +1,12 @@
 
+.libraryFormSection form .titleContainer{
+    display: none;
+}
+
+.libraryFormSection hr{
+    display: none;
+}
+
 .libraryFormSection{
     border-top: 0.5rem solid var(--blue_var);
     padding:2rem;
@@ -86,6 +94,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: var(--blue_var);
+}
+
+.libraryFormSection>form>div:last-child>button:hover{
+    background-color: var(--selectedBlue_var);
 }
 
 .libraryFormSection>form>label:nth-child(7){

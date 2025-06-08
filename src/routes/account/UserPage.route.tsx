@@ -5,9 +5,10 @@ import useHandleAuth from "../../hooks/usehandleAuth";
 import { Link, useParams } from "react-router-dom";
 import OrderContent from "../../components/content/order/OrderContent.component";
 import LibraryContent from "../../components/content/library/LibraryContent.component";
+import useHandlePath from "../../hooks/useHandlePath";
 
 const NavUser = ()=>{
-
+  const {currentPathContext} = useHandlePath();
   return (
     <nav className="userNavBar">
       <div className="titleContainer">
@@ -16,18 +17,33 @@ const NavUser = ()=>{
           </h1>
       </div>
       <Link
+      style={
+        currentPathContext.pathName === "/user/info"
+        ? {color:"var(--blue_var)"}
+        : {}
+      }
       to={"/user/info"}
       replace
       >
         Conta
       </Link>
       <Link
+      style={
+        currentPathContext.pathName === "/user/orders"
+        ? {color:"var(--blue_var)"}
+        : {}
+      }
       to={"/user/orders"}
       replace
       >
         Pedidos e multas
       </Link>
       <Link
+      style={
+        currentPathContext.pathName === "/user/libraries"
+        ? {color:"var(--blue_var)"}
+        : {}
+      }
       to={"/user/libraries"}
       replace
       >

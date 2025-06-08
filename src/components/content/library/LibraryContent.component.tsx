@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import "./LibraryContent.component.css"
 import useHandleLibrary, { LibraryProps } from "../../../hooks/useHandleLibrary";
 import HeaderTitle from "../../header_title/HeaderTitle.component"
-import libraryOpenned_icon from "../../../assets/imgs/icons/libraryOpenned_icon.webp"
 import { useNavigate } from "react-router-dom";
-import Load from "../../load/Load.component";
 import Spinner from "../../spinner/Spinner.component";
 
 const LibraryContent = ({id}:{id:string}) => {
@@ -33,12 +31,19 @@ const LibraryContent = ({id}:{id:string}) => {
           <HeaderTitle
           title="Bibliotecas"
           />
+          <button className="acceptButton"
+          onClick={()=>{
+            onNavigate("/register/library")
+          }}>
+            Criar biblioteca
+          </button>
       </section>
       <section className="dataSection">
-        <HeaderTitle
+          <HeaderTitle
           title="Escolha sua biblioteca"
           hasHrLine
-          />
+          />      
+         
             {
               queryState.isLoading
               ? <div className="loadLibrariesContainer">

@@ -79,8 +79,6 @@ const TableManagement = ({type}:TableManagementProps) => {
               &&
               !!filter 
               &&
-              !!searchOfData?.length
-              && 
               onQueryTable({
                 type:type,
                 referenceText:{

@@ -9,12 +9,14 @@ import useImageResizer from "../../hooks/useImageResizer";
 import TitleDescription from "../../components/title_description/TitleDescription.component";
 import HeaderTitle from "../../components/header_title/HeaderTitle.component";
 import useHandleOnlineReserve from "../../hooks/useHandleOnlineReserve";
+import Spinner from "../../components/spinner/Spinner.component";
+import ServerMessage from "../../components/message/ServerMessage.component";
 
 const OnlineReserve = () => {
 
     const {id} = useParams();
     const {bookState} = useHandleBook(!!id ? id : '' ,{width:156,height:250});
-    const {onlineReserveState,onGetLibraryData} = useHandleOnlineReserve();
+    const {onlineReserveState,onGetLibraryData,onOnlineReserve,reserveQueryState} = useHandleOnlineReserve();
     const [reserveExemplaryQuantity,setReserveExemplaryQuantity] = useState<number>(1);
     const {authContext} = useHandleAuth();
     const onNavigate = useNavigate();
@@ -116,7 +118,33 @@ const OnlineReserve = () => {
                 </button>
               </div>
               <div className="reserveSubmitContainer">                  
-                <button className="acceptButton">
+                <button
+                onClick={()=>{
+                  
+                  !!authContext.userId
+                  ?
+                  !!id?.length
+                  &&
+                  !!onlineReserveState.libraryData?.fk_id_biblioteca
+                  ?
+                  onOnlineReserve(
+                  onlineReserveState.libraryData.fk_id_biblioteca,
+                  { 
+                    id:id,
+                    exemplary_quantity:reserveExemplaryQuantity,
+
+                  })
+                  : alert("sem biblioteca")
+                  : alert("sem id")
+
+                }}
+                className="acceptButton">
+                  {
+                    reserveQueryState.isLoading
+                    &&
+                    onlineReserveState.exemplaryQuantity
+                    && <Spinner/>
+                  }
                     Finalizar reserva
                 </button>
               </div>
@@ -182,6 +210,15 @@ const OnlineReserve = () => {
           </div>
       </section>     
     </section>
+    {
+      reserveQueryState.error.message
+      &&
+      <ServerMessage
+      message={reserveQueryState.error.message}
+      onClose={()=>{}}
+      type="error"
+      />
+    }
     </>
   )
 }

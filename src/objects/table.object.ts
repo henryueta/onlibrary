@@ -121,8 +121,16 @@ const onFindTitleIndex = (title:TableTitleType)=>{
 }
 
 const tableRoutes = {
+  library:{
+    getById:"http://localhost:3300/library/get/dependencies",
+    post:"",
+    put:"",
+    delete:"",
+    referenceText:"",
+    graphic:""
+  },
   user:{
-    getById:"",
+    getById:"http://localhost:3300/user/get/dependencies",
     post:"",
     put:"",
     delete:"",
@@ -150,6 +158,14 @@ const tableRoutes = {
     getById:"http://localhost:3300/amerce/get/dependencies",
     post:"https://onlibrary-api.onrender.com/api/multa/criar-multa",
     put:"https://onlibrary-api.onrender.com/api/atualizar-multa",
+    delete:"",
+    referenceText:"",
+    graphic:""
+  },
+  online_reserve:{
+    getById:"http://localhost:3300/reserve/get/dependencies",
+    post:"https://onlibrary-api.onrender.com/api/reserva/criar-reserva",
+    put:"https://onlibrary-api.onrender.com/api/reserva/atualiza-reserva",
     delete:"",
     referenceText:"",
     graphic:""
@@ -219,7 +235,7 @@ const tableRoutes = {
 const tableTypeDataList:TableTypeProps[] = [
   {
     type:"library",
-    title:"",
+    title:"Biblioteca",
     quantity:0,
     warning:false,
     operations:{
@@ -273,10 +289,10 @@ const tableTypeDataList:TableTypeProps[] = [
         dependencies:
             [
                 tableTitleList[onFindTitleIndex("Exemplar")],
-                tableTitleList[onFindTitleIndex("Autor")],
-                tableTitleList[onFindTitleIndex("Editora")],
-                tableTitleList[onFindTitleIndex("Categoria")],
-                tableTitleList[onFindTitleIndex("Gênero")]
+                // tableTitleList[onFindTitleIndex("Autor")],
+                // tableTitleList[onFindTitleIndex("Editora")],
+                // tableTitleList[onFindTitleIndex("Categoria")],
+                // tableTitleList[onFindTitleIndex("Gênero")]
             ]
     },
     {

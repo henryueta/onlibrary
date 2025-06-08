@@ -76,8 +76,6 @@ const Search = ({filter,quantity,hasSearchButton,suggestion,onSearch,onChange} :
 
     !hasSearchButton
     &&
-    !!searchState.inputValue.length
-    &&
     (()=>{
       setSearchLoadState({
         type:"load",

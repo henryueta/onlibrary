@@ -40,7 +40,7 @@ const SearchPage = () => {
 
 
     const {value,filter} = useParams();
-    const {currentSearchContext,onSearch} = useHandleSearch();
+    const {currentSearchContext,onSearch,searchState} = useHandleSearch();
 
     const [dataFilter,setDataFilter] = useState<string>(
         !!filter?.length
@@ -130,81 +130,27 @@ useEffect(()=>{
                     hasHrLine
                     />
                     <div className="resultQuantityContainer">
-                        <p>{"0 resultados"}</p>
+                        <p>{`${searchState.result.length} resultados`}</p>
                     </div>
                     <div className="dataContainer">
-                    <BookCard
-                        id=""
-                        image={{
-                        height:400,
-                        width:250,
-                        url:"https://wtrxmsmkatrnenkhanra.supabase.co/storage/v1/object/public/onlibrarybucket/image/book/teste2%20(1).webp"
-                        }}
-                        title="aaa"
-                        />
-                        <BookCard
-                        id=""
-                        image={{
-                        height:400,
-                        width:250,
-                        url:"https://wtrxmsmkatrnenkhanra.supabase.co/storage/v1/object/public/onlibrarybucket/image/book/teste2%20(1).webp"
-                        }}
-                        title="aaa"
-                        />
-                        <BookCard
-                        id=""
-                        image={{
-                        height:400,
-                        width:250,
-                        url:"https://wtrxmsmkatrnenkhanra.supabase.co/storage/v1/object/public/onlibrarybucket/image/book/teste2%20(1).webp"
-                        }}
-                        title="aaa"
-                        />
-                        <BookCard
-                        id=""
-                        image={{
-                        height:400,
-                        width:250,
-                        url:"https://wtrxmsmkatrnenkhanra.supabase.co/storage/v1/object/public/onlibrarybucket/image/book/teste2%20(1).webp"
-                        }}
-                        title="aaa"
-                        />
-                        <BookCard
-                        id=""
-                        image={{
-                        height:400,
-                        width:250,
-                        url:"https://wtrxmsmkatrnenkhanra.supabase.co/storage/v1/object/public/onlibrarybucket/image/book/teste2%20(1).webp"
-                        }}
-                        title="aaa"
-                        />
-                        <BookCard
-                        id=""
-                        image={{
-                        height:400,
-                        width:250,
-                        url:"https://wtrxmsmkatrnenkhanra.supabase.co/storage/v1/object/public/onlibrarybucket/image/book/teste2%20(1).webp"
-                        }}
-                        title="aaa"
-                        />
-                        <BookCard
-                        id=""
-                        image={{
-                        height:400,
-                        width:250,
-                        url:"https://wtrxmsmkatrnenkhanra.supabase.co/storage/v1/object/public/onlibrarybucket/image/book/teste2%20(1).webp"
-                        }}
-                        title="aaa"
-                        />
-                        <BookCard
-                        id=""
-                        image={{
-                        height:400,
-                        width:250,
-                        url:"https://wtrxmsmkatrnenkhanra.supabase.co/storage/v1/object/public/onlibrarybucket/image/book/teste2%20(1).webp"
-                        }}
-                        title="aaa"
-                        />
+                        {
+                            !!searchState.result
+                            &&
+                            searchState.result.map((item,index)=>
+                                <BookCard
+                                    id=""
+                                    key={index}
+                                    image={{
+                                    height:400,
+                                    width:250,
+                                    url:item.capa
+                                    }}
+                                    title={item.titulo}
+                                />
+                            )
+                        }
+                    
+                        
                     </div>
                 </div>  
             </section>

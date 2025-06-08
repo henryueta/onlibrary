@@ -1,7 +1,7 @@
 import "./UserContent.component.css"
 import { useEffect, useState } from "react";
 import useAxios from "../../../hooks/useAxios";
-import { UserTableQueryProps } from "../../../objects/table.object";
+import { tableRoutes, UserTableQueryProps } from "../../../objects/table.object";
 import TitleDescription from "../../title_description/TitleDescription.component";
 import Word from "../../../classes/word.class";
 import userLogged_icon from "../../../assets/imgs/icons/userStep_icon.png"
@@ -12,13 +12,15 @@ import useHandleLibrary from "../../../hooks/useHandleLibrary";
 const UserContent = ({id}:{id:string}) => {
 
     const {onAxiosQuery} = useAxios();
-    const {onQueryForm,formState} = useHandleForm("user");
+    const {onQueryForm} = useHandleForm("user");
     const {currentLibraryContext} = useHandleLibrary();
-    
+
     useEffect(()=>{
-  
+        
+        
+
       onAxiosQuery("get",{
-        url:"http://localhost:3300/user/get?id="+id,
+        url:tableRoutes['user'].getById+"?id="+id,
         type:{
           get:{
   
