@@ -153,7 +153,7 @@ useEffect(()=>{
                                     image={{
                                     height:400,
                                     width:250,
-                                    url:item.capa
+                                    url:item.imagem
                                     }}
                                     title={item.titulo}
                                 />

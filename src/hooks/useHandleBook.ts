@@ -70,7 +70,7 @@ const [bookState,setBookState] = useReducer(handleBookState,initialBookState);
     !!bookState.data
     &&
     getImage({
-      url:bookState.data.capa,
+      url:bookState.data.imagem,
       mimetype:"image/webp",
       name:"bookImage.webp",
       resize:{
@@ -140,7 +140,7 @@ const {onAxiosQuery} = useAxios()
     //   setBookCape(bookData?.capa)
       setBookState({
         type:"cape",
-        value:bookState.data?.capa
+        value:bookState.data.imagem
       })
       
     },[bookState.data])

@@ -37,7 +37,6 @@ const UserContent = ({id}:{id:string}) => {
     },[id])
 
     const [userContent,setUserContent] = useState<UserTableQueryProps | null>(null);
-    const [isUserUpdate,setIsUserUpdate] = useState<boolean>(false);
 
   return (
     <section className="userAccountDataSection">
@@ -46,6 +45,17 @@ const UserContent = ({id}:{id:string}) => {
             hasHrLine = {false}
             title="Conta"
             />
+            <div className="dataOptionsContainer">
+                <button 
+                style={{border:"0.1rem solid red",color:"red",fontWeight:"bold"}}
+                 className="cancelButton"
+                 onClick={()=>{
+                    
+                 }}
+                 >
+                    Deletar Conta
+                </button>
+            </div>
             {/* <div className="dataOptionsContainer">
                 {
                     !!isUserUpdate

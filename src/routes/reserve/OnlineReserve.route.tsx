@@ -29,7 +29,7 @@ const OnlineReserve = () => {
     !!bookState.data
     &&
     getImage({
-    url:bookState.data.capa,
+    url:bookState.data.imagem,
     mimetype:"image/webp",
     name:"bookImage.webp",
     resize:{
@@ -194,7 +194,7 @@ const OnlineReserve = () => {
                     !!bookState.libraries?.length
                     &&
                     <TableHome
-                    table={bookState.libraries}
+                    table={bookState.libraries.filter((library)=>library.reserva_online)}
                     filter={["telefone","fk_id_biblioteca","fk_id_livro","fk_id_livro","reserva_online","0"]}
                     onClick={(data)=>{
                       !!id?.length

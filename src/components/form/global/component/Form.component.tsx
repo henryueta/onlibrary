@@ -179,6 +179,9 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
         type:"submited",
         value:false
       })
+
+      setIsUpdate(false)
+
     })()
   },[formState.success])
 

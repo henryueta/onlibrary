@@ -125,7 +125,7 @@ const tableRoutes = {
     getById:"http://localhost:3300/library/get/dependencies",
     post:"",
     put:"https://onlibrary-api.onrender.com/api/biblioteca/atualizar-biblioteca",
-    delete:"",
+    delete:"https://onlibrary-api.onrender.com/api/auth/deletar",
     referenceText:"",
     graphic:""
   },
@@ -142,7 +142,7 @@ const tableRoutes = {
     getById:"http://localhost:3300/user/get/dependencies",
     post:"",
     put:"https://onlibrary-api.onrender.com/api/auth/atualizar-usuario",
-    delete:"",
+    delete:"https://onlibrary-api.onrender.com/api/auth/deletar",
     referenceText:"",
     graphic:""
   },
@@ -150,7 +150,7 @@ const tableRoutes = {
     getById:"http://localhost:3300/library_user/get/dependencies",
     post:"https://onlibrary-api.onrender.com/api/usuarioBiblioteca/criar-usuarioBiblioteca",
     put:"https://onlibrary-api.onrender.com/api/usuarioBiblioteca/atualizar-usuarioBiblioteca",
-    delete:"http://localhost:3300/library_user/delete",
+    delete:"https://onlibrary-api.onrender.com/api/usuarioBiblioteca/deletar",
     referenceText:"http://localhost:3300/library_user/get/search",
     graphic:""
   },
@@ -158,7 +158,7 @@ const tableRoutes = {
     getById:"http://localhost:3300/loan/get/dependencies",
     post:"https://onlibrary-api.onrender.com/api/emprestimo/criar-emprestimo",
     put:"https://onlibrary-api.onrender.com/api/emprestimo/atualizar-emprestimo",
-    delete:"",
+    delete:"https://onlibrary-api.onrender.com/api/emprestimo/deletar",
     referenceText:"http://localhost:3300/loan/get/search",
     graphic:""
     // "http://localhost:3300/loan/put",
@@ -166,8 +166,8 @@ const tableRoutes = {
   amerce:{
     getById:"http://localhost:3300/amerce/get/dependencies",
     post:"https://onlibrary-api.onrender.com/api/multa/criar-multa",
-    put:"https://onlibrary-api.onrender.com/api/atualizar-multa",
-    delete:"",
+    put:"https://onlibrary-api.onrender.com/api/multa/atualizar-multa",
+    delete:"https://onlibrary-api.onrender.com/api/multa/deletar",
     referenceText:"http://localhost:3300/amerce/get/search",
     graphic:""
   },
@@ -183,7 +183,7 @@ const tableRoutes = {
     getById:"http://localhost:3300/reserve/get/dependencies",
     post:"https://onlibrary-api.onrender.com/api/reserva/criar-reserva",
     put:"https://onlibrary-api.onrender.com/api/reserva/atualiza-reserva",
-    delete:"",
+    delete:"https://onlibrary-api.onrender.com/api/reserva/deletar",
     referenceText:"http://localhost:3300/reserve/get/search",
     graphic:""
   },
@@ -192,7 +192,7 @@ const tableRoutes = {
     post:"https://onlibrary-api.onrender.com/api/perfil/criar-perfil",
     //http://localhost:3300/account/post
     put:"https://onlibrary-api.onrender.com/api/perfil/atualizar-perfil",
-    delete:"",
+    delete:"https://onlibrary-api.onrender.com/api/perfil/deletar",
     referenceText:"http://localhost:3300/account/get/search",
     graphic:""
 
@@ -201,7 +201,7 @@ const tableRoutes = {
     getById:"http://localhost:3300/exemplary/get/dependencies",
     post:"https://onlibrary-api.onrender.com/api/exemplar/criar-exemplar",
     put:"https://onlibrary-api.onrender.com/api/exemplar/atualizar-exemplar",
-    delete:"",
+    delete:"https://onlibrary-api.onrender.com/api/exemplar/deletar",
     referenceText:"http://localhost:3300/exemplary/get/search",
     graphic:""
   },

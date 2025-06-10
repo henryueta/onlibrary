@@ -11,7 +11,7 @@ interface GraphicManagementProps {
 
 const GraphicManagement = ({}:GraphicManagementProps) => {
     
-    const {onDrawGraphic,graphicTable} = useHandleGraphic();
+    const {onDrawGraphic,graphicTable,graphicData} = useHandleGraphic();
     const [selectedButton,setSelectedButton] = useState<number>(0);
     const graphicTableManagementList:GraphicTableType[]= [
        {
@@ -65,7 +65,7 @@ const GraphicManagement = ({}:GraphicManagementProps) => {
             </div>
             <div className="graphicViewContainer">
                 <Graphic
-                data={[10,20,15,40]}
+                data={graphicData}
                 categories={['domingo','segunda','terça','quarta','quinta','sexta','sábado']}
                 title={`Total de ${graphicTable.title.toLowerCase().concat("s")} da semana`}
                 />

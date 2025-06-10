@@ -21,7 +21,12 @@ const NavLibrary = () => {
 
   return (
     <nav className="navLibrary">
-      <div className="logoContainer">
+      <div className="logoContainer"
+      onClick={()=>{
+        onNavigate("/",{
+          replace:true
+        })
+      }}>
         <img src={onlibrary_logo} alt="onlibrary_logo" />
       </div>
       <div className="libraryOptionsContainer">
@@ -37,7 +42,7 @@ const NavLibrary = () => {
           /> 
           <ListItem 
           title="Minha Biblioteca" 
-          onClick={()=>onNavigate("/management/library/data/update/library/"+"68e6de0d-16ab-4841-af45-9a786a531b8e")}
+          onClick={()=>onNavigate("/management/library/data/update/library/"+currentLibraryContext.libraryId)}
           icon={cubeTable_icon}/> 
           <li>
             <Details title="Gestão" icon={management_icon} list={[

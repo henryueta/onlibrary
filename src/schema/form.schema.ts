@@ -12,7 +12,7 @@ Rota para mostrar dados de tabelas com parametro url "tipo"(retorna JSON com str
 */
 
 const schema = {
-//.refine((val)=>val.match(/[0-9]{3}[-][0-9]{2}[-][0-9]{5}[-][0-9]{2}[-][0-9]{1}/),{
+//.refine((val)=>val.match(/[0-9]{3}[-][0-9]{}[-][0-9]{5}[-][0-9]{2}[-][0-9]{1}/),{
 //  message:"ISBN inválido"
 //})
 
@@ -170,7 +170,7 @@ const schema = {
             livros_biblioteca:z.string().min(1,{
                 message:"Campo livro inválido"
             }),
-            numero_tombo:z.string().refine((val)=>val.length > 0,{
+            numero_tombo:z.string().refine((val)=>val.length > 0 && val.length <= 12,{
                 message:"Campo identificador inválido"
             }),
             situacao:z.enum(['disponivel','indisponivel','reservado','emprestado']),

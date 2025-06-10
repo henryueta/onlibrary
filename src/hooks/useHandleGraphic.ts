@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import useAxios from "./useAxios"
-import Word from "../classes/word.class"
 
 export type GraphicTableType = 
 {
@@ -27,6 +26,20 @@ const useHandleGraphic = ()=>{
         type:"loan"
     });
     const [graphicData,setGraphicData] = useState<number[]>([]);
+
+    useEffect(()=>{
+
+        setGraphicData(()=>{
+            return graphicTable.type === "loan"
+            ? [10,20,15,40]
+            : graphicTable.type === "reserve"
+            ? [1,2,5,9]
+            : graphicTable.type === "amerce"
+            ? [1,5,10,22]
+            : []
+        })
+
+    },[graphicTable])
 
     const {onAxiosQuery} = useAxios();
 

@@ -138,9 +138,9 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                                     numero:current_data.numero,
                                     rua:current_data.rua,
                                     telefone:new Word(current_data.telefone,"telephone").word,
-                                    aplicacaoMulta:!!current_data.aplicacao_multa,
-                                    aplicacaoBloqueio:!!current_data.aplicacao_bloqueio,
-                                    reservaOnline:!!current_data.reserva_online
+                                    aplicacao_multa:current_data.aplicacao_multa,
+                                    aplicacao_bloqueio:current_data.aplicacao_bloqueio,
+                                    reserva_online:current_data.reserva_online
                                    },
                                    put:{
                                     nome:current_data.nome,
@@ -148,9 +148,9 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                                     numero:current_data.numero,
                                     rua:current_data.rua,
                                     telefone:new Word(current_data.telefone,"telephone").word,
-                                    aplicacaoMulta:!!current_data.aplicacao_multa,
-                                    aplicacaoBloqueio:!!current_data.aplicacao_bloqueio,
-                                    reservaOnline:!!current_data.reserva_online
+                                    aplicacao_multa:current_data.aplicacao_multa,
+                                    aplicacao_bloqueio:current_data.aplicacao_bloqueio,
+                                    reserva_online:current_data.reserva_online
                                    }
                                 }
                             }
@@ -504,7 +504,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                     hasFormData:(
                         form.type === "book"
                     ),
-                    url:tableRoutes[form.type as TableType].put+"/"+(
+                    url:tableRoutes[form.type].put+"/"+(
                         form.type !== "user"
                         ? form.id
                         : current_userId.user_id
@@ -516,7 +516,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                     },
                     onResolver:{
                         then(result) {
-                            console.log(result)
+                            console.error(result)
                             result.data &&
                             setTimeout(()=>{
                                 onNavigate(onFindTablePath(typeOfForm) || "",{
@@ -525,14 +525,14 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                             },1500)
                         },
                         catch(error) {
-                            console.log(error)
+                            console.error(error)
                         },
                     }
                 })
 
             },
             delete:()=>{
-               
+                
             }
 
         }

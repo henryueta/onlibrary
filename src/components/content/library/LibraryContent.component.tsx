@@ -67,7 +67,9 @@ const LibraryContent = ({id}:{id:string}) => {
                     nome:item.nome
                   })
                   setTimeout(()=>{
-                    onNavigate("/management/library")
+                    onNavigate("/management/library",{
+                      
+                    })
                   },500)
                 }
                     

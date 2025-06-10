@@ -172,16 +172,14 @@ const useHandleTable = ()=>{
                 delete:()=>{
                     table.id && (
                         onAxiosQuery("delete",{
-                            url:tableRoutes[table.type].delete+"?id="+table.id,
+                            url:tableRoutes[table.type].delete+"/"+table.id,
                             type:{},
                             onResolver:{
                                 then(result) {
-                                    const {data} = result;
-                                    onSetTableStructure(data)
-                                        
+                                    alert(result.data.message)
                                 },
                                 catch(error) {
-                                    console.log(error)
+                                    console.log(error.message)
                                 },
                                 }
                         })

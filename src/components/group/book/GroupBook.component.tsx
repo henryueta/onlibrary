@@ -9,7 +9,7 @@ interface GroupBookProps{
     category?:string,
 }
 
-type bookCardProps = Pick<BookTableQueryProps,'capa'|'titulo'|'id'>[];
+type bookCardProps = Pick<BookTableQueryProps,'imagem'|'titulo'|'id'>[];
 
 const GroupBook = ({
     title,
@@ -63,7 +63,7 @@ const GroupBook = ({
       url:"http://localhost:3300/book/list",
       type:{
         get:{
-
+          
         }
       },
       onResolver:{
@@ -90,7 +90,7 @@ const GroupBook = ({
                          
                         <BookCard 
                         image={{
-                          url:item.capa,
+                          url:item.imagem,
                           height:250,
                           width:156
                         }} 

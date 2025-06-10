@@ -7,7 +7,7 @@ import useHandleLibrary from "./useHandleLibrary"
 import axios from "axios"
 
 
-type SearchResultProps = Record<'titulo'|'capa'|'id',string>
+type SearchResultProps = Record<'titulo'|'imagem'|'id',string>
 
 interface SearchStateProps {
   inputValue:string,
