@@ -36,7 +36,7 @@ const UserAccount = () => {
                 }
             }
         )
-
+        console.log(authContext.userId)
     },[authContext.userId])
 
 
@@ -57,7 +57,7 @@ const UserAccount = () => {
                 onNavigate("/user/info");
             }}> 
                     <img src={userLogged_icon} alt="user_icon"/>
-                   Usuario
+                   {username}
                 </div>
                  
             }

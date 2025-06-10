@@ -179,7 +179,7 @@ const useHandleRegister = ()=>{
                 if(data){
                     const formated_name = new Word(data?.nome, "name").word;
                     const formated_lastName = new Word(data?.sobrenome,"name").word;
-                    const formated_cpf = new Word(data?.cpf,"cpf").word 
+                    const formated_cpf = new Word(data?.cpf,"numeric").word 
                    
                     authRegisterContext.setRegisterData({...authRegisterContext.registerData,
                             nome:formated_name,

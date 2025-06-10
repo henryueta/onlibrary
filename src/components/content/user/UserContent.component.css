@@ -5,6 +5,16 @@
     padding: 1rem 0rem 1rem 0rem;
 }   
 
+
+
+.userAccountDataSection form .submitFormDataContainer{
+    margin-top: 3rem;
+}
+
+.userAccountDataSection form label>div{
+    margin-top: 1rem;
+}
+
 .userAccountDataSection>.headerSection{
     display: flex;
     align-items: center;
@@ -16,8 +26,7 @@
 }
 .userAccountDataSection>.headerSection>.dataOptionsContainer>button{
     margin-right: 1rem;
-    /* display: flex;
-    gap: 1rem; */
+
 }
 
 .userAccountDataSection>.dataContentSection{
@@ -68,10 +77,12 @@
 
 .userAccountDataSection>.dataContentSection>.fullContentSection>div{
     margin-top: 0.5rem;
+
 }
 
 .userAccountDataSection>.dataContentSection>.fullContentSection>.headerContainer{
     display: flex;
+    
 }
 
 .userAccountDataSection>.dataContentSection>.fullContentSection .fullContentContainer{
@@ -79,12 +90,13 @@
     /* grid-template-columns: repeat(3,1fr); */
     flex-direction: column;
     gap: 3rem;
+
 }
 
-.dataContentSection>.fullContentSection .fullContentContainer div{
+.dataContentSection>.fullContentSection .fullContentContainer>form>div{
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    gap: 3rem;
+
 }
 
 .dataContentSection>.fullContentSection hr{

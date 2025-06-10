@@ -74,18 +74,21 @@ const TableManagement = ({type}:TableManagementProps) => {
       <div className="managementContainer">
             <Search
             onChange={(e)=>{setSearchOfData(e.target.value)}}
-            onSearch={(value,quantity,filter)=>{
+            onSearch={(value,quantity,filter,cancelToken)=>{
+              console.log(quantity)
               type != "none"
               &&
               !!filter 
               &&
+              // !!value.length
+              // &&
               onQueryTable({
                 type:type,
                 referenceText:{
                   value:value,
                   filter:filter
                 }
-              },"select")
+              },"select",cancelToken && cancelToken)
             }}
             filter={{
               defaultValue:{
@@ -215,7 +218,7 @@ const TableManagement = ({type}:TableManagementProps) => {
                                 <button className="deleteDataButton"
                                 onClick={()=>{
                                   let current_data_id:string | undefined;
-                                  current_data_id = (item.find((item_data,index_data)=>
+                                  current_data_id = (item.find((item_data)=>
                                     item_data[0] === 'id'
                                   ))
 

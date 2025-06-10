@@ -4,9 +4,10 @@ import useAxios from "./useAxios"
 import useHandleSuggestion from "./useHandleSuggestion"
 import useHandlePath from "./useHandlePath"
 import useHandleLibrary from "./useHandleLibrary"
+import axios from "axios"
 
 
-type SearchResultProps = Record<'titulo'|'capa',string>
+type SearchResultProps = Record<'titulo'|'capa'|'id',string>
 
 interface SearchStateProps {
   inputValue:string,
@@ -92,11 +93,13 @@ const useHandleSearch = (suggestion?:{
         &&
         currentSearchContext.searchContextState.filter !== "todos"
         &&
+        !!currentSearchContext.searchContextState.currentValue.length
+        &&
         (()=>{
           console.log(currentSearchContext.searchContextState.currentValue)
-
+              const source = axios.CancelToken.source();
           onAxiosQuery("get",{
-            url:"http://localhost:3300/book/get/search?value="
+            url:"http://localhost:3300/book/get/search/view?value="
             +currentSearchContext.searchContextState.currentValue+"&filter="
             +currentSearchContext.searchContextState.filter,
             type:{get:{}},
@@ -112,8 +115,9 @@ const useHandleSearch = (suggestion?:{
               catch(error) {
                 console.log(error)
               },
+              
             }
-          })
+          },source.token)
 
           currentSearchContext.setSearchContextState({
             type:"search",
@@ -157,7 +161,6 @@ const useHandleSearch = (suggestion?:{
       },[currentSearchContext.searchContextState.filter])
       
       const onSearch = ()=>{
-        alert("procurar por "+searchState.inputValue+" com filtro "+searchState.selectValue)
       }
       
       useEffect(()=>{ 

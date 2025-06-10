@@ -18,6 +18,7 @@ interface AuthContextProps{
     setUserStatus:React.Dispatch<React.SetStateAction<UserStatus | null>>
     user:UserProps | null,
     userId:string
+    onLogout:()=>void
 }
 
 const AuthContext = createContext({} as AuthContextProps);
@@ -30,6 +31,7 @@ const AuthProvider = ({children}:{children:React.ReactNode})=>{
     const [user,setUSer] = useState<UserProps | null>(null);
     const [userId,setUserId] = useState<string>("")
 
+
     useEffect(()=>{
         setUserId(
           (()=>{
@@ -40,18 +42,29 @@ const AuthProvider = ({children}:{children:React.ReactNode})=>{
       );
     },[Cookies.get("user_id")])
 
-    useEffect(()=>{
+    const onLogout = ()=>{
 
-    },[userId])
+        setUserId("")
+        setUserStatus({
+            authStatus:{
+                authValue:"",
+                hasAuth:false
+            },
+            errorStatus:{
+                errorValue:"",
+                hasError:false
+            }
+        })
+    }
 
-    useEffect(()=>{
-        userStatus !== null
-        ? setUSer(onHandleToken("KJK1").authResponse.data)
-        : setUSer(onHandleToken("").authResponse.data);
-    },[userStatus])
+    // useEffect(()=>{
+    //     userStatus !== null
+    //     ? setUSer(onHandleToken("KJK1").authResponse.data)
+    //     : setUSer(onHandleToken("").authResponse.data);
+    // },[userStatus])
 
 return (
-    <AuthContext.Provider value={{userStatus,setUserStatus,user,userId}}>
+    <AuthContext.Provider value={{userStatus,setUserStatus,user,userId,onLogout}}>
             {children}
     </AuthContext.Provider>
 )

@@ -19,6 +19,7 @@ export interface QuerySuccessProps {
 
 interface AxiosQueryProps<T extends object>{
     url:string
+    hasFormData?:boolean
     type:{
         get?:{
             id?:string,
@@ -150,9 +151,35 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
                })()
         },
         put:()=>{
+            // const formData = new FormData();
+            // for(let item in query.type.put?.data){
+            //     formData.append()
+            // }
+            !!query.type.put?.data
+            &&
+            (()=>{
+                const formData = new FormData();
+                let file_data: null | File = null;
+                Object.entries(query.type.put?.data).map((item)=>{
+
+                    if(item[1] instanceof  File){
+                        file_data = item[1]
+                    }
+
+                })
+                formData.append("data", new Blob([JSON.stringify(query.type.put.data)], { type: "application/json" }))
+                !!file_data
+                &&
+                formData.append("imagem",file_data)
+
             axios.put(query.url,query.type.put?.data,{
                 cancelToken:cancelToken,
                 headers:{
+                    "Content-Type":(
+                        !!query.hasFormData
+                        ? "multipart/form-data"
+                        : "application/json"
+                    ),
                     Authorization:`Bearer ${bearerCookie.accessToken}`
                 }
             })
@@ -183,6 +210,8 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
                     })
                 query.onResolver.catch(error)
             })
+            })()
+            
         },
         delete:()=>{
             (()=>{
@@ -226,10 +255,38 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
         },
         post:()=>{
 
+            !!query.type.post?.data
+            &&
             (()=>{
-            axios.post(query.url,query.type.post?.data,{
+
+                const formData = new FormData();
+                let file_data: null | File = null;
+                Object.entries(query.type.post?.data).map((item)=>{
+
+                    if(item[1] instanceof  File){
+                        file_data = item[1]
+                    }
+
+                })
+                formData.append("data", new Blob([JSON.stringify(query.type.post.data)], { type: "application/json" }))
+                !!file_data
+                &&
+                formData.append("imagem",file_data)
+
+            axios.post(query.url,(()=>{
+                return (
+                    !!query.hasFormData
+                    ?formData
+                    : query.type.post?.data
+                )
+            })(),{
                 withCredentials:true,
                 headers:{
+                    "Content-Type":(
+                        !!query.hasFormData
+                        ? "multipart/form-data"
+                        : "application/json"
+                    ),
                     Authorization:`Bearer ${bearerCookie.accessToken}`
                 }
             })

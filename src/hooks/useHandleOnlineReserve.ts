@@ -101,7 +101,7 @@ const useHandleOnlineReserve = ()=>{
     })=>{
 
         onAxiosQuery("post",{
-          url:tableRoutes['reserve'].put,
+          url:tableRoutes['reserve'].post,
           type:{
             post:{
               data:{

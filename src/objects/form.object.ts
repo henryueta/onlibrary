@@ -70,6 +70,7 @@ export interface FormObjectProps {
 // }
 
 
+
 const form:FormObjectProps = {
     formList:[
         {
@@ -78,7 +79,8 @@ const form:FormObjectProps = {
                 post:schema.schemaList['user'].register.step1
             .merge(schema.schemaList['user'].register.step2)
             .merge(schema.schemaList['user'].register.step3 as any) as z.ZodObject<ZodRawShape>,
-                put:schema.schemaList['user'].register.step1
+            put:schema.schemaList['user'].register.step1
+            .merge(schema.schemaList['user'].register.step2)
             },
             fields:[
                 {
@@ -142,7 +144,9 @@ const form:FormObjectProps = {
         {
             name:"library_user",
             schema:{
-                post:schema.schemaList['library_user'],
+                post:schema.schemaList['library_user'].omit({
+                    situacao:true
+                }),
                 put:schema.schemaList['library_user'].omit({
                     usuarios:true,
                     cpf:true
@@ -202,6 +206,27 @@ const form:FormObjectProps = {
                     },
                     title:"Tipo de usuário",
                     registerId:"tipo_usuario"
+                },
+                {
+                    id:"situation_id",
+                    forForm:{
+                        post:false,
+                        put:true
+                    },
+                    tag:"select",
+                     options:{
+                        isMultiple:false,
+                        hasQuery:false,
+                        list:[{
+                            label:"ativo",
+                            value:"ativo"
+                        },{
+                            label:"bloqueado",
+                            value:"bloqueado"
+                        }]
+                    },
+                    title:"Situação",
+                    registerId:"situacao"
                 },
                 {
                     id:"matriculationNumber_id",
@@ -311,11 +336,11 @@ const form:FormObjectProps = {
                     tag:"input",
                     title:"ISBN",
                     type:'text',
-                    maskFormat:"###-##########",
+                    maskFormat:"###-#-##-######-#",
                     registerId:"ISBN"
                 },
                 {
-                    id:"cape_id",
+                    id:"image_id",
                     forForm:{
                         post:true,
                         put:true
@@ -323,7 +348,7 @@ const form:FormObjectProps = {
                     tag:"input",
                     title:"Capa",
                     type:"file",
-                    registerId:"capa"
+                    registerId:"imagem"
                 },
                 {
                     id:"title_id",
@@ -686,6 +711,10 @@ const form:FormObjectProps = {
                     situacao:true
                 }),
                 put:schema.schemaList['reserve']
+                .omit({
+                    usuarios_biblioteca:true,
+                    livros_biblioteca:true
+                })
             },
             fields:[
                 {

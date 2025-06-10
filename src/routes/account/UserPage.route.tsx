@@ -6,9 +6,11 @@ import { Link, useParams } from "react-router-dom";
 import OrderContent from "../../components/content/order/OrderContent.component";
 import LibraryContent from "../../components/content/library/LibraryContent.component";
 import useHandlePath from "../../hooks/useHandlePath";
+import Cookies from "js-cookie";
 
 const NavUser = ()=>{
   const {currentPathContext} = useHandlePath();
+  const {authContext} = useHandleAuth();
   return (
     <nav className="userNavBar">
       <div className="titleContainer">
@@ -48,6 +50,20 @@ const NavUser = ()=>{
       replace
       >
         Biblioteca
+      </Link>
+      <Link
+      onClick={()=>{
+        Cookies.remove("jwt")
+        Cookies.remove("user_id")
+        Cookies.remove("userStatus")
+        Cookies.remove("library")
+        authContext.onLogout()
+      }}
+      to={"/"}
+      replace
+      style={{fontWeight:"bold"}}
+      >
+        Logout
       </Link>
     </nav>
   )

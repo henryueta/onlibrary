@@ -1,5 +1,5 @@
-import { useContext, useEffect, useReducer } from "react"
-import { AuthContext } from "../context/AuthContext"
+import { useContext, useEffect, useReducer } from "react";
+import { AuthContext } from "../context/AuthContext";
 import Cookies from "js-cookie";
 import user_model from "../models/user.json";
 import axios from "axios";
@@ -127,10 +127,19 @@ const useHandleAuth = ()=>{
                     onResolver:{
                         then:(result)=>{
                             console.log(result.data)
-                            const auth = result.data as {data:{accessToken:string}}
-                         
+                            const auth = result.data as {
+                                data:{
+                                    accessToken:string,
+                                    id:string,
+                                    username:string,
+                                    email:string
+
+                                }
+                            }
+                         {
+                        }
                          //b011be5e-4d07-4052-9763-6a6fb76e085a
-                            Cookies.set("user_id",JSON.stringify({user_id:"b011be5e-4d07-4052-9763-6a6fb76e085a"}))
+                            Cookies.set("user_id",JSON.stringify({user_id:auth.data.id}))
                             Cookies.set("library",JSON.stringify({library_id:"",name:""}))
                             Cookies.set("jwt",JSON.stringify({
                                 accessToken:auth.data.accessToken
@@ -153,22 +162,7 @@ const useHandleAuth = ()=>{
                         }
                     }
                 })
-                 onAxiosQuery("post",{
-                    url:"http://localhost:3300/check/account",
-                    type:{
-                        post:{
-                            data:data
-                        }
-                    },
-                    onResolver:{
-                        then:(result)=>{
-                            console.log(result.data)
-                            
-                            // Cookies.set("user_id",JSON.stringify({user_id:result.data.id}))
-                        },
-                        catch:(error)=>console.log(error)
-                    }
-                })
+                
             }
         }
         handleTypes[type]();

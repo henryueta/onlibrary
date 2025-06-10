@@ -5,6 +5,8 @@ import Select, { SelectProps } from "../select/Select.component";
 import useHandleSearch from "../../hooks/useHandleSearch";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../spinner/Spinner.component";
+import useHandlePath from "../../hooks/useHandlePath";
+import axios, { CancelToken } from "axios";
 
 interface SearchProps {
   filter?:SelectProps
@@ -15,7 +17,7 @@ interface SearchProps {
     url:string
   }
   onChange:(e:React.ChangeEvent<HTMLInputElement>)=>void,
-  onSearch:(value:string,quantity?:number,filter?:string | number)=>void
+  onSearch:(value:string,quantity?:number,filter?:string | number,source?:CancelToken)=>void
 }
 
 interface SearchLoadStateProps {
@@ -71,6 +73,7 @@ const Search = ({filter,quantity,hasSearchButton,suggestion,onSearch,onChange} :
   const onNavigate = useNavigate();
   const [suggestionListView,setSuggestionListView] = useState<boolean>(false);
   const [searchLoadState,setSearchLoadState] = useReducer(onHandleSearchLoadState,initialSearchLoadState);
+  const {currentPathContext} = useHandlePath()
 
   useEffect(()=>{
 
@@ -87,7 +90,9 @@ const Search = ({filter,quantity,hasSearchButton,suggestion,onSearch,onChange} :
           type:"timer",
           value:(
             setTimeout(()=>{
-              onSearch(searchState.inputValue,quantity,searchState.selectValue)
+              const source = axios.CancelToken.source();
+              
+              onSearch(searchState.inputValue,quantity,searchState.selectValue,source.token)
               setSearchLoadState({
                 type:"load",
                 value:false
@@ -98,7 +103,7 @@ const Search = ({filter,quantity,hasSearchButton,suggestion,onSearch,onChange} :
       ) 
     })()
 
-  },[searchState.inputValue])
+  },[searchState.inputValue,currentPathContext.pathName])
 
   return (
     <div className="searchContainer">
@@ -142,6 +147,8 @@ const Search = ({filter,quantity,hasSearchButton,suggestion,onSearch,onChange} :
             searchState.inputValue.trim().length
             &&
             (()=>{
+              const source = axios.CancelToken.source();
+
               currentSearchContext.setSearchContextState({
               type:"currentValueFilterSearch",
               value:{
@@ -150,7 +157,7 @@ const Search = ({filter,quantity,hasSearchButton,suggestion,onSearch,onChange} :
                 isSearch:true
               }
             })
-             onSearch(searchState.inputValue,quantity,searchState.selectValue) 
+             onSearch(searchState.inputValue,quantity,searchState.selectValue,source.token) 
             })()         
           }}>
               <img src={search_icon} alt="search_button" />

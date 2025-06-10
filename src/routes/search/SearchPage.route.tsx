@@ -40,7 +40,7 @@ const SearchPage = () => {
 
 
     const {value,filter} = useParams();
-    const {currentSearchContext,onSearch,searchState} = useHandleSearch();
+    const {currentSearchContext,searchState} = useHandleSearch();
 
     const [dataFilter,setDataFilter] = useState<string>(
         !!filter?.length
@@ -83,6 +83,14 @@ useEffect(()=>{
     })()
     
 },[dataFilter])
+
+    useEffect(()=>{
+
+        !!searchState.result
+        &&  
+        console.log(searchState.result)
+
+    },[searchState])
 
   return (
     <section className="searchPageSection">
@@ -137,8 +145,10 @@ useEffect(()=>{
                             !!searchState.result
                             &&
                             searchState.result.map((item,index)=>
-                                <BookCard
-                                    id=""
+                               
+                                {
+                                    return <BookCard
+                                    id={item.id}
                                     key={index}
                                     image={{
                                     height:400,
@@ -147,6 +157,8 @@ useEffect(()=>{
                                     }}
                                     title={item.titulo}
                                 />
+                                }
+
                             )
                         }
                     

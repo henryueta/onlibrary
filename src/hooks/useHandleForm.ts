@@ -15,6 +15,10 @@ import {
     AmerceTableQueryProps,
     AuthorTableQueryProps,
     ReserveTableQueryProps,
+    UserTableQueryProps,
+    GenderTableQueryProps,
+    CategoryTableQueryProps,
+    PublisherTableQueryProps,
 } from "../objects/table.object";
 import useHandleLibrary from "./useHandleLibrary";
 import Word from "../classes/word.class";
@@ -126,8 +130,6 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                         const current_data = form.data as LibraryTableQueryProps
                         return (
                             {
-                                // "http://localhost:3300/data/create?type=library&userId="+current_userId.user_id
-                                //https://onlibrary-api.onrender.com/api/bibliotecas/criar-biblioteca
                                 url:"https://onlibrary-api.onrender.com/api/biblioteca/criar-biblioteca",
                                 data:{
                                    post:{
@@ -141,7 +143,14 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                                     reservaOnline:!!current_data.reserva_online
                                    },
                                    put:{
-
+                                    nome:current_data.nome,
+                                    cep:new Word(current_data.cep,"cep").word,
+                                    numero:current_data.numero,
+                                    rua:current_data.rua,
+                                    telefone:new Word(current_data.telefone,"telephone").word,
+                                    aplicacaoMulta:!!current_data.aplicacao_multa,
+                                    aplicacaoBloqueio:!!current_data.aplicacao_bloqueio,
+                                    reservaOnline:!!current_data.reserva_online
                                    }
                                 }
                             }
@@ -151,17 +160,18 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                         const book_data = form.data as BookTableQueryProps
                         return (
                             {
-                                url:"http://localhost:3300/book/post",
+                                url:tableRoutes['book'].post,
                                 data:{
                                     post:{
-                                        ISBN:book_data.ISBN,
+                                        isbn:book_data.ISBN,
                                         titulo:book_data.titulo,
                                         descricao:book_data.descricao,
                                         ano_lancamento:book_data.ano_lancamento,
                                         autores:book_data.autores,
                                         categorias:book_data.categorias,
                                         generos:book_data.generos,
-                                        editoras:book_data.editoras
+                                        editoras:book_data.editoras,
+                                        imagem:book_data.imagem
                                     },
                                     put:{
 
@@ -171,12 +181,25 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                         )
                     },
                     user:()=>{
+                        const user_data = form.data as UserTableQueryProps
                         return (
                             {
                                 url:"",
                                 data:{
-                                    post:{},
-                                    put:{}
+                                    post:{
+                                        nome:user_data.nome,
+                                        sobrenome:user_data.sobrenome,
+                                        email:user_data.email,
+                                        username:user_data.username,
+                                        cpf:user_data.cpf,
+                                    },
+                                    put:{
+                                        nome:user_data.nome,
+                                        sobrenome:user_data.sobrenome,
+                                        email:user_data.email,
+                                        username:user_data.username,
+                                        cpf:user_data.cpf,
+                                    }
                                 }
                             }
                         )
@@ -188,14 +211,18 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                                 url:tableRoutes['account'].post,
                                 data:{
                                     post:{
-                                    fk_id_biblioteca: currentLibraryContext.libraryId,
-                                    nome:account_data.nome,
-                                    multa_padrao:new Word(account_data.multa_padrao,"numeric").word,
-                                    prazo_devolucao_padrao:new Word(account_data.prazo_devolucao_padrao,"numeric").word,
-                                    prazo_multa_padrao:new Word(account_data.prazo_multa_padrao,"numeric").word
+                                        fk_id_biblioteca: currentLibraryContext.libraryId,
+                                        nome:account_data.nome,
+                                        multa_padrao:new Word(account_data.multa_padrao,"numeric").word,
+                                        prazo_devolucao_padrao:new Word(account_data.prazo_devolucao_padrao,"numeric").word,
+                                        prazo_multa_padrao:new Word(account_data.prazo_multa_padrao,"numeric").word
                                     },
                                     put:{
-
+                                        fk_id_biblioteca: currentLibraryContext.libraryId,
+                                        nome:account_data.nome,
+                                        multa_padrao:new Word(account_data.multa_padrao,"numeric").word,
+                                        prazo_devolucao_padrao:new Word(account_data.prazo_devolucao_padrao,"numeric").word,
+                                        prazo_multa_padrao:new Word(account_data.prazo_multa_padrao,"numeric").word
                                     }
                                   
                                 }
@@ -204,6 +231,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                     },
                     library_user:()=>{
                         const library_user_data = form.data as LibraryUserTableQueryProps
+                        console.log(library_user_data)
                         return (
                             {
                                 url:tableRoutes['library_user'].post,
@@ -214,12 +242,16 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                                     fk_id_usuario:library_user_data.usuarios,
                                     fk_id_perfil_usuario:library_user_data.perfis_biblioteca,
                                     tipo_usuario:library_user_data.tipo_usuario,
-                                    cpf:new Word(library_user_data.cpf,"numeric").word
+                                    cpf:!!library_user_data.cpf
+                                    ? new Word(library_user_data.cpf,"numeric").word
+                                    : "",
                                  },
                                  put:{
                                     numero_matricula:library_user_data.numero_matricula,
                                     fk_id_perfil_usuario:library_user_data.perfis_biblioteca,
                                     tipo_usuario:library_user_data.tipo_usuario,
+                                    situacao: library_user_data.situacao
+
                                  }
                                 }
                             }
@@ -236,11 +268,13 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                                     fk_id_biblioteca:currentLibraryContext.libraryId,
                                     fk_id_usuario_biblioteca:loanData.usuarios_biblioteca,
                                     fk_id_bibliotecario:current_userId.user_id,
-                                    situacao:loanData.situacao,
-                                    dataDevolucao:loanData.data_devolucao
+                                    
                                     },
                                 put:{
-
+                                    fk_id_bibliotecario:current_userId.user_id,
+                                    fk_id_biblioteca:currentLibraryContext.libraryId,
+                                    situacao:loanData.situacao,
+                                    dataDevolucao:loanData.data_devolucao
                                 }
                                 }
                             }
@@ -255,12 +289,18 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                                     post:{
                                         fk_id_biblioteca:currentLibraryContext.libraryId,
                                         fk_id_usuario:reserve_data.usuarios_biblioteca,
-                                        fk_id_bibliotecario:null,
+                                        fk_id_bibliotecario:current_userId.user_id,
                                         fk_id_livro:reserve_data.livros_biblioteca,
                                         tipo:"fisico",
-                                        quantidade_total:reserve_data.quantidade_total
+                                        quantidade_total:reserve_data.quantidade_total,
+                                        data_retirada:reserve_data.data_retirada
                                     },
-                                    put:{}
+                                    put:{
+                                        quantidade_total:reserve_data.quantidade_total,
+                                        fk_id_bibliotecario:current_userId.user_id,
+                                        data_retirada:reserve_data.data_retirada,
+                                        situacao:reserve_data.situacao
+                                    }
                                 }
                             }
                         )
@@ -278,8 +318,11 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                                         motivo:amerce_data.motivo
                                     },
                                     put:{
-
+                                        fk_id_bibliotecario:current_userId.user_id,
+                                        motivo:amerce_data.motivo,
+                                        situacao:amerce_data.situacao
                                     }
+//"{"fk_id_bibliotecario":"b011be5e-4d07-4052-9763-6a6fb76e085a","motivo":"mOTIVO SLAAAA","situacao":"concluido"}"
                                 }
                             }
                         )
@@ -300,7 +343,13 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                                     fk_id_biblioteca:libraryId
                                  },
                                  put:{
-                                    
+                                     fk_id_livro:exemplaryData.livros_biblioteca,
+                                    numero_tombo:exemplaryData.numero_tombo,
+                                    situacao:exemplaryData.situacao,
+                                    estante:exemplaryData.estante,
+                                    prateleira:exemplaryData.prateleira,
+                                    setor:exemplaryData.setor,
+                                    fk_id_biblioteca:libraryId
                                  }
                               }
                             }
@@ -323,33 +372,42 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                         )
                     },
                     publisher:()=>{
+                        const publisher_data = form.data as PublisherTableQueryProps
                         return (
                             {
-                                url:"",
+                                url:tableRoutes['publisher'].post,
                                 data:{
-                                    post:{},
+                                    post:{
+                                        nome:publisher_data.nome
+                                    },
                                     put:{}
                                 }
                             }
                         )
                     },
                     category:()=>{
+                        const category_data = form.data as CategoryTableQueryProps
                         return (
                             {
-                                url:"",
+                                url:tableRoutes['category'].post,
                                 data:{
-                                    post:{},
+                                    post:{
+                                        nome:category_data.nome
+                                    },
                                     put:{}
                                 }
                             }
                         )
                     },
                     gender:()=>{
+                        const gender_data = form.data as GenderTableQueryProps;
                         return (
                             {
-                                url:"",
+                                url:tableRoutes['gender'].post,
                                 data:{
-                                    post:{},
+                                    post:{
+                                        nome:gender_data.nome
+                                    },
                                     put:{}
                                 }
                             }
@@ -417,6 +475,9 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
               (()=>{
                 axios.defaults.withCredentials = true
                 onAxiosQuery("post",{
+                    hasFormData:(
+                        form.type === "book"
+                    ),
                     url:checkTables[form.type]().url,
                     type:{
                       post:{
@@ -440,10 +501,17 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
             },
             update:()=>{                
                 onAxiosQuery("put",{
-                    url:tableRoutes[form.type as TableType].put+"/"+form.id,
+                    hasFormData:(
+                        form.type === "book"
+                    ),
+                    url:tableRoutes[form.type as TableType].put+"/"+(
+                        form.type !== "user"
+                        ? form.id
+                        : current_userId.user_id
+                    ),
                     type:{
                         put:{
-                           data:checkTables[form.type]().data.post
+                           data:checkTables[form.type]().data.put
                         }
                     },
                     onResolver:{

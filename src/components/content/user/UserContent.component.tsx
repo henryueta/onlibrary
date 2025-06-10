@@ -2,23 +2,18 @@ import "./UserContent.component.css"
 import { useEffect, useState } from "react";
 import useAxios from "../../../hooks/useAxios";
 import { tableRoutes, UserTableQueryProps } from "../../../objects/table.object";
-import TitleDescription from "../../title_description/TitleDescription.component";
-import Word from "../../../classes/word.class";
 import userLogged_icon from "../../../assets/imgs/icons/userStep_icon.png"
 import HeaderTitle from "../../header_title/HeaderTitle.component";
-import useHandleForm from "../../../hooks/useHandleForm";
-import useHandleLibrary from "../../../hooks/useHandleLibrary";
+import Form from "../../form/global/component/Form.component";
+import { form } from "../../../objects/form.object";
 
 const UserContent = ({id}:{id:string}) => {
 
     const {onAxiosQuery} = useAxios();
-    const {onQueryForm} = useHandleForm("user");
-    const {currentLibraryContext} = useHandleLibrary();
+
 
     useEffect(()=>{
         
-        
-
       onAxiosQuery("get",{
         url:tableRoutes['user'].getById+"?id="+id,
         type:{
@@ -43,7 +38,6 @@ const UserContent = ({id}:{id:string}) => {
 
     const [userContent,setUserContent] = useState<UserTableQueryProps | null>(null);
     const [isUserUpdate,setIsUserUpdate] = useState<boolean>(false);
-    
 
   return (
     <section className="userAccountDataSection">
@@ -52,16 +46,20 @@ const UserContent = ({id}:{id:string}) => {
             hasHrLine = {false}
             title="Conta"
             />
-            <div className="dataOptionsContainer">
+            {/* <div className="dataOptionsContainer">
                 {
                     !!isUserUpdate
                     &&
                     <button
                     onClick={()=>{
-                        onQueryForm(currentLibraryContext.libraryId || "",{
-                            type:"user",
-                            id:id
-                        },"update")
+                        handleSubmit((data)=>{
+                            console.log
+                        })
+                        // onQueryForm(currentLibraryContext.libraryId || "",{
+                        //     type:"user",
+                        //     id:id
+                            
+                        // },"update")
                     }}
                     className="acceptButton"
                     >
@@ -83,7 +81,7 @@ const UserContent = ({id}:{id:string}) => {
                         : "Editar"
                     }
                  </button>
-            </div>
+            </div> */}
         </section>
         <section className="dataContentSection">
             <section className="simpleContentSection">
@@ -105,7 +103,26 @@ const UserContent = ({id}:{id:string}) => {
                     title="Informações pessoais"
                 />
                 <div className="fullContentContainer">
+
+
                     {
+                        !!userContent
+                        &&
+                        <Form
+                        formSchema={form.formList.find((item)=>item.name == "user")!.schema["put"]}
+                        defaultValues={userContent}
+                        method={{
+                            post:false,
+                            put:true
+                        }}
+                        onSubmit={(data)=>{
+                            console.log(data)
+                        }}
+                        typeOfData="user"
+                        />
+                    }
+
+                    {/* {
                         !!userContent
                         &&
                         Object.entries(userContent).map((item,index)=>{
@@ -115,13 +132,15 @@ const UserContent = ({id}:{id:string}) => {
                                 title={new Word(item[0].toString(),"name").word || ""}
                                 description={
                                     <input 
+                                    {...register(item[0])}
                                     disabled={!isUserUpdate}
                                     defaultValue={item[1]}/>
                                 }
                                 />
+                                
                             )
                         })
-                    }
+                    } */}
                 </div>
             </section>
         </section>

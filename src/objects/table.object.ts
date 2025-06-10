@@ -55,10 +55,10 @@ Record<'biblioteca'|'nome'|'multa_padrao'|'prazo_devolucao_padrao'|'prazo_multa_
 
 export type LibraryUserTableQueryProps =
 Record<'usuarios'|'perfis_biblioteca',AssociationTableProps>
-& Record<'tipo_usuario'|'numero_matricula'|'biblioteca'|'cpf',string>
+& Record<'tipo_usuario'|'numero_matricula'|'biblioteca'|'cpf'|'situacao',string>
 
 export type BookTableQueryProps =
-Record<'id'| 'ISBN' | 'titulo' | 'descricao'|'capa',string>
+Record<'id'| 'ISBN' | 'titulo' | 'descricao'|'imagem',string>
 &
 Record<'ano_lancamento',number>
 &
@@ -124,15 +124,24 @@ const tableRoutes = {
   library:{
     getById:"http://localhost:3300/library/get/dependencies",
     post:"",
-    put:"",
+    put:"https://onlibrary-api.onrender.com/api/biblioteca/atualizar-biblioteca",
     delete:"",
     referenceText:"",
     graphic:""
   },
+  book:{
+    getById:"http://localhost:3300/book/get/dependencies",
+    post:"https://onlibrary-api.onrender.com/api/livro/criar-livro",
+    put:"https://onlibrary-api.onrender.com/api/livro/atualizar-livro",
+    delete:"",
+    referenceText:"http://localhost:3300/book/get/search",
+    graphic:""
+    
+  },
   user:{
     getById:"http://localhost:3300/user/get/dependencies",
     post:"",
-    put:"",
+    put:"https://onlibrary-api.onrender.com/api/auth/atualizar-usuario",
     delete:"",
     referenceText:"",
     graphic:""
@@ -150,7 +159,7 @@ const tableRoutes = {
     post:"https://onlibrary-api.onrender.com/api/emprestimo/criar-emprestimo",
     put:"https://onlibrary-api.onrender.com/api/emprestimo/atualizar-emprestimo",
     delete:"",
-    referenceText:"",
+    referenceText:"http://localhost:3300/loan/get/search",
     graphic:""
     // "http://localhost:3300/loan/put",
   },
@@ -159,7 +168,7 @@ const tableRoutes = {
     post:"https://onlibrary-api.onrender.com/api/multa/criar-multa",
     put:"https://onlibrary-api.onrender.com/api/atualizar-multa",
     delete:"",
-    referenceText:"",
+    referenceText:"http://localhost:3300/amerce/get/search",
     graphic:""
   },
   online_reserve:{
@@ -167,7 +176,7 @@ const tableRoutes = {
     post:"https://onlibrary-api.onrender.com/api/reserva/criar-reserva",
     put:"https://onlibrary-api.onrender.com/api/reserva/atualiza-reserva",
     delete:"",
-    referenceText:"",
+    referenceText:"http://localhost:3300/reserve/get/search",
     graphic:""
   },
   reserve:{
@@ -175,7 +184,7 @@ const tableRoutes = {
     post:"https://onlibrary-api.onrender.com/api/reserva/criar-reserva",
     put:"https://onlibrary-api.onrender.com/api/reserva/atualiza-reserva",
     delete:"",
-    referenceText:"",
+    referenceText:"http://localhost:3300/reserve/get/search",
     graphic:""
   },
    account:{
@@ -184,7 +193,7 @@ const tableRoutes = {
     //http://localhost:3300/account/post
     put:"https://onlibrary-api.onrender.com/api/perfil/atualizar-perfil",
     delete:"",
-    referenceText:"",
+    referenceText:"http://localhost:3300/account/get/search",
     graphic:""
 
   },
@@ -193,7 +202,7 @@ const tableRoutes = {
     post:"https://onlibrary-api.onrender.com/api/exemplar/criar-exemplar",
     put:"https://onlibrary-api.onrender.com/api/exemplar/atualizar-exemplar",
     delete:"",
-    referenceText:"",
+    referenceText:"http://localhost:3300/exemplary/get/search",
     graphic:""
   },
   author:{
@@ -289,10 +298,10 @@ const tableTypeDataList:TableTypeProps[] = [
         dependencies:
             [
                 tableTitleList[onFindTitleIndex("Exemplar")],
-                // tableTitleList[onFindTitleIndex("Autor")],
-                // tableTitleList[onFindTitleIndex("Editora")],
-                // tableTitleList[onFindTitleIndex("Categoria")],
-                // tableTitleList[onFindTitleIndex("Gênero")]
+                tableTitleList[onFindTitleIndex("Autor")],
+                tableTitleList[onFindTitleIndex("Editora")],
+                tableTitleList[onFindTitleIndex("Categoria")],
+                tableTitleList[onFindTitleIndex("Gênero")]
             ]
     },
     {

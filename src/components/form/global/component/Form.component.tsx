@@ -91,7 +91,6 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
   const {form} = useHandleForm(typeOfData || "none")
   const {id} = useParams()
 
- 
 
   const [formQueryState,setFormQueryState] = useReducer(handleFormQueryState,initialFormQueryState);
 
@@ -474,7 +473,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
             {
               (method.post || method.put && isUpdate)
               &&
-              <button className="managementButton"  
+              <button className="acceptButton"  
               disabled={
                 formQueryState.isSent
               }
@@ -502,7 +501,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
              method.post 
              ? "create"
              : "update")})()
-             : alert("já foi enviado")
+             :null
              }
               )}>
                 {

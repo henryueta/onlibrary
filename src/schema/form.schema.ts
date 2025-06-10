@@ -12,17 +12,18 @@ Rota para mostrar dados de tabelas com parametro url "tipo"(retorna JSON com str
 */
 
 const schema = {
+//.refine((val)=>val.match(/[0-9]{3}[-][0-9]{2}[-][0-9]{5}[-][0-9]{2}[-][0-9]{1}/),{
+//  message:"ISBN inválido"
+//})
 
     schemaList:{
         book:z.object({
-            ISBN:z.string().refine((val)=>val.match(/[0-9]{3}[-][0-9]{2}[-][0-9]{5}[-][0-9]{2}[-][0-9]{1}/),{
-                message:"ISBN inválido"
-            }),
+            ISBN:z.string(),
             titulo:z.string().refine((val)=>val.trim().length > 2,{
                 message:"Título inválido"
             }),
             descricao:z.string().optional(),
-            capa:z.custom<FileList>()
+            imagem:z.custom<FileList>()
             .transform((file)=>file.length > 0 && file.item(0))
             .refine((file)=>!file || (!!file && file.size <= 330000000),{
                 message:"Arquivo máximo suportado 500MB"
@@ -97,6 +98,7 @@ const schema = {
             perfis_biblioteca:z.string().min(2,{
                 message:"Campo perfil inválido"
             }),
+            situacao:z.enum(['bloqueado','ativo']),
             tipo_usuario:z.enum(["comum","admin"]),
             numero_matricula:z.string(),
             cpf:z.string().refine((val)=>val.match(/[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}/),{
