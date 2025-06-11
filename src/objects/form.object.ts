@@ -708,7 +708,8 @@ const form:FormObjectProps = {
                 post:schema.schemaList['reserve']
                 .omit({
                     data_retirada:true,
-                    situacao:true
+                    situacao:true,
+                    exemplares:true
                 }),
                 put:schema.schemaList['reserve']
                 .omit({
@@ -731,6 +732,16 @@ const form:FormObjectProps = {
                     },
                     title:"Livros",
                     registerId:"livros_biblioteca"
+                },
+                {
+                    id:"exemplaries_id",
+                    forForm:{
+                        post:false,
+                        put:false
+                    },
+                    tag:"textarea",
+                    title:"Exemplares",
+                    registerId:"exemplares"
                 },
                 {
                     id:"book_quantity_id",

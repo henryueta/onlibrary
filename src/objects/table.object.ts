@@ -43,7 +43,7 @@ Record<'bibliotecario'|'situacao'|'data_devolucao',string>
 & Record<'exemplares_biblioteca'|'usuarios_biblioteca',AssociationTableProps>
 
 export type ReserveTableQueryProps =
-Record<'bibliotecario'|'situacao'|'data_retirada'|'quantidade_total',string>
+Record<'bibliotecario'|'situacao'|'data_retirada'|'quantidade_total'|'exemplares',string>
 & Record<'livros_biblioteca'|'usuarios_biblioteca',AssociationTableProps>
 
 export type AmerceTableQueryProps =

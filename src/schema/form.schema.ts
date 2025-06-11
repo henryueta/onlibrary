@@ -141,6 +141,7 @@ const schema = {
             livros_biblioteca:z.string().min(1,{
                 message:"Escolha pelo menos 1 livro"
             }),
+            exemplares:z.string().optional(),
             quantidade_total:z.string().min(1,{
                 message:"Campo quantidade inválido"
             }),
