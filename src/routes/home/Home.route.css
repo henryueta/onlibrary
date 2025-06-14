@@ -3,6 +3,3 @@
     padding: 1rem 0rem 1rem 0rem;
 }
 
-.homeSection .listBookSection:last-child{
-    flex-direction: row-reverse;
-}

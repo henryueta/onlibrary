@@ -243,6 +243,25 @@ const tableRoutes = {
 
 const tableTypeDataList:TableTypeProps[] = [
   {
+    type:"user",
+    title:"Usuário",
+    quantity:0,
+    warning:false,
+    operations:{
+      post:false,
+      delete:true,
+      put:true
+    },
+    path: path.onCreatePathParams("list_data_management",[
+        {
+          field:"type",
+          param:"user"
+        }
+    ]),
+    headers:[],
+    dependencies:[]
+  },
+  {
     type:"library",
     title:"Biblioteca",
     quantity:0,
