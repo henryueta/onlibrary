@@ -5,6 +5,7 @@ import useHandleLibrary from "../../hooks/useHandleLibrary";
 import {useEffect,useState,useRef} from "react"
 import Dialog from "../dialog/Dialog.component";
 import notification_info_icon from "../../assets/imgs/icons/info_notification_icon.png";
+import axios from "axios";
 
 interface NotificationProps {
       type:"admin" | "comum",
@@ -32,7 +33,9 @@ const Notification = ({type,id}:NotificationProps)=>{
 
   useEffect(()=>{
     !!currentLibraryContext.libraryId &&
-    // setInterval(()=>{
+    (()=>{
+      const source = axios.CancelToken.source()
+      // setInterval(()=>{
     onAxiosQuery("get",{
       url:"http://localhost:3300/notification/get?id_usuario="+id+"&id_biblioteca="+currentLibraryContext.libraryId+"&type="+type,
       type:{
@@ -47,8 +50,10 @@ const Notification = ({type,id}:NotificationProps)=>{
           },
           catch:(error)=>console.log(error)
       }
-    })
-  // },90000)
+    },source.token)
+    console.log("req feita")
+  // },10000)
+    })()
 
   },[currentLibraryContext.libraryId])
 

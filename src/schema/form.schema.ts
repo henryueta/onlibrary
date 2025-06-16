@@ -220,7 +220,7 @@ const schema = {
           aplicacao_bloqueio:z.boolean()
         })
     },
-    getSchemaValues(type:Exclude<TableType,"none">){
+    getSchemaValues(type:Exclude<TableType,"library_management"|"global_management">){
         return Object.entries(this.schemaList[type])
     }
 

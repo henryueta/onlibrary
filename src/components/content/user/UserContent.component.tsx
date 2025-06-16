@@ -6,6 +6,7 @@ import userLogged_icon from "../../../assets/imgs/icons/userStep_icon.png"
 import HeaderTitle from "../../header_title/HeaderTitle.component";
 import Form from "../../form/global/component/Form.component";
 import { form } from "../../../objects/form.object";
+import useHandleTable from "../../../hooks/useHandleTable";
 
 const UserContent = ({id}:{id:string}) => {
 
@@ -37,7 +38,7 @@ const UserContent = ({id}:{id:string}) => {
     },[id])
 
     const [userContent,setUserContent] = useState<UserTableQueryProps | null>(null);
-
+    const {onQueryTable} = useHandleTable();
   return (
     <section className="userAccountDataSection">
         <section className="headerSection">
@@ -50,7 +51,10 @@ const UserContent = ({id}:{id:string}) => {
                 style={{border:"0.1rem solid red",color:"red",fontWeight:"bold"}}
                  className="cancelButton"
                  onClick={()=>{
-                    
+                    onQueryTable({
+                        type:"user",
+                        id:id
+                    },"delete")
                  }}
                  >
                     Deletar Conta

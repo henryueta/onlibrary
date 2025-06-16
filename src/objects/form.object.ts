@@ -46,7 +46,7 @@ export interface InputProps {
 
 
 export interface FormListProps {
-    name:Exclude<TableType,"none">,
+    name:Exclude<TableType,"library_management"|"global_management">,
     schema:Record<'post'|'put',z.ZodObject<ZodRawShape>>
     fields:InputProps[],
     // getQueryFields(type:"post"|"put"):Partial<InputProps[]>

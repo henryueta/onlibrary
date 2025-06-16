@@ -3,19 +3,45 @@
   width: 100%;
   font-family: arial;
   display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--blackFont_var);
   background-color: white;
   border-radius: calc(var(--borderRadius_var) + 0.2rem);
-  overflow-x: auto;
+  height: 350px;
 }
 
+
 .listBookSection>*{
-  margin-top: 2rem;
   padding: 0px 3rem 0px 3rem;
 }
 
 .listBookTitleContainer{
    font-size: 1.6rem;
+}
+
+.listBookSection>div{
+  height: 100%;
+}
+
+.listBookSection .itemListContainer{
+  display: flex;
+  width: 90%;
+  background: none;
+  border: none;
+}
+
+.listBookSection .changeListButtonContainer{
+  width: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.listBookSection .changeListButtonContainer>button{
+    padding: 1.5rem;
+    border: none;
+    cursor: pointer;
 }
 
 .itemContainer{

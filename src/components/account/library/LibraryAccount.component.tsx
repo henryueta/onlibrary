@@ -59,7 +59,7 @@ const LibraryAccount = () => {
       <section className="libraryAccountOptions">
           <button onClick={()=>{
             setIsAccountView(false)
-            onNavigate(path.onCreatePathParams("create_data_management",[
+            onNavigate(path.onCreatePathParams("library_create_data_management",[
               {
                 field:"type",
                 param:"library"

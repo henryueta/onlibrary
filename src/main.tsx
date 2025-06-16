@@ -68,32 +68,92 @@ export const router = createBrowserRouter([
       <LibraryRegisterPage/>
     </Private>
   },
+   {
+    path:path.onFindPath("global_management"),
+    element:
+    <Private>
+          <Management 
+          management='global'
+          mode='default' 
+          hasGroupTableCard={true}
+          />
+    </Private>
+  },
+  {
+    path:path.onFindPath("global_create_data_management"),
+    element:
+    <Private>
+          <Management 
+          management='global'
+          mode='post' 
+          hasGroupTableCard={false}
+          />
+    </Private>
+  },
+  {
+    path:path.onFindPath("global_list_data_management"),
+    element:
+    <Private>
+          <Management 
+          management='global'
+          mode='get' 
+          hasGroupTableCard={true}
+          />
+    </Private>
+  },
+  {
+    path:path.onFindPath("global_update_data_management"),
+    element:
+    <Private>
+          <Management
+          management='global'
+          mode='put'
+          hasGroupTableCard={false}
+          />
+    </Private>
+  },
   {
     path:path.onFindPath("library_management"),
     element:
     <Private>
-          <Management mode='default' hasGroupTableCard={true}/>
+          <Management 
+          management='library'
+          mode='default' 
+          hasGroupTableCard={true}
+          />
     </Private>
   },
   {
-    path:path.onFindPath("create_data_management"),
+    path:path.onFindPath("library_create_data_management"),
     element:
     <Private>
-      <Management mode='post' hasGroupTableCard={false}/>
+          <Management 
+          management='library'
+          mode='post' 
+          hasGroupTableCard={false}
+          />
     </Private>
   },
   {
-    path:path.onFindPath("list_data_management"),
+    path:path.onFindPath("library_list_data_management"),
     element:
     <Private>
-      <Management mode='get' hasGroupTableCard={true}/>
+          <Management 
+          management='library'
+          mode='get' 
+          hasGroupTableCard={true}
+          />
     </Private>
   },
   {
-    path:path.onFindPath("update_data_management"),
+    path:path.onFindPath("library_update_data_management"),
     element:
     <Private>
-      <Management mode='put'  hasGroupTableCard={false}/>
+          <Management
+          management='library'
+          mode='put'
+          hasGroupTableCard={false}
+          />
     </Private>
   },
   {
@@ -107,7 +167,11 @@ export const router = createBrowserRouter([
     path:path.onFindPath("library_about"),
     element:
     <Private>
-      <Management mode='library'  hasGroupTableCard={false}/>
+          <Management
+          management='library'
+          mode='library' 
+          hasGroupTableCard={false}
+          />
     </Private>
   }
 ])

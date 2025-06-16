@@ -76,7 +76,9 @@ const TableManagement = ({type}:TableManagementProps) => {
             onChange={(e)=>{setSearchOfData(e.target.value)}}
             onSearch={(value,quantity,filter,cancelToken)=>{
               console.log(quantity)
-              type != "none"
+              type != "library_management"
+              &&
+              type != "global_management"
               &&
               !!filter 
               &&
@@ -124,7 +126,7 @@ const TableManagement = ({type}:TableManagementProps) => {
            {
             tableTypeDataList[onFindTableIndex(type)].operations.post
             &&
-            <button onClick={()=>(onNavigate(path.onCreatePathParams("create_data_management",[
+            <button onClick={()=>(onNavigate(path.onCreatePathParams("library_create_data_management",[
             {
               field:"type",
               param:type
@@ -191,7 +193,7 @@ const TableManagement = ({type}:TableManagementProps) => {
                                 &&
                                 <button className="editDataButton" onClick={
                                 ()=>{
-                                onNavigate(path.onCreatePathParams("update_data_management",[
+                                onNavigate(path.onCreatePathParams("library_update_data_management",[
                                 {
                                   field:"type",
                                   param:type
@@ -224,8 +226,9 @@ const TableManagement = ({type}:TableManagementProps) => {
 
                                   !!currentLibraryContext.libraryId
                                   &&
-                                  type !== "none"
+                                  type !== "library_management"
                                   &&
+                                  type !== "global_management"
                                   current_data_id
                                   &&
                                   onQueryTable({

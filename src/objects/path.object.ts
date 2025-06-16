@@ -1,8 +1,13 @@
-const management_path = "/management/library"
+const management_path = "/management"
 const register_path = "/register"
 
-const onCreateManagementPath = (path:string)=>{
-    return `${management_path}${path}`;
+
+const onCreateManagementPath = (path:string,type:"library"|"global")=>{
+    return `${management_path}${
+        type === "library"
+        ? "/library"
+        : "/global"
+    }${path}`;
 }
 
 const onCreateRegisterPath = (path:string)=>{
@@ -59,8 +64,12 @@ const path:PathObjectProps = {
             path:"/user/:type"
         },
         {
+            type:"global_management",
+            path:onCreateManagementPath("","global")
+        },
+        {
             type:"library_choice",
-            path:onCreateManagementPath("/choice")
+            path:onCreateManagementPath("/choice","library")
         },
         {
             type:"library_register",
@@ -68,23 +77,35 @@ const path:PathObjectProps = {
         },
         {
             type:"library_management",
-            path:onCreateManagementPath("")
+            path:onCreateManagementPath("","library")
         },
         {
             type:"library_about",
-            path:onCreateManagementPath("/about")
+            path:onCreateManagementPath("/about","library")
         },
         {
-            type:"list_data_management",
-            path:onCreateManagementPath("/data/list/:type")
+            type:"library_list_data_management",
+            path:onCreateManagementPath("/data/list/:type","library")
         },
         {
-            type:"create_data_management",
-            path:onCreateManagementPath("/data/create/:type")
+            type:"library_create_data_management",
+            path:onCreateManagementPath("/data/create/:type","library")
         },
         {
-            type:"update_data_management",
-            path:onCreateManagementPath("/data/update/:type/:id")
+            type:"library_update_data_management",
+            path:onCreateManagementPath("/data/update/:type/:id","library")
+        },
+         {
+            type:"global_list_data_management",
+            path:onCreateManagementPath("/data/list/:type","global")
+        },
+        {
+            type:"global_create_data_management",
+            path:onCreateManagementPath("/data/create/:type","global")
+        },
+        {
+            type:"global_update_data_management",
+            path:onCreateManagementPath("/data/update/:type/:id","global")
         }
         
         ], 

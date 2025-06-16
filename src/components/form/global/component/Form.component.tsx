@@ -16,7 +16,7 @@ import ServerMessage from "../../../message/ServerMessage.component";
 
 interface FormProps{
   formSchema:z.ZodObject<ZodRawShape>
-  typeOfData?:Exclude<TableType,"none">
+  typeOfData?:Exclude<TableType,"library_management"|"global_management">
   fields?:InputProps[]
   onSubmit:(data:{[x: string]:any})=>void
   defaultValues?:TableQueryProps
@@ -88,7 +88,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
   const [formBase,setFormBase] = useState<InputProps[]>();
   const {currentLibraryContext} = useHandleLibrary();
   const [isUpdate,setIsUpdate] = useState<boolean>(false);
-  const {form} = useHandleForm(typeOfData || "none")
+  const {form} = useHandleForm(typeOfData || "library_management"||"global_management")
   const {id} = useParams()
 
 
@@ -134,9 +134,8 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
     resolver:zodResolver(schemaObject),
   });
 
-  
 
-  const {onQueryForm,formState} = useHandleForm(typeOfData || "none")
+  const {onQueryForm,formState} = useHandleForm(typeOfData || "library_management"||"global_management")
 
   useEffect(()=>{
     buttonRef &&

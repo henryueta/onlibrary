@@ -118,7 +118,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
     const onQueryForm = (
         libraryId:string,
         form:{
-        type:Exclude<TableType,"none">,
+        type:Exclude<TableType,"library_management"|"global_management">,
         id?:string
         data?:TableQueryProps
         },
@@ -544,7 +544,8 @@ useEffect(()=>{
     const source = axios.CancelToken.source();
     !!formObject
     && !!typeOfForm
-    && typeOfForm !== "none"
+    && typeOfForm !== "library_management"
+    && typeOfForm !== "global_management"
     && currentLibraryContext.libraryId
 
     && onQueryForm(

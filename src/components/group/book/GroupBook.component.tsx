@@ -86,21 +86,24 @@ const GroupBook = ({
 
   return (
     <section className="listBookSection">
-      <button
-      onClick={()=>{
-        currentListBook.start > 0
-        &&
-        setCurrentListBook((prev)=>{
-          return {
-            start:prev.start-6,
-            end:prev.start
-          }  
-        })
+      <div className="changeListButtonContainer">
+          <button
+          onClick={()=>{
+            currentListBook.start > 0
+            &&
+            setCurrentListBook((prev)=>{
+              return {
+                start:prev.start-6,
+                end:prev.start
+              }  
+            })
 
-      }}>
-        {currentListBook.start}
-      </button>
-      <div className="itemContainer">  
+          }}>
+          {currentListBook.start}
+        </button>
+      </div>
+      <div className="itemListContainer">
+        <div className="itemContainer">  
         {
             !!books
             &&
@@ -121,22 +124,25 @@ const GroupBook = ({
             })
         }
         </div> 
-        <button
-        onClick={()=>{
-          !!books?.length
-          &&
-          !(currentListBook.end === (books.length % 6 === 0 ? books.length : (Math.floor((books.length/6))*6)+6))
-          &&
-          setCurrentListBook((prev)=>{
-            return {
-              start:prev.end,
-              end:prev.end+6
-            }
-          })
-        }}
-        >
-          {currentListBook.end}
-        </button>
+      </div>
+        <div className="changeListButtonContainer">
+          <button
+          onClick={()=>{
+            !!books?.length
+            &&
+            !(currentListBook.end === (books.length % 6 === 0 ? books.length : (Math.floor((books.length/6))*6)+6))
+            &&
+            setCurrentListBook((prev)=>{
+              return {
+                start:prev.end,
+                end:prev.end+6
+              }
+            })
+          }}
+          >
+            {currentListBook.end}
+          </button>
+        </div>
     </section>
   )
 }

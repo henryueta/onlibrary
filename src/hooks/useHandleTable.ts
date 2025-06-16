@@ -19,7 +19,7 @@ const useHandleTable = ()=>{
     const {currentLibraryContext} = useHandleLibrary()
 
 
-    const onFilterTable = (type:Exclude<TableType,"none">,value:string,filter:string)=>{
+    const onFilterTable = (type:Exclude<TableType,"library_management"|"global_management">,value:string,filter:string)=>{
         alert("Procurar por "+value+" e filtro "+filter+" na tabela "+type)
         onAxiosQuery("get",{
             url:"",
@@ -179,7 +179,7 @@ const useHandleTable = ()=>{
                                     alert(result.data.message)
                                 },
                                 catch(error) {
-                                    console.log(error.message)
+                                    console.log(error)
                                 },
                                 }
                         })

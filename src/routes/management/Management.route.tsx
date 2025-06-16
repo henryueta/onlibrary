@@ -19,11 +19,12 @@ type ManagementMode = "default" | "get" | "post" | "put" | "library";
 interface ManagementProps {
 hasGroupTableCard:boolean,
 mode:ManagementMode
+management:"library"|"global"
 }
 
 
 
-const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
+const Management = ({hasGroupTableCard,mode,management}:ManagementProps) => {
   const [cardList,setcardList] = useState<TableTypeProps[]>(tableTypeDataList);
   const [defaultForm,setDefaultForm] = useState<TableQueryProps | null>();
   const {currentLibraryContext} = useHandleLibrary()
@@ -32,26 +33,24 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
   const {type,id} = useParams()
   const onNavigate = useNavigate();
 
-
   useEffect(()=>{
+
     !!id &&
       onQueryTable({
-      type:type as TableType || "none",
+      type:type as TableType || "library_management"||"global_management",
       id:id
-    },
+      },
     "select")
 
 
     mode !== "put"
     &&  setDefaultForm(null)
-
   },[type,id])
 
 
   useEffect(()=>{
     table &&
    (()=>{
-    
     return  setDefaultForm(table || [])
    })()
 
@@ -73,7 +72,10 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
         })
   })
 
+
+
 },[currentLibraryContext.libraryId,currentPathContext.pathName])
+
 
   return (
     <>
@@ -99,17 +101,57 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
             </div>
             {hasGroupTableCard
               &&(
-            <GroupTableCard cardList={
-              cardList[onFindTableIndex(type as TableType || "none")].dependencies.map((item)=>{
+            <GroupTableCard 
+            cardList={
+              cardList[onFindTableIndex(type as TableType || (
+                management === "global"
+                ?"global_management"
+                : "library_management"
+              ))].dependencies.map((item)=>{
                 const dependecie_button = cardList[tableTypeDataList.findIndex((itemQnt)=>{
-                  return itemQnt.title === item && itemQnt.type !== "user"
+                  return itemQnt.title === item 
+                  &&
+                  (
+                    management === "global"
+                    ?
+                    (
+                      itemQnt.type !== "library_user"
+                      &&
+                      itemQnt.type !== "library_book"
+                      &&
+                      itemQnt.type !== "library_author"
+                      &&
+                      itemQnt.type !== "library_category"
+                      &&
+                      itemQnt.type !== "library_gender"
+                      &&
+                      itemQnt.type !== "library_publisher"
+                    )
+                    :
+                    (
+                      itemQnt.type !== "user"
+                      &&
+                      itemQnt.type !== "book"
+                      &&
+                      itemQnt.type !== "author"
+                      &&
+                      itemQnt.type !== "category"
+                      &&
+                      itemQnt.type !== "gender"
+                      &&
+                      itemQnt.type !== "publisher"
+                    )
+                  )
                 })];
                 return {
               icon:cube_icon,
                 quantity:dependecie_button?.quantity.toString() || "0",
                 warning:dependecie_button?.warning || false,
                 redirectTo:dependecie_button?.path,
-                title:item
+                title:(()=>{
+                  console.log(dependecie_button.title)
+                  return dependecie_button.title
+                })()
                 }
 
               })
@@ -118,12 +160,6 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
           }
 
           {
-            mode == 'library'
-            ? 
-            <section className="libraryDataSection">
-
-            </section>
-            :
             mode == "default"
             ? 
                 <GraphicManagement/>
@@ -145,7 +181,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
                   put:false
                  }}
                 formSchema={form.formList.find((item)=>item.name == type)!.schema[mode]}
-                typeOfData={type as Exclude<TableType,"none">}
+                typeOfData={type as Exclude<TableType,"library_management"|"global_management">}
                 onSubmit={()=>
                     {
                      const formatedTypeParam = type as TableType;
@@ -166,7 +202,7 @@ const Management = ({hasGroupTableCard,mode}:ManagementProps) => {
                     put:true
                   }}
                   formSchema={form.formList.find((item)=>item.name == type)!.schema[mode]}
-                  typeOfData={type as Exclude<TableType,"none">}
+                  typeOfData={type as Exclude<TableType,"library_management"|"global_management">}
                   onSubmit={()=>
                     {
                      const formatedTypeParam = type as TableType;

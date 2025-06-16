@@ -7,6 +7,7 @@ import OrderContent from "../../components/content/order/OrderContent.component"
 import LibraryContent from "../../components/content/library/LibraryContent.component";
 import useHandlePath from "../../hooks/useHandlePath";
 import Cookies from "js-cookie";
+import { path } from "../../objects/path.object";
 
 const NavUser = ()=>{
   const {currentPathContext} = useHandlePath();
@@ -51,6 +52,9 @@ const NavUser = ()=>{
       >
         Biblioteca
       </Link>
+      <Link to={path.onFindPath("global_management")}>
+        Administração
+      </Link>
       <Link
       onClick={()=>{
         Cookies.remove("jwt")
@@ -65,6 +69,7 @@ const NavUser = ()=>{
       >
         Logout
       </Link>
+      
     </nav>
   )
 

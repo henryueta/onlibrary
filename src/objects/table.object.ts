@@ -1,8 +1,42 @@
 import { AssociationTableProps } from "./form.object";
 import {path } from "./path.object";
 
-export type TableType = "none" | "library" |"book" | "user" | "library_user" | "account"| "loan" | "reserve" | "amerce" | "exemplary" | "author" | "publisher" | "category" | "gender";
-export type TableTitleType = "Livro" | "Usuário" | "Perfil" | "Empréstimo" | "Reserva" | "Multa" | "Exemplar" | "Autor" | "Editora" | "Categoria" | "Gênero"
+export type TableType = 
+"library_management"
+|"global_management" 
+| "library" 
+|"book"
+|"library_book" 
+| "user"
+| "library_user"
+| "account"
+| "loan"
+| "reserve"
+| "amerce"
+| "exemplary"
+| "library_author"
+| "library_publisher"
+| "library_category"
+| "library_gender"
+| "author"
+| "publisher"
+| "category"
+| "gender";
+
+
+export type TableTitleType = 
+"Biblioteca"
+|"Livro" 
+| "Usuário" 
+| "Perfil" 
+| "Empréstimo" 
+| "Reserva" 
+| "Multa" 
+| "Exemplar" 
+| "Autor" 
+| "Editora" 
+| "Categoria" 
+| "Gênero"
 
 type account_situation = "ativo" | "bloqueado"
 
@@ -105,6 +139,7 @@ export interface TableTypeProps {
 const tableTitleList = [
     "Livro",
     "Usuário",
+    "Biblioteca",
     "Perfil",
     "Empréstimo",
     "Reserva",
@@ -115,6 +150,8 @@ const tableTitleList = [
     "Categoria",
     "Gênero"
 ]
+
+
 
 const onFindTitleIndex = (title:TableTitleType)=>{
     return  tableTitleList.findIndex((item)=>item === title)
@@ -130,13 +167,52 @@ const tableRoutes = {
     graphic:""
   },
   book:{
+    getById:"",
+    post:"",
+    put:"",
+    delete:"",
+    referenceText:"",
+    graphic:""
+  },
+  library_book:{
     getById:"http://localhost:3300/book/get/dependencies",
     post:"https://onlibrary-api.onrender.com/api/livro/criar-livro",
     put:"https://onlibrary-api.onrender.com/api/livro/atualizar-livro",
     delete:"",
     referenceText:"http://localhost:3300/book/get/search",
     graphic:""
-    
+  },
+  library_author:{
+    getById:"",
+    post:"https://onlibrary-api.onrender.com/api/autor/criar-autor",
+    put:"https://onlibrary-api.onrender.com/api/autor/atualizar-autor",
+    delete:"",
+    referenceText:"",
+    graphic:""
+  },
+  library_category:{
+    getById:"",
+    post:"https://onlibrary-api.onrender.com/api/categoria/criar-categoria",
+    put:"https://onlibrary-api.onrender.com/api/categoria/atualizar-categoria",
+    delete:"",
+    referenceText:"",
+    graphic:""
+  },
+  library_publisher:{
+    getById:"",
+    post:"https://onlibrary-api.onrender.com/api/editora/criar-editora",
+    put:"https://onlibrary-api.onrender.com/api/editora/atualizar-editora",
+    delete:"",
+    referenceText:"",
+    graphic:""
+  },
+  library_gender:{
+    getById:"",
+    post:"https://onlibrary-api.onrender.com/api/genero/criar-genero",
+    put:"https://onlibrary-api.onrender.com/api/genero/atualizar-genero",
+    delete:"",
+    referenceText:"",
+    graphic:""
   },
   user:{
     getById:"http://localhost:3300/user/get/dependencies",
@@ -252,7 +328,7 @@ const tableTypeDataList:TableTypeProps[] = [
       delete:true,
       put:true
     },
-    path: path.onCreatePathParams("list_data_management",[
+    path: path.onCreatePathParams("global_list_data_management",[
         {
           field:"type",
           param:"user"
@@ -262,21 +338,25 @@ const tableTypeDataList:TableTypeProps[] = [
     dependencies:[]
   },
   {
-    type:"library",
-    title:"Biblioteca",
+    type:"global_management",
+    title:"",
     quantity:0,
     warning:false,
     operations:{
-      post:true,
-      delete:true,
-      put:true
+      post:false,
+      delete:false,
+      put:false
     },
-    path:path.onFindPath("library_choice"),
+    path:path.onFindPath("global_management"),
     headers:[],
-    dependencies:[]
+    dependencies:[
+            tableTitleList[onFindTitleIndex("Livro")],
+            tableTitleList[onFindTitleIndex("Usuário")],
+            tableTitleList[onFindTitleIndex("Biblioteca")]
+    ]
   },
     {
-        type:"none",
+        type:"library_management",
         title:"",
         quantity:0,
         warning:false,
@@ -296,6 +376,136 @@ const tableTypeDataList:TableTypeProps[] = [
             tableTitleList[onFindTitleIndex("Multa")]
         ]
     },
+  {
+    type:"library",
+    title:"Biblioteca",
+    quantity:0,
+    warning:false,
+    operations:{
+      post:false,
+      delete:true,
+      put:true
+    },
+    path:path.onCreatePathParams("global_list_data_management",[
+        {
+          field:"type",
+          param:"library"
+        }
+    ]),
+    headers:[],
+    dependencies:[]
+  },
+  {
+    type:"library_book",
+    title:tableTitleList[onFindTitleIndex("Livro")],
+    quantity:0,
+    warning:false,
+    operations:{
+      post:false,
+      delete:false,
+      put:false      
+    },
+     path: path.onCreatePathParams("library_list_data_management",[
+            {
+              field:"type",
+              param:"library_book"
+            }
+      ]),
+       headers:
+        [],
+        dependencies:
+            [
+               tableTitleList[onFindTitleIndex("Exemplar")],  
+                tableTitleList[onFindTitleIndex("Autor")],
+                tableTitleList[onFindTitleIndex("Editora")],
+                tableTitleList[onFindTitleIndex("Categoria")],
+                tableTitleList[onFindTitleIndex("Gênero")]
+            ]
+  },
+    {
+        type:"library_author",
+        title:"Autor",
+        quantity:0,
+        warning:false,
+        operations:{
+          post:true,
+          put:true,
+          delete:true
+        },
+        path: path.onCreatePathParams("library_list_data_management",[
+            {
+              field:"type",
+              param:"library_author"
+            }
+          ]),
+        headers:
+        [],
+        dependencies:
+            []
+    },
+    {
+        type:"library_publisher",
+        title:"Editora",
+        quantity:0,
+        warning:false,
+        operations:{
+          post:true,
+          put:true,
+          delete:true
+        },
+        path: path.onCreatePathParams("library_list_data_management",[
+            {
+              field:"type",
+              param:"library_publisher"
+            }
+          ]),
+        headers:
+        [],
+        dependencies:
+            []
+    },
+    {
+        type:"library_category",
+        title:"Categoria",
+        quantity:0,
+        warning:false,
+        operations:{
+          post:true,
+          put:true,
+          delete:true
+        },
+        path: path.onCreatePathParams("library_list_data_management",[
+            {
+              field:"type",
+              param:"library_category"
+            }
+          ]),
+        headers:
+        [],
+        dependencies:
+            []
+    },
+    {
+        type:"library_gender",
+        title:"Gênero",
+        quantity:0,
+        warning:false,
+        operations:{
+          post:true,
+          put:true,
+          delete:true
+        },
+        path: path.onCreatePathParams("library_list_data_management",[
+            {
+              field:"type",
+              param:"library_gender"
+            }
+          ]),
+        headers:
+        [],
+        dependencies:
+        []
+    },
     {
         type:"book",
         title:tableTitleList[onFindTitleIndex("Livro")],
@@ -306,7 +516,7 @@ const tableTypeDataList:TableTypeProps[] = [
           put:true,
           delete:true
         },
-        path: path.onCreatePathParams("list_data_management",[
+        path: path.onCreatePathParams("global_list_data_management",[
             {
               field:"type",
               param:"book"
@@ -316,7 +526,6 @@ const tableTypeDataList:TableTypeProps[] = [
         [],
         dependencies:
             [
-                tableTitleList[onFindTitleIndex("Exemplar")],
                 tableTitleList[onFindTitleIndex("Autor")],
                 tableTitleList[onFindTitleIndex("Editora")],
                 tableTitleList[onFindTitleIndex("Categoria")],
@@ -333,7 +542,7 @@ const tableTypeDataList:TableTypeProps[] = [
           put:true,
           delete:true
         },
-        path: path.onCreatePathParams("list_data_management",[
+        path: path.onCreatePathParams("global_list_data_management",[
             {
               field:"type",
               param:"author"
@@ -354,7 +563,7 @@ const tableTypeDataList:TableTypeProps[] = [
           put:true,
           delete:true
         },
-        path: path.onCreatePathParams("list_data_management",[
+        path: path.onCreatePathParams("global_list_data_management",[
             {
               field:"type",
               param:"publisher"
@@ -375,7 +584,7 @@ const tableTypeDataList:TableTypeProps[] = [
           put:true,
           delete:true
         },
-        path: path.onCreatePathParams("list_data_management",[
+        path: path.onCreatePathParams("global_list_data_management",[
             {
               field:"type",
               param:"category"
@@ -396,7 +605,7 @@ const tableTypeDataList:TableTypeProps[] = [
           put:true,
           delete:true
         },
-        path: path.onCreatePathParams("list_data_management",[
+        path: path.onCreatePathParams("global_list_data_management",[
             {
               field:"type",
               param:"gender"
@@ -417,7 +626,7 @@ const tableTypeDataList:TableTypeProps[] = [
         },
         title:tableTitleList[onFindTitleIndex("Usuário")],
         quantity:0,
-        path:path.onCreatePathParams("list_data_management",[
+        path:path.onCreatePathParams("library_list_data_management",[
             {
               field:"type",
               param:"library_user"
@@ -440,7 +649,7 @@ const tableTypeDataList:TableTypeProps[] = [
         title:tableTitleList[onFindTitleIndex("Perfil")],
         headers:[],
         dependencies:[],
-        path:path.onCreatePathParams("list_data_management",[
+        path:path.onCreatePathParams("library_list_data_management",[
             {
                 field:"type",
                 param:"account"
@@ -457,7 +666,7 @@ const tableTypeDataList:TableTypeProps[] = [
         },
         title:tableTitleList[onFindTitleIndex("Empréstimo")],
         quantity:0,
-        path:path.onCreatePathParams("list_data_management",[
+        path:path.onCreatePathParams("library_list_data_management",[
             {
               field:"type",
               param:"loan"
@@ -478,7 +687,7 @@ const tableTypeDataList:TableTypeProps[] = [
         },
         title:tableTitleList[onFindTitleIndex("Reserva")],
         quantity:0,
-        path:path.onCreatePathParams("list_data_management",[
+        path:path.onCreatePathParams("library_list_data_management",[
             {
               field:"type",
               param:"reserve"
@@ -500,7 +709,7 @@ const tableTypeDataList:TableTypeProps[] = [
         },
         title:"Multa",
         quantity:0,
-        path:path.onCreatePathParams("list_data_management",[
+        path:path.onCreatePathParams("library_list_data_management",[
             {
               field:"type",
               param:"amerce"
@@ -521,7 +730,7 @@ const tableTypeDataList:TableTypeProps[] = [
         },
         title:tableTitleList[onFindTitleIndex("Exemplar")],
         quantity:0,
-        path:path.onCreatePathParams("list_data_management",[
+        path:path.onCreatePathParams("library_list_data_management",[
             {
                 field:"type",
                 param:"exemplary"
@@ -542,7 +751,7 @@ const tableTypeDataList:TableTypeProps[] = [
         },
       title:"Reserva Online",
       quantity:0,
-      path:path.onCreatePathParams("list_data_management",[
+      path:path.onCreatePathParams("library_list_data_management",[
         {
           field:"type",
           param:"online_reserve"
@@ -562,6 +771,8 @@ const onFindTableIndex = (type:TableType)=>{
 const onFindTablePath = (type:TableType)=>{
     return tableTypeDataList.find((item)=>item.type == type)?.path
 }
+
+console.warn(tableTitleList[onFindTitleIndex("Perfil")])
 
 export {
     tableTypeDataList,
