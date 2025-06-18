@@ -11,9 +11,7 @@ interface GroupBookProps{
 
 type bookCardProps = Pick<BookTableQueryProps,'imagem'|'titulo'|'id'>[];
 
-const GroupBook = ({
-    title,
-}:GroupBookProps) => {
+const GroupBook = ({}:GroupBookProps) => {
 
       const {onAxiosQuery} = useAxios()
       const [books,setBooks] = useState<bookCardProps | null>(null);

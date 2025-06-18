@@ -250,7 +250,8 @@ const BookPage = () => {
             justifyContent:"center",
             alignItems:"center",
             marginTop:"13rem",
-            width:"100vw"
+            width:"100vw",
+            padding:"3.5rem 0rem 3.5rem 0rem"
         }}>
             
              <section className="bookPageSection">

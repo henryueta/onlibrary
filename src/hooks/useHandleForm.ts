@@ -27,9 +27,9 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
 
-type FormStateProps = QueryStateProps;
+// type FormStateProps = QueryStateProps;
 
-const initialFormState:FormStateProps = {
+const initialFormState:QueryStateProps = {
     success:{
         data:null,
         message:"",
@@ -46,7 +46,7 @@ const initialFormState:FormStateProps = {
 
 type ActionFormType = ActionQueryType
 
-const onHandleFormState = (state:FormStateProps,action:ActionFormType)=>{
+const onHandleFormState = (state:QueryStateProps,action:ActionFormType)=>{
         switch (action.type) {
             case "success":
                 return {...state,success:action.value}
@@ -322,7 +322,6 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                                         motivo:amerce_data.motivo,
                                         situacao:amerce_data.situacao
                                     }
-//"{"fk_id_bibliotecario":"b011be5e-4d07-4052-9763-6a6fb76e085a","motivo":"mOTIVO SLAAAA","situacao":"concluido"}"
                                 }
                             }
                         )

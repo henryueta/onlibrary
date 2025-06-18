@@ -162,7 +162,7 @@ const tableRoutes = {
     getById:"http://localhost:3300/library/get/dependencies",
     post:"",
     put:"https://onlibrary-api.onrender.com/api/biblioteca/atualizar-biblioteca",
-    delete:"https://onlibrary-api.onrender.com/api/auth/deletar",
+    delete:"https://onlibrary-api.onrender.com/api/biblioteca/deletar",
     referenceText:"",
     graphic:""
   },
@@ -237,7 +237,6 @@ const tableRoutes = {
     delete:"https://onlibrary-api.onrender.com/api/emprestimo/deletar",
     referenceText:"http://localhost:3300/loan/get/search",
     graphic:""
-    // "http://localhost:3300/loan/put",
   },
   amerce:{
     getById:"http://localhost:3300/amerce/get/dependencies",

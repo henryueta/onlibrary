@@ -162,7 +162,7 @@ const Management = ({hasGroupTableCard,mode,management}:ManagementProps) => {
           {
             mode == "default"
             ? 
-                <GraphicManagement/>
+                <GraphicManagement management={management}/>
             :
             !!type &&
             mode == "get"
@@ -217,6 +217,7 @@ const Management = ({hasGroupTableCard,mode,management}:ManagementProps) => {
           </section>
         </section>
       </section>
+      
       </>
   )
 }

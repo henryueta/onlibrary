@@ -5,7 +5,7 @@ import GroupBook from '../../components/group/book/GroupBook.component'
 import Slider from '../../components/slider/Slider.component'
 import Main from '../../components/main/Main.component'
 import jsPDF from 'jspdf'
-import {autoTable, RowInput} from "jspdf-autotable"
+import {autoTable} from "jspdf-autotable"
 import useAxios from '../../hooks/useAxios';
 import { useEffect, useState } from 'react';
 import useHandleLibrary from '../../hooks/useHandleLibrary';

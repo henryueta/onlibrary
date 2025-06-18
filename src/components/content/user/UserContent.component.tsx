@@ -11,8 +11,6 @@ import useHandleTable from "../../../hooks/useHandleTable";
 const UserContent = ({id}:{id:string}) => {
 
     const {onAxiosQuery} = useAxios();
-
-
     useEffect(()=>{
         
       onAxiosQuery("get",{
@@ -60,42 +58,6 @@ const UserContent = ({id}:{id:string}) => {
                     Deletar Conta
                 </button>
             </div>
-            {/* <div className="dataOptionsContainer">
-                {
-                    !!isUserUpdate
-                    &&
-                    <button
-                    onClick={()=>{
-                        handleSubmit((data)=>{
-                            console.log
-                        })
-                        // onQueryForm(currentLibraryContext.libraryId || "",{
-                        //     type:"user",
-                        //     id:id
-                            
-                        // },"update")
-                    }}
-                    className="acceptButton"
-                    >
-                        Salvar alterações
-                    </button>
-                }
-                <button
-                className={
-                    !!isUserUpdate
-                    ? "cancelButton"
-                    : "acceptButton"
-                }
-                onClick={()=>{
-                    setIsUserUpdate((prev)=>!prev)
-                }}>
-                    {
-                        !!isUserUpdate
-                        ? "Cancelar"
-                        : "Editar"
-                    }
-                 </button>
-            </div> */}
         </section>
         <section className="dataContentSection">
             <section className="simpleContentSection">
@@ -117,8 +79,6 @@ const UserContent = ({id}:{id:string}) => {
                     title="Informações pessoais"
                 />
                 <div className="fullContentContainer">
-
-
                     {
                         !!userContent
                         &&
@@ -135,26 +95,6 @@ const UserContent = ({id}:{id:string}) => {
                         typeOfData="user"
                         />
                     }
-
-                    {/* {
-                        !!userContent
-                        &&
-                        Object.entries(userContent).map((item,index)=>{
-                            return (
-                                <TitleDescription
-                                key={index}
-                                title={new Word(item[0].toString(),"name").word || ""}
-                                description={
-                                    <input 
-                                    {...register(item[0])}
-                                    disabled={!isUserUpdate}
-                                    defaultValue={item[1]}/>
-                                }
-                                />
-                                
-                            )
-                        })
-                    } */}
                 </div>
             </section>
         </section>

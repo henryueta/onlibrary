@@ -1,39 +1,25 @@
 import { useState } from "react";
-import useHandleGraphic, { GraphicTableType } from "../../../hooks/useHandleGraphic";
+import useHandleGraphic, { graphicDataTypeList, GraphicTableType } from "../../../hooks/useHandleGraphic";
 import Graphic from "../global/Graphic.component"
 import "./GraphicManagement.component.css"
 
 interface GraphicManagementProps {
-
-
-
+    management:"library" | "global"
 }
 
-const GraphicManagement = ({}:GraphicManagementProps) => {
+
+const GraphicManagement = ({management}:GraphicManagementProps) => {
     
-    const {onDrawGraphic,graphicTable,graphicData} = useHandleGraphic();
+    const {onDrawGraphic,graphicTable,graphicData} = useHandleGraphic(management);
     const [selectedButton,setSelectedButton] = useState<number>(0);
-    const graphicTableManagementList:GraphicTableType[]= [
-       {
-        title:"Empréstimo",
-        type:"loan"
-       },
-       {
-        title:"Reserva",
-        type:"reserve"
-       },
-       {
-        title:"Multa",
-        type:"amerce"
-       }
-    ]
+    const [graphicManagementList] = useState<GraphicTableType[]>(graphicDataTypeList[management]);
 
   return (
     <section className="graphicManagementSection">
         <section className="graphicViewSection">
             <div className="graphicViewChoiceContainer">
                 {
-                    graphicTableManagementList.map((item,index)=>{
+                    graphicManagementList.map((item,index)=>{
                         return (
                         <button 
                         onClick={()=>{
@@ -52,16 +38,6 @@ const GraphicManagement = ({}:GraphicManagementProps) => {
                         )
                     })
                 }
-
-                {/* <button className="acceptButton">
-                    Emprestimo
-                </button>
-                <button className="cancelButton" style={{border:"none"}}>
-                    Emprestimo
-                </button>
-                <button className="cancelButton" style={{border:"none"}}>
-                    Emprestimo
-                </button> */}
             </div>
             <div className="graphicViewContainer">
                 <Graphic
@@ -91,7 +67,6 @@ const GraphicManagement = ({}:GraphicManagementProps) => {
                             Vencido
                        </div>
                     </div>
-                   
                 </div>
             </div>
         </section>

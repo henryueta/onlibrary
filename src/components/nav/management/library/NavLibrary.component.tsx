@@ -1,6 +1,5 @@
 import "./NavLibrary.component.css";
 import onlibrary_logo from "../../../../assets/imgs/logo/onlibrary_logo.png";
-import white_onlibrary_logo from "../../../../assets/imgs/logo/white_onlibrary_logo.png";
 import management_icon from "../../../../assets/imgs/icons/management_icon.webp"
 import dashboardHome_icon from "../../../../assets/imgs/icons/dashboardHome_icon.webp";
 import cubeTable_icon from "../../../../assets/imgs/icons/cubeTable_icon.webp"

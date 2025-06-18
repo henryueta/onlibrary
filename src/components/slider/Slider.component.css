@@ -1,7 +1,41 @@
 
-.sliderContainer{
-  background-color: var(--blue_var);
-   height: 26.5rem;
+.sliderContentContainer{
+  height: 26.5rem;
    width: 100%;
-   border-radius: calc(var(--borderRadius_var) + 0.2rem);
+   display: flex;
 }
+
+.sliderContainer{
+  width: 100%;
+  height: 100%;
+  background-size: cover; 
+  border-radius: calc(var(--borderRadius_var) + 0.2rem);
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  align-items: center;
+  
+}
+
+.changeCurrentSliderContainer{
+  display: none;
+}
+
+.sliderContainer:hover{
+
+.changeCurrentSliderContainer{
+  display: flex;
+}
+
+}
+
+.sliderContainer button{
+  border: none;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+

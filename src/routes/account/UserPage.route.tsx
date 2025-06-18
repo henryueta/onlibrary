@@ -8,6 +8,7 @@ import LibraryContent from "../../components/content/library/LibraryContent.comp
 import useHandlePath from "../../hooks/useHandlePath";
 import Cookies from "js-cookie";
 import { path } from "../../objects/path.object";
+import FooterHome from "../../components/footer/home/FooterHome.component";
 
 const NavUser = ()=>{
   const {currentPathContext} = useHandlePath();
@@ -110,6 +111,7 @@ const UserPage = () => {
               </div>
           </section>
         </section>
+       
     </>
   )
 }

@@ -1,0 +1,28 @@
+.footerHomeBar{
+    padding: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    background-color: var(--blue_var);
+    color: white;
+    font-size: 1.1rem;
+}
+
+.enterpriseContainer{
+    
+}
+
+.footerOptionsContainer{
+    width: 20%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footerOptionsContainer a{
+    color: white;
+
+    text-decoration: none;
+
+}

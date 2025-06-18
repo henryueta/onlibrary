@@ -2,7 +2,7 @@ import "./Notification.component.css"
 import libraryNotification_icon from "../../assets/imgs/icons/libraryNotification_icon.webp"
 import useAxios from "../../hooks/useAxios";
 import useHandleLibrary from "../../hooks/useHandleLibrary";
-import {useEffect,useState,useRef} from "react"
+import {useEffect,useRef, useReducer} from "react"
 import Dialog from "../dialog/Dialog.component";
 import notification_info_icon from "../../assets/imgs/icons/info_notification_icon.png";
 import axios from "axios";
@@ -20,15 +20,59 @@ tipo : Exclude<NotificationProps,'id'>
 titulo:string
 }
 
+interface NotificationStateProps {
+
+  userNotifications:UserNotificationProps[],
+  isNotificationsView:boolean
+  currentNotificationView:null | UserNotificationProps
+}
+
+const initialNotificationState:NotificationStateProps = {
+
+  userNotifications:[],
+  isNotificationsView:false,
+  currentNotificationView:null
+
+}
+
+type NotificationActionProps = 
+{
+  type:"userNotification",
+  value:UserNotificationProps[]
+}
+|
+{
+  type:"notificationsView",
+  value:boolean
+}
+|
+{
+  type:"currentNotification",
+  value:UserNotificationProps
+}
+
+const handleNotificationState =  (state:NotificationStateProps,action:NotificationActionProps)=>{
+
+    switch (action.type) {
+      case "userNotification":
+          return {...state,userNotifications:action.value}
+      case "notificationsView":
+          return {...state,isNotificationsView:action.value}
+      case "currentNotification":
+        return {...state,currentNotificationView:action.value}
+      default:
+        return state
+    }
+
+}
+
 const Notification = ({type,id}:NotificationProps)=>{
-  const [userNotifications,setUserNotifications] = useState<UserNotificationProps[]>([]);
-  const [isNotificationsView,setIsNotificationsView] = useState<boolean>(false);
+
+  const [notificationState,setNotificationState] = useReducer(handleNotificationState,initialNotificationState);
   const {onAxiosQuery} = useAxios();
   const {currentLibraryContext} = useHandleLibrary();
   const notification_ref = useRef<HTMLDivElement>(null);
 
-  useEffect(()=>{
-  },[userNotifications])
 
 
   useEffect(()=>{
@@ -46,7 +90,10 @@ const Notification = ({type,id}:NotificationProps)=>{
       onResolver:{
           then:(result)=>{
             const notification_data = result.data as UserNotificationProps[];
-            setUserNotifications(notification_data);
+            setNotificationState({
+              type:"userNotification",
+              value:notification_data
+            });
           },
           catch:(error)=>console.log(error)
       }
@@ -57,31 +104,57 @@ const Notification = ({type,id}:NotificationProps)=>{
 
   },[currentLibraryContext.libraryId])
 
+useEffect(()=>{
 
+  console.warn(notificationState.isNotificationsView)
+
+},[notificationState.isNotificationsView])
 
   return (
     <>
    
+    {/* <div className="notificationDetailsView">
+      aaa
+    </div> */}
+      {
+        !!notificationState.currentNotificationView
+        &&
+      <Dialog
+      closeOnExternalClick={true}
+      className="notificationDetailsView"
+      title={notificationState.currentNotificationView.titulo}
+      children={
+        <div>
+          <p>{notificationState.currentNotificationView.conteudo}</p>
+        </div>
+      }
+      />
+      }
+      
 
-
-    <div className="currentNotificationContainer" onClick={()=>setIsNotificationsView((prev)=>true)}>
+    <div className="currentNotificationContainer" onClick={()=>setNotificationState({
+          type:"notificationsView",
+          value:true
+        })}>
+          
         {
-          !!userNotifications.length &&
-          !!userNotifications.filter((item)=>{
+          !!notificationState.userNotifications.length &&
+          !!notificationState.userNotifications.filter((item)=>{
             return item.marcado_lido
           })
           ? <div className="newNotificationContainer"></div>
           : <></>
         }
       <img src={libraryNotification_icon} alt="admin_notification_icon"/>
+
        {
-      !!isNotificationsView &&
+      !!notificationState.isNotificationsView &&
       <Dialog
       title={
         <h1>
           {`Notificações (
-          ${!!userNotifications.length 
-          ? userNotifications.filter((item)=>!item.marcado_lido).length.toString() 
+          ${!!notificationState.userNotifications.length 
+          ? notificationState.userNotifications.filter((item)=>!item.marcado_lido).length.toString() 
           : "0"}
           )`}
         </h1>
@@ -90,17 +163,39 @@ const Notification = ({type,id}:NotificationProps)=>{
       closeOnExternalClick={true}
       className="notificationDialog"
       close={{
-        onClose:()=>setIsNotificationsView(false),
+        onClose:()=>setNotificationState({
+          type:"notificationsView",
+          value:false
+        }),
         closeButton:false,
         timer:50
       }}
       >
       <div ref={notification_ref} className="notificationsContainer">
         {
-          !!userNotifications.length ?
-          userNotifications.map((item,index)=>{
-              return <>
-                <div key={index} className="notificationItemContainer">
+          !!notificationState.userNotifications.length ?
+          notificationState.userNotifications.map((item,index)=>{
+              return <div 
+              key={index} 
+              className="notificationItemContainer"
+              onClick={()=>{
+
+                  setTimeout(()=>{
+                    setNotificationState({
+                      type:"notificationsView",
+                      value:false
+                    })
+                  },50)
+
+                setNotificationState({
+                  type:"currentNotification",
+                  value:item
+                })
+
+                
+                
+              }}
+              >
                   <div className="notificationItemIconContainer">
                       <img src={notification_info_icon} alt="info_notification_icon" />
                   </div>
@@ -122,13 +217,15 @@ const Notification = ({type,id}:NotificationProps)=>{
                   }
                 </div>
                 
-              </>
+             
           })
           : <>Nenhuma notificação</>
         }
       </div>
       </Dialog>
     }
+
+
     </div>
     </>
   )

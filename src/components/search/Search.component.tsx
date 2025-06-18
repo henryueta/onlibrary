@@ -12,6 +12,7 @@ interface SearchProps {
   filter?:SelectProps
   quantity:number,
   hasSearchButton?:boolean
+  placeholder?:string
   suggestion?:{
     active:boolean,
     url:string
@@ -67,7 +68,7 @@ const onHandleSearchLoadState = (state:SearchLoadStateProps,action:SearchLoadAct
 
 }
 
-const Search = ({filter,quantity,hasSearchButton,suggestion,onSearch,onChange} : SearchProps) => {
+const Search = ({filter,quantity,placeholder,hasSearchButton,suggestion,onSearch,onChange} : SearchProps) => {
 
   const {currentSearchContext,searchState,suggestionState,setSearchState} = useHandleSearch(suggestion);;
   const onNavigate = useNavigate();
@@ -108,7 +109,11 @@ const Search = ({filter,quantity,hasSearchButton,suggestion,onSearch,onChange} :
   return (
     <div className="searchContainer">
         <input 
-        
+        placeholder={
+          !!placeholder
+          ? placeholder
+          : ""
+        }
         onBlur={()=>{
           setTimeout(()=>{
             setSuggestionListView(false)

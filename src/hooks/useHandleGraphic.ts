@@ -1,6 +1,35 @@
 import { useEffect, useState } from "react"
 import useAxios from "./useAxios"
 
+
+
+export const graphicDataTypeList:Record<'global'|'library',GraphicTableType[]> = {
+    global:[
+        {
+            title:"Usuário",
+            type:"user"
+        },
+        {
+            title:"Biblioteca",
+            type:"library"
+        }
+    ],
+    library:[
+        {
+            title:"Empréstimo",
+            type:"loan"
+        },
+        {
+            title:"Reserva",
+            type:"reserve"
+        },
+        {
+            title:"Multa",
+            type:"amerce"
+        }
+    ]
+}
+
 export type GraphicTableType = 
 {
     title:"Empréstimo" 
@@ -16,15 +45,22 @@ export type GraphicTableType =
     title:"Multa",
     type:"amerce"
 }
+|
+{
+    title:"Biblioteca",
+    type:"library"
+}
+|
+{
+    title:"Usuário",
+    type:"user"
+}
 
 
 
-const useHandleGraphic = ()=>{
+const useHandleGraphic = ( management:"library" | "global")=>{
 
-    const [graphicTable,setGraphicTable] = useState<GraphicTableType>({
-        title:"Empréstimo",
-        type:"loan"
-    });
+    const [graphicTable,setGraphicTable] = useState<GraphicTableType>(graphicDataTypeList[management][0]);
     const [graphicData,setGraphicData] = useState<number[]>([]);
 
     useEffect(()=>{
@@ -56,17 +92,18 @@ const useHandleGraphic = ()=>{
         amerce:{
             table:"tb_multa",
             url:""
+        },
+        user:{
+            table:"tb_usuario",
+            url:""
+        },
+        library:{
+            table:"tb_biblioteca",
+            url:""
         }
 
     }
 
-    useEffect(()=>{
-
-        console.log(checkGraphicType[graphicTable.type].table)
-        
-    },[graphicTable])
-
-  
 
     const onDrawGraphic = (type:GraphicTableType['type'])=>{
         setGraphicTable((prev)=>{
@@ -79,12 +116,18 @@ const useHandleGraphic = ()=>{
             :
             type == "amerce"
             ? {type:"amerce",title:"Multa"}
+            : 
+            type == "user"
+            ? {type:"user",title:"Usuário"}
+            :
+            type == "library"
+            ? {type:"library",title:"Biblioteca"}
             : prev
             )
             
         })
     }
-
+    
 return {
     onDrawGraphic,
     graphicTable,

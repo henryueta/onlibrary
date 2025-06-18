@@ -12,7 +12,7 @@ import useHandleLibrary from "../../../../hooks/useHandleLibrary";
 import { useParams } from "react-router-dom";
 import Spinner from "../../../spinner/Spinner.component";
 import cube_icon from "../../../../assets/imgs/icons/black_cubeTable_icon.png"
-import ServerMessage from "../../../message/ServerMessage.component";
+import Communication from "../../../communication/Communication.component";
 
 interface FormProps{
   formSchema:z.ZodObject<ZodRawShape>
@@ -30,7 +30,7 @@ interface FormProps{
 
 // const preference = ["id","nome","idade"]
 
-// const define = Object.entries(teste);
+// const define = Object.entries(defaultValueList);
 
 // preference.map((item,index)=>{
 //   const a = define.find((item2,index2)=>{
@@ -112,21 +112,15 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
   type SchemaType = z.infer<typeof schemaObject>
 
 
-  const [teste,setTeste] = useState<
+  const [defaultValueList,setDefaultValueList] = useState<
   DefaultValues<{
     [x: string]: any;
 }> | {
     [x: string]: any;
 } | undefined>(undefined)
   useEffect(()=>{
-    setTeste(defaultValues)
+    setDefaultValueList(defaultValues)
   },[defaultValues])
-
-  useEffect(()=>{
-
-    // teste&&
-    // Object.entries(teste).map((item)=>console.log(item[1]))
-  },[teste])
 
   const {register,formState:{errors},handleSubmit,control,setValue} = useForm<SchemaType>({
     mode:"all",
@@ -152,14 +146,14 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
     !!formState.error.message
     &&
       (()=>{
-        setFormQueryState({
-        type:"error",
-        value:true
-      })
-      setFormQueryState({
-        type:"submited",
-        value:false
-      })
+      //   setFormQueryState({
+      //   type:"error",
+      //   value:true
+      // })
+      // setFormQueryState({
+      //   type:"submited",
+      //   value:false
+      // })
       })()
   
   },[formState.error])
@@ -169,23 +163,22 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
     !!formState.success.message
     &&
     (()=>{
-      setFormQueryState({
-        type:"success",
-        value:true
-      })
+      // setFormQueryState({
+      //   type:"success",
+      //   value:true
+      // })
 
-      setFormQueryState({
-        type:"submited",
-        value:false
-      })
+      // setFormQueryState({
+      //   type:"submited",
+      //   value:false
+      // })
 
       setIsUpdate(false)
 
     })()
   },[formState.success])
 
-  console.log(formSchema.shape)
-  console.warn(errors)
+
   return (
     <form>
 
@@ -270,7 +263,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                       && 
                       !item_input.forForm.put)
                     }
-                      defaultValue={teste && teste[item_input!.registerId]}
+                      defaultValue={defaultValueList && defaultValueList[item_input!.registerId]}
                      placeholder={` `}
                      className="selectOptions" isMulti={item_input.options.isMultiple}
                      options={item_input.options.list.map((item_option)=>{
@@ -303,7 +296,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                     !!item_input!.maskFormat
                     ?
                     <Controller
-                    defaultValue={teste && teste[item_input!.registerId]}
+                    defaultValue={defaultValueList && defaultValueList[item_input!.registerId]}
                     name={item_input!.registerId}
                     control={control}
                     render={({field})=>
@@ -328,7 +321,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                     : !!item_input.numericFormat
                     ?
                     <Controller
-                    defaultValue={teste && teste[item_input!.registerId]}
+                    defaultValue={defaultValueList && defaultValueList[item_input!.registerId]}
                     name={item_input!.registerId}
                     control={control}
                     render={({field})=>
@@ -367,14 +360,14 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                       && 
                       !item_input.forForm.put)
                     }
-                    defaultValue={teste && teste[item_input!.registerId]}
+                    defaultValue={defaultValueList && defaultValueList[item_input!.registerId]}
                     type={item_input!.type}
                     id={item_input!.id}
                     {...register(item_input!.registerId as Path<SchemaType>)}/>
                     : item_input!.tag === "textarea"
                     &&
                     <textarea
-                    defaultValue={teste && teste[item_input!.registerId]}
+                    defaultValue={defaultValueList && defaultValueList[item_input!.registerId]}
                     disabled={
                       ( method.put && !isUpdate)
                       ||
@@ -418,7 +411,11 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
           )
 
         }
-        {
+        <Communication
+        formState={formState}
+        // serverState={formQueryState}
+        />
+        {/* {
            !!formQueryState.isSuccessView
           && <ServerMessage
           message={formState.success.message}
@@ -447,7 +444,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
             }
           }
           />
-        }
+        } */}
         {
           !!!buttonRef
           &&

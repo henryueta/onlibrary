@@ -19,6 +19,7 @@ const NavHome = () => {
             </Link>
         </div>
         <Search 
+        placeholder="Pesquise por livros"
         hasSearchButton
         suggestion={{
           active:true,

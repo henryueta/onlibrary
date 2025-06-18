@@ -5,6 +5,7 @@ import BookCard from "../../components/card/book/BookCard.component";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useHandleSearch from "../../hooks/useHandleSearch";
+import FooterHome from "../../components/footer/home/FooterHome.component";
 
 const filterList = 
 [
@@ -93,8 +94,9 @@ useEffect(()=>{
     },[searchState])
 
   return (
+    <>
+    <NavHome/>
     <section className="searchPageSection">
-        <NavHome/>
         <section className="filterSeaction">
                 <div className="filterContainer">
                     <HeaderTitle
@@ -168,6 +170,8 @@ useEffect(()=>{
             </section>
         </section>
     </section>
+    <FooterHome/>
+    </>
   )
 }
 

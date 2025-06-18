@@ -3,6 +3,7 @@
     width: 90%;
     border-radius: 1rem;
     padding: 1rem 0rem 1rem 0rem;
+    min-height: 1425px;
 }   
 
 
@@ -33,13 +34,13 @@
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    min-height: 100%;
 }
 
 .userAccountDataSection>.dataContentSection>section{
     border:  0.1rem solid var(--grayLine_var);
     border-radius: 1rem;
     padding: 3rem;
-    
 }
 
 .userAccountDataSection>.dataContentSection>.simpleContentSection{
@@ -75,9 +76,12 @@
     border-radius: 100%;
 }
 
+.userAccountDataSection>.dataContentSection>.fullContentSection{
+    min-height: 1050px;
+}
+
 .userAccountDataSection>.dataContentSection>.fullContentSection>div{
     margin-top: 0.5rem;
-
 }
 
 .userAccountDataSection>.dataContentSection>.fullContentSection>.headerContainer{

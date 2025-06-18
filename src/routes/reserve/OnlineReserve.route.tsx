@@ -11,6 +11,7 @@ import HeaderTitle from "../../components/header_title/HeaderTitle.component";
 import useHandleOnlineReserve from "../../hooks/useHandleOnlineReserve";
 import Spinner from "../../components/spinner/Spinner.component";
 import ServerMessage from "../../components/message/ServerMessage.component";
+import Communication from "../../components/communication/Communication.component";
 
 const OnlineReserve = () => {
 
@@ -210,15 +211,10 @@ const OnlineReserve = () => {
           </div>
       </section>     
     </section>
-    {
-      reserveQueryState.error.message
-      &&
-      <ServerMessage
-      message={reserveQueryState.error.message}
-      onClose={()=>{}}
-      type="error"
-      />
-    }
+
+    <Communication
+    formState={reserveQueryState}
+    />
     </>
   )
 }

@@ -194,3 +194,19 @@
   height: 32px;
   opacity: 80%;
 }
+
+
+.notificationDetailsView{
+  display: block;
+  padding: 1rem;
+border-radius: 1rem;
+border: 0.1rem solid var(--grayLine_var);
+background-color: white;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 50rem;
+  height: 20rem;
+  z-index: 200;
+}
