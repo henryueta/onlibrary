@@ -2,9 +2,10 @@ import { useState } from "react";
 import useHandleGraphic, { graphicDataTypeList, GraphicTableType } from "../../../hooks/useHandleGraphic";
 import Graphic from "../global/Graphic.component"
 import "./GraphicManagement.component.css"
+import { ManagementType } from "../../../routes/management/Management.route";
 
 interface GraphicManagementProps {
-    management:"library" | "global"
+    management:ManagementType
 }
 
 

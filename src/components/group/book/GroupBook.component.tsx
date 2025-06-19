@@ -27,7 +27,7 @@ const GroupBook = ({}:GroupBookProps) => {
           useEffect(()=>{
       
             onAxiosQuery("get",{
-              url:"http://localhost:3300/category/get",
+              url:"http://localhost:4200/category/get",
               type:{
                 get:{
       
@@ -63,7 +63,7 @@ const GroupBook = ({}:GroupBookProps) => {
 
  useEffect(()=>{
     onAxiosQuery("get",{
-      url:"http://localhost:3300/book/list",
+      url:"http://localhost:4200/book/list",
       type:{
         get:{
           

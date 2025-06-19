@@ -22,10 +22,9 @@ const UserContent = ({id}:{id:string}) => {
         },
         onResolver:{
            then(result) {
-            
                !!result.data
                &&
-               setUserContent(result.data[0])
+               setUserContent(result.data)
            },
            catch(error) {
                console.log(error)
@@ -36,7 +35,7 @@ const UserContent = ({id}:{id:string}) => {
     },[id])
 
     const [userContent,setUserContent] = useState<UserTableQueryProps | null>(null);
-    const {onQueryTable} = useHandleTable();
+    const {onQueryTable} = useHandleTable('none');
   return (
     <section className="userAccountDataSection">
         <section className="headerSection">

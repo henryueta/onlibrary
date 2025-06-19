@@ -4,6 +4,7 @@ import { AxiosResponse, CancelToken } from "axios";
 import useAxios from "./useAxios";
 import useHandleLibrary from "./useHandleLibrary";
 import { QueryType } from "../objects/form.object";
+import { ManagementType } from "../routes/management/Management.route";
 
 
 interface TableDataProps{
@@ -11,7 +12,7 @@ interface TableDataProps{
     dataList:string[][]
 }
 
-const useHandleTable = ()=>{
+const useHandleTable = (management:ManagementType | "none")=>{
 
     const [tableData,setTableData] = useState<TableDataProps | null>(null);
     const [table,setTable] = useState<TableQueryProps | null>(null);
@@ -40,13 +41,18 @@ const useHandleTable = ()=>{
 
     }
 
-    const onQueryCountTable = async <T extends any>(type:string,action:(result:AxiosResponse)=>T,cancelToken?:CancelToken)=>{
-        
-        !!currentLibraryContext.libraryId &&
-            onAxiosQuery("get",{
-                url:"http://localhost:3300/count?type="+type+"&id="+currentLibraryContext.libraryId,
+    const onQueryCountTable = async <T extends any>(management:"global"|"library",type:string,action:(result:AxiosResponse)=>T,cancelToken?:CancelToken)=>{
+        (!!currentLibraryContext.libraryId && management === "library"
+        ||
+        management === "global")
+        &&
+        (()=>{
+                onAxiosQuery("get",{
+                url:"http://localhost:4200/count?type="+type+"&id="+currentLibraryContext.libraryId,
                 onResolver:{
-                    then:(result)=>action(result),
+                    then:(result)=>{
+                        return action(result)
+                    },
                     catch:(error)=>console.log(error)
                 },
                 type:{
@@ -55,6 +61,8 @@ const useHandleTable = ()=>{
                     }
                 }
             },cancelToken)
+        })()
+
     }
 
      const onSetTableStructure = (data:any)=>{
@@ -135,17 +143,22 @@ const useHandleTable = ()=>{
                        : setTableData(null)
                     }
                     })()
+                    const check_for_managementUrl = (
+                        management === "library"
+                        ? "?id_biblioteca="+currentLibraryContext.libraryId+"&"
+                        : "?"
+                    )
                     !table.id
                     onAxiosQuery("get",{
                         url:!table.id && !table.referenceText
-                        ? `http://localhost:3300/tables/data?id_biblioteca=${currentLibraryContext.libraryId}&type=${table.type}`
+                        ? `http://localhost:4200/tables/data${check_for_managementUrl}type=${table.type}`
                         : !table.id && !!table.referenceText
                         ? tableRoutes[table.type].referenceText
                         +"?value="+table.referenceText.value
                         +"&filter="+table.referenceText.filter
                         +"&id_biblioteca="+currentLibraryContext.libraryId
-                        : tableRoutes[table.type].getById+"?id_biblioteca="+currentLibraryContext.libraryId+"&id="+table.id,
-                        // : "http://localhost:3300/library_user/get?id_biblioteca="+currentLibraryContext.libraryId+"&id="+table.id,
+                        : tableRoutes[table.type].getById+check_for_managementUrl+"id="+table.id,
+                        // : "http://localhost:4200/library_user/get?id_biblioteca="+currentLibraryContext.libraryId+"&id="+table.id,
                         type:{
                             get:{
                                 // id:table.id,

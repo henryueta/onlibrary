@@ -25,7 +25,7 @@ const schema = {
             descricao:z.string().optional(),
             imagem:z.custom<FileList>()
             .transform((file)=>file.length > 0 && file.item(0))
-            .refine((file)=>!file || (!!file && file.size <= 330000000),{
+            .refine((file)=>!file || (!!file && file.size <= 420000000),{
                 message:"Arquivo máximo suportado 500MB"
             })
             .refine((file) => !file || (!!file && file.type?.startsWith("image")), {

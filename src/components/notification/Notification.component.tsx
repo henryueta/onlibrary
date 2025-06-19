@@ -8,7 +8,7 @@ import notification_info_icon from "../../assets/imgs/icons/info_notification_ic
 import axios from "axios";
 
 interface NotificationProps {
-      type:"admin" | "comum",
+      type:"biblioteca" | "comum" | "admin",
       id:string,
 }
 
@@ -81,7 +81,7 @@ const Notification = ({type,id}:NotificationProps)=>{
       const source = axios.CancelToken.source()
       // setInterval(()=>{
     onAxiosQuery("get",{
-      url:"http://localhost:3300/notification/get?id_usuario="+id+"&id_biblioteca="+currentLibraryContext.libraryId+"&type="+type,
+      url:"http://localhost:4200/notification/get?id_usuario="+id+"&id_biblioteca="+currentLibraryContext.libraryId+"&type="+type,
       type:{
         get:{
 

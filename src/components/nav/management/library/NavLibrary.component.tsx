@@ -9,9 +9,10 @@ import ListItem from "../../../listItem/ListItem.component";
 import { onFindTablePath } from "../../../../objects/table.object";
 import useHandlePath from "../../../../hooks/useHandlePath";
 import useHandleLibrary from "../../../../hooks/useHandleLibrary";
+import { ManagementType } from "../../../../routes/management/Management.route";
 
 
-const NavLibrary = () => {
+const NavLibrary = ({management}:{management:ManagementType}) => {
 
  const onNavigate = useNavigate();
   const location = useLocation();
@@ -39,6 +40,7 @@ const NavLibrary = () => {
             : {}
           }
           /> 
+
           <ListItem 
           title="Minha Biblioteca" 
           onClick={()=>onNavigate("/management/library/data/update/library/"+currentLibraryContext.libraryId)}

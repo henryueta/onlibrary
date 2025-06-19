@@ -23,7 +23,7 @@ const NavHome = () => {
         hasSearchButton
         suggestion={{
           active:true,
-          url:"http://localhost:3300/suggestion/get?value="
+          url:"http://localhost:4200/suggestion/get?value="
         }}
         onSearch={(value,quantity,filter)=>{
           onNavigate("/search/"+value+"/"+filter)

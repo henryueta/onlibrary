@@ -31,7 +31,7 @@ function Home() {
     !!currentLibraryContext.libraryId
     &&
     onAxiosQuery("get",{
-      url:"http://localhost:3300/data/get/summary?id="+currentLibraryContext.libraryId,
+      url:"http://localhost:4200/data/get/summary?id="+currentLibraryContext.libraryId,
       type:{
         get:{}
       },

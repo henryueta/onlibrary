@@ -123,6 +123,7 @@ LibraryUserTableQueryProps;
 
 export interface TableTypeProps {
     type:TableType | 'online_reserve',
+    management:"global"|"library"
     title:string,
     quantity:number,
     warning?:boolean,
@@ -159,7 +160,7 @@ const onFindTitleIndex = (title:TableTitleType)=>{
 
 const tableRoutes = {
   library:{
-    getById:"http://localhost:3300/library/get/dependencies",
+    getById:"http://localhost:4200/library/get/dependencies",
     post:"",
     put:"https://onlibrary-api.onrender.com/api/biblioteca/atualizar-biblioteca",
     delete:"https://onlibrary-api.onrender.com/api/biblioteca/deletar",
@@ -175,11 +176,11 @@ const tableRoutes = {
     graphic:""
   },
   library_book:{
-    getById:"http://localhost:3300/book/get/dependencies",
+    getById:"http://localhost:4200/book/get/dependencies",
     post:"https://onlibrary-api.onrender.com/api/livro/criar-livro",
     put:"https://onlibrary-api.onrender.com/api/livro/atualizar-livro",
     delete:"",
-    referenceText:"http://localhost:3300/book/get/search",
+    referenceText:"http://localhost:4200/book/get/search",
     graphic:""
   },
   library_author:{
@@ -215,7 +216,7 @@ const tableRoutes = {
     graphic:""
   },
   user:{
-    getById:"http://localhost:3300/user/get/dependencies",
+    getById:"http://localhost:4200/user/get/dependencies",
     post:"",
     put:"https://onlibrary-api.onrender.com/api/auth/atualizar-usuario",
     delete:"https://onlibrary-api.onrender.com/api/auth/deletar",
@@ -223,61 +224,61 @@ const tableRoutes = {
     graphic:""
   },
   library_user:{
-    getById:"http://localhost:3300/library_user/get/dependencies",
+    getById:"http://localhost:4200/library_user/get/dependencies",
     post:"https://onlibrary-api.onrender.com/api/usuarioBiblioteca/criar-usuarioBiblioteca",
     put:"https://onlibrary-api.onrender.com/api/usuarioBiblioteca/atualizar-usuarioBiblioteca",
     delete:"https://onlibrary-api.onrender.com/api/usuarioBiblioteca/deletar",
-    referenceText:"http://localhost:3300/library_user/get/search",
+    referenceText:"http://localhost:4200/library_user/get/search",
     graphic:""
   },
   loan:{
-    getById:"http://localhost:3300/loan/get/dependencies",
+    getById:"http://localhost:4200/loan/get/dependencies",
     post:"https://onlibrary-api.onrender.com/api/emprestimo/criar-emprestimo",
     put:"https://onlibrary-api.onrender.com/api/emprestimo/atualizar-emprestimo",
     delete:"https://onlibrary-api.onrender.com/api/emprestimo/deletar",
-    referenceText:"http://localhost:3300/loan/get/search",
+    referenceText:"http://localhost:4200/loan/get/search",
     graphic:""
   },
   amerce:{
-    getById:"http://localhost:3300/amerce/get/dependencies",
+    getById:"http://localhost:4200/amerce/get/dependencies",
     post:"https://onlibrary-api.onrender.com/api/multa/criar-multa",
     put:"https://onlibrary-api.onrender.com/api/multa/atualizar-multa",
     delete:"https://onlibrary-api.onrender.com/api/multa/deletar",
-    referenceText:"http://localhost:3300/amerce/get/search",
+    referenceText:"http://localhost:4200/amerce/get/search",
     graphic:""
   },
   online_reserve:{
-    getById:"http://localhost:3300/reserve/get/dependencies",
+    getById:"http://localhost:4200/reserve/get/dependencies",
     post:"https://onlibrary-api.onrender.com/api/reserva/criar-reserva",
     put:"https://onlibrary-api.onrender.com/api/reserva/atualiza-reserva",
     delete:"",
-    referenceText:"http://localhost:3300/reserve/get/search",
+    referenceText:"http://localhost:4200/reserve/get/search",
     graphic:""
   },
   reserve:{
-    getById:"http://localhost:3300/reserve/get/dependencies",
+    getById:"http://localhost:4200/reserve/get/dependencies",
     post:"https://onlibrary-api.onrender.com/api/reserva/criar-reserva",
     put:"https://onlibrary-api.onrender.com/api/reserva/atualiza-reserva",
     delete:"https://onlibrary-api.onrender.com/api/reserva/deletar",
-    referenceText:"http://localhost:3300/reserve/get/search",
+    referenceText:"http://localhost:4200/reserve/get/search",
     graphic:""
   },
    account:{
-    getById:"http://localhost:3300/account/get/dependencies",
+    getById:"http://localhost:4200/account/get/dependencies",
     post:"https://onlibrary-api.onrender.com/api/perfil/criar-perfil",
-    //http://localhost:3300/account/post
+    //http://localhost:4200/account/post
     put:"https://onlibrary-api.onrender.com/api/perfil/atualizar-perfil",
     delete:"https://onlibrary-api.onrender.com/api/perfil/deletar",
-    referenceText:"http://localhost:3300/account/get/search",
+    referenceText:"http://localhost:4200/account/get/search",
     graphic:""
 
   },
   exemplary:{
-    getById:"http://localhost:3300/exemplary/get/dependencies",
+    getById:"http://localhost:4200/exemplary/get/dependencies",
     post:"https://onlibrary-api.onrender.com/api/exemplar/criar-exemplar",
     put:"https://onlibrary-api.onrender.com/api/exemplar/atualizar-exemplar",
     delete:"https://onlibrary-api.onrender.com/api/exemplar/deletar",
-    referenceText:"http://localhost:3300/exemplary/get/search",
+    referenceText:"http://localhost:4200/exemplary/get/search",
     graphic:""
   },
   author:{
@@ -319,6 +320,7 @@ const tableRoutes = {
 const tableTypeDataList:TableTypeProps[] = [
   {
     type:"user",
+    management:"global",
     title:"Usuário",
     quantity:0,
     warning:false,
@@ -338,6 +340,7 @@ const tableTypeDataList:TableTypeProps[] = [
   },
   {
     type:"global_management",
+    management:"global",
     title:"",
     quantity:0,
     warning:false,
@@ -356,6 +359,7 @@ const tableTypeDataList:TableTypeProps[] = [
   },
     {
         type:"library_management",
+        management:"library",
         title:"",
         quantity:0,
         warning:false,
@@ -377,6 +381,7 @@ const tableTypeDataList:TableTypeProps[] = [
     },
   {
     type:"library",
+    management:"global",
     title:"Biblioteca",
     quantity:0,
     warning:false,
@@ -396,6 +401,7 @@ const tableTypeDataList:TableTypeProps[] = [
   },
   {
     type:"library_book",
+    management:"library",
     title:tableTitleList[onFindTitleIndex("Livro")],
     quantity:0,
     warning:false,
@@ -423,6 +429,7 @@ const tableTypeDataList:TableTypeProps[] = [
   },
     {
         type:"library_author",
+        management:"library",
         title:"Autor",
         quantity:0,
         warning:false,
@@ -444,6 +451,7 @@ const tableTypeDataList:TableTypeProps[] = [
     },
     {
         type:"library_publisher",
+        management:"library",
         title:"Editora",
         quantity:0,
         warning:false,
@@ -465,6 +473,7 @@ const tableTypeDataList:TableTypeProps[] = [
     },
     {
         type:"library_category",
+        management:"library",
         title:"Categoria",
         quantity:0,
         warning:false,
@@ -486,6 +495,7 @@ const tableTypeDataList:TableTypeProps[] = [
     },
     {
         type:"library_gender",
+        management:"library",
         title:"Gênero",
         quantity:0,
         warning:false,
@@ -507,6 +517,7 @@ const tableTypeDataList:TableTypeProps[] = [
     },
     {
         type:"book",
+        management:"global",
         title:tableTitleList[onFindTitleIndex("Livro")],
         quantity:0,
         warning:false,
@@ -533,6 +544,7 @@ const tableTypeDataList:TableTypeProps[] = [
     },
     {
         type:"author",
+        management:"global",
         title:"Autor",
         quantity:0,
         warning:false,
@@ -554,6 +566,7 @@ const tableTypeDataList:TableTypeProps[] = [
     },
     {
         type:"publisher",
+        management:"global",
         title:"Editora",
         quantity:0,
         warning:false,
@@ -575,6 +588,7 @@ const tableTypeDataList:TableTypeProps[] = [
     },
     {
         type:"category",
+        management:"global",
         title:"Categoria",
         quantity:0,
         warning:false,
@@ -596,6 +610,7 @@ const tableTypeDataList:TableTypeProps[] = [
     },
     {
         type:"gender",
+        management:"global",
         title:"Gênero",
         quantity:0,
         warning:false,
@@ -617,6 +632,7 @@ const tableTypeDataList:TableTypeProps[] = [
     },
     {
         type:"library_user",
+        management:"library",
         warning:false,
         operations:{
           post:true,
@@ -639,6 +655,7 @@ const tableTypeDataList:TableTypeProps[] = [
             ]
     },{
         type:"account",
+        management:"library",
         warning:false,
         operations:{
           post:true,
@@ -657,6 +674,7 @@ const tableTypeDataList:TableTypeProps[] = [
         quantity:0
     }, {
         type:"loan",
+        management:"library",
         warning:false,
         operations:{
           post:true,
@@ -678,6 +696,7 @@ const tableTypeDataList:TableTypeProps[] = [
     },
     {
         type:"reserve",
+        management:"library",
         warning:false,
         operations:{
           post:true,
@@ -700,6 +719,7 @@ const tableTypeDataList:TableTypeProps[] = [
         ]
     },{
         type:"amerce",
+        management:"library",
         warning:false,
         operations:{
           post:true,
@@ -721,6 +741,7 @@ const tableTypeDataList:TableTypeProps[] = [
     },
     {
         type:"exemplary",
+        management:"library",
         warning:false,
         operations:{
           post:true,
@@ -742,6 +763,7 @@ const tableTypeDataList:TableTypeProps[] = [
     },
     {
       type:"online_reserve",
+      management:"library",
       warning:false,
       operations:{
           post:false,
@@ -764,18 +786,22 @@ const tableTypeDataList:TableTypeProps[] = [
 ];
 
 const onFindTableIndex = (type:TableType)=>{
-    return tableTypeDataList.findIndex((item)=>item.type == type);
+
+    return tableTypeDataList.findIndex((item)=>{
+      return item.type === type
+    });
 }
 
 const onFindTablePath = (type:TableType)=>{
     return tableTypeDataList.find((item)=>item.type == type)?.path
 }
 
-console.warn(tableTitleList[onFindTitleIndex("Perfil")])
+
 
 export {
     tableTypeDataList,
     tableRoutes,
     onFindTableIndex,
-    onFindTablePath
+    onFindTablePath,
+    onFindTitleIndex
 }

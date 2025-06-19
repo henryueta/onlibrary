@@ -16,13 +16,14 @@ import useHandleForm from "../../../hooks/useHandleForm"
 
 interface TableManagementProps {
 
-    type:TableType
+    type:TableType,
+    management:"library"|"global"
 
 }
-const TableManagement = ({type}:TableManagementProps) => {
+const TableManagement = ({type,management}:TableManagementProps) => {
 
   const {currentLibraryContext} = useHandleLibrary()
-  const {onQueryTable,tableData} = useHandleTable();
+  const {onQueryTable,tableData} = useHandleTable(management);
   const {onQueryForm} = useHandleForm(type);
   const onNavigate = useNavigate();
   const [maxOfData,setMaxOfData] = useState<number>(15);
@@ -126,7 +127,10 @@ const TableManagement = ({type}:TableManagementProps) => {
            {
             tableTypeDataList[onFindTableIndex(type)].operations.post
             &&
-            <button onClick={()=>(onNavigate(path.onCreatePathParams("library_create_data_management",[
+            <button onClick={()=>(onNavigate(path.onCreatePathParams(
+              management === "library"
+              ? "library_create_data_management"
+              : "global_create_data_management",[
             {
               field:"type",
               param:type
@@ -193,7 +197,10 @@ const TableManagement = ({type}:TableManagementProps) => {
                                 &&
                                 <button className="editDataButton" onClick={
                                 ()=>{
-                                onNavigate(path.onCreatePathParams("library_update_data_management",[
+                                onNavigate(path.onCreatePathParams(
+                                  management === "library"
+                                  ? "library_update_data_management"
+                                  : "global_update_data_management",[
                                 {
                                   field:"type",
                                   param:type

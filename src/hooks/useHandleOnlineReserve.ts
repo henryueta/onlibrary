@@ -67,7 +67,7 @@ const useHandleOnlineReserve = ()=>{
     const onGetLibraryData = (library_data:object,id:string)=>{
         const current_libraryData = library_data as BookLibrariesProps
          onAxiosQuery("get",{
-            url:"http://localhost:3300/exemplary/get?id_biblioteca="+current_libraryData.fk_id_biblioteca+"&id_livro="+id,
+            url:"http://localhost:4200/exemplary/get?id_biblioteca="+current_libraryData.fk_id_biblioteca+"&id_livro="+id,
             type:{
             get:{}
             },

@@ -12,6 +12,17 @@
     margin-top: 3rem;
 }
 
+
+
+.userAccountDataSection form>label[for="type_id"]{
+    display: none;
+}
+
+.userAccountDataSection form>label[for="situation_id"]{
+    display: none;
+}
+
+
 .userAccountDataSection form label>div{
     margin-top: 1rem;
 }
@@ -96,6 +107,16 @@
     gap: 3rem;
 
 }
+
+.userAccountDataSection .fullContentSection .fullContentContainer .titleContainer{
+    display: none;
+}
+
+.userAccountDataSection .fullContentSection .fullContentContainer hr{
+    display: none;
+}
+
+
 
 .dataContentSection>.fullContentSection .fullContentContainer>form>div{
     display: flex;

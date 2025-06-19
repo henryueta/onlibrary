@@ -209,7 +209,7 @@ const BookPage = () => {
                                   !!authContext.userId
 
                                   ? onAxiosQuery("post",{
-                                    url:"http://localhost:3300/reserve/post",
+                                    url:"http://localhost:4200/reserve/post",
                                     type:{
                                       post:{
                                         data:{
@@ -340,7 +340,7 @@ const BookPage = () => {
                     const current_libraryData = data as BookLibrariesProps
                     
                     onAxiosQuery("get",{
-                      url:"http://localhost:3300/exemplary/get?id_biblioteca="+current_libraryData.fk_id_biblioteca+"&id_livro="+id,
+                      url:"http://localhost:4200/exemplary/get?id_biblioteca="+current_libraryData.fk_id_biblioteca+"&id_livro="+id,
                       type:{
                         get:{
 

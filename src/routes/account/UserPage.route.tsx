@@ -8,7 +8,7 @@ import LibraryContent from "../../components/content/library/LibraryContent.comp
 import useHandlePath from "../../hooks/useHandlePath";
 import Cookies from "js-cookie";
 import { path } from "../../objects/path.object";
-import FooterHome from "../../components/footer/home/FooterHome.component";
+import question_icon from "../../assets/imgs/icons/question_icon.png"
 
 const NavUser = ()=>{
   const {currentPathContext} = useHandlePath();
@@ -70,6 +70,17 @@ const NavUser = ()=>{
       >
         Logout
       </Link>
+      
+      
+        <Link 
+        style={{
+          position: "absolute",
+          bottom: "5%",
+        }}
+        to={"/"}>
+          <img src={question_icon} alt="question_icon" />
+          Suporte
+        </Link>
       
     </nav>
   )

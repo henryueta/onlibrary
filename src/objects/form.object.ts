@@ -81,6 +81,15 @@ const form:FormObjectProps = {
             .merge(schema.schemaList['user'].register.step3 as any) as z.ZodObject<ZodRawShape>,
             put:schema.schemaList['user'].register.step1
             .merge(schema.schemaList['user'].register.step2)
+            .merge(z.object({
+                tipo:z.enum(['admin','comum'],{
+                    message:"Escolha pelo menos 1 opção"
+                }),
+                situacao:z.enum(['ativo','bloqueado'],{
+                    message:"Escolha pelo menos 1 opção"
+                })
+
+            }))
             },
             fields:[
                 {
@@ -138,6 +147,54 @@ const form:FormObjectProps = {
                     title:"Email",
                     type:"email",
                     registerId:"email",
+                },
+                {
+                    id:"type_id",
+                    forForm:{
+                        post:false,
+                        put:true
+                    },
+                    tag:"select",
+                    options:{
+                        hasQuery:false,
+                        isMultiple:false,
+                        list:[
+                            {
+                                label:"admin",
+                                value:"admin"
+                            },
+                            {
+                                label:"comum",
+                                value:"comum"
+                            }
+                        ]
+                    },
+                    title:"Tipo",
+                    registerId:"tipo"
+                },
+                {
+                    id:"situation_id",
+                    forForm:{
+                        post:false,
+                        put:true
+                    },
+                    tag:"select",
+                    options:{
+                        hasQuery:false,
+                        isMultiple:false,
+                        list:[
+                            {
+                                label:"ativo",
+                                value:"ativo"
+                            },
+                            {
+                                label:"bloqueado",
+                                value:"bloqueado"
+                            }
+                        ]
+                    },
+                    title:"Situação",
+                    registerId:"situacao"
                 }
             ]
         },

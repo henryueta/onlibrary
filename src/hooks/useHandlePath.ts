@@ -1,8 +1,8 @@
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import {PathContext} from "../context/PathContext";
 import {useContext,useEffect, useState} from "react";
 
-const useHandlePath = ()=>{
+const useHandlePath = (management?:"library"|"global")=>{
 
 const currentPathContext = useContext(PathContext);
 const [pathManagement,setPathManagement] = useState<string>();
@@ -14,12 +14,20 @@ useEffect(()=>{
     //management/library/data/create
     //management/library/data/update
     //management/library
+    !!management
+    &&
+  (()=>{
+    
+    const management_pathname = 
+    management === "library"
+    ? "Biblioteca"
+    : "Administração"
+
 
     const pathManagementList = {
-
-      "list":"/Gerenciamento/Biblioteca/Listar/",
-       "create":"/Gerenciamento/Biblioteca/Criar/",
-      "update":"/Gerenciamento/Biblioteca/Atualizar/"
+      "list":"/Gerenciamento/"+management_pathname+"/Listar/",
+       "create":"/Gerenciamento/"+management_pathname+"/Criar/",
+      "update":"/Gerenciamento/"+management_pathname+"/Atualizar/"
     }
 
       const managamentPath = Object.entries(pathManagementList).find((item)=>{
@@ -27,7 +35,10 @@ useEffect(()=>{
         
         return (
           location.pathname
-          .replace("/management/library/","/")
+          .replace("/management/"+management === "library"
+            ? "library"
+            : "global" 
+            +"/","/")
           .includes(item[0])
         )
 
@@ -35,8 +46,13 @@ useEffect(()=>{
       
       !!managamentPath
       ? setPathManagement(managamentPath[1])
-      : setPathManagement("/Gerenciamento/Biblioteca")
+      : setPathManagement("/Gerenciamento/"+management_pathname)
+    
+    })()
+    
 
+
+      
     currentPathContext.setPathName(location.pathname)
 },[location.pathname])
 

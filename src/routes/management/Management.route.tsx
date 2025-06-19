@@ -16,10 +16,13 @@ import GraphicManagement from "../../components/graphic/management/GraphicManage
 
 type ManagementMode = "default" | "get" | "post" | "put" | "library";
 
+export type ManagementType = "library" | "global"
+
 interface ManagementProps {
 hasGroupTableCard:boolean,
 mode:ManagementMode
-management:"library"|"global"
+management:ManagementType
+
 }
 
 
@@ -28,8 +31,8 @@ const Management = ({hasGroupTableCard,mode,management}:ManagementProps) => {
   const [cardList,setcardList] = useState<TableTypeProps[]>(tableTypeDataList);
   const [defaultForm,setDefaultForm] = useState<TableQueryProps | null>();
   const {currentLibraryContext} = useHandleLibrary()
-  const {onQueryTable,table,onQueryCountTable} = useHandleTable();
-  const {currentPathContext,pathManagement} = useHandlePath();
+  const {onQueryTable,table,onQueryCountTable} = useHandleTable(management);
+  const {currentPathContext,pathManagement} = useHandlePath(management);
   const {type,id} = useParams()
   const onNavigate = useNavigate();
 
@@ -59,7 +62,9 @@ const Management = ({hasGroupTableCard,mode,management}:ManagementProps) => {
   useEffect(()=>{
 
     cardList.forEach((button)=>{
-        onQueryCountTable(button.type,(result)=>{
+        button.management === management
+        &&
+        onQueryCountTable(management,button.type,(result)=>{
           setcardList((prev)=>{
             return prev.map((item)=>{
                if(item.type === button.type){
@@ -70,6 +75,7 @@ const Management = ({hasGroupTableCard,mode,management}:ManagementProps) => {
              })
            })
         })
+
   })
 
 
@@ -79,9 +85,13 @@ const Management = ({hasGroupTableCard,mode,management}:ManagementProps) => {
 
   return (
     <>
-    <NavLibrary />
+    <NavLibrary
+    management={management}
+     />
       <section className="managementSection">
-         <NavAdmin/>
+         <NavAdmin
+         management={management}
+         />
         <section className="managementContentSection">
          
           <section className="dataContentSection">
@@ -168,7 +178,10 @@ const Management = ({hasGroupTableCard,mode,management}:ManagementProps) => {
             mode == "get"
             ? 
             <section className="tableManagementSection">
-                <Table type={type as TableType}/>
+                <Table 
+                  type={type as TableType}
+                  management={management}
+                  />
             </section>
             :
             mode == "post"
