@@ -796,6 +796,17 @@ const onFindTablePath = (type:TableType)=>{
     return tableTypeDataList.find((item)=>item.type == type)?.path
 }
 
+export const onCheckTableDependencie = (type:TableTypeProps)=>{
+
+    return !!tableTypeDataList.find((table)=>{
+      
+      return !!(table.type !== "global_management" && table.type !== "library_management")
+      && table.dependencies.find((dep)=>{
+        return dep === type.title
+      })
+    })
+
+}
 
 
 export {

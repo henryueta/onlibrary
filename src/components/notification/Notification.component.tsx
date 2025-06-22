@@ -24,14 +24,20 @@ interface NotificationStateProps {
 
   userNotifications:UserNotificationProps[],
   isNotificationsView:boolean
-  currentNotificationView:null | UserNotificationProps
+  currentNotification:{
+    isView:boolean,
+    content: null | UserNotificationProps
+  }
 }
 
 const initialNotificationState:NotificationStateProps = {
 
   userNotifications:[],
   isNotificationsView:false,
-  currentNotificationView:null
+  currentNotification:{
+    isView:false,
+    content:null
+  }
 
 }
 
@@ -48,7 +54,10 @@ type NotificationActionProps =
 |
 {
   type:"currentNotification",
-  value:UserNotificationProps
+  value:{
+    isView:boolean,
+    content:UserNotificationProps | null
+  }
 }
 
 const handleNotificationState =  (state:NotificationStateProps,action:NotificationActionProps)=>{
@@ -59,7 +68,7 @@ const handleNotificationState =  (state:NotificationStateProps,action:Notificati
       case "notificationsView":
           return {...state,isNotificationsView:action.value}
       case "currentNotification":
-        return {...state,currentNotificationView:action.value}
+        return {...state,currentNotification:action.value}
       default:
         return state
     }
@@ -98,17 +107,10 @@ const Notification = ({type,id}:NotificationProps)=>{
           catch:(error)=>console.log(error)
       }
     },source.token)
-    console.log("req feita")
   // },10000)
     })()
 
   },[currentLibraryContext.libraryId])
-
-useEffect(()=>{
-
-  console.warn(notificationState.isNotificationsView)
-
-},[notificationState.isNotificationsView])
 
   return (
     <>
@@ -117,15 +119,28 @@ useEffect(()=>{
       aaa
     </div> */}
       {
-        !!notificationState.currentNotificationView
+        !!notificationState.currentNotification.isView
         &&
       <Dialog
       closeOnExternalClick={true}
+      close={{
+        closeButton:false,
+        timer:50,
+        onClose() {
+          setNotificationState({
+            type:"currentNotification",
+            value:{
+              isView:false,
+              content:null
+            }
+          })
+        },
+      }}
       className="notificationDetailsView"
-      title={notificationState.currentNotificationView.titulo}
+      title={notificationState.currentNotification.content?.titulo}
       children={
         <div>
-          <p>{notificationState.currentNotificationView.conteudo}</p>
+          <p>{notificationState.currentNotification.content?.conteudo}</p>
         </div>
       }
       />
@@ -174,7 +189,7 @@ useEffect(()=>{
       <div ref={notification_ref} className="notificationsContainer">
         {
           !!notificationState.userNotifications.length ?
-          notificationState.userNotifications.map((item,index)=>{
+          notificationState.userNotifications.map((notification,index)=>{
               return <div 
               key={index} 
               className="notificationItemContainer"
@@ -189,7 +204,10 @@ useEffect(()=>{
 
                 setNotificationState({
                   type:"currentNotification",
-                  value:item
+                  value:{
+                    isView:true,
+                    content:notification
+                  }
                 })
 
                 
@@ -202,16 +220,16 @@ useEffect(()=>{
                   <div className="notificationItemInfoContainer">
                       
                     <div className="notificationItemContentContainer">
-                      {item.conteudo}
+                      {notification.conteudo}
                     </div>
                     <div className="notificationItemDateContainer">
                       {
-                      new Date(item.data_emissao).toLocaleDateString("pt-BR")
+                      new Date(notification.data_emissao).toLocaleDateString("pt-BR")
                       }
                     </div>
                   </div>
                   {
-                    !item.marcado_lido
+                    !notification.marcado_lido
                     &&
                     <div key={index} className="notificationSituationContainer"></div>
                   }

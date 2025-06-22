@@ -3,7 +3,6 @@ import search_icon from "../../assets/imgs/icons/search_icon.png";
 import { useEffect, useReducer, useState } from "react";
 import Select, { SelectProps } from "../select/Select.component";
 import useHandleSearch from "../../hooks/useHandleSearch";
-import { useNavigate } from "react-router-dom";
 import Spinner from "../spinner/Spinner.component";
 import useHandlePath from "../../hooks/useHandlePath";
 import axios, { CancelToken } from "axios";
@@ -71,10 +70,9 @@ const onHandleSearchLoadState = (state:SearchLoadStateProps,action:SearchLoadAct
 const Search = ({filter,quantity,placeholder,hasSearchButton,suggestion,onSearch,onChange} : SearchProps) => {
 
   const {currentSearchContext,searchState,suggestionState,setSearchState} = useHandleSearch(suggestion);;
-  const onNavigate = useNavigate();
   const [suggestionListView,setSuggestionListView] = useState<boolean>(false);
   const [searchLoadState,setSearchLoadState] = useReducer(onHandleSearchLoadState,initialSearchLoadState);
-  const {currentPathContext} = useHandlePath()
+  const {onTransition,currentPathContext} = useHandlePath()
 
   useEffect(()=>{
 
@@ -107,7 +105,7 @@ const Search = ({filter,quantity,placeholder,hasSearchButton,suggestion,onSearch
   },[searchState.inputValue,currentPathContext.pathName])
 
   return (
-    <div className="searchContainer">
+    <div className={"searchContainer"}>
         <input 
         placeholder={
           !!placeholder
@@ -198,7 +196,7 @@ const Search = ({filter,quantity,placeholder,hasSearchButton,suggestion,onSearch
                   key={index}
                   className="suggestion"
                   onClick={()=>{
-                    onNavigate(`/search/${item.sugestao}/${item.tipo}`)
+                    onTransition(`/search/${item.sugestao}/${item.tipo}`)
                   }}>
                     <p>
                       {item.sugestao}

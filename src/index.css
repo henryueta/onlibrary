@@ -30,6 +30,38 @@ body{
   border-radius: 1rem;
 }
 
+
+@keyframes emerge_animation {
+    0%{
+        opacity: 98%;
+        transform: scale(0.94);
+
+    }
+    100%{
+        opacity: 100%;
+        transform: scale(1);
+    }
+}
+
+@keyframes disappear_animation {
+    0%{
+        opacity: 100%;
+        transform: scale(1);
+    }
+    100%{
+        opacity: 98%;
+        transform: scale(0.94);
+    }
+}
+
+.emerge{
+    animation: emerge_animation 0.2s ease-in-out forwards;
+}
+
+.disappear{
+    animation: disappear_animation 0.2s ease-in-out forwards;
+}
+
 .cancelButton{
   cursor: pointer;
     border: none;

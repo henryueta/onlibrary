@@ -17,6 +17,8 @@ import LibraryChoice from './routes/choice/LibraryChoice.route.tsx'
 import OnlineReserve from './routes/reserve/OnlineReserve.route.tsx'
 import UserPage from './routes/account/UserPage.route.tsx'
 import SearchPage from './routes/search/SearchPage.route.tsx'
+import Support from './routes/support/Support.route.tsx'
+import Conclusion from './routes/conclusion/Conclusion.route.tsx'
 
 
 
@@ -36,6 +38,21 @@ export const router = createBrowserRouter([
   {
     path:path.onFindPath("online_reserve"),
     element:<OnlineReserve/>
+  },
+  {
+    path:path.onFindPath("online_reserve_conclusion"),
+    element:
+      <Conclusion/>
+  },
+  {
+    path:path.onFindPath("support_page"),
+    element:
+      <Support/>
+  },
+  {
+    path:path.onFindPath("support_conclusion_page"),
+    element:
+      <Conclusion/>
   },
   {
     path:path.onFindPath("user_login"),
@@ -173,7 +190,9 @@ export const router = createBrowserRouter([
           hasGroupTableCard={false}
           />
     </Private>
-  }
+  },
+  
+
 ])
 
 createRoot(document.getElementById('root')!).render(

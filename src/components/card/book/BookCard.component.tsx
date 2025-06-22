@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"
 import useImageResizer, { ResizeProps } from "../../../hooks/useImageResizer";
+import useHandlePath from "../../../hooks/useHandlePath";
 
 
 type BookCapeProps = Pick<ResizeProps,"height"|"width"> & Record<"url",string>
@@ -13,7 +13,7 @@ type BookCardProps =
 
 const BookCard = ({image,title,id}:BookCardProps) => {
 
-  const onNavigate = useNavigate();
+  const {onTransition} = useHandlePath();
   const [imageView,setImageView] = useState<string>();
   const {currentImage} = useImageResizer({
     url:image.url,
@@ -34,7 +34,7 @@ const BookCard = ({image,title,id}:BookCardProps) => {
   },[currentImage])
 
   return (
-    <div onClick={()=>{onNavigate("/book/"+id)}} className="bookCardContainer">
+    <div onClick={()=>{onTransition("/book/"+id)}} className="bookCardContainer">
         <img src={imageView} alt={`${title}´s image`} />
         <p>{title}</p>
     </div>

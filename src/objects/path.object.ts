@@ -44,6 +44,18 @@ const path:PathObjectProps = {
             path:"/book/online_reserve/:id"
         },
         {
+            type:"online_reserve_conclusion",
+            path:"/book/online_reserve/conclusion"
+        },
+        {
+            type:"support_page",
+            path:"/support"
+        },
+        {
+            type:"support_conclusion_page",
+            path:"/support/conclusion"
+        },
+        {
             type:"user_login",
             path:"/login"
         },

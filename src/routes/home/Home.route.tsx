@@ -9,6 +9,7 @@ import {autoTable} from "jspdf-autotable"
 import useAxios from '../../hooks/useAxios';
 import { useEffect, useState } from 'react';
 import useHandleLibrary from '../../hooks/useHandleLibrary';
+import useHandlePath from '../../hooks/useHandlePath';
 
 declare module "jspdf" {
   interface jsPDF {
@@ -108,10 +109,15 @@ function Home() {
 
   }
 
+  const {currentPathContext} = useHandlePath();
   return (
-    <section className='homeSection'>
+    <>
+    <section className={'homeSection'}>
       <NavHome/>
-        <Main contentStyle={{
+        
+        <Main 
+        className={'mainContent '+currentPathContext.transitionClass}
+        contentStyle={{
           flexDirection:"column",
           width:"var(--mainContainerWidth)",
           gap:"3.5rem",
@@ -119,13 +125,13 @@ function Home() {
           marginTop:"5rem",
         }}>
         <Slider/>
-          <button
+          {/* <button
           onClick={()=>{
             !!data
             &&
             teste()
           }}
-          >CLICK</button>
+          >CLICK</button> */}
           <GroupBook
            title="Livros em destaque" 
           category=''
@@ -136,9 +142,11 @@ function Home() {
            />
            
         </Main>
+        
       <FooterHome/>
 
     </section>
+    </>
   )
 }
 

@@ -1,5 +1,5 @@
 import ServerMessage from "../message/ServerMessage.component"
-import useCommunication from "../../hooks/useCommunication"
+import useCommunication from "../../hooks/useHandleCommunication"
 import { QueryStateProps } from "../../hooks/useAxios";
 
 interface CommunicationProps {

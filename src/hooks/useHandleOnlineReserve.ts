@@ -3,6 +3,8 @@ import { BookLibrariesProps } from "./useHandleBook";
 import useAxios, { QueryStateProps } from "./useAxios";
 import { ExemplaryTableQueryProps, tableRoutes } from "../objects/table.object";
 import useHandleAuth from "./usehandleAuth";
+import { useNavigate } from "react-router-dom";
+import { path } from "../objects/path.object";
 
 
   interface OnlineReserveStateProps {
@@ -49,7 +51,8 @@ const useHandleOnlineReserve = ()=>{
       const [onlineReserveState,setOnlineReserveState] = useReducer(handleOnlineReserveState,initialOnlineReserveState);
       const {onAxiosQuery,queryState} = useAxios();
       const {authContext} = useHandleAuth();
-      
+      const onNavigate = useNavigate();
+
       const [reserveQueryState,setReserveQueryState] = useState<QueryStateProps>(queryState);
 
       useEffect(()=>{
@@ -79,7 +82,6 @@ const useHandleOnlineReserve = ()=>{
                     type:"exemplary",
                     value:current_exemplaryQuantity
                     })
-
                 },
                 catch(error) {
                     console.log(error)
@@ -115,8 +117,10 @@ const useHandleOnlineReserve = ()=>{
             }
           },
           onResolver:{
-            then(result) {
-              console.log(result)
+            then() {
+              setTimeout(()=>{
+                onNavigate(path.onFindPath("online_reserve_conclusion"))
+              },1000)
             },
             catch(error) {
               console.log(error)

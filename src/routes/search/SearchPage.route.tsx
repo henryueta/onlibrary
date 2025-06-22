@@ -2,10 +2,11 @@ import "./SearchPage.route.css";
 import NavHome from "../../components/nav/home/NavHome.component";
 import HeaderTitle from "../../components/header_title/HeaderTitle.component";
 import BookCard from "../../components/card/book/BookCard.component";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useHandleSearch from "../../hooks/useHandleSearch";
 import FooterHome from "../../components/footer/home/FooterHome.component";
+import useHandlePath from "../../hooks/useHandlePath";
 
 const filterList = 
 [
@@ -48,7 +49,7 @@ const SearchPage = () => {
         ? filter
         : filterList[0].value
     );
-    const onNavigate = useNavigate();
+    const {onTransition,currentPathContext} = useHandlePath();
     useEffect(()=>{
     !!value?.length && !!filter?.length
     &&
@@ -80,7 +81,8 @@ useEffect(()=>{
         type:"filter",
         value:dataFilter
         })
-        onNavigate(`/search/${value}/${dataFilter}`,{replace:true})
+        onTransition(`/search/${value}/${dataFilter}`)
+        //{replace:true}
     })()
     
 },[dataFilter])
@@ -96,7 +98,7 @@ useEffect(()=>{
   return (
     <>
     <NavHome/>
-    <section className="searchPageSection">
+    <section className={"searchPageSection "+currentPathContext.transitionClass}>
         <section className="filterSeaction">
                 <div className="filterContainer">
                     <HeaderTitle

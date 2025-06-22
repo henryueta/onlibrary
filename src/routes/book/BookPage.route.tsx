@@ -11,6 +11,7 @@ import useHandleBook, { BookLibrariesProps } from "../../hooks/useHandleBook";
 import { ExemplaryTableQueryProps } from "../../objects/table.object";
 import useHandleAuth from "../../hooks/usehandleAuth";
 import TitleDescription from "../../components/title_description/TitleDescription.component";
+import useHandlePath from "../../hooks/useHandlePath";
 
   interface LibraryStateProps {
       libraryData:BookLibrariesProps | null,
@@ -85,7 +86,7 @@ const BookPage = () => {
   const [reserveExemplaryQuantity,setReserveExemplaryQuantity] = useState<number>(1);
   const {authContext} = useHandleAuth();
 
-  const onNavigate = useNavigate();
+  const {onTransition,currentPathContext} = useHandlePath();
 
   const [libraryState,setLibraryState] = useReducer(handleLibraryState,initialLibraryState);
 
@@ -254,7 +255,7 @@ const BookPage = () => {
             padding:"3.5rem 0rem 3.5rem 0rem"
         }}>
             
-             <section className="bookPageSection">
+             <section className={"bookPageSection "+currentPathContext.transitionClass}>
                   {/* <Load loadState={queryState.isLoading}/> */}
             {  !!bookState.data
             && 
@@ -275,7 +276,7 @@ const BookPage = () => {
                       <section className="reserveSection">
                           <button className="acceptButton"
                           onClick={()=>{
-                            onNavigate("/book/online_reserve/"+id)
+                            onTransition("/book/online_reserve/"+id)
                             // !!authContext.userId
                             // ? onNavigate("/book/online_reserve/"+id)
                             // : onNavigate("/login")

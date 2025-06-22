@@ -10,7 +10,6 @@ import TitleDescription from "../../components/title_description/TitleDescriptio
 import HeaderTitle from "../../components/header_title/HeaderTitle.component";
 import useHandleOnlineReserve from "../../hooks/useHandleOnlineReserve";
 import Spinner from "../../components/spinner/Spinner.component";
-import ServerMessage from "../../components/message/ServerMessage.component";
 import Communication from "../../components/communication/Communication.component";
 
 const OnlineReserve = () => {

@@ -77,7 +77,7 @@ const NavUser = ()=>{
           position: "absolute",
           bottom: "5%",
         }}
-        to={"/"}>
+        to={"/support"}>
           <img src={question_icon} alt="question_icon" />
           Suporte
         </Link>

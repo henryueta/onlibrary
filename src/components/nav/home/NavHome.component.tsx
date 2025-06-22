@@ -5,11 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 import UserAccount from "../../account/user/UserAccount.component";
 import Notification from "../../notification/Notification.component";
 import useHandleAuth from "../../../hooks/usehandleAuth";
+import useHandlePath from "../../../hooks/useHandlePath";
 
 const NavHome = () => {
 
   const {authContext} = useHandleAuth();
-  const onNavigate = useNavigate();
+  const {onTransition} = useHandlePath()
 
   return (
     <nav className="navHomeBar">
@@ -26,7 +27,7 @@ const NavHome = () => {
           url:"http://localhost:4200/suggestion/get?value="
         }}
         onSearch={(value,quantity,filter)=>{
-          onNavigate("/search/"+value+"/"+filter)
+          onTransition("/search/"+value+"/"+filter)
         }} onChange={()=>{
           
         }} quantity={0}/>

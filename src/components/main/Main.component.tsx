@@ -4,15 +4,19 @@ import "./Main.component.css";
 type MainStyleProps = Record<'contentStyle',React.CSSProperties>;
 
 interface MainProps extends MainStyleProps{
-
+  className?:string
   children:ReactNode
 
 }
 
 
-const Main = ({children,contentStyle}:MainProps) => {
+const Main = ({children,className,contentStyle}:MainProps) => {
   return (
-    <main className="mainContent"
+    <main className={
+      !!className
+      ? className
+      : "mainContent"
+    }
     style={{
       display:"flex",
       justifyContent:"center",
