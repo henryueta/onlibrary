@@ -1,14 +1,14 @@
 
 .sliderContentContainer{
-  height: 26.5rem;
-   width: 100%;
+  height: 430px;
+   width: 1530px;
    display: flex;
 }
 
 .sliderContainer{
   width: 100%;
   height: 100%;
-  background-size: cover; 
+  /* background-size: contain;  */
   border-radius: calc(var(--borderRadius_var) + 0.2rem);
   display: flex;
   justify-content: space-between;

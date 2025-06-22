@@ -107,7 +107,7 @@ const useHandleTransition = ()=>{
             &&
             onNavigate(url)
 
-        },5000)
+        },200)
 
 
 

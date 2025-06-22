@@ -6,9 +6,9 @@ import libraryOpenned_icon from "../../assets/imgs/icons/libraryOpenned_icon.web
 import useHandleAuth from "../../hooks/usehandleAuth";
 import useAxios from "../../hooks/useAxios";
 import { Link } from "react-router-dom";
-import onlibrary_logo from "../../assets/imgs/logo/onlibrary_logoBig.png";
 import white_onlibrary_logo from "../../assets/imgs/logo/white_onlibrary_logo.png";
 import { useNavigate } from "react-router-dom";
+import useHandlePath from "../../hooks/useHandlePath";
 
 const LibraryChoice = () => {
   const {onLibraryId,currentLibraryContext,onQueryLibraries,libraries,queryState} = useHandleLibrary()
@@ -17,6 +17,7 @@ const LibraryChoice = () => {
   const {authContext} = useHandleAuth();
  const {onAxiosQuery} = useAxios();
   const onNavigate = useNavigate();
+  const {currentPathContext} = useHandlePath();
 
   useEffect(()=>{
     !!authContext.userId
@@ -59,7 +60,7 @@ const LibraryChoice = () => {
   },[currentLibrary])
 
   return (
-    <section className="choiceLibrarySection">
+    <section className={"choiceLibrarySection "+currentPathContext.transitionClass}>
        <Load loadState={queryState.isLoading}/>
         <div className="choiceLibraryContainer">
             <div className="welcomeContainer">

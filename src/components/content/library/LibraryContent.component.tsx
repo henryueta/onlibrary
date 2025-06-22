@@ -4,12 +4,14 @@ import useHandleLibrary, { LibraryProps } from "../../../hooks/useHandleLibrary"
 import HeaderTitle from "../../header_title/HeaderTitle.component"
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../spinner/Spinner.component";
+import useHandlePath from "../../../hooks/useHandlePath";
+
 
 const LibraryContent = ({id}:{id:string}) => {
     const {onLibraryId,currentLibraryContext,onQueryLibraries,libraries,queryState} = useHandleLibrary()
     const [currentLibrary,setCurrentLibrary] = useState<LibraryProps | null>(null);
     const onNavigate = useNavigate();
-
+    const {currentPathContext} = useHandlePath();
 
      useEffect(()=>{
         onQueryLibraries("https://onlibrary-api.onrender.com/api/biblioteca/minhas-bibliotecas")
@@ -26,7 +28,7 @@ const LibraryContent = ({id}:{id:string}) => {
       },[currentLibrary])
 
   return (
-    <section className="libraryContentDataSection">
+    <section className={"libraryContentDataSection "+currentPathContext}>
         <section className="headerSection">
           <HeaderTitle
           title="Bibliotecas"

@@ -149,7 +149,6 @@ const {onAxiosQuery} = useAxios()
     useEffect(()=>{
       !!currentImage
       &&
-    //   setBookCape(currentImage)
       (()=>{
         setBookState({
         type:"cape",
@@ -157,7 +156,7 @@ const {onAxiosQuery} = useAxios()
       })
      
       })()
-    },[bookState.data])
+    },[currentImage])
 
 
 

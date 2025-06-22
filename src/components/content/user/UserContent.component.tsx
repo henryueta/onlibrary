@@ -7,6 +7,8 @@ import HeaderTitle from "../../header_title/HeaderTitle.component";
 import Form from "../../form/global/component/Form.component";
 import { form } from "../../../objects/form.object";
 import useHandleTable from "../../../hooks/useHandleTable";
+import Communication from "../../communication/Communication.component";
+import useHandlePath from "../../../hooks/useHandlePath";
 
 const UserContent = ({id}:{id:string}) => {
 
@@ -35,9 +37,15 @@ const UserContent = ({id}:{id:string}) => {
     },[id])
 
     const [userContent,setUserContent] = useState<UserTableQueryProps | null>(null);
-    const {onQueryTable} = useHandleTable('none');
+    const {onQueryTable,queryFormState} = useHandleTable('none');
+    const {currentPathContext} = useHandlePath()
+
   return (
-    <section className="userAccountDataSection">
+    <>
+    <Communication
+    formState={queryFormState}
+    />
+    <section className={"userAccountDataSection "+currentPathContext.transitionClass}>
         <section className="headerSection">
             <HeaderTitle 
             hasHrLine = {false}
@@ -98,6 +106,7 @@ const UserContent = ({id}:{id:string}) => {
             </section>
         </section>
     </section>
+    </>
   )
 }
 

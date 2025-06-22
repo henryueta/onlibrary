@@ -12,7 +12,7 @@ const FooterHome = () => {
             <hr />
             <Link to={"/"}>Sobre nós</Link>
             <hr />
-            <Link to={"/"}>Contato</Link>
+            <Link to={"/support"}>Suporte</Link>
           </div>
     </footer>
   )

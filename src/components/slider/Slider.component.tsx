@@ -8,12 +8,23 @@ const Slider = () => {
   useEffect(()=>{
 
     setSliderList([
-      'https://miro.medium.com/v2/resize:fit:1100/format:webp/1*lAoXzLYaHoONaw4yG91fqA.jpeg',
-      'https://blog-leiturinha-novo.s3.amazonaws.com/production/uploads/2024/12/Livros-infantis-mais-amados-de-2024.jpg',
+      'https://absolutaformaturas.com.br/wp-content/uploads/2015/04/MKA_6419-1530x430.jpg',
+      'https://absolutaformaturas.com.br/wp-content/uploads/2015/01/graduation-1530x430.jpg',
       'https://www.intersaberes.com/wp-content/uploads/2023/03/woman-reading-book-evening-home-close-up.jpg'
     ])
-    
+     // Limpa o intervalo no unmount
   },[])
+
+    useEffect(()=>{
+
+      const intervalId = setInterval(() => {
+      setCurrentSliderIndex((prev) =>
+        prev === sliderList.length-1? 0 : prev + 1
+      );
+    }, 20000);
+    return () => clearInterval(intervalId);
+
+    },[sliderList])
 
   return (
     <div 

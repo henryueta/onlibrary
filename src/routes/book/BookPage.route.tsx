@@ -2,7 +2,7 @@ import FooterHome from "../../components/footer/home/FooterHome.component";
 import Main from "../../components/main/Main.component";
 import NavHome from "../../components/nav/home/NavHome.component";
 import "./BookPage.route.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useAxios from "../../hooks/useAxios";
 import { useReducer, useState } from "react";
 import Word from "../../classes/word.class";
@@ -276,7 +276,9 @@ const BookPage = () => {
                       <section className="reserveSection">
                           <button className="acceptButton"
                           onClick={()=>{
-                            onTransition("/book/online_reserve/"+id)
+                            onTransition("/book/online_reserve/"+id,{
+                              hasReplace:false
+                            })
                             // !!authContext.userId
                             // ? onNavigate("/book/online_reserve/"+id)
                             // : onNavigate("/login")

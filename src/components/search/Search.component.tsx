@@ -196,7 +196,9 @@ const Search = ({filter,quantity,placeholder,hasSearchButton,suggestion,onSearch
                   key={index}
                   className="suggestion"
                   onClick={()=>{
-                    onTransition(`/search/${item.sugestao}/${item.tipo}`)
+                    onTransition(`/search/${item.sugestao}/${item.tipo}`,{
+                      hasReplace:false
+                    })
                   }}>
                     <p>
                       {item.sugestao}

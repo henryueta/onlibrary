@@ -1,4 +1,4 @@
-import { useLocation, useNavigate} from "react-router-dom";
+import { useLocation, useNavigate, useNavigationType} from "react-router-dom";
 import {PathContext} from "../context/PathContext";
 import {useContext,useEffect, useState} from "react";
 
@@ -6,7 +6,9 @@ const useHandlePath = (management?:"library"|"global")=>{
 
 const currentPathContext = useContext(PathContext);
 const [pathManagement,setPathManagement] = useState<string>();
+const navigationType = useNavigationType();
 const onNavigate = useNavigate();
+
 
 useEffect(()=>{
 
@@ -21,7 +23,7 @@ useEffect(()=>{
 
 },[])
 
-  const onTransition = (url:string)=>{
+  const onTransition = (url:string,config:{hasReplace:boolean})=>{
         currentPathContext.setTransitionState({
             type:"disappear",
             value:{
@@ -41,7 +43,9 @@ useEffect(()=>{
             }
         })
             
-            onNavigate(url)
+            onNavigate(url,{
+              replace:config.hasReplace
+            })
             
 
         },200)
@@ -117,7 +121,8 @@ useEffect(()=>{
 return {
   currentPathContext,
   pathManagement,
-  onTransition
+  onTransition,
+  navigationType
 }
 
 }

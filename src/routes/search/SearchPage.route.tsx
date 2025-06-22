@@ -81,7 +81,9 @@ useEffect(()=>{
         type:"filter",
         value:dataFilter
         })
-        onTransition(`/search/${value}/${dataFilter}`)
+        onTransition(`/search/${value}/${dataFilter}`,{
+            hasReplace:true
+        })
         //{replace:true}
     })()
     

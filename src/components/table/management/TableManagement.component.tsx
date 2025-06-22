@@ -12,7 +12,7 @@ import axios from "axios"
 import white_edit_icon from "../../../assets/imgs/icons/white_edit_icon.png";
 import white_delete_icon from "../../../assets/imgs/icons/white_delete_icon.webp";
 import white_add_icon from "../../../assets/imgs/icons/white_add_icon.webp";
-import useHandleForm from "../../../hooks/useHandleForm"
+import Communication from "../../communication/Communication.component"
 
 interface TableManagementProps {
 
@@ -23,12 +23,10 @@ interface TableManagementProps {
 const TableManagement = ({type,management}:TableManagementProps) => {
 
   const {currentLibraryContext} = useHandleLibrary()
-  const {onQueryTable,tableData} = useHandleTable(management);
-  const {onQueryForm} = useHandleForm(type);
+  const {onQueryTable,tableData,queryFormState} = useHandleTable(management);
   const onNavigate = useNavigate();
   const [maxOfData,setMaxOfData] = useState<number>(15);
   // const [filterOfData,setFilterOfData] = useState<string>("todos");
-  const [searchOfData,setSearchOfData] = useState<string | null>(null);
   const [tableDataView,setTableDataView] = useState<string[][]>([]);
 
 
@@ -61,6 +59,9 @@ const TableManagement = ({type,management}:TableManagementProps) => {
 
   return (
     <>
+    <Communication
+    formState={queryFormState}
+    />
     <section className="tableSection">
           
         <div className="titleContainer">
@@ -74,7 +75,7 @@ const TableManagement = ({type,management}:TableManagementProps) => {
         
       <div className="managementContainer">
             <Search
-            onChange={(e)=>{setSearchOfData(e.target.value)}}
+            onChange={()=>{}}
             onSearch={(value,quantity,filter,cancelToken)=>{
               console.log(quantity)
               type != "library_management"

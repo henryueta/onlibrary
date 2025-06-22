@@ -2,85 +2,107 @@ import "./UserPage.route.css";
 import NavHome from "../../components/nav/home/NavHome.component";
 import UserContent from "../../components/content/user/UserContent.component";
 import useHandleAuth from "../../hooks/usehandleAuth";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import OrderContent from "../../components/content/order/OrderContent.component";
 import LibraryContent from "../../components/content/library/LibraryContent.component";
 import useHandlePath from "../../hooks/useHandlePath";
-import Cookies from "js-cookie";
 import { path } from "../../objects/path.object";
 import question_icon from "../../assets/imgs/icons/question_icon.png"
+import Cookies from "js-cookie";
 
 const NavUser = ()=>{
-  const {currentPathContext} = useHandlePath();
+  const {currentPathContext,onTransition} = useHandlePath();
   const {authContext} = useHandleAuth();
   return (
-    <nav className="userNavBar">
+    <nav className={"userNavBar "+"emerge"}>
       <div className="titleContainer">
           <h1>
             Sua conta
           </h1>
       </div>
-      <Link
+      <span
       style={
         currentPathContext.pathName === "/user/info"
         ? {color:"var(--blue_var)"}
         : {}
       }
-      to={"/user/info"}
-      replace
+      // to={"/user/info"}
+      // replace
+      onClick={()=>{
+        onTransition("/user/info",{hasReplace:true})
+      }}
       >
         Conta
-      </Link>
-      <Link
+      </span>
+      <span
       style={
         currentPathContext.pathName === "/user/orders"
         ? {color:"var(--blue_var)"}
         : {}
       }
-      to={"/user/orders"}
-      replace
+      onClick={()=>{
+        onTransition("/user/orders",{hasReplace:true})
+      }}
       >
         Pedidos e multas
-      </Link>
-      <Link
+      </span>
+      <span
       style={
         currentPathContext.pathName === "/user/libraries"
         ? {color:"var(--blue_var)"}
         : {}
       }
-      to={"/user/libraries"}
-      replace
+      onClick={()=>{
+        onTransition("/user/libraries",{hasReplace:true})
+      }}
       >
         Biblioteca
-      </Link>
-      <Link to={path.onFindPath("global_management")}>
-        Administração
-      </Link>
-      <Link
+      </span>
+      <span 
       onClick={()=>{
-        Cookies.remove("jwt")
-        Cookies.remove("user_id")
-        Cookies.remove("userStatus")
-        Cookies.remove("library")
-        authContext.onLogout()
+        onTransition(path.onFindPath("global_management"),{hasReplace:true})
       }}
-      to={"/"}
-      replace
+      >
+        Administração
+      </span>
+      <span
+
+      onClick={()=>{
+      
+        const logoutAsk = confirm("Deseja sair de sua conta?")
+        !!logoutAsk
+        && (()=>{
+          Cookies.remove("jwt")
+          Cookies.remove("user_id")
+          Cookies.remove("userStatus")
+          Cookies.remove("library")
+          authContext.onLogout()      
+          onTransition("/",{
+            hasReplace:true
+          })
+        })()
+
+      }}
+      // to={"/"}
+      // replace
       style={{fontWeight:"bold"}}
       >
         Logout
-      </Link>
+      </span>
       
       
-        <Link 
+        <span 
         style={{
           position: "absolute",
           bottom: "5%",
         }}
-        to={"/support"}>
+        onClick={()=>{
+          onTransition("/support",{hasReplace:true})
+        }}
+        >
           <img src={question_icon} alt="question_icon" />
           Suporte
-        </Link>
+        </span>
       
     </nav>
   )

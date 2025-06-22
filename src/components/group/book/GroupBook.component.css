@@ -8,7 +8,7 @@
   color: var(--blackFont_var);
   background-color: white;
   border-radius: calc(var(--borderRadius_var) + 0.2rem);
-  height: 350px;
+  /* height: 350px; */
 }
 
 
@@ -26,9 +26,18 @@
 
 .listBookSection .itemListContainer{
   display: flex;
+  /* align-items: start; */
+  flex-direction: column;
   width: 90%;
   background: none;
   border: none;
+  gap: 1rem;
+}
+
+
+.listBookSection .itemListContainer .titleContainer{
+padding: 0.5rem;
+font-size: 1.5rem;
 }
 
 .listBookSection:hover{
@@ -57,9 +66,9 @@
   padding: 1rem;
   display: flex;
   justify-content: start;
-  justify-content: space-evenly;
-  gap: 2rem;
+  gap: 3rem;
   align-items: center;
+  width: 100%;
 }
 
 .itemContainer>div{
@@ -69,6 +78,7 @@
   align-items: center;
   gap: 0.4rem;  
   cursor: pointer;
+
 }
 
 .itemContainer>div:hover{

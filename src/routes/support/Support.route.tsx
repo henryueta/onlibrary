@@ -2,30 +2,19 @@ import "./Support.route.css";
 import FooterHome from "../../components/footer/home/FooterHome.component"
 import NavHome from "../../components/nav/home/NavHome.component"
 import HeaderTitle from "../../components/header_title/HeaderTitle.component";
-import { useEffect, useReducer } from "react";
 import useAxios from "../../hooks/useAxios";
 import Communication from "../../components/communication/Communication.component";
-import { useNavigate } from "react-router-dom";
 import Spinner from "../../components/spinner/Spinner.component";
-
-const initialSupportState = {
-
-    solicitationValue:"",
-    isSent:false
-
-}
+import useHandleAuth from "../../hooks/usehandleAuth";
+import useHandlePath from "../../hooks/useHandlePath";
 
 const Support = () => {
 
-    useEffect(()=>{
-
-        
-
-    },[])
-
     // const [supportState,setSupportState] = useReducer(handleSupportState,initialSupportState);
     const {onAxiosQuery,queryState} = useAxios();
-    const onNavigate = useNavigate();
+    const {authContext} = useHandleAuth();
+    const {onTransition,currentPathContext} = useHandlePath();
+    
 
   return (
     <>
@@ -33,11 +22,11 @@ const Support = () => {
            <Communication
            formState={queryState}
            />
-            <section className="supportPageSection">
+            <section className={"supportPageSection "+currentPathContext.transitionClass}>
                 <div className="supportContainer">
-                    <div className="iconContainer">
+                    {/* <div className="iconContainer">
                         <img src="https://cdn.creazilla.com/icons/3430555/support-icon-size_24.png" alt="" />
-                    </div>
+                    </div> */}
                     <HeaderTitle
                         title="Suporte"
                         hasHrLine
@@ -52,13 +41,16 @@ const Support = () => {
                             <textarea name="" id="solicitation_id"/>
                             <button className="acceptButton"
                             onClick={()=>{
-                                onAxiosQuery("post",{
+                                !!authContext.userId                              
+                                ? onAxiosQuery("post",{
                                     url:"http://localhost:4200/contact/post",
                                     type:{post:{data:{}}},
                                     onResolver:{
                                         then() {
                                             setTimeout(()=>{
-                                                onNavigate("/support/conclusion")
+                                                onTransition("/support/conclusion",{
+                                                    hasReplace:true
+                                                })
                                             },1000)
                                         },
                                         catch(error) {
@@ -66,6 +58,10 @@ const Support = () => {
                                         },
                                     }
                                 })
+                                : onTransition("/login",{
+                                    hasReplace:false
+                                })
+
                             }}
                             >
                                 {
@@ -74,7 +70,7 @@ const Support = () => {
                                     <Spinner
                                     />
                                 }
-                                Enviar
+                                Enviar Mensagem
                             </button>
                         </label>
                     </div>

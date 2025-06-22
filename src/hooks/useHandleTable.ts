@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {  TableQueryProps, TableType, tableTypeDataList,tableRoutes } from "../objects/table.object";
 import { AxiosResponse, CancelToken } from "axios";
-import useAxios from "./useAxios";
+import useAxios, { QueryStateProps } from "./useAxios";
 import useHandleLibrary from "./useHandleLibrary";
 import { QueryType } from "../objects/form.object";
 import { ManagementType } from "../routes/management/Management.route";
@@ -16,12 +16,17 @@ const useHandleTable = (management:ManagementType | "none")=>{
 
     const [tableData,setTableData] = useState<TableDataProps | null>(null);
     const [table,setTable] = useState<TableQueryProps | null>(null);
-    const {onAxiosQuery} = useAxios();
+    const {onAxiosQuery,queryState} = useAxios();
     const {currentLibraryContext} = useHandleLibrary()
+    const [queryFormState,setQueryFormState] = useState<QueryStateProps>(queryState);
 
+    useEffect(()=>{
+
+        setQueryFormState(queryState)
+
+    },[queryState])
 
     const onFilterTable = (type:Exclude<TableType,"library_management"|"global_management">,value:string,filter:string)=>{
-        alert("Procurar por "+value+" e filtro "+filter+" na tabela "+type)
         onAxiosQuery("get",{
             url:"",
             type:{
@@ -188,8 +193,8 @@ const useHandleTable = (management:ManagementType | "none")=>{
                             url:tableRoutes[table.type].delete+"/"+table.id,
                             type:{},
                             onResolver:{
-                                then(result) {
-                                    alert(result.data.message)
+                                then() {
+                                    
                                 },
                                 catch(error) {
                                     console.log(error)
@@ -221,6 +226,7 @@ const useHandleTable = (management:ManagementType | "none")=>{
         tableData,
         setTableData,
         table,
+        queryFormState,
         onQueryTable,
         onSetTableStructure,
         onQueryCountTable,

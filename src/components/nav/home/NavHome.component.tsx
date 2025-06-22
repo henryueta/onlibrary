@@ -10,14 +10,26 @@ import useHandlePath from "../../../hooks/useHandlePath";
 const NavHome = () => {
 
   const {authContext} = useHandleAuth();
-  const {onTransition} = useHandlePath()
+  const {onTransition,currentPathContext} = useHandlePath()
 
   return (
     <nav className="navHomeBar">
         <div className="logoContainer">
-            <Link to="/">
+            <span 
+            onClick={()=>{
+              currentPathContext.pathName !== "/"
+              &&
+              onTransition("/",{
+                hasReplace:false
+              })
+            }}
+            style={
+              {
+                cursor:"pointer"
+              }
+            }>
                 <img src={onlibrary_logo} alt="onlibrary_logo" />
-            </Link>
+            </span>
         </div>
         <Search 
         placeholder="Pesquise por livros"
@@ -27,7 +39,9 @@ const NavHome = () => {
           url:"http://localhost:4200/suggestion/get?value="
         }}
         onSearch={(value,quantity,filter)=>{
-          onTransition("/search/"+value+"/"+filter)
+          onTransition("/search/"+value+"/"+filter,{
+            hasReplace:false
+          })
         }} onChange={()=>{
           
         }} quantity={0}/>

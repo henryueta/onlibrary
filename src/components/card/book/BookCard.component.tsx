@@ -34,7 +34,9 @@ const BookCard = ({image,title,id}:BookCardProps) => {
   },[currentImage])
 
   return (
-    <div onClick={()=>{onTransition("/book/"+id)}} className="bookCardContainer">
+    <div onClick={()=>{onTransition("/book/"+id,{
+      hasReplace:false
+    })}} className="bookCardContainer">
         <img src={imageView} alt={`${title}´s image`} />
         <p>{title}</p>
     </div>

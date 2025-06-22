@@ -10,6 +10,7 @@ import useAxios from '../../hooks/useAxios';
 import { useEffect, useState } from 'react';
 import useHandleLibrary from '../../hooks/useHandleLibrary';
 import useHandlePath from '../../hooks/useHandlePath';
+import GroupByCategory from '../../components/group/category/GroupByCategory.component';
 
 declare module "jspdf" {
   interface jsPDF {
@@ -49,7 +50,7 @@ function Home() {
   },[currentLibraryContext.libraryId])
 
 
-  const teste = ()=>{
+  const onCreateLibrarySummary = ()=>{
 
     const doc = new jsPDF();
 
@@ -110,6 +111,9 @@ function Home() {
   }
 
   const {currentPathContext} = useHandlePath();
+
+
+
   return (
     <>
     <section className={'homeSection'}>
@@ -125,22 +129,7 @@ function Home() {
           marginTop:"5rem",
         }}>
         <Slider/>
-          {/* <button
-          onClick={()=>{
-            !!data
-            &&
-            teste()
-          }}
-          >CLICK</button> */}
-          <GroupBook
-           title="Livros em destaque" 
-          category=''
-           />
-           <GroupBook
-           title="Livros em destaque" 
-          category=''
-           />
-           
+          <GroupByCategory/>           
         </Main>
         
       <FooterHome/>

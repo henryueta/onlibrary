@@ -363,7 +363,9 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                     defaultValue={defaultValueList && defaultValueList[item_input!.registerId]}
                     type={item_input!.type}
                     id={item_input!.id}
-                    {...register(item_input!.registerId as Path<SchemaType>)}/>
+                    {...register(item_input!.registerId as Path<SchemaType>)}
+                    />
+                    
                     : item_input!.tag === "textarea"
                     &&
                     <textarea

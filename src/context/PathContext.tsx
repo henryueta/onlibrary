@@ -89,6 +89,12 @@ const PathProvider = ({children}:{children:React.ReactNode})=>{
     const [transitionClass,setTransitionClass] = useState<"emerge" | "disappear">("emerge");
 
         useEffect(()=>{
+
+           window.scrollTo(0, 0);
+
+        },[pathName])
+
+        useEffect(()=>{
           
             !!transitionState.isEmerging
             &&

@@ -3,6 +3,7 @@ import BookCard from "../../card/book/BookCard.component";
 import { useEffect, useState } from "react";
 import { BookTableQueryProps } from "../../../objects/table.object";
 import useAxios from "../../../hooks/useAxios";
+import HeaderTitle from "../../header_title/HeaderTitle.component";
 
 interface GroupBookProps{
     title:string,
@@ -11,7 +12,7 @@ interface GroupBookProps{
 
 type bookCardProps = Pick<BookTableQueryProps,'imagem'|'titulo'|'id'>[];
 
-const GroupBook = ({}:GroupBookProps) => {
+const GroupBook = ({category,title}:GroupBookProps) => {
 
       const {onAxiosQuery} = useAxios()
       const [books,setBooks] = useState<bookCardProps | null>(null);
@@ -21,49 +22,10 @@ const GroupBook = ({}:GroupBookProps) => {
         end:6
       });
 
-          const [categories,setCategories] = useState<string[] | null>(null);
-          const [randomChoice,setRandomChoice] = useState<number | null>(null);
-      
-          useEffect(()=>{
-      
-            onAxiosQuery("get",{
-              url:"http://localhost:4200/category/get",
-              type:{
-                get:{
-      
-                }
-              },
-              onResolver:{
-                then(result) {
-                  const category_data = result.data as {nome:string}[]
-                  setCategories( category_data.map((item)=>item.nome))
-                },
-                catch(error) {
-                  console.log(error)
-                },
-              }
-            })
-      
-          },[])
-      
-            useEffect(()=>{
-              !!categories?.length
-              &&
-              (()=>{
-              setRandomChoice(Math.floor(Math.random()*categories?.length-1))
-            })()
-      
-            },[categories])
-      
-            useEffect(()=>{
-              !!randomChoice && !!categories
-              &&
-              console.log(categories[randomChoice])
-            },[randomChoice])
-
+          
  useEffect(()=>{
     onAxiosQuery("get",{
-      url:"http://localhost:4200/book/list",
+      url:"http://localhost:4200/book/list?categoria="+category,
       type:{
         get:{
           
@@ -83,6 +45,7 @@ const GroupBook = ({}:GroupBookProps) => {
 
 
   return (
+    <>
     <section className="listBookSection">
       <div className="changeListButtonContainer">
           <button
@@ -101,7 +64,12 @@ const GroupBook = ({}:GroupBookProps) => {
         </button>
       </div>
       <div className="itemListContainer">
+        <HeaderTitle
+        title={title}
+        hasHrLine
+        />
         <div className="itemContainer">  
+          
         {
             !!books
             &&
@@ -142,6 +110,7 @@ const GroupBook = ({}:GroupBookProps) => {
           </button>
         </div>
     </section>
+    </>
   )
 }
 export default GroupBook

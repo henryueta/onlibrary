@@ -34,7 +34,7 @@ body{
 @keyframes emerge_animation {
     0%{
         opacity: 98%;
-        transform: scale(0.94);
+        transform: scale(0.97);
 
     }
     100%{
@@ -50,7 +50,7 @@ body{
     }
     100%{
         opacity: 98%;
-        transform: scale(0.94);
+        transform: scale(0.97);
     }
 }
 

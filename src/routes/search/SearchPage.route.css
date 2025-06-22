@@ -108,8 +108,8 @@
     grid-template-columns: repeat(4,1fr);
     gap: 2rem;
     padding: 2rem;
-    align-items: center;
-    justify-content: center;
+    align-items: start;
+    justify-content: space-evenly;
 
   }
   

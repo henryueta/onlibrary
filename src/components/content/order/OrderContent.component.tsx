@@ -2,12 +2,14 @@ import "./OrderContent.component.css";
 import TableHome from "../../table/home/TableHome.component"
 import HeaderTitle from "../../header_title/HeaderTitle.component"
 import useHandleOrder from "../../../hooks/useHandleOrder";
+import useHandlePath from "../../../hooks/useHandlePath";
 
 const OrderContent = ({id}:{id:string}) => {
   const {orderState} = useHandleOrder(id);
+  const {currentPathContext} = useHandlePath();
 
   return (
-    <section className="orderContentDataSection">
+    <section className={"orderContentDataSection "+currentPathContext.transitionClass}>
       <section className="headerSection">
           <HeaderTitle
           title="Pedidos"

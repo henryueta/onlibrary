@@ -42,7 +42,9 @@ export const router = createBrowserRouter([
   {
     path:path.onFindPath("online_reserve_conclusion"),
     element:
-      <Conclusion/>
+      <Conclusion
+      type='online_reserve'
+      />
   },
   {
     path:path.onFindPath("support_page"),
@@ -52,7 +54,9 @@ export const router = createBrowserRouter([
   {
     path:path.onFindPath("support_conclusion_page"),
     element:
-      <Conclusion/>
+      <Conclusion
+      type='support'
+      />
   },
   {
     path:path.onFindPath("user_login"),
