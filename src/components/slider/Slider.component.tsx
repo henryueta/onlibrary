@@ -4,25 +4,39 @@ import "./Slider.component.css"
 const Slider = () => {
   const [sliderList,setSliderList] = useState<string[]>([]);
   const [currentSliderIndex,setCurrentSliderIndex] = useState(0);
+  const [sliderClass,setSliderClass] = useState<string>("emergeSlide");
 
   useEffect(()=>{
 
     setSliderList([
-      'https://absolutaformaturas.com.br/wp-content/uploads/2015/04/MKA_6419-1530x430.jpg',
-      'https://absolutaformaturas.com.br/wp-content/uploads/2015/01/graduation-1530x430.jpg',
-      'https://www.intersaberes.com/wp-content/uploads/2023/03/woman-reading-book-evening-home-close-up.jpg'
+      "https://absolutaformaturas.com.br/wp-content/uploads/2015/04/MKA_6419-1530x430.jpg",
+      "https://absolutaformaturas.com.br/wp-content/uploads/2015/01/graduation-1530x430.jpg",
     ])
-     // Limpa o intervalo no unmount
   },[])
 
     useEffect(()=>{
 
+        setSliderClass("emergeSlide")
+
+    },[currentSliderIndex])
+
+      
+
+    useEffect(()=>{
+
       const intervalId = setInterval(() => {
-      setCurrentSliderIndex((prev) =>
+      setSliderClass("fadeSlide")
+
+      setTimeout(()=>{
+        setCurrentSliderIndex((prev) =>
         prev === sliderList.length-1? 0 : prev + 1
       );
-    }, 20000);
+      },200)
+
+    }, 5000);
+
     return () => clearInterval(intervalId);
+
 
     },[sliderList])
 
@@ -32,35 +46,54 @@ const Slider = () => {
     >
        <div 
        className="sliderContainer"
-       style={!!sliderList.length
-        ? {
-          background:"url("+sliderList[currentSliderIndex]+")"
-        }
-        : {}
-       }
        >
+        
           {
             !!sliderList.length
             &&
             <>
             
-              <div className="changeCurrentSliderContainer">
+              <div 
+              className="changeCurrentSliderContainer"
+              id="setPreviousSliderContainer"
+              >
                 <button
                 onClick={()=>{
                   currentSliderIndex > 0
                   &&
-                  setCurrentSliderIndex((prev)=>prev-=1)
+                  (()=>{
+                    
+                  setSliderClass("fadeSlide")
+                    setTimeout(()=>{
+                    setCurrentSliderIndex((prev)=>prev-=1)
+                    },200)
+                  })()
                 }}>
                     previous
                 </button>
               </div>  
 
-              <div className="changeCurrentSliderContainer">
+              <img 
+              className={sliderClass}
+              src={sliderList[currentSliderIndex]} 
+              alt="image_slider" 
+              />  
+
+              <div 
+              className="changeCurrentSliderContainer"
+              id="setNextSliderContainer"
+              >
                 <button
                 onClick={()=>{
                   currentSliderIndex < sliderList.length-1
                   &&
-                  setCurrentSliderIndex((prev)=>prev+=1)
+                  (()=>{
+                  setSliderClass("fadeSlide")
+                    setTimeout(()=>{
+                    setCurrentSliderIndex((prev)=>prev+=1)
+                    },200)
+                  })()
+                  
                 }}>
                     next
                 </button>
