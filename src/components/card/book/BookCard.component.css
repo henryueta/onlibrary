@@ -1,0 +1,16 @@
+
+.loadingImageContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    border: 0.1rem solid var(--grayLine_var);
+}
+
+.loadingImageContainer>div{
+    width:40px;
+    border: 0.3rem solid;
+    border-style: outset;
+    height:40px;
+}

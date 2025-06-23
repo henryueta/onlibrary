@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { BookTableQueryProps } from "../../../objects/table.object";
 import useAxios from "../../../hooks/useAxios";
 import HeaderTitle from "../../header_title/HeaderTitle.component";
+import blackArrow_icon from "../../../assets/imgs/icons/blackArrow_icon.png"
 
 interface GroupBookProps{
     title:string,
@@ -47,7 +48,10 @@ const GroupBook = ({category,title}:GroupBookProps) => {
   return (
     <>
     <section className="listBookSection">
-      <div className="changeListButtonContainer">
+      <div 
+      className="changeListButtonContainer"
+      id="setPreviousListContainer"
+      >
           <button
           onClick={()=>{
             currentListBook.start > 0
@@ -60,7 +64,7 @@ const GroupBook = ({category,title}:GroupBookProps) => {
             })
 
           }}>
-          {currentListBook.start}
+          <img src={blackArrow_icon} alt="previous_arrow_icon" />
         </button>
       </div>
       <div className="itemListContainer">
@@ -91,7 +95,10 @@ const GroupBook = ({category,title}:GroupBookProps) => {
         }
         </div> 
       </div>
-        <div className="changeListButtonContainer">
+        <div 
+        className="changeListButtonContainer"
+        id="setNextListContainer"
+        >
           <button
           onClick={()=>{
             !!books?.length
@@ -106,7 +113,7 @@ const GroupBook = ({category,title}:GroupBookProps) => {
             })
           }}
           >
-            {currentListBook.end}
+            <img src={blackArrow_icon} alt="next_arrow_icon" />
           </button>
         </div>
     </section>

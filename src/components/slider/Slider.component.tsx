@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react"
 import "./Slider.component.css"
+import slide_1 from "../../assets/imgs/slide/slide_1.png"
+import slide_2 from "../../assets/imgs/slide/slide_2.png"
+import blackArrow_icon from "../../assets/imgs/icons/blackArrow_icon.png"
+
 
 const Slider = () => {
   const [sliderList,setSliderList] = useState<string[]>([]);
@@ -9,8 +13,8 @@ const Slider = () => {
   useEffect(()=>{
 
     setSliderList([
-      "https://absolutaformaturas.com.br/wp-content/uploads/2015/04/MKA_6419-1530x430.jpg",
-      "https://absolutaformaturas.com.br/wp-content/uploads/2015/01/graduation-1530x430.jpg",
+      slide_1,
+      slide_2,
     ])
   },[])
 
@@ -33,7 +37,7 @@ const Slider = () => {
       );
       },200)
 
-    }, 5000);
+    }, 20000);
 
     return () => clearInterval(intervalId);
 
@@ -59,17 +63,20 @@ const Slider = () => {
               >
                 <button
                 onClick={()=>{
-                  currentSliderIndex > 0
-                  &&
+
                   (()=>{
                     
                   setSliderClass("fadeSlide")
                     setTimeout(()=>{
-                    setCurrentSliderIndex((prev)=>prev-=1)
+                    setCurrentSliderIndex((prev)=>{
+                      return currentSliderIndex === 0
+                      ? (sliderList.length - 1)
+                      : prev-=1
+                    })
                     },200)
                   })()
                 }}>
-                    previous
+                    <img src={blackArrow_icon} alt="previous_arrow_icon" />
                 </button>
               </div>  
 
@@ -85,17 +92,19 @@ const Slider = () => {
               >
                 <button
                 onClick={()=>{
-                  currentSliderIndex < sliderList.length-1
-                  &&
                   (()=>{
                   setSliderClass("fadeSlide")
                     setTimeout(()=>{
-                    setCurrentSliderIndex((prev)=>prev+=1)
+                    setCurrentSliderIndex((prev)=>{
+                      return currentSliderIndex === (sliderList.length -1)
+                      ? prev-=1
+                      : prev+=1
+                    })
                     },200)
                   })()
                   
                 }}>
-                    next
+                    <img src={blackArrow_icon} alt="next_arrow_icon" />
                 </button>
               </div>   
             </>

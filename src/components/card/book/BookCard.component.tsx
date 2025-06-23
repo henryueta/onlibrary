@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import useImageResizer, { ResizeProps } from "../../../hooks/useImageResizer";
 import useHandlePath from "../../../hooks/useHandlePath";
-
+import Spinner from "../../spinner/Spinner.component";
+import "./BookCard.component.css"
 
 type BookCapeProps = Pick<ResizeProps,"height"|"width"> & Record<"url",string>
 
@@ -37,7 +38,13 @@ const BookCard = ({image,title,id}:BookCardProps) => {
     <div onClick={()=>{onTransition("/book/"+id,{
       hasReplace:false
     })}} className="bookCardContainer">
-        <img src={imageView} alt={`${title}´s image`} />
+      {
+        !!imageView
+        ? <img src={imageView} alt={`${title}´s image`} />
+        : <div className="loadingImageContainer">
+            <Spinner/>
+         </div>
+      }
         <p>{title}</p>
     </div>
   )

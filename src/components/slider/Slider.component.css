@@ -71,10 +71,27 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  background: none;
+}
+
+.sliderContainer button:hover{
+  transform: scale(1.2);
+}
+
+.sliderContainer button:active{
+transform: scale(2.5);
+}
+
+.sliderContainer button>img{
+  opacity: 70%;
 }
 
 #setPreviousSliderContainer{
   left: 5%;
+}
+
+#setPreviousSliderContainer img{
+  transform: rotateZ(180deg)
 }
 
 #setNextSliderContainer{
