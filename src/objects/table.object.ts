@@ -160,11 +160,11 @@ const onFindTitleIndex = (title:TableTitleType)=>{
 
 const tableRoutes = {
   library:{
-    getById:"http://localhost:4200/library/get/dependencies",
+    getById:"https://onlibrary-api.onrender.com/api/biblioteca/dependencies",
     post:"",
     put:"https://onlibrary-api.onrender.com/api/biblioteca/atualizar-biblioteca",
     delete:"https://onlibrary-api.onrender.com/api/biblioteca/deletar",
-    referenceText:"",
+    referenceText:"https://onlibrary-api.onrender.com/api/biblioteca/search",
     graphic:""
   },
   book:{
@@ -172,7 +172,7 @@ const tableRoutes = {
     post:"",
     put:"",
     delete:"",
-    referenceText:"",
+    referenceText:"https://onlibrary-api.onrender.com/api/livro/{livroId}/details",
     graphic:""
   },
   library_book:{
@@ -180,7 +180,7 @@ const tableRoutes = {
     post:"https://onlibrary-api.onrender.com/api/livro/criar-livro",
     put:"https://onlibrary-api.onrender.com/api/livro/atualizar-livro",
     delete:"",
-    referenceText:"http://localhost:4200/book/get/search",
+    referenceText:"https://onlibrary-api.onrender.com/api/livro/search/biblioteca",
     graphic:""
   },
   library_author:{
@@ -224,27 +224,27 @@ const tableRoutes = {
     graphic:""
   },
   library_user:{
-    getById:"http://localhost:4200/library_user/get/dependencies",
+    getById:"https://onlibrary-api.onrender.com/api/usuarioBiblioteca/dependencies",
     post:"https://onlibrary-api.onrender.com/api/usuarioBiblioteca/criar-usuarioBiblioteca",
     put:"https://onlibrary-api.onrender.com/api/usuarioBiblioteca/atualizar-usuarioBiblioteca",
     delete:"https://onlibrary-api.onrender.com/api/usuarioBiblioteca/deletar",
-    referenceText:"http://localhost:4200/library_user/get/search",
+    referenceText:"https://onlibrary-api.onrender.com/api/usuarioBiblioteca/search",
     graphic:""
   },
   loan:{
-    getById:"http://localhost:4200/loan/get/dependencies",
+    getById:"https://onlibrary-api.onrender.com/api/emprestimo/dependencies",
     post:"https://onlibrary-api.onrender.com/api/emprestimo/criar-emprestimo",
     put:"https://onlibrary-api.onrender.com/api/emprestimo/atualizar-emprestimo",
     delete:"https://onlibrary-api.onrender.com/api/emprestimo/deletar",
-    referenceText:"http://localhost:4200/loan/get/search",
+    referenceText:"https://onlibrary-api.onrender.com/api/emprestimo/search",
     graphic:""
   },
   amerce:{
-    getById:"http://localhost:4200/amerce/get/dependencies",
+    getById:"https://onlibrary-api.onrender.com/api/multa/dependencies",
     post:"https://onlibrary-api.onrender.com/api/multa/criar-multa",
     put:"https://onlibrary-api.onrender.com/api/multa/atualizar-multa",
     delete:"https://onlibrary-api.onrender.com/api/multa/deletar",
-    referenceText:"http://localhost:4200/amerce/get/search",
+    referenceText:"https://onlibrary-api.onrender.com/api/multa/search",
     graphic:""
   },
   online_reserve:{
@@ -256,29 +256,29 @@ const tableRoutes = {
     graphic:""
   },
   reserve:{
-    getById:"http://localhost:4200/reserve/get/dependencies",
+    getById:"https://onlibrary-api.onrender.com/api/reserva/dependencies",
     post:"https://onlibrary-api.onrender.com/api/reserva/criar-reserva",
     put:"https://onlibrary-api.onrender.com/api/reserva/atualiza-reserva",
     delete:"https://onlibrary-api.onrender.com/api/reserva/deletar",
-    referenceText:"http://localhost:4200/reserve/get/search",
+    referenceText:"https://onlibrary-api.onrender.com/api/reserva/search",
     graphic:""
   },
    account:{
-    getById:"http://localhost:4200/account/get/dependencies",
+    getById:"https://onlibrary-api.onrender.com/api/perfil/dependencies",
     post:"https://onlibrary-api.onrender.com/api/perfil/criar-perfil",
     //http://localhost:4200/account/post
     put:"https://onlibrary-api.onrender.com/api/perfil/atualizar-perfil",
     delete:"https://onlibrary-api.onrender.com/api/perfil/deletar",
-    referenceText:"http://localhost:4200/account/get/search",
+    referenceText:"https://onlibrary-api.onrender.com/api/perfil/search",
     graphic:""
 
   },
   exemplary:{
-    getById:"http://localhost:4200/exemplary/get/dependencies",
+    getById:"https://onlibrary-api.onrender.com/api/exemplar/dependencies",
     post:"https://onlibrary-api.onrender.com/api/exemplar/criar-exemplar",
     put:"https://onlibrary-api.onrender.com/api/exemplar/atualizar-exemplar",
     delete:"https://onlibrary-api.onrender.com/api/exemplar/deletar",
-    referenceText:"http://localhost:4200/exemplary/get/search",
+    referenceText:"https://onlibrary-api.onrender.com/api/exemplar/search",
     graphic:""
   },
   author:{

@@ -99,13 +99,16 @@ const useHandleSearch = (suggestion?:{
           console.log(currentSearchContext.searchContextState.currentValue)
               const source = axios.CancelToken.source();
           onAxiosQuery("get",{
-            url:"http://localhost:4200/book/get/search/view?value="
-            +currentSearchContext.searchContextState.currentValue+"&filter="
-            +currentSearchContext.searchContextState.filter,
-            type:{get:{}},
+            url:"https://onlibrary-api.onrender.com/api/livro/search/home",
+            type:{get:{
+              params:{
+                value:currentSearchContext.searchContextState.currentValue,
+              filter:currentSearchContext.searchContextState.filter
+              }
+            }},
             onResolver:{
               then(result) {
-                const result_data = result.data as SearchResultProps[]
+                const result_data = result.data.data as SearchResultProps[]
                 console.log(result)
                 setSearchState({
                   type:"result",

@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer, useState } from "react"
 import { useRef } from "react"
 import useHandlePath from "../../hooks/useHandlePath"
+import "./Dialog.component.css"
 
 interface DialogProps {
     close?:{
@@ -14,6 +15,7 @@ interface DialogProps {
     className?:string,
     closeClass?:string
     closeOnExternalClick:boolean
+    hasBackgroundBlur?:boolean
 }
 
 interface DialogStateProps {
@@ -47,7 +49,7 @@ const handleDialogState = (state:DialogStateProps,action:DialogActionProps)=>{
     }
 }
 
-const Dialog = ({close,title,id,children,className,closeOnExternalClick,closeClass}:DialogProps) => {
+const Dialog = ({close,title,id,children,className,closeOnExternalClick,closeClass,hasBackgroundBlur}:DialogProps) => {
 
     const dialogRef = useRef<HTMLDialogElement>(null)
     const [iscloseExternal,setIsCloseExternal] = useState<boolean>(false);
@@ -140,6 +142,7 @@ const Dialog = ({close,title,id,children,className,closeOnExternalClick,closeCla
     },[iscloseExternal])
 
   return (
+    <>
     <dialog
         ref={dialogRef}
         id={id}
@@ -177,6 +180,14 @@ const Dialog = ({close,title,id,children,className,closeOnExternalClick,closeCla
 
 
     </dialog>
+        {
+            hasBackgroundBlur
+            &&
+            <div className="backgroundBlurContainer">
+
+            </div>
+        }
+    </>
   )
 }
 

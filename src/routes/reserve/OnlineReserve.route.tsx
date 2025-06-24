@@ -11,6 +11,7 @@ import HeaderTitle from "../../components/header_title/HeaderTitle.component";
 import useHandleOnlineReserve from "../../hooks/useHandleOnlineReserve";
 import Spinner from "../../components/spinner/Spinner.component";
 import Communication from "../../components/communication/Communication.component";
+import ServerMessage from "../../components/message/ServerMessage.component";
 
 const OnlineReserve = () => {
 
@@ -18,6 +19,7 @@ const OnlineReserve = () => {
     const {bookState} = useHandleBook(!!id ? id : '' ,{width:156,height:250});
     const {onlineReserveState,onGetLibraryData,onOnlineReserve,reserveQueryState} = useHandleOnlineReserve();
     const [reserveExemplaryQuantity,setReserveExemplaryQuantity] = useState<number>(1);
+    const [noLibraryWarn,setNoLibraryWarn] = useState<boolean>(false);
     const {authContext} = useHandleAuth();
     const onNavigate = useNavigate();
     const {getImage,currentImage} = useImageResizer()
@@ -62,6 +64,17 @@ const OnlineReserve = () => {
 
      <section className="reserveDataSection">
      <div className="reserveResumeContainer">
+            {
+              !!noLibraryWarn
+              &&
+              <ServerMessage
+                  message="Escolha uma biblioteca para a reserva"
+                  type="error"
+                  onClose={()=>{
+                      setNoLibraryWarn(false)
+                  }}
+              />
+            }
             <HeaderTitle
               title="Resumo da reserva"
               hasHrLine
@@ -109,7 +122,7 @@ const OnlineReserve = () => {
                 </div>        
           </div>
           <div className="reserveOptionsContainer">
-              <div className="reserveCancelContainer">
+              <div className="closeLibraryDialog">
                 <button className="cancelButton"
                 onClick={()=>{
                   onNavigate("/book/"+id)
@@ -134,8 +147,8 @@ const OnlineReserve = () => {
                     exemplary_quantity:reserveExemplaryQuantity,
 
                   })
-                  : alert("sem biblioteca")
-                  : alert("sem id")
+                  : setNoLibraryWarn(true)
+                  : null
 
                 }}
                 className="acceptButton">
@@ -192,7 +205,7 @@ const OnlineReserve = () => {
           {
                     
                     !!bookState.libraries?.length
-                    &&
+                    ?
                     <TableHome
                     table={bookState.libraries.filter((library)=>library.reserva_online)}
                     filter={["telefone","fk_id_biblioteca","fk_id_livro","fk_id_livro","reserva_online","0"]}
@@ -206,6 +219,9 @@ const OnlineReserve = () => {
 
                     }}
                   />
+                  : <div className="noDataContainer">
+                    <p>Nenhuma biblioteca encontrada</p>
+                  </div>
                   }        
           </div>
       </section>     

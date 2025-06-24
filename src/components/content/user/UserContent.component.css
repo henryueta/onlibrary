@@ -88,7 +88,7 @@
 }
 
 .userAccountDataSection>.dataContentSection>.fullContentSection{
-    min-height: 1050px;
+    min-height: 900px;
 }
 
 .userAccountDataSection>.dataContentSection>.fullContentSection>div{
@@ -137,12 +137,40 @@
         font-size: 1.2rem;
 }
 
-.dataContentSection>.fullContentSection .fullContentContainer input{
+.dataContentSection>.fullContentSection form{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.dataContentSection>.fullContentSection form .titleFieldContainer{
+        width: 120px;
+        font-size: 1.2rem;
+}
+
+.dataContentSection>.fullContentSection form .fieldContainer{
+    width: 50%;
+}
+
+.dataContentSection>.fullContentSection .fullContentContainer form .fieldContainer .fieldDataContainer{
+    width: 100%;
+    font-size: 1.2rem;
+}
+
+.dataContentSection>.fullContentSection .fullContentContainer form .inputDataContainer:nth-child(8){
+    display: none;
+}
+
+.dataContentSection>.fullContentSection .fullContentContainer form .inputDataContainer:nth-child(9){
+    display: none;
+}
+
+.dataContentSection>.fullContentSection .fullContentContainer form input{
     font-size: 1.2rem;
     border-radius: var(--borderRadius_var);
     border: 0.1rem solid var(--grayLine_var);
     padding: 0.5rem;    
-    width:75%;
+    width:100%;
 }
 
 @keyframes teste2 {

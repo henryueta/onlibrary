@@ -19,8 +19,23 @@
     padding: 10rem;
 }
 
+.conclusionPageSection .titleContainer{
+        font-size: 1.2rem;
+}
+
+.conclusionPageSection .subTitleContainer{
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+}
+
 .conclusionOptionsContainer{
         margin-top: 3rem;
         display: flex;
-        gap: 1rem;
+        gap: 4rem;
+}
+
+.conclusionOptionsContainer button{
+        width: 200px;
+        height: 50px;
+        font-size: 1.1rem;
 }

@@ -12,6 +12,7 @@ import { ExemplaryTableQueryProps } from "../../objects/table.object";
 import useHandleAuth from "../../hooks/usehandleAuth";
 import TitleDescription from "../../components/title_description/TitleDescription.component";
 import useHandlePath from "../../hooks/useHandlePath";
+import Dialog from "../../components/dialog/Dialog.component";
 
   interface LibraryStateProps {
       libraryData:BookLibrariesProps | null,
@@ -93,15 +94,19 @@ const BookPage = () => {
 
   return (
     <>
-    {/* {
+    {
       libraryState.visible.view
       &&
       <Dialog 
+            hasBackgroundBlur
             title="Sobre a biblioteca"
             className="libraryViewDialog"
-            closeOnExternalClick={false}
-            onClose={()=>{
-              setLibraryState({
+            closeOnExternalClick={true}
+            close={{
+              closeButton:false,
+              timer:200,
+              onClose() {
+                setLibraryState({
                 type:"off",
                 value:{
                   close:true,
@@ -116,6 +121,7 @@ const BookPage = () => {
                 type:"exemplary",
                 value:null
               })
+              },
             }}
             >
               {
@@ -152,43 +158,17 @@ const BookPage = () => {
                           description={libraryState.libraryData.cep}
                           />
                         </div>
+
+                        <div>
+                          <TitleDescription 
+                          title="Quantidade Total"
+                          description={libraryState.libraryData.quantidade}
+                          />
+                        </div>
+                        
                        
                       </div>
-                      <div className="reserveContainer">
-                          <div className="dialogTable">
-                              <table>
-                              <thead>
-                              <tr>
-                                <th>Livro</th>
-                                <th>Quantidade</th>
-                              </tr>
-                              <tr>
-                                <td>Livro</td>
-                                <td>
-                                  <input 
-                                  type="number" 
-                                  value={reserveExemplaryQuantity}
-                                  onChange={(e)=>{
-                                    const current_numberValue = parseInt(e.target.value)
-                                    typeof libraryState.exemplaryQuantity  === 'number'
-                                    &&
-                                    current_numberValue <= libraryState.exemplaryQuantity
-                                    &&
-                                    current_numberValue > 0
-                                    &&
-                                    setReserveExemplaryQuantity(current_numberValue)
-                                  }}
-                                  />
-                                </td>
-                              </tr>
-                              </thead>
-                          </table>
-                          </div>
-                      
-                      </div>
-                      <hr />
-                      <div className="reserveOptionsContainer">
-                        <div className="reserveCancelContainer">
+                        <div className="closeLibraryDialog">
                             <button className="cancelButton"
                             onClick={()=>{
                               setLibraryState({
@@ -199,51 +179,14 @@ const BookPage = () => {
                                 }
                               })
                                             }}>
-                              Cancelar
+                              Fechar
                             </button>
                         </div>
-                        <div className="reserveSubmitContainer">
-                            {
-                              libraryState.libraryData.reserva_online
-                              ? 
-                              <button className="acceptButton" onClick={()=>{
-                                  !!authContext.userId
-
-                                  ? onAxiosQuery("post",{
-                                    url:"http://localhost:4200/reserve/post",
-                                    type:{
-                                      post:{
-                                        data:{
-                                          fk_id_biblioteca:libraryState.libraryData?.fk_id_biblioteca,
-                                          fk_id_livro:id,
-                                          fk_id_usuario:authContext.userId,
-                                          quantidade_total:reserveExemplaryQuantity
-                                        }
-                                      }
-                                    },
-                                    onResolver:{
-                                      then(result) {
-                                        console.log(result)
-                                      },
-                                      catch(error) {
-                                        console.log(error)
-                                      },
-                                    }  
-                                  })
-                                  : alert("Faça seu login");
-                              }}>
-                                Reservar
-                              </button>
-
-                              : <p>Esta biblioteca não aceita reservas online</p>
-                            }
-                        </div>
-                      </div>
                     </section>
                   )
               }
         </Dialog>
-    } */}
+    }
             
     <NavHome/>
         <Main contentStyle={{
@@ -331,55 +274,59 @@ const BookPage = () => {
               <section className="bookLibrarySection">
                  <div className="titleContainer">
                       <h1>Bibliotecas disponíveis</h1>
-                </div>       
-                {
-                  
-                  !!bookState.libraries?.length
-                  &&
-                  <TableHome
-                  table={bookState.libraries}
-                  filter={["telefone","fk_id_biblioteca","fk_id_livro","fk_id_livro","reserva_online","0"]}
-                  onClick={(data)=>{
-                    const current_libraryData = data as BookLibrariesProps
+                </div>   
+                  <div className="librariesOfBookContainer">    
+                  {
                     
-                    onAxiosQuery("get",{
-                      url:"http://localhost:4200/exemplary/get?id_biblioteca="+current_libraryData.fk_id_biblioteca+"&id_livro="+id,
-                      type:{
-                        get:{
-
+                    !!bookState.libraries?.length
+                    ?
+                    <TableHome
+                    table={bookState.libraries}
+                    filter={["telefone","fk_id_biblioteca","fkIdBiblioteca","fkIdLivro","Reserva online","0"]}
+                    onClick={(data)=>{
+                      const current_libraryData = data as BookLibrariesProps
+                      
+                      onAxiosQuery("get",{
+                        url:"http://localhost:4200/exemplary/get?id_biblioteca="+current_libraryData.fk_id_biblioteca+"&id_livro="+id,
+                        type:{
+                          get:{
+                            
+                          }
+                        },
+                        onResolver:{
+                          then(result) {
+                            const current_exemplaryListData = result.data as Pick<ExemplaryTableQueryProps,'situacao'>[];
+                            const current_exemplaryQuantity = current_exemplaryListData.length
+                            setReserveExemplaryQuantity(1)
+                            setLibraryState({
+                              type:"exemplary",
+                              value:current_exemplaryQuantity
+                            })
+                          },
+                          catch(error) {
+                            console.log(error)
+                          },
                         }
-                      },
-                      onResolver:{
-                        then(result) {
-                          const current_exemplaryListData = result.data as Pick<ExemplaryTableQueryProps,'situacao'>[];
-                          const current_exemplaryQuantity = current_exemplaryListData.length
-                          setReserveExemplaryQuantity(1)
-                          setLibraryState({
-                            type:"exemplary",
-                            value:current_exemplaryQuantity
-                          })
-                        },
-                        catch(error) {
-                          console.log(error)
-                        },
-                      }
-                    })
+                      })
 
-                    setLibraryState({
-                      type:"on",
-                      value:{
-                        view:true,
-                        close:false
-                      }
-                    })
-                    setLibraryState({
-                      type:"libraryData",
-                      value:current_libraryData
-                    })
-                  }}
-                />
-                }
-
+                      setLibraryState({
+                        type:"on",
+                        value:{
+                          view:true,
+                          close:false
+                        }
+                      })
+                      setLibraryState({
+                        type:"libraryData",
+                        value:current_libraryData
+                      })
+                    }}
+                  />
+                  : <div className="noDataContainer">
+                    <p>Nenhuma biblioteca disponível</p>
+                  </div>
+                  }
+                </div>
               </section>
               </>
             }

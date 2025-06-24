@@ -65,11 +65,12 @@ const Management = ({hasGroupTableCard,mode,management}:ManagementProps) => {
         button.management === management
         &&
         onQueryCountTable(management,button.type,(result)=>{
+          console.warn(result)
           setcardList((prev)=>{
             return prev.map((item)=>{
                if(item.type === button.type){
-                   item.quantity = result.data.quantidade
-                   item.warning = result.data.aviso
+                   item.quantity = result.count
+                   item.warning = result.warn
                }
                return item
              })
@@ -209,6 +210,7 @@ const Management = ({hasGroupTableCard,mode,management}:ManagementProps) => {
             &&
             <>
                 <div className="formDataContainer">
+                  
                   <Form
                   method={{
                     post:false,

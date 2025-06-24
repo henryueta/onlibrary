@@ -8,6 +8,8 @@ const OrderContent = ({id}:{id:string}) => {
   const {orderState} = useHandleOrder(id);
   const {currentPathContext} = useHandlePath();
 
+  console.log(orderState.loanList)
+
   return (
     <section className={"orderContentDataSection "+currentPathContext.transitionClass}>
       <section className="headerSection">
@@ -26,7 +28,7 @@ const OrderContent = ({id}:{id:string}) => {
             &&
             <TableHome
             table={orderState.loanList}
-            filter={['fk_id_biblioteca','fk_id_usuario','id','0','Username','Bibliotecario']}
+            filter={['fkIdBiblioteca','fkIdUsuario','id','0','Username','Bibliotecário']}
             />
           }
         </div>
@@ -42,7 +44,7 @@ const OrderContent = ({id}:{id:string}) => {
             &&
             <TableHome
             table={orderState.reserveList}
-            filter={['fk_id_biblioteca','fk_id_usuario','id','0','Username','tipo']}
+            filter={['fkIdBiblioteca','fkIdUsuario','id','0','Username','tipo']}
             />
           }
           </div>
@@ -57,7 +59,7 @@ const OrderContent = ({id}:{id:string}) => {
               !!orderState.amerceList?.length && id
               ? <TableHome
               table={orderState.amerceList}
-              filter={['id','fk_id_usuario','fk_id_biblioteca','0','Username']}
+              filter={['id','fkIdBiblioteca','fkIdUsuario','0','Username']}
               />
               : <p>Nenhuma multa encontrada</p>
             }

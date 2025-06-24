@@ -101,7 +101,8 @@ const schema = {
             situacao:z.enum(['bloqueado','ativo']),
             tipo_usuario:z.enum(["comum","admin"]),
             numero_matricula:z.string(),
-            cpf:z.string().refine((val)=>val.match(/[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}/),{
+            cpf:z.string().refine((val)=>{
+                return val.match(/[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}/)},{
                 message:"Campo CPF inválido"
             })////
           }),
@@ -219,9 +220,6 @@ const schema = {
           aplicacao_multa:z.boolean(),
           aplicacao_bloqueio:z.boolean()
         })
-    },
-    getSchemaValues(type:Exclude<TableType,"library_management"|"global_management">){
-        return Object.entries(this.schemaList[type])
     }
 
 }

@@ -418,13 +418,20 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
 
             select:()=>{
                 onAxiosQuery("get",{
-                    url:`http://localhost:4200/data/group?type=${form.type}&id=${libraryId}&userId=${current_userId.user_id}`,
+                    url:`https://onlibrary-api.onrender.com/api/data/group`,
                     type:{
-                        get:{}
+                        get:{
+                            params:{
+                                type:form.type,
+                                id_biblioteca:libraryId,
+                                id_usuario:current_userId.user_id
+                            }
+                        }
                     },
                     onResolver:{
                         then:(result)=>{
-                            const current_result = result.data as BookAssociationProps;
+                            console.warn(result.data)
+                            const current_result = result.data.data as BookAssociationProps;
 
                             const current_form =  formObject.formList.map((item)=>
                             {

@@ -111,7 +111,7 @@ const {onAxiosQuery} = useAxios()
 
 
     onAxiosQuery("get",{
-      url:"http://localhost:4200/book/libraries?id="+id,
+      url:"https://onlibrary-api.onrender.com/api/livro/"+id+"/libraries",
       type:{
         get:{
 
@@ -119,7 +119,8 @@ const {onAxiosQuery} = useAxios()
       },
       onResolver:{
         then(result) {
-          const bookLibraries_data = result.data as BookLibrariesProps[]
+          console.log(result.data.data)
+          const bookLibraries_data = result.data.data as BookLibrariesProps[]
           setBookState({
             type:"libraries",
             value:bookLibraries_data

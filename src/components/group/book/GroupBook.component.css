@@ -9,6 +9,8 @@
   background-color: white;
   border-radius: calc(var(--borderRadius_var) + 0.2rem);
   /* height: 350px; */
+  padding: 1rem;
+
 }
 
 

@@ -3,7 +3,6 @@ import FooterHome from "../../components/footer/home/FooterHome.component"
 import NavHome from "../../components/nav/home/NavHome.component"
 import HeaderTitle from "../../components/header_title/HeaderTitle.component"
 import { useState } from "react";
-import { path } from "../../objects/path.object";
 import useHandlePath from "../../hooks/useHandlePath";
 
 type ConclusionType = "online_reserve" | "support";
@@ -54,10 +53,11 @@ const Conclusion = ({type}:{type:ConclusionType}) => {
             <section className={"conclusionPageSection "+currentPathContext.transitionClass}>
                 <div className="conclusionContainer">
                     <HeaderTitle
-                    title="Obrigado!"
+                    title={conclusionContent.title}
                     />
-                    <p>{conclusionContent.title}</p>
-                    <p>{conclusionContent.subTitle}</p>
+                    <div className="subTitleContainer">
+                        <p>{conclusionContent.subTitle}</p>
+                    </div>
                      <div className="conclusionOptionsContainer">
                         <button className="acceptButton">
                           Home

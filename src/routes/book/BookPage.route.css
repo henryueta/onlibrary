@@ -120,30 +120,41 @@
     padding: 0.5rem;
 }
 
-.reserveContainer table{
-    
+.librariesOfBookContainer{
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+}
+
+.librariesOfBookContainer .tableContainer{
+    width: 100%;
 }
 
 .libraryDataContainer{
-    width: 100%;
-    height: 50%;
+    height: 100%;
     padding: 1rem;
     gap: 2rem;
     display: flex;
     flex-direction: column;
-    grid-template-columns: repeat(2,1fr);
-    overflow-y: auto;
-    border: 0.1px solid var(--grayLine_var);
 }
 
-.libraryDataContainer>div{
+.libraryDataContainer>div>div{
     /* border: 0.1rem solid var(--grayLine_var);
     border-radius: var(--dialogBorder_var);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center; */
+    display: flex;
+    align-items: center;
 }
+
+.libraryDataContainer>div>div>*{
+    font-size: 1.2rem;
+}
+
 
 .libraryDataContainer>div>div>*{
     margin: 0.5rem;
@@ -151,8 +162,8 @@
 
 .libraryViewDialog .dialogTitleContainer{
     padding: 0.5rem;
-    font-size: 0.8rem;
-    color: var(--blue_var);
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 .libraryViewDialog .dialogHeaderContainer{
@@ -179,7 +190,7 @@
     transform: translate(-50%,-50%);
     border-radius: var(--borderRadius_var);
     width: 45rem;
-    height: 45rem;
+    height: 35rem;
     --dialogBorder_var:calc(var(--borderRadius_var) + 0.5rem);
     border-radius: var(--dialogBorder_var);
     box-shadow: 0px 0.4rem 0.5rem rgb(0, 0, 0,0.2);
@@ -187,27 +198,14 @@
     z-index: 1000;
 }
 
-.libraryViewDialog .dialogCloseContainer{
+.closeLibraryDialog{
+    width: 100%;
     display: flex;
-    padding: 0.5rem;
     justify-content: end;
 }
 
-.libraryViewDialog .dialogCloseContainer>button{
-   cursor: pointer;
-    border-radius:100%;
-    border: none;
-    font-weight: 600;
-    height: 30px;
-    width: 30px;
-    color: rgb(0, 0, 0,0.8);
-    font-size: 1.15rem;
-    position: relative;
-    right: 0;
-}
-
 .libraryViewDialog>.dialogContentContainer{
-    height: 90%;
+    height:85%;
 }
 
 /* .titleContainer{

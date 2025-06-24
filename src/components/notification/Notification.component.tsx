@@ -3,11 +3,12 @@ import libraryNotification_icon from "../../assets/imgs/icons/libraryNotificatio
 import Dialog from "../dialog/Dialog.component";
 import notification_info_icon from "../../assets/imgs/icons/info_notification_icon.png";
 import useHandleNotification, { NotificationProps } from "../../hooks/useHandleNotification";
+import useHandlePath from "../../hooks/useHandlePath";
 
 
 const Notification = ({type,id}:NotificationProps)=>{
 
-
+  const {currentPathContext} = useHandlePath()
   const {notificationState,setNotificationState} = useHandleNotification({
     type:type,
     id:id
@@ -23,6 +24,7 @@ const Notification = ({type,id}:NotificationProps)=>{
         !!notificationState.currentNotification.isView
         &&
       <Dialog
+      hasBackgroundBlur={true}
       closeOnExternalClick={true}
       close={{
         closeButton:false,
@@ -39,29 +41,58 @@ const Notification = ({type,id}:NotificationProps)=>{
       }}
       className="notificationDetailsView"
       title={
-        type !== "admin"
-        ? notificationState.currentNotification.content?.titulo
-        : "Mensagem solicitada" 
+        <>
+            <img src={notification_info_icon} alt="" />
+            <span>
+               {
+                type === "admin"
+                ? "Mensagem solicitada"
+                : notificationState.currentNotification.content?.titulo
+              }
+            </span>
+          </>
       }
       children={
+        <>
         <div className="notificationContentContainer">
           <p>
             {notificationState.currentNotification.content?.conteudo}
           </p>
-        {
-          type === 'admin'
-          &&
-          <div className="concludeSolicitation">
-              <button>Marcar como Concluido</button>
-          </div>
-        }
+        
         </div>
+
+          <div className="concludeSolicitation">
+            <button 
+            className="cancelButton"
+            onClick={()=>{
+              setNotificationState({
+                type:"currentNotification",
+                value:{
+                  isView:false,
+                  content:null
+                }
+              })
+            }}
+            >
+              Fechar
+            </button>
+          {
+            type === "admin"
+            &&
+            <button 
+              className="acceptButton">
+                Marcar como Concluido
+            </button>
+          }
+          </div>
+        
+        </>
       }
       />
       }
       
 
-    <div className="currentNotificationContainer" onClick={()=>setNotificationState({
+    <div className={"currentNotificationContainer "+currentPathContext.transitionClass} onClick={()=>setNotificationState({
           type:"notificationsView",
           value:true
         })}>

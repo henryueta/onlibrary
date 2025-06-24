@@ -24,6 +24,7 @@ interface AxiosQueryProps<T extends object>{
         get?:{
             id?:string,
             data?:T
+            params?:T
         },
         post?:{
             data:T
@@ -130,6 +131,8 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
                (()=>{
 
                  axios.get(url,{
+                    params:!!query.type.get?.params 
+                    && query.type.get.params, 
                     cancelToken:cancelToken,
                     headers:{
                          Authorization:`Bearer ${bearerCookie.accessToken}`

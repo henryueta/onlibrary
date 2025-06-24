@@ -76,6 +76,12 @@ body{
     border-radius: 1rem;
 }
 
+
+
+.managementContentSection .dataContentSection>.formDataContainer>form input[type='file']{
+    display: none;
+}
+
 .managementContentSection .dataContentSection>.formDataContainer>form>.titleContainer{
     display: flex;
     gap: 1rem;
@@ -88,7 +94,21 @@ body{
     margin-bottom: 1.5rem;
 }
 
+.managementContentSection .dataContentSection .formDataContainer>form input{
+    border: 0.1rem solid var(--grayLine_var);    
+}
+
 .managementContentSection .dataContentSection .formDataContainer>form label{
+    border: 1px solid red;
+}
+
+.image_preview_label{
+    display: flex;
+    width: 200px;
+    height: 200px;
+}
+
+.managementContentSection .dataContentSection .formDataContainer>form .inputDataContainer{
     padding: 1.5rem;
     display: flex;
     /* flex-direction: column; */
@@ -111,6 +131,8 @@ body{
     justify-content: center;
 }
 
+
+
 .managementContentSection .dataContentSection .formDataContainer>form .fieldDataContainer{
     width: 100%;
 }
@@ -118,12 +140,13 @@ body{
 .managementContentSection .dataContentSection .formDataContainer>form .fieldDataContainer>*:not(.selectOptions){
     border-radius: var(--borderRadius_var);
     outline-color: var(--blue_var);
-    border: 0.15rem solid var(--grayLine_var);
+    /* border: 0.15rem solid var(--grayLine_var); */
    padding: 0.5rem;
 }
 
 .managementContentSection .dataContentSection .formDataContainer>form textarea{
     width: 70%;
+    border: 0.1rem solid var(--grayLine_var);
    font-size: 1.05rem;
     height: 150px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont,

@@ -5,6 +5,7 @@ import useAxios, { QueryStateProps } from "./useAxios";
 import useHandleLibrary from "./useHandleLibrary";
 import { QueryType } from "../objects/form.object";
 import { ManagementType } from "../routes/management/Management.route";
+import useHandleAuth from "./usehandleAuth";
 
 
 interface TableDataProps{
@@ -19,6 +20,7 @@ const useHandleTable = (management:ManagementType | "none")=>{
     const {onAxiosQuery,queryState} = useAxios();
     const {currentLibraryContext} = useHandleLibrary()
     const [queryFormState,setQueryFormState] = useState<QueryStateProps>(queryState);
+    const {authContext} = useHandleAuth();
 
     useEffect(()=>{
 
@@ -46,23 +48,27 @@ const useHandleTable = (management:ManagementType | "none")=>{
 
     }
 
-    const onQueryCountTable = async <T extends any>(management:"global"|"library",type:string,action:(result:AxiosResponse)=>T,cancelToken?:CancelToken)=>{
+    const onQueryCountTable = async <T extends any>(management:"global"|"library",type:string,action:(result:any)=>T,cancelToken?:CancelToken)=>{
         (!!currentLibraryContext.libraryId && management === "library"
         ||
         management === "global")
         &&
-        (()=>{
+        (()=>{ 
                 onAxiosQuery("get",{
-                url:"http://localhost:4200/count?type="+type+"&id="+currentLibraryContext.libraryId,
+                url:"https://onlibrary-api.onrender.com/api/data/count",
                 onResolver:{
                     then:(result)=>{
-                        return action(result)
+                        return action(result.data.data)
                     },
                     catch:(error)=>console.log(error)
                 },
                 type:{
                     get:{
-
+                        params:{
+                            type:type,
+                            id_biblioteca:currentLibraryContext.libraryId,
+                            id_usuario:authContext.userId
+                        }
                     }
                 }
             },cancelToken)
@@ -78,8 +84,8 @@ const useHandleTable = (management:ManagementType | "none")=>{
               return headers[index][0]
                }).filter((item)=>
                  item !== "id" 
-                 && item !== "fk_id_biblioteca"
-                 && item !== "fk_id_usuario"
+                 && item !== "fkIdBiblioteca"
+                 && item !== "fkIdUsuario"
                ),
             dataList:data.map((item:TableQueryProps)=>{
                return  Object.entries(item)
@@ -127,7 +133,6 @@ const useHandleTable = (management:ManagementType | "none")=>{
                     ? (()=>{
                         
                         onThen = (result)=>{
-                            
                             const {data} = result;
                             setTable(data)
                         }
@@ -153,27 +158,35 @@ const useHandleTable = (management:ManagementType | "none")=>{
                         ? "?id_biblioteca="+currentLibraryContext.libraryId+"&"
                         : "?"
                     )
-                    !table.id
+                    !!(table.type !== 'library_management' && table.type !== 'global_management' )
+                    &&
                     onAxiosQuery("get",{
-                        url:!table.id && !table.referenceText
-                        ? `http://localhost:4200/tables/data${check_for_managementUrl}type=${table.type}`
-                        : !table.id && !!table.referenceText
+                        url:!table.id && !table.referenceText 
+                        ? 'https://onlibrary-api.onrender.com/api/data/dados'
+                        // ? `http://localhost:4200/tables/data${check_for_managementUrl}type=${table.type}`
+                        : !table.id && !!table.referenceText 
                         ? tableRoutes[table.type].referenceText
-                        +"?value="+table.referenceText.value
-                        +"&filter="+table.referenceText.filter
-                        +"&id_biblioteca="+currentLibraryContext.libraryId
-                        : tableRoutes[table.type].getById+check_for_managementUrl+"id="+table.id,
+                        :
+                         tableRoutes[table.type].getById+"/"+table.id,
                         // : "http://localhost:4200/library_user/get?id_biblioteca="+currentLibraryContext.libraryId+"&id="+table.id,
                         type:{
                             get:{
-                                // id:table.id,
-                                // data:table.data
+                                params:!table.referenceText
+                                ? {
+                                    id_biblioteca:currentLibraryContext.libraryId,
+                                    type:table.type,
+                                }
+                                : {
+                                    value:table.referenceText.value,
+                                    filter:table.referenceText.filter,
+                                    id_biblioteca:currentLibraryContext.libraryId
+                                }
                             }
                         },
                         onResolver:{
-                            then:(result)=>{                              
+                            then:(result)=>{   
                               console.warn(result)
-                              onThen(result)
+                              onThen(result.data)
                             },
                             catch:(error)=>{
                                 console.log(error)
@@ -188,7 +201,10 @@ const useHandleTable = (management:ManagementType | "none")=>{
                     : console.log("nao vai atualizar")
                 },
                 delete:()=>{
-                    table.id && (
+                    table.id 
+                    && 
+                    !!(table.type !== 'library_management' && table.type !== 'global_management' ) 
+                    &&(
                         onAxiosQuery("delete",{
                             url:tableRoutes[table.type].delete+"/"+table.id,
                             type:{},

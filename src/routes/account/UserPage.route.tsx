@@ -9,10 +9,37 @@ import useHandlePath from "../../hooks/useHandlePath";
 import { path } from "../../objects/path.object";
 import question_icon from "../../assets/imgs/icons/question_icon.png"
 import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import useAxios from "../../hooks/useAxios";
 
 const NavUser = ()=>{
   const {currentPathContext,onTransition} = useHandlePath();
+  const [isAdmin,setIsAdmin] = useState<boolean>(false);
   const {authContext} = useHandleAuth();
+  const {onAxiosQuery} = useAxios();
+  
+  useEffect(()=>{
+    !!authContext.userId
+    &&
+    onAxiosQuery("get",{
+      url:"https://onlibrary-api.onrender.com/api/usuario/"+authContext.userId,
+      type:{
+        get:{}
+      },
+      onResolver:{
+        then(result) {
+          const user_type = result.data as {data:{tipo:string}}
+          console.log(user_type)
+          setIsAdmin(!!(user_type.data.tipo.toLowerCase() !== 'comum'))
+        },
+        catch(error) {
+          console.log(error)
+        },
+      }
+    })
+
+  },[authContext.userId])
+
   return (
     <nav className={"userNavBar "+"emerge"}>
       <div className="titleContainer">
@@ -26,8 +53,6 @@ const NavUser = ()=>{
         ? {color:"var(--blue_var)"}
         : {}
       }
-      // to={"/user/info"}
-      // replace
       onClick={()=>{
         onTransition("/user/info",{hasReplace:true})
       }}
@@ -58,13 +83,17 @@ const NavUser = ()=>{
       >
         Biblioteca
       </span>
-      <span 
+      {
+        isAdmin
+        &&
+        <span 
       onClick={()=>{
         onTransition(path.onFindPath("global_management"),{hasReplace:true})
       }}
       >
         Administração
       </span>
+      }
       <span
 
       onClick={()=>{
@@ -83,8 +112,6 @@ const NavUser = ()=>{
         })()
 
       }}
-      // to={"/"}
-      // replace
       style={{fontWeight:"bold"}}
       >
         Logout

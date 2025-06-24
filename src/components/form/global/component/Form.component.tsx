@@ -90,10 +90,9 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
   const [isUpdate,setIsUpdate] = useState<boolean>(false);
   const {form} = useHandleForm(typeOfData || "library_management"||"global_management")
   const {id} = useParams()
-
+  const [imagePreviewSource,setImagePreviewSource] = useState<string>("");
   
   const [formQueryState,setFormQueryState] = useReducer(handleFormQueryState,initialFormQueryState);
-
 
   useEffect(()=>{
 
@@ -120,13 +119,15 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
 } | undefined>(undefined)
   useEffect(()=>{
     setDefaultValueList(defaultValues)
+      console.log('398.397.848-72'.match(/[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}/))
   },[defaultValues])
 
-  const {register,formState:{errors},handleSubmit,control,setValue} = useForm<SchemaType>({
+  const {register,formState:{errors},handleSubmit,control,setValue,getValues} = useForm<SchemaType>({
     mode:"all",
     reValidateMode:"onSubmit",
     resolver:zodResolver(schemaObject),
   });
+
 
 
   const {onQueryForm,formState} = useHandleForm(typeOfData || "library_management"||"global_management")
@@ -181,7 +182,6 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
 
   return (
     <form>
-
       {
         !!typeOfData
           &&
@@ -215,7 +215,8 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                 //   || 
                 //   (item_input.forForm.put || item_input.forForm.post))
                 // &&
-              <label 
+              <div 
+              className="inputDataContainer"
               style={
                 !method.put
                 && 
@@ -232,7 +233,9 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                 ? {display:"none"} 
                 : {}
               }
-              htmlFor={item_input!.id} key={index_input}>
+              // htmlFor={item_input!.id} 
+              key={index_input}
+              >
                 <div className="titleFieldContainer">
                   <p>
                     {
@@ -296,11 +299,13 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                     !!item_input!.maskFormat
                     ?
                     <Controller
-                    defaultValue={defaultValueList && defaultValueList[item_input!.registerId]}
                     name={item_input!.registerId}
+                    defaultValue={defaultValueList && defaultValueList[item_input!.registerId].toString()}
                     control={control}
                     render={({field})=>
                       <PatternFormat
+                      
+                    defaultValue={defaultValueList && defaultValueList[item_input!.registerId].toString()}
                       disabled={
                         ( method.put && !isUpdate)
                         ||
@@ -321,11 +326,14 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                     : !!item_input.numericFormat
                     ?
                     <Controller
-                    defaultValue={defaultValueList && defaultValueList[item_input!.registerId]}
+                    defaultValue={defaultValueList && defaultValueList[item_input!.registerId].toString()}  
+                  
                     name={item_input!.registerId}
                     control={control}
                     render={({field})=>
                       <NumericFormat
+                      
+                    defaultValue={defaultValueList && defaultValueList[item_input!.registerId].toString()}  
                       disabled={
                         ( method.put && !isUpdate)
                         ||
@@ -348,23 +356,61 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                     }
                     >
                     </Controller>
-                    :<input
-                    disabled={
-                      ( method.put && !isUpdate)
-                      ||
-                       !(item_input.forForm.post === method.post
-                      || 
-                      item_input.forForm.put === method.put)
-                      ||
-                      (!item_input.forForm.post
-                      && 
-                      !item_input.forForm.put)
+                    :
+                    item_input.tag === 'input'
+                    &&
+                    <div>
+                    
+                    <label 
+                    className={
+                      item_input.type === 'file'
+                      ? 'image_preview_label'
+                      : ""
                     }
-                    defaultValue={defaultValueList && defaultValueList[item_input!.registerId]}
-                    type={item_input!.type}
-                    id={item_input!.id}
-                    {...register(item_input!.registerId as Path<SchemaType>)}
-                    />
+                    htmlFor={item_input.id} >
+                      {item_input.type === 'file'
+                      &&
+                      <img 
+                      id={item_input!.registerId} 
+                      src={imagePreviewSource}
+                      alt="image_preview"/>
+                    }
+                      <input
+                      disabled={
+                        ( method.put && !isUpdate)
+                        ||
+                        !(item_input.forForm.post === method.post
+                        || 
+                        item_input.forForm.put === method.put)
+                        ||
+                        (!item_input.forForm.post
+                        && 
+                        !item_input.forForm.put)
+                      }
+                      defaultValue={defaultValueList && defaultValueList[item_input!.registerId]}
+                      type={item_input!.type}
+                      id={item_input!.id}
+                      {...register(item_input!.registerId as Path<SchemaType>)}
+                      onChange={(e)=>{
+                        item_input.type === 'file'
+                        &&
+                        e.target.files?.length
+                        &&
+                        (()=>{
+                          const current_file = e.target.files[0]
+                          const reader = new FileReader();
+                          reader.onload = (e_img)=>{
+                            const image_source = e_img.target?.result as string
+                            setImagePreviewSource(image_source)
+                          }
+                          reader.readAsDataURL(current_file)
+                        })()
+                      }}
+                      />
+                    </label>
+                    
+                    
+                    </div>
                     
                     : item_input!.tag === "textarea"
                     &&
@@ -407,7 +453,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                 }
                  </div>
               </div>
-            </label>
+            </div>
             )
           }
           )

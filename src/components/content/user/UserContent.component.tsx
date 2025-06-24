@@ -90,7 +90,10 @@ const UserContent = ({id}:{id:string}) => {
                         !!userContent
                         &&
                         <Form
-                        formSchema={form.formList.find((item)=>item.name == "user")!.schema["put"]}
+                        formSchema={form.formList.find((item)=>item.name == "user")!.schema["put"].omit({
+                            situacao:true,
+                            tipo:true
+                        })}
                         defaultValues={userContent}
                         method={{
                             post:false,

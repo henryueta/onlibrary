@@ -25,6 +25,7 @@ const GroupBook = ({category,title}:GroupBookProps) => {
 
           
  useEffect(()=>{
+
     onAxiosQuery("get",{
       url:"http://localhost:4200/book/list?categoria="+category,
       type:{
@@ -44,6 +45,7 @@ const GroupBook = ({category,title}:GroupBookProps) => {
     })
   },[])
 
+  
 
   return (
     <>
@@ -86,7 +88,11 @@ const GroupBook = ({category,title}:GroupBookProps) => {
                           height:250,
                           width:156
                         }} 
-                        title={item.titulo} 
+                        title={
+                          item.titulo.length > 30
+                          ? item.titulo.slice(0,15).concat("...")
+                          : item.titulo
+                        } 
                         id={item.id}
                         key={item.id}/>      
                     

@@ -73,13 +73,13 @@ const useHandleOrder = (id:string)=>{
           (()=>
            { 
             onAxiosQuery("get",{
-              url:"http://localhost:4200/reserve/get/user?id="+id,
+              url:"https://onlibrary-api.onrender.com/api/reserva/user/"+id,
               type:{
                 get:{}
               },
               onResolver:{
                 then(result) {
-                   const reserve_data = result.data as ReserveTableQueryProps[]
+                   const reserve_data = result.data.data as ReserveTableQueryProps[]
                    
                    setOrderState({
                     type:"reserve",
@@ -93,13 +93,13 @@ const useHandleOrder = (id:string)=>{
             })
     
             onAxiosQuery("get",{
-              url:"http://localhost:4200/loan/get/user?id="+id,
+              url:"https://onlibrary-api.onrender.com/api/emprestimo/user/"+id,
               type:{
                 get:{}
               },
               onResolver:{
                 then(result) {
-                    const loan_data = result.data as LoanTableQueryProps[]
+                    const loan_data = result.data.data as LoanTableQueryProps[]
                     setOrderState({
                       type:"loan",
                       value:loan_data
@@ -112,13 +112,13 @@ const useHandleOrder = (id:string)=>{
             })
     
             onAxiosQuery("get",{
-              url:"http://localhost:4200/amerce/get/user?id="+id,
+              url:"https://onlibrary-api.onrender.com/api/multa/user/"+id,
               type:{
                 get:{}
               },
               onResolver:{
                 then(result) {
-                  const amerce_data = result.data as AmerceTableQueryProps[]
+                  const amerce_data = result.data.data as AmerceTableQueryProps[]
                   setOrderState({
                     type:"amerce",
                     value:amerce_data

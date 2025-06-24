@@ -7,6 +7,17 @@ import Communication from "../../components/communication/Communication.componen
 import Spinner from "../../components/spinner/Spinner.component";
 import useHandleAuth from "../../hooks/usehandleAuth";
 import useHandlePath from "../../hooks/useHandlePath";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Warn from "../../components/warn/Warn.component";
+
+const support_form_schema = z.object({
+    mensagem:z.string().min(5,{
+        message:"Campo mensagem precisa ser preenchido"
+    })
+})
 
 const Support = () => {
 
@@ -14,7 +25,14 @@ const Support = () => {
     const {onAxiosQuery,queryState} = useAxios();
     const {authContext} = useHandleAuth();
     const {onTransition,currentPathContext} = useHandlePath();
+    const {register,formState,handleSubmit} = useForm({
+        mode:"all",
+        reValidateMode:"onSubmit",
+        resolver:zodResolver(support_form_schema)
+    });
+    const {errors} = formState;
     
+
 
   return (
     <>
@@ -38,30 +56,47 @@ const Support = () => {
                     </div>
                     <div className="solicitationContainer">
                         <label htmlFor="solicitation_id">
-                            <textarea name="" id="solicitation_id"/>
+                            <textarea
+                            placeholder="Escreva sua mensagem"
+                            {...register("mensagem")}
+                            id="solicitation_id"
+                            />
+                            
+                            <div
+                            style={{
+                                width:"100%",
+                            }}
+                            >
+                                <Warn
+                            color="black"
+                            warning={errors.mensagem?.message || ""}
+                            />
+                            </div>
+
                             <button className="acceptButton"
                             onClick={()=>{
-                                !!authContext.userId                              
-                                ? onAxiosQuery("post",{
-                                    url:"http://localhost:4200/contact/post",
-                                    type:{post:{data:{}}},
-                                    onResolver:{
-                                        then() {
-                                            setTimeout(()=>{
-                                                onTransition("/support/conclusion",{
-                                                    hasReplace:true
-                                                })
-                                            },1000)
-                                        },
-                                        catch(error) {
-                                            console.log(error)
-                                        },
-                                    }
-                                })
-                                : onTransition("/login",{
-                                    hasReplace:false
-                                })
-
+                                handleSubmit((data)=>{
+                                // !!authContext.userId                              
+                                // ? onAxiosQuery("post",{
+                                //     url:"http://localhost:4200/contact/post",
+                                //     type:{post:{data:{}}},
+                                //     onResolver:{
+                                //         then() {
+                                //             setTimeout(()=>{
+                                //                 onTransition("/support/conclusion",{
+                                //                     hasReplace:true
+                                //                 })
+                                //             },1000)
+                                //         },
+                                //         catch(error) {
+                                //             console.log(error)
+                                //         },
+                                //     }
+                                // })
+                                // : onTransition("/login",{
+                                //     hasReplace:false
+                                // })    
+                                })()                           
                             }}
                             >
                                 {
