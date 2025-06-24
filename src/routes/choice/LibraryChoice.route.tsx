@@ -61,7 +61,7 @@ const LibraryChoice = () => {
 
   return (
     <section className={"choiceLibrarySection "+currentPathContext.transitionClass}>
-       <Load loadState={queryState.isLoading}/>
+       {/* <Load loadState={queryState.isLoading}/> */}
         <div className="choiceLibraryContainer">
             <div className="welcomeContainer">
               <div className="logoContainer">

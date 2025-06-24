@@ -69,21 +69,29 @@ const NavLibrary = ({management}:{management:ManagementType}) => {
           <ListItem  
           title="Dashboard" 
           icon={dashboardHome_icon} 
-          onClick={()=>onNavigate("/management/library")}
+          onClick={()=>onNavigate(management === 'library'
+            ? "/management/library"
+            : "/management/global"
+          )}
           style={currentPathContext.pathName === "/management/library" 
             ? {backgroundColor:"var(--selectedBlue_var)"}
             : {}
           }
           /> 
+          {
+             management === 'library'
+             &&
+            <ListItem 
+              title="Minha Biblioteca" 
+              onClick={()=>onNavigate("/management/library/data/update/library/"+currentLibraryContext.libraryId)}
+              icon={cubeTable_icon}
+              style={location.pathname === "/management/library/data/update/library/"+currentLibraryContext.libraryId
+                ? {backgroundColor:"var(--selectedBlue_var)"}
+                : {}}
+            /> 
+          }
+          
 
-          <ListItem 
-          title="Minha Biblioteca" 
-          onClick={()=>onNavigate("/management/library/data/update/library/"+currentLibraryContext.libraryId)}
-          icon={cubeTable_icon}
-          style={location.pathname === "/management/library/data/update/library/"+currentLibraryContext.libraryId
-            ? {backgroundColor:"var(--selectedBlue_var)"}
-            : {}}
-          /> 
           <li>
             <Details 
             title="Gestão" 

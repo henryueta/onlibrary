@@ -138,10 +138,10 @@ const OnlineReserve = () => {
                   ?
                   !!id?.length
                   &&
-                  !!onlineReserveState.libraryData?.fk_id_biblioteca
+                  !!onlineReserveState.libraryData?.fkIdBiblioteca
                   ?
                   onOnlineReserve(
-                  onlineReserveState.libraryData.fk_id_biblioteca,
+                  onlineReserveState.libraryData.fkIdBiblioteca,
                   { 
                     id:id,
                     exemplary_quantity:reserveExemplaryQuantity,
@@ -175,19 +175,19 @@ const OnlineReserve = () => {
                  <>
                    <TitleDescription 
                   title="Nome"
-                  description={onlineReserveState.libraryData?.nome || " - - - - - "}
+                  description={onlineReserveState.libraryData?.Nome || " - - - - - "}
                   />                
                   <TitleDescription 
                   title="Telefone"
-                  description={onlineReserveState.libraryData?.telefone || " - - - - - " }
+                  description={onlineReserveState.libraryData?.Telefone || " - - - - - " }
                   />
                   <TitleDescription 
                   title="Endereço"
-                  description={onlineReserveState.libraryData?.endereco || " - - - - - " }
+                  description={onlineReserveState.libraryData?.['Endereço'] || " - - - - - " }
                   />     
                   <TitleDescription 
                   title="CEP"
-                  description={onlineReserveState.libraryData?.cep || " - - - - - " }
+                  description={onlineReserveState.libraryData?.CEP || " - - - - - " }
                   />   
                  </>
                   }
@@ -207,8 +207,8 @@ const OnlineReserve = () => {
                     !!bookState.libraries?.length
                     ?
                     <TableHome
-                    table={bookState.libraries.filter((library)=>library.reserva_online)}
-                    filter={["telefone","fk_id_biblioteca","fk_id_livro","fk_id_livro","reserva_online","0"]}
+                    table={bookState.libraries.filter((library)=>library['Reserva online'])}
+                    filter={["telefone","fkIdBiblioteca","fkIdLivro","fk_id_livro","Reserva online","0"]}
                     onClick={(data)=>{
                       !!id?.length
                       &&

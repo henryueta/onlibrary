@@ -1,16 +1,24 @@
 import "./LibraryRegisterPage.route.css";
 import Form from "../../../../components/form/global/component/Form.component"
 import { form } from "../../../../objects/form.object"
-import white_onlibrary_logo from "../../../../assets/imgs/logo/white_onlibrary_logo.png";
-import { onFindTablePath } from "../../../../objects/table.object";
+import onlibrary_logo from "../../../../assets/imgs/logo/white_onlibrary_logo.png"
+import useHandlePath from "../../../../hooks/useHandlePath";
 
 const LibraryRegisterPage = ()=>{
 
+  const {onTransition,currentPathContext} = useHandlePath()
+
   return (
-    <section className="libraryFormSection">
+    <section className={"libraryFormSection "+currentPathContext.transitionClass}>
       <div className="headerContainer">
-          <div className="logoContainer">
-            <img src={white_onlibrary_logo} alt="" />
+          <div className="logoContainer" 
+          onClick={()=>{
+              onTransition("/",{
+                hasReplace:true
+              })
+          }}
+          >
+            <img src={onlibrary_logo} alt="onlibrary_logo" />
           </div>
           <div className="titleContainer">
             <h1>

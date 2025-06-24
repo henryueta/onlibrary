@@ -134,35 +134,35 @@ const BookPage = () => {
                         <div>
                           <TitleDescription 
                           title="Nome"
-                          description={libraryState.libraryData.nome}
+                          description={libraryState.libraryData.Nome}
                           />
                         </div>
 
                        <div>
                         <TitleDescription 
                           title="Telefone"
-                          description={libraryState.libraryData.telefone}
+                          description={libraryState.libraryData.Telefone}
                           />
                        </div>
 
                         <div>
                           <TitleDescription 
                           title="Endereço"
-                          description={libraryState.libraryData.endereco}
+                          description={libraryState.libraryData['Endereço']}
                           />
                         </div>
 
                         <div>
                           <TitleDescription 
                           title="CEP"
-                          description={libraryState.libraryData.cep}
+                          description={libraryState.libraryData.CEP}
                           />
                         </div>
 
                         <div>
                           <TitleDescription 
                           title="Quantidade Total"
-                          description={libraryState.libraryData.quantidade}
+                          description={libraryState.libraryData.Quantidade}
                           />
                         </div>
                         
@@ -287,7 +287,7 @@ const BookPage = () => {
                       const current_libraryData = data as BookLibrariesProps
                       
                       onAxiosQuery("get",{
-                        url:"http://localhost:4200/exemplary/get?id_biblioteca="+current_libraryData.fk_id_biblioteca+"&id_livro="+id,
+                        url:"http://localhost:4200/exemplary/get?id_biblioteca="+current_libraryData.fkIdBiblioteca+"&id_livro="+id,
                         type:{
                           get:{
                             
@@ -295,6 +295,7 @@ const BookPage = () => {
                         },
                         onResolver:{
                           then(result) {
+                            console.log(result)
                             const current_exemplaryListData = result.data as Pick<ExemplaryTableQueryProps,'situacao'>[];
                             const current_exemplaryQuantity = current_exemplaryListData.length
                             setReserveExemplaryQuantity(1)

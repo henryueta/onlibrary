@@ -151,10 +151,10 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
       //   type:"error",
       //   value:true
       // })
-      // setFormQueryState({
-      //   type:"submited",
-      //   value:false
-      // })
+      setFormQueryState({
+        type:"submited",
+        value:false
+      })
       })()
   
   },[formState.error])
@@ -169,10 +169,10 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
       //   value:true
       // })
 
-      // setFormQueryState({
-      //   type:"submited",
-      //   value:false
-      // })
+      setFormQueryState({
+        type:"submited",
+        value:false
+      })
 
       setIsUpdate(false)
 
@@ -359,8 +359,15 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                     :
                     item_input.tag === 'input'
                     &&
-                    <div>
+                    <div 
+                    className={
+                      item_input.type === 'file'
+                      ? "imagePreviewContainer"
+                      : ""
+                    }
+                    >
                     
+
                     <label 
                     className={
                       item_input.type === 'file'
@@ -368,11 +375,21 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                       : ""
                     }
                     htmlFor={item_input.id} >
+                      {
+                      item_input.type === 'file'
+                      &&
+                      <div className="imagePreviewInfo">
+                        <p>Clique para escolher a imagem</p>
+                    </div>
+                    }
                       {item_input.type === 'file'
+                      &&
+                      !!imagePreviewSource.length
                       &&
                       <img 
                       id={item_input!.registerId} 
                       src={imagePreviewSource}
+                      
                       alt="image_preview"/>
                     }
                       <input
@@ -408,7 +425,6 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                       }}
                       />
                     </label>
-                    
                     
                     </div>
                     
@@ -553,6 +569,10 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
               )}>
                 {
                   formQueryState.isSent
+                  &&
+                  (!formState.error.message
+                  ||
+                  !formState.success.message)
                   &&
                   <Spinner/>
                 }

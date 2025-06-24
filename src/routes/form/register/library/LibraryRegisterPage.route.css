@@ -8,7 +8,6 @@
 }
 
 .libraryFormSection{
-    border-top: 0.5rem solid var(--blue_var);
     padding:2rem;
     margin: 3rem;
    display: flex;
@@ -18,42 +17,42 @@
    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: white;
-  width: 65dvw;
+  border-radius: 1rem;
+  width: 45dvw;
   place-self: center;
+}
+
+.libraryFormSection>.headerContainer .logoContainer>img{
+    width: 200px;
+    margin-bottom: 2rem;
+    cursor: pointer;
+}
+
+.libraryFormSection>div>.titleContainer{
+    font-size: 0.8rem;
+    opacity: 80%;
 }
 
 .libraryFormSection>.headerContainer{
     display: flex;
     flex-direction: column;
-    align-items: center;
     margin-bottom: 1rem;
+    width: 85%;
+    padding: 1rem;
 }
 
-.libraryFormSection>.headerContainer>div>img{
-    width: 350px;
-    height: 55px;
-}
-
-.libraryFormSection>.headerContainer>.titleContainer{
-    margin-top: 1rem;
-    color: var(--blue_var);
-}
 
 .libraryFormSection>form{
-    width: 75%;
+    width: 85%;
     padding: 1rem;
     /* border: 2px solid red; */
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
+    display: flex;
+    flex-direction: column;
+    /* grid-template-columns: repeat(2,1fr); */
     gap: 1rem;
 }
 
-.libraryFormSection>form>label:nth-child(3){
-    grid-column-start: 1;
-      grid-column-end: 3;
-}
-
-.libraryFormSection>form>label{
+.libraryFormSection>form>div{
     padding: 0.5rem;
      display: flex;
     flex-direction: column;
@@ -63,7 +62,7 @@
 
 
 
-.libraryFormSection>form>label>div>div>input{
+.libraryFormSection>form>div>div input{
     border: 0.1rem solid var(--grayLine_var);
     border-radius: var(--borderRadius_var);
     height: 40px;
@@ -73,8 +72,12 @@
     font-size: 1rem;
 }
 
-.libraryFormSection>form>label:nth-child(3) input{
-    width: 95%;
+.libraryFormSection>form .fieldContainer{
+    /* display: none; */
+}
+
+.libraryFormSection>form .fieldDataContainer:nth-child(1){
+    width: 80%;
 }
 
 .libraryFormSection>form>div:last-child{

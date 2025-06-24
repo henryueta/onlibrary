@@ -5,15 +5,15 @@ import useImageResizer from "./useImageResizer"
 
 
 export interface BookLibrariesProps {
-    cep:string
-    endereco:string
-    fk_id_biblioteca:string
-    fk_id_livro:string
-    nome:string
-    quantidade:number
+    CEP:string
+    ['Endereço']:string
+    fkIdBiblioteca:string
+    fkIdLivro:string
+    Nome:string
+    Quantidade:number
     quantidade_disponivel:number
-    reserva_online:boolean
-    telefone:string
+    'Reserva online':boolean
+    Telefone:string
 }
 
 interface BookStateProps {

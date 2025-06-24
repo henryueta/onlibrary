@@ -11,13 +11,15 @@ interface TableHomeProps<T extends object> {
 const TableHome = ({table,filter,onClick}:TableHomeProps<object>) => {
 
 
-
   return (
      <div className="tableContainer">
         <table>
             <thead>
                 <tr className="headerLine">
+
                     {
+                    !!table[0]
+                    &&
                      Object.entries(table[0]).map((item,index)=>
                      {
                         return (
@@ -29,6 +31,7 @@ const TableHome = ({table,filter,onClick}:TableHomeProps<object>) => {
                         )
                      }
                     )}
+
                 </tr>
                 </thead>
         </table>

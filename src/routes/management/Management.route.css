@@ -98,14 +98,54 @@ body{
     border: 0.1rem solid var(--grayLine_var);    
 }
 
-.managementContentSection .dataContentSection .formDataContainer>form label{
-    border: 1px solid red;
+.managementContentSection .dataContentSection .formDataContainer>form .imagePreviewContainer{
+    display: flex;
+    align-items: center;
+    width: 70%;
+    /* justify-content: center; */
 }
+
+
 
 .image_preview_label{
     display: flex;
-    width: 200px;
-    height: 200px;
+    width: 172px;
+    height: 275px;
+    cursor: pointer;
+    border: 0.1rem solid var(--grayLine_var);
+}
+
+.imagePreviewInfo{
+    width: 172px;
+    height: 275px;
+    display: none;
+    position: absolute;
+    background-color: rgb(0, 0, 0,0.4);
+    backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    font-size: 1.1rem;
+    color: white;
+}
+
+.imagePreviewInfo p{
+    text-align: center;
+}
+
+.image_preview_label:hover{
+
+.imagePreviewInfo{
+    display: flex;
+}
+        
+}
+
+.image_preview_label>img{
+    display: flex;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
 }
 
 .managementContentSection .dataContentSection .formDataContainer>form .inputDataContainer{
@@ -157,6 +197,7 @@ body{
     width: 70%;
     height: 45px;
    font-size: 1.05rem;
+   padding: 0.5rem;
 }
 
 .managementContentSection .dataContentSection .formDataContainer>form input[type="checkbox"]{
