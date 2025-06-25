@@ -36,7 +36,7 @@ const NavHome = () => {
         hasSearchButton
         suggestion={{
           active:true,
-          url:"http://localhost:4200/suggestion/get?value="
+          url:"https://onlibrary-api.onrender.com/api/livro/search/suggestions"
         }}
         onSearch={(value,quantity,filter)=>{
           onTransition("/search/"+value+"/"+filter,{

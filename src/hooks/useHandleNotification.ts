@@ -9,9 +9,11 @@ export interface NotificationProps {
 }
 
 interface UserNotificationProps{
+id:string,
 conteudo :string
 data_emissao : string
 marcado_lido : boolean
+concluido: boolean
 tipo : Exclude<NotificationProps,'id'>
 titulo:string
 }
@@ -109,21 +111,63 @@ const useHandleNotification = ({type,id}:NotificationProps)=>{
 
   const onConcludeNotification = (id_notification:string)=>{
 
-    type === 'biblioteca'
-    ? "req com id biblioteca"+currentLibraryContext.libraryId+" e id usuario"+id+" para tb_notificacao"
-    : 
-    type === 'comum'
-    ? "req com id do usuario"+id+" para tb_notificacao"
-    :
     type === 'admin'
-    && "req com id do usuario"+id+" para tb_contato"
-    
+    &&
+    onAxiosQuery("put",{
+      url:"https://onlibrary-api.onrender.com/api/suporte/concluido"+id_notification,
+      type:{
+        put:{
+          params:{
+            id:id_notification
+          }
+        }
+      },
+      onResolver:{
+        then(result) {
+          console.log(result.data)
+        },
+        catch(error) {
+          console.log(error)
+        },
+      }
+    })
+
+  }
+
+  const onReadNotification = (id_notification:string)=>{
+    const notification_url = type === 'admin'
+    ? `https://onlibrary-api.onrender.com/api/suporte/lido/${id_notification}`
+    : `https://onlibrary-api.onrender.com/api/notificacao/lida/${id_notification}`;
+
+    onAxiosQuery("put",{
+      url:notification_url,
+      type:{
+        put:{
+          data:{
+
+          },
+          params:{
+            id:id_notification
+          }
+        }
+      },
+      onResolver:{
+        then(result) {
+          console.log(result.data)
+        },
+        catch(error) {
+          console.log(error)
+        },
+      }
+    })
+
   }
 
     return {
         notificationState,
+        onConcludeNotification,
         setNotificationState,
-        onConcludeNotification
+        onReadNotification
     }
 
 }

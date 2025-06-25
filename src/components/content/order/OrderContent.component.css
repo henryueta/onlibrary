@@ -10,11 +10,18 @@
     border:  0.1rem solid var(--grayLine_var);
     border-radius: 1rem;
     padding: 3rem;
+    height: 800px;
 }
 
 .orderContentDataSection>section table{
     border:  0.1rem solid var(--grayLine_var);
 }
 
+.orderContentDataSection .dataContentContainer{
+height: 90%;
+}
 
-
+.orderContentDataSection>section table:nth-child(2){
+    overflow-y: auto;
+    height: 500px;
+}

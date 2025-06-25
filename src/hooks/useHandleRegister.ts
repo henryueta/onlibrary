@@ -180,7 +180,6 @@ const useHandleRegister = ()=>{
                     const formated_name = new Word(data.nome, "name").word;
                     const formated_lastName = new Word(data.sobrenome,"name").word;
                     const formated_cpf = new Word(data.cpf,"numeric").word 
-                   console.log(formated_cpf)
                     authRegisterContext.setRegisterData({...authRegisterContext.registerData,
                             nome:formated_name,
                             sobrenome:formated_lastName,

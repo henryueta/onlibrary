@@ -61,11 +61,6 @@ const useHandleOnlineReserve = ()=>{
 
       },[queryState])
 
-      useEffect(()=>{
-
-        console.log(reserveQueryState)
-
-      },[reserveQueryState])
 
     const onGetLibraryData = (library_data:object,id:string)=>{
         const current_libraryData = library_data as BookLibrariesProps

@@ -83,37 +83,7 @@ const useHandleForm = (typeOfForm:TableType)=>{
             value:queryState.error
         })
     },[queryState.error])
-
-    console.log(
-        // formObject.formList.map((item)=>{
-        //    return item.fields.filter((item_field)=>{
-        //        return item_field.tag === "select" && item_field.options?.hasQuery
-        //     })
-        // })
-
-
-    )
-
-    // useEffect(()=>{
-    //     onAxiosQuery("get",
-    //         {
-    //             url:"http://localhost:4200/data/group?type=book&id=1d8fq",
-    //             type:{
-    //                 get:{
-    //
-    //                 }
-    //             },
-    //             onResolver:{
-    //                 then(result) {
-    //                     console.log(result)
-    //                 },
-    //                 catch(error) {
-    //                     console.log(error)
-    //                 },
-    //             }
-    //         }
-    //     )
-    // },[])
+    
 const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
     const onQueryForm = (
         libraryId:string,
@@ -123,6 +93,7 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
         data?:TableQueryProps
         },
         type:QueryType,
+        redirectAfterConclude?:boolean,
         cancelToken?:CancelToken)=>{
 
             const checkTables = {
@@ -494,9 +465,12 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                         then:(result)=>{
                             result.data &&
                             setTimeout(()=>{
+                                !!redirectAfterConclude
+                                &&
                                 onNavigate(onFindTablePath(typeOfForm) || "",{
                                     replace:true
                                 })
+
                             },1500)
                         },
                         catch:(error)=>console.log(error)
@@ -523,7 +497,10 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                     onResolver:{
                         then(result) {
                             console.error(result)
-                            result.data &&
+                            result.data 
+                            &&
+                            !!redirectAfterConclude
+                            &&
                             setTimeout(()=>{
                                 onNavigate(onFindTablePath(typeOfForm) || "",{
                                     replace:true

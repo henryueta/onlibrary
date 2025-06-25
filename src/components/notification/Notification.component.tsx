@@ -4,15 +4,33 @@ import Dialog from "../dialog/Dialog.component";
 import notification_info_icon from "../../assets/imgs/icons/info_notification_icon.png";
 import useHandleNotification, { NotificationProps } from "../../hooks/useHandleNotification";
 import useHandlePath from "../../hooks/useHandlePath";
+import { useEffect } from "react";
 
 
 const Notification = ({type,id}:NotificationProps)=>{
 
   const {currentPathContext} = useHandlePath()
-  const {notificationState,setNotificationState} = useHandleNotification({
+  const {
+    notificationState,
+    setNotificationState,
+    onReadNotification,
+    onConcludeNotification
+  } = useHandleNotification({
     type:type,
     id:id
   });
+
+  useEffect(()=>{
+
+      (!!notificationState.currentNotification.content
+      &&
+      !notificationState.currentNotification.content.marcado_lido)
+      &&
+      onReadNotification(
+        notificationState.currentNotification.content.id
+      )
+
+  },[notificationState.currentNotification])
 
   return (
     <>
@@ -80,7 +98,18 @@ const Notification = ({type,id}:NotificationProps)=>{
             type === "admin"
             &&
             <button 
-              className="acceptButton">
+              className="acceptButton"
+              onClick={()=>{
+                !!(type === 'admin')
+                &&
+                (!!notificationState.currentNotification.content
+                &&
+                !notificationState.currentNotification.content.concluido)
+                &&
+                onConcludeNotification(notificationState.currentNotification.content.id)
+                
+              }}
+              >
                 Marcar como Concluido
             </button>
           }
@@ -98,10 +127,19 @@ const Notification = ({type,id}:NotificationProps)=>{
         })}>
           
         {
-          !!notificationState.userNotifications.length &&
-          !!notificationState.userNotifications.filter((item)=>{
-            return item.marcado_lido
+          (!!notificationState.userNotifications.length &&
+          (!!notificationState.userNotifications.find((item)=>{
+            return !item.marcado_lido
           })
+          ||
+          !!(notificationState.userNotifications.find((item)=>{
+            return !item.concluido
+          })
+            &&
+            type === 'admin'
+            )
+          )
+        )
           ? <div className="newNotificationContainer"></div>
           : <></>
         }
@@ -154,7 +192,7 @@ const Notification = ({type,id}:NotificationProps)=>{
                     content:notification
                   }
                 })
-
+                
                 
                 
               }}
@@ -174,9 +212,14 @@ const Notification = ({type,id}:NotificationProps)=>{
                     </div>
                   </div>
                   {
-                    !notification.marcado_lido
+                    (!notification.marcado_lido)
                     &&
                     <div key={index} className="notificationSituationContainer"></div>
+                  }
+                  {
+                    (!notification.concluido && !(type === 'admin'))
+                    &&
+                    <div>a</div>
                   }
                 </div>
                 

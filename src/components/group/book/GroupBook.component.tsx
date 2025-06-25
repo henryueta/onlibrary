@@ -27,10 +27,12 @@ const GroupBook = ({category,title}:GroupBookProps) => {
  useEffect(()=>{
 
     onAxiosQuery("get",{
-      url:"http://localhost:4200/book/list?categoria="+category,
+      url:"https://onlibrary-api.onrender.com/api/categoria/livros/"+category,
       type:{
         get:{
-          
+          params:{
+            id:category
+          }
         }
       },
       onResolver:{
@@ -38,7 +40,8 @@ const GroupBook = ({category,title}:GroupBookProps) => {
           console.log(error)
         },
         then(result) {
-          const bookList_data = result.data as bookCardProps
+          console.log(result.data)
+          const bookList_data = result.data.data as bookCardProps
                 setBooks(bookList_data)
         },
       }

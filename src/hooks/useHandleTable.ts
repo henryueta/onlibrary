@@ -80,7 +80,6 @@ const useHandleTable = (management:ManagementType | "none")=>{
         let headers = Object.entries(data[0]);
         setTableData({
           headerList:headers.map((item,index)=>{
-            console.log(item)
               return headers[index][0]
                }).filter((item)=>
                  item !== "id" 
@@ -115,9 +114,9 @@ const useHandleTable = (management:ManagementType | "none")=>{
             let onThen:((data:AxiosResponse)=>void) = ()=>{}
             const checkQueryType = {
                 create:()=>{
-                    table.data && (
-                        console.log()
-                    )
+                    // table.data && (
+                    //     console.log()
+                    // )
                 },
                 select:()=>{
                     table.referenceText
@@ -163,12 +162,10 @@ const useHandleTable = (management:ManagementType | "none")=>{
                     onAxiosQuery("get",{
                         url:!table.id && !table.referenceText 
                         ? 'https://onlibrary-api.onrender.com/api/data/dados'
-                        // ? `http://localhost:4200/tables/data${check_for_managementUrl}type=${table.type}`
                         : !table.id && !!table.referenceText 
                         ? tableRoutes[table.type].referenceText
                         :
                          tableRoutes[table.type].getById+"/"+table.id,
-                        // : "http://localhost:4200/library_user/get?id_biblioteca="+currentLibraryContext.libraryId+"&id="+table.id,
                         type:{
                             get:{
                                 params:!table.referenceText
@@ -196,9 +193,9 @@ const useHandleTable = (management:ManagementType | "none")=>{
                     cancelToken)
                 },
                 update:()=>{
-                    table?.id && table.data
-                    ? console.log("vai atualizar")
-                    : console.log("nao vai atualizar")
+                    // table?.id && table.data
+                    // ? console.log("vai atualizar")
+                    // : console.log("nao vai atualizar")
                 },
                 delete:()=>{
                     table.id 

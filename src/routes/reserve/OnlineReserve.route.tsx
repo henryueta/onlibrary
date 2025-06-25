@@ -12,6 +12,7 @@ import useHandleOnlineReserve from "../../hooks/useHandleOnlineReserve";
 import Spinner from "../../components/spinner/Spinner.component";
 import Communication from "../../components/communication/Communication.component";
 import ServerMessage from "../../components/message/ServerMessage.component";
+import NoData from "../../components/empty/NoData.component";
 
 const OnlineReserve = () => {
 
@@ -219,9 +220,10 @@ const OnlineReserve = () => {
 
                     }}
                   />
-                  : <div className="noDataContainer">
-                    <p>Nenhuma biblioteca encontrada</p>
-                  </div>
+                  : <NoData
+                  dataType="Biblioteca"
+                  gender="F"
+                  />
                   }        
           </div>
       </section>     

@@ -96,7 +96,6 @@ const useHandleSearch = (suggestion?:{
         !!currentSearchContext.searchContextState.currentValue.length
         &&
         (()=>{
-          console.log(currentSearchContext.searchContextState.currentValue)
               const source = axios.CancelToken.source();
           onAxiosQuery("get",{
             url:"https://onlibrary-api.onrender.com/api/livro/search/home",
@@ -166,17 +165,6 @@ const useHandleSearch = (suggestion?:{
       const onSearch = ()=>{
       }
       
-      useEffect(()=>{ 
-
-        !!searchState.isSearch
-        &&
-        !!searchState.inputValue
-        &&
-        !!searchState.selectValue
-        &&
-        console.log("AAA")
-
-      },[searchState])
 
   useEffect(()=>{
 
@@ -189,13 +177,18 @@ const useHandleSearch = (suggestion?:{
     !!searchState.inputValue.length
     &&
     onAxiosQuery("get",{
-      url:suggestion.url+searchState.inputValue,
+      url:suggestion.url,
       type:{
-        get:{}
+        get:{
+          params:{
+            value:searchState.inputValue
+          }
+        }
       },
       onResolver:{
         then(result) {
-          const suggestion_list_data = result.data as {
+          console.log(result.data)
+          const suggestion_list_data = result.data.data as {
             sugestao:string,
             tipo:string
           }[]

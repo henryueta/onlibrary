@@ -36,7 +36,6 @@ const UserAccount = () => {
                 }
             }
         )
-        console.log(authContext.userId)
     },[authContext.userId])
 
 

@@ -3,12 +3,12 @@ import TableHome from "../../table/home/TableHome.component"
 import HeaderTitle from "../../header_title/HeaderTitle.component"
 import useHandleOrder from "../../../hooks/useHandleOrder";
 import useHandlePath from "../../../hooks/useHandlePath";
+import NoData from "../../empty/NoData.component";
 
 const OrderContent = ({id}:{id:string}) => {
   const {orderState} = useHandleOrder(id);
   const {currentPathContext} = useHandlePath();
 
-  console.log(orderState.loanList)
 
   return (
     <section className={"orderContentDataSection "+currentPathContext.transitionClass}>
@@ -25,10 +25,13 @@ const OrderContent = ({id}:{id:string}) => {
         <div className="dataContentContainer">
           {
             !!orderState.loanList?.length && id
-            &&
-            <TableHome
+            ? <TableHome
             table={orderState.loanList}
             filter={['fkIdBiblioteca','fkIdUsuario','id','0','Username','Bibliotecário']}
+            />
+            : <NoData
+              dataType="emprestimo"
+              gender="M"              
             />
           }
         </div>
@@ -41,10 +44,13 @@ const OrderContent = ({id}:{id:string}) => {
           <div className="dataContentContainer">
            {
             !!orderState.reserveList?.length && id
-            &&
-            <TableHome
+            ? <TableHome
             table={orderState.reserveList}
             filter={['fkIdBiblioteca','fkIdUsuario','id','0','Username','tipo']}
+            />
+            : <NoData
+              dataType="reserva"
+              gender="F"              
             />
           }
           </div>
@@ -61,7 +67,10 @@ const OrderContent = ({id}:{id:string}) => {
               table={orderState.amerceList}
               filter={['id','fkIdBiblioteca','fkIdUsuario','0','Username']}
               />
-              : <p>Nenhuma multa encontrada</p>
+              : <NoData
+                dataType="multa"
+                gender="F"              
+              />
             }
           </div>
             

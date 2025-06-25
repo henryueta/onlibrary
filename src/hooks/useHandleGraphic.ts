@@ -1,7 +1,18 @@
 import { useEffect, useState } from "react"
 import useAxios from "./useAxios"
+import useHandleLibrary from "./useHandleLibrary"
 
-
+interface GraphicProps {
+    lastData:{
+        info:string,
+        situacao:string
+    }[],
+    weekData:{
+        data:number,
+        dia_semana:string,
+        data_emissao:string
+    }[]
+}
 
 export const graphicDataTypeList:Record<'global'|'library',GraphicTableType[]> = {
     global:[
@@ -58,27 +69,6 @@ export type GraphicTableType =
 
 
 
-const useHandleGraphic = ( management:"library" | "global")=>{
-
-    const [graphicTable,setGraphicTable] = useState<GraphicTableType>(graphicDataTypeList[management][0]);
-    const [graphicData,setGraphicData] = useState<number[]>([]);
-
-    useEffect(()=>{
-
-        setGraphicData(()=>{
-            return graphicTable.type === "loan"
-            ? [10,20,15,40]
-            : graphicTable.type === "reserve"
-            ? [1,2,5,9]
-            : graphicTable.type === "amerce"
-            ? [1,5,10,22]
-            : []
-        })
-
-    },[graphicTable])
-
-    const {onAxiosQuery} = useAxios();
-
     const checkGraphicType = {
 
         loan:{
@@ -102,7 +92,59 @@ const useHandleGraphic = ( management:"library" | "global")=>{
             url:""
         }
 
+        
+
     }
+
+
+const useHandleGraphic = ( management:"library" | "global")=>{
+
+    const [graphicTable,setGraphicTable] = useState<GraphicTableType>(graphicDataTypeList[management][0]);
+    const [graphicData,setGraphicData] = useState<number[]>([]);
+    const [latestData,setLatestData] = useState<GraphicProps['lastData']>([]);
+    const {currentLibraryContext} = useHandleLibrary();
+
+    useEffect(()=>{
+
+        // setGraphicData(()=>{
+        //     return graphicTable.type === "loan"
+        //     ? [10,20,15,40]
+        //     : graphicTable.type === "reserve"
+        //     ? [1,2,5,9]
+        //     : graphicTable.type === "amerce"
+        //     ? [1,5,10,22]
+        //     : []
+        // })
+        !!currentLibraryContext.libraryId
+        &&
+        onAxiosQuery("get",{
+            url:"https://onlibrary-api.onrender.com/api/data/graficos",
+            type:{
+                get:{
+                    params:{
+                        nome_tabela:checkGraphicType[graphicTable.type].table,
+                        id_biblioteca:currentLibraryContext.libraryId
+                    }
+                }
+            },
+            onResolver:{
+                then(result) {
+                    const current_result  = result.data.data as GraphicProps;
+                    setGraphicData(current_result.weekData.map((week)=>{
+                        return week.data
+                    }))
+                    setLatestData(current_result.lastData)
+                },
+                catch(error) {
+                    console.log(error)
+                },
+            }
+        })
+        console.warn(graphicTable,"AQUI")
+    },[graphicTable,currentLibraryContext.libraryId])
+
+    const {onAxiosQuery} = useAxios();
+
 
 
     const onDrawGraphic = (type:GraphicTableType['type'])=>{
@@ -131,7 +173,8 @@ const useHandleGraphic = ( management:"library" | "global")=>{
 return {
     onDrawGraphic,
     graphicTable,
-    graphicData
+    graphicData,
+    latestData
  
 }
 

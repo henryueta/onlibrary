@@ -29,7 +29,6 @@ const NavUser = ()=>{
       onResolver:{
         then(result) {
           const user_type = result.data as {data:{tipo:string}}
-          console.log(user_type)
           setIsAdmin(!!(user_type.data.tipo.toLowerCase() !== 'comum'))
         },
         catch(error) {

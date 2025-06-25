@@ -218,8 +218,8 @@ const tableRoutes = {
   user:{
     getById:"http://localhost:4200/user/get/dependencies",
     post:"",
-    put:"https://onlibrary-api.onrender.com/api/auth/atualizar-usuario",
-    delete:"https://onlibrary-api.onrender.com/api/auth/deletar",
+    put:"https://onlibrary-api.onrender.com/api/usuario/atualizar",
+    delete:"https://onlibrary-api.onrender.com/api/usuario/deletar",
     referenceText:"",
     graphic:""
   },

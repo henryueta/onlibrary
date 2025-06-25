@@ -10,7 +10,10 @@ const FooterHome = () => {
           <div className="footerOptionsContainer">
             <Link to={"/"}>Home</Link>
             <hr />
-            <Link to={"/"}>Sobre nós</Link>
+            <Link 
+            target="_blank"
+            to={"https://inovacompany.vercel.app/index.html"}
+            >Sobre nós</Link>
             <hr />
             <Link to={"/support"}>Suporte</Link>
           </div>

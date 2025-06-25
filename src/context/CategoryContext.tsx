@@ -20,7 +20,7 @@ const CategoryProvider = ({children}:{children:React.ReactNode}) => {
 
                 const source = axios.CancelToken.source()
                   onAxiosQuery("get",{
-                    url:"http://localhost:4200/category/get",
+                    url:"https://onlibrary-api.onrender.com/api/categoria",
                     type:{
                       get:{
             
@@ -28,7 +28,8 @@ const CategoryProvider = ({children}:{children:React.ReactNode}) => {
                     },
                     onResolver:{
                       then(result) {
-                        const category_data = result.data as CategoryType[]
+                        console.log(result.data)
+                        const category_data = result.data.data as CategoryType[]
                         const category_id_list:Set<CategoryType> = new Set([]);
                             const random_limit = (category_data.length);
                             const id_list = category_data.map((cat)=>cat);

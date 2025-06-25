@@ -1,156 +1,18 @@
-
-library_user(usuario_biblioteca){
-
-    post:{
-        data:{
-            fk_id_usuario:string(contém o id de apenas um usuário),
-
-            fk_id_perfil_usuario:string(contém o id do perfil),
-
-            tipo_usuario:string(contém o nome do tipo),
-
-            numero_matricula:string(contém o valor da matricula),
-
-            cpf:string(contém o cpf para autorizar o cadastro de usuário na biblioteca)
-        }
-        info: 
-        Usuários do "tipo_usuario" == "comum" não podem ser de "fk_id_perfil_usuario" == "Bibliotecario"
-        Usuários do "tipo_usuario" == "admin" não podem ser de "fk_id_perfil_usuario" == Outro
-        Um perfil de bibliotecário deve ser admin
-        Um perfil de outro deve ser comum
-        Sempre que for cadastrar um usuário confirmar se o "cpf" é equivalente ao campo "cpf" da "tb_usuario" 
-    },
-    put:{
-        data:{
-            fk_id_perfil_usuario:string(contém o id do perfil),
-
-            tipo_usuario:string(contém o nome do tipo),
-            
-            numero_matricula:string(contém o valor da matricula)
-        }
-        info:
-        Usuários do "tipo_usuario" == "comum" não podem ser de "fk_id_perfil_usuario" == "Bibliotecario"
-        Usuários do "tipo_usuario" == "admin" não podem ser de "fk_id_perfil_usuario" == Outro
-        Um perfil de bibliotecário deve ser admin
-        Um perfil de outro deve ser comum
-    }
-
-},
-account(perfil){
-
-    post:{
-
-        data:{
-            fk_id_biblioteca: string(contém o valor do id da biblioteca)
-
-            nome:string(contém do nome do perfil),
-
-            multa_padrao:number|string(contém o valor da multa padrão),
-
-            prazo_devolucao_padrao: number |string (contém o valor do prazo de devolução),
-
-            prazo_multa_padrao: number | string (contém o valor do prazo de vencimento de multa)
-        },
-        info:
-            Não permitir que valores de "multa_padrao","prazo_devolucao_padrao" e "prazo_multa_padrao" 
-            sejam negativos.
-            Não permitir que "nome" repita nas tabelas. Só pode haver perfis com nome único.
-
-    },
-    put:{
-
-        data:{
-            nome:string(contém do nome do perfil),
-
-            multa_padrao:number|string(contém o valor da multa padrão),
-
-            prazo_devolucao_padrao: number |string (contém o valor do prazo de devolução),
-
-            prazo_multa_padrao: number | string (contém o valor do prazo de vencimento de multa)
-        },
-        info:
-            Não permitir que valores de "multa_padrao","prazo_devolucao_padrao" e "prazo_multa_padrao" 
-            sejam negativos.
-            Não permitir que "nome" repita nas tabelas. Só pode haver perfis com nome único.
-
-    }
-
-},
-exemplary(exemplar):{
-
-    post:{
-
-        data:{
-            fk_id_biblioteca: string(contém o id da biblioteca)
-
-            fk_id_livro:string(contém o id de apenas um livro),
-
-            numero_tombo:string(contém o valor do número tombo),
-
-            disponivel:boolean(contém o valor booleano se está ou não disponível),
-
-            setor:string[OPCIONAL](contém o valor do setor do exemplar),
-
-            prateleira:string[OPCIONAL](contém o valor da prateleira do exemplar)
-
-            estante:string[OPCIONAL](contém o valor da estante do exemplar)
-        }
-        info:
-        Quando cadastrar um exemplar pegar o id do livro da variavel "fk_id_livro".
-        Usar este id para inserir no campo "fk_id_livro" na tabela "biblioteca_livro"
-        junto com o id da biblioteca em "fk_id_biblioteca".
-        Só pode haver um id único de livro em cada tabela "biblioteca_livro".
-        Não pode repetir o valor de fk_id_livro em cada registro em biblioteca
-    },
-    put:{
-
-        data:{
-
-            fk_id_livro:string(contém o id de apenas um livro),
-
-            numero_tombo:string(contém o valor do número tombo),
-
-            disponivel: boolean(contém o valor booleano se está ou não disponível),
-
-            setor:string[OPCIONAL](contém o valor do setor do exemplar),
-
-            prateleira:string[OPCIONAL](contém o valor da prateleira do exemplar)
-
-            estante:string[OPCIONAL](contém o valor da estante do exemplar)
-
-        }
-
-    }
-
-   
-}
-
-
-loan(emprestimo):{
-
-    post:{
-
-        data:{
-            fk_id_biblioteca:string(contém o id da biblioteca),
-
-            fk_id_bibliotecario: string(contém o id do bibliotecário)
-
-            exemplares:array<string>(contém o array de ids de exemplares),
-
-            fk_id_usuario_biblioteca:string(contém o id do usuário da biblioteca),
-
-            situacao:string(contém o valor da situação definido como "pendente")
-        },
-        info:
-        Ler todos os ids do empréstimo e tornar o campo "disponivel" da tabela tb_exemplar como FALSE.
-        Verificar se o usuário da biblioteca está bloqueado e impedir o cadastro do empréstimo.
-        Verificar se o bibliotecário está bloqueado e impedir o cadastro do empŕestimo.
-        A "situacao" já está definida como "pendente", mas garantir que seja "pendente", 
-        pois o front end pode ser manipulado 
-
-    },
-    put:{
-
-    }
-
-},
+ <Select
+                     styles={{
+                      control:(base)=>({
+                        ...base,
+                        height:"45px"
+                      })
+                     }}
+                     isDisabled={
+                      true ou false para desabilitar ou habilitar o select
+                    }
+                      defaultValue={valor default para select}
+                     placeholder={` `}
+                     className="valor da className" 
+                     isMulti={true ou false para decidir se pode selecionar mais de uma opção}
+                     options={array de objetos em formato :{label:x,value:y}}
+                     onChange={(e)=> logica para mudanças}
+                     >
+                     </Select>

@@ -31,7 +31,8 @@ interface AxiosQueryProps<T extends object>{
         },
         put?:{
             id?:string,
-            data:T
+            data?:T,
+            params?:T
         },
         delete?:{
             id?:string
@@ -158,7 +159,7 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
             // for(let item in query.type.put?.data){
             //     formData.append()
             // }
-            !!query.type.put?.data
+            (!!query.type.put?.data)
             &&
             (()=>{
                 const formData = new FormData();
@@ -175,7 +176,10 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
                 &&
                 formData.append("imagem",file_data)
 
-            axios.put(query.url,query.type.put?.data,{
+            axios.put(query.url,!!query.type.put?.data
+                ? query.type.put?.data
+                : {},{
+                params:query.type.put.params,
                 cancelToken:cancelToken,
                 headers:{
                     "Content-Type":(

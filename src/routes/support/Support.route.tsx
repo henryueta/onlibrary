@@ -76,26 +76,33 @@ const Support = () => {
                             <button className="acceptButton"
                             onClick={()=>{
                                 handleSubmit((data)=>{
-                                // !!authContext.userId                              
-                                // ? onAxiosQuery("post",{
-                                //     url:"http://localhost:4200/contact/post",
-                                //     type:{post:{data:{}}},
-                                //     onResolver:{
-                                //         then() {
-                                //             setTimeout(()=>{
-                                //                 onTransition("/support/conclusion",{
-                                //                     hasReplace:true
-                                //                 })
-                                //             },1000)
-                                //         },
-                                //         catch(error) {
-                                //             console.log(error)
-                                //         },
-                                //     }
-                                // })
-                                // : onTransition("/login",{
-                                //     hasReplace:false
-                                // })    
+                                !!authContext.userId                            
+                                ? onAxiosQuery("post",{
+                                    url:"https://onlibrary-api.onrender.com/api/suporte",
+                                    type:{post:
+                                        {
+                                            data:{
+                                                fk_id_usuario:authContext.userId,
+                                                conteudo:data.mensagem
+                                            }
+                                        }
+                                    },
+                                    onResolver:{
+                                        then() {
+                                            setTimeout(()=>{
+                                                onTransition("/support/conclusion",{
+                                                    hasReplace:true
+                                                })
+                                            },1000)
+                                        },
+                                        catch(error) {
+                                            console.log(error)
+                                        },
+                                    }
+                                })
+                                : onTransition("/login",{
+                                    hasReplace:false
+                                })    
                                 })()                           
                             }}
                             >

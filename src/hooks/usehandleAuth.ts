@@ -89,18 +89,6 @@ const useHandleAuth = ()=>{
 
         const handleTypes = {
             register:()=>{
-                // onAxiosQuery("post",{
-                //     url:"http://localhost:4200/create/account",
-                //     type:{
-                //         post:{
-                //         data:data
-                //         }
-                //     },
-                //     onResolver:{
-                //         then:(result)=>console.log(result),
-                //         catch:(error)=>console.log(error)
-                //     }
-                // })
                 onAxiosQuery("post",{
                     url:"https://onlibrary-api.onrender.com/api/auth/register",
                     type:{

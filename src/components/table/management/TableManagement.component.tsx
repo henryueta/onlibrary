@@ -77,7 +77,6 @@ const TableManagement = ({type,management}:TableManagementProps) => {
             <Search
             onChange={()=>{}}
             onSearch={(value,quantity,filter,cancelToken)=>{
-              console.log(quantity)
               type != "library_management"
               &&
               type != "global_management"

@@ -13,6 +13,7 @@ import useHandleAuth from "../../hooks/usehandleAuth";
 import TitleDescription from "../../components/title_description/TitleDescription.component";
 import useHandlePath from "../../hooks/useHandlePath";
 import Dialog from "../../components/dialog/Dialog.component";
+import NoData from "../../components/empty/NoData.component";
 
   interface LibraryStateProps {
       libraryData:BookLibrariesProps | null,
@@ -323,9 +324,10 @@ const BookPage = () => {
                       })
                     }}
                   />
-                  : <div className="noDataContainer">
-                    <p>Nenhuma biblioteca disponível</p>
-                  </div>
+                  : <NoData
+                  dataType="Biblioteca"
+                  gender="F"
+                  />
                   }
                 </div>
               </section>

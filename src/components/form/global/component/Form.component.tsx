@@ -25,6 +25,7 @@ interface FormProps{
     post:boolean,
     put:boolean
   },
+  redirectAfterConclude?:boolean,
   buttonRef?:React.RefObject<HTMLButtonElement | null>
 }
 
@@ -83,7 +84,7 @@ const handleFormQueryState = (state:FormQueryStateProps,action:ActionFormType)=>
           }
 }
 
-const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,method}:FormProps) => {
+const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,method,redirectAfterConclude}:FormProps) => {
   const schemaObject = formSchema
   const [formBase,setFormBase] = useState<InputProps[]>();
   const {currentLibraryContext} = useHandleLibrary();
@@ -119,7 +120,6 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
 } | undefined>(undefined)
   useEffect(()=>{
     setDefaultValueList(defaultValues)
-      console.log('398.397.848-72'.match(/[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}/))
   },[defaultValues])
 
   const {register,formState:{errors},handleSubmit,control,setValue,getValues} = useForm<SchemaType>({
@@ -127,7 +127,6 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
     reValidateMode:"onSubmit",
     resolver:zodResolver(schemaObject),
   });
-
 
 
   const {onQueryForm,formState} = useHandleForm(typeOfData || "library_management"||"global_management")
@@ -143,7 +142,6 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
   },[buttonRef])
 
   useEffect(()=>{
-    console.log(formState.error)
     !!formState.error.message
     &&
       (()=>{
@@ -248,8 +246,14 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                   {
                     item_input.tag === "select" && !!item_input.options
                     ?
-                     <Select
+                    <Controller
+                    name={item_input!.registerId}
+                    defaultValue={defaultValueList && defaultValueList[item_input!.registerId].value}
+                    control={control}
+                    render={({field})=>
+                      <Select
                      styles={{
+                      
                       control:(base)=>({
                         ...base,
                         height:"45px"
@@ -268,9 +272,16 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                     }
                       defaultValue={defaultValueList && defaultValueList[item_input!.registerId]}
                      placeholder={` `}
-                     className="selectOptions" isMulti={item_input.options.isMultiple}
-                     options={item_input.options.list.map((item_option)=>{
-                 
+                    //  {...field}
+                     className="selectOptions" 
+                     isMulti={
+                      
+                      item_input.options.isMultiple}
+                     options={
+                      
+                      item_input.options.list.map((item_option)=>{
+                      defaultValueList &&
+                      console.warn(defaultValueList[item_input!.registerId],item_input.options?.isMultiple)
                        return {
                       value:item_option.value,
                       label:item_option.label
@@ -294,6 +305,11 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                      )}
                      >
                      </Select>
+                      
+                    }
+                      
+                      />
+                     
                     :item_input!.tag === "input"
                     ?
                     !!item_input!.maskFormat
@@ -563,9 +579,11 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
              },
              method.post 
              ? "create"
-             : "update")})()
+             : "update",
+              !!redirectAfterConclude)})()
              :null
              }
+             
               )}>
                 {
                   formQueryState.isSent

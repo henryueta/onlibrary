@@ -46,6 +46,7 @@
 }
 
 .dataListContainer{
+    overflow-y: auto;
     background-color: var(--grayContainer_var);
     height: 90%;
 }

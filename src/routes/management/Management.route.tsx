@@ -160,7 +160,6 @@ const Management = ({hasGroupTableCard,mode,management}:ManagementProps) => {
                 warning:dependecie_button?.warning || false,
                 redirectTo:dependecie_button?.path,
                 title:(()=>{
-                  console.log(dependecie_button.title)
                   return dependecie_button.title
                 })()
                 }
@@ -190,6 +189,7 @@ const Management = ({hasGroupTableCard,mode,management}:ManagementProps) => {
               <div className="formDataContainer">
 
                  <Form
+                 redirectAfterConclude={true}
                  method={{
                   post:true,
                   put:false

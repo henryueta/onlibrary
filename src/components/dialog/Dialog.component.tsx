@@ -79,7 +79,6 @@ const Dialog = ({close,title,id,children,className,closeOnExternalClick,closeCla
     },[currentPathContext.pathName])
 
     useEffect(()=>{
-        console.log(dialogState.view)
         !dialogState.view && !!close?.onClose
         &&
        (()=>{
@@ -102,7 +101,6 @@ const Dialog = ({close,title,id,children,className,closeOnExternalClick,closeCla
                 ? (()=>{
                     document.onclick = (e)=>{
                     const clickedElement = e.target as Node;
-                    console.log(dialogRef.current?.contains(clickedElement))
                     !dialogRef.current?.contains(clickedElement)
                     &&
                     (()=>{

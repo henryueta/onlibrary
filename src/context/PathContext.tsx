@@ -105,7 +105,6 @@ const PathProvider = ({children}:{children:React.ReactNode})=>{
             (()=>{
             setTransitionClass("disappear")
             })()
-            console.log(transitionState)
         },[transitionState])
     
     

@@ -28,10 +28,6 @@ const LibraryProvider = ({children}:{children:React.ReactNode}) => {
 
     },[])
 
-    useEffect(()=>{
-        console.log(libraryId)
-        console.log(libraryName)
-    },[libraryId])
 
   return (
     <LibraryContext.Provider value={{libraryId,libraryName,setLibraryId,setLibraryName}}>

@@ -1,6 +1,7 @@
 
 .listBookSection{
   width: 100%;
+  min-height: 470px;
   font-family: arial;
   display: flex;
   align-items: center;
@@ -29,10 +30,10 @@
   /* align-items: start; */
   flex-direction: column;
   width: 90%;
+  min-height: 440px;
   background: none;
   border: none;
   gap: 1rem;
-  
 }
 
 
@@ -90,6 +91,7 @@ transform: scale(2.5);
   gap: 3rem;
   align-items: center;
   width: 1300px;
+  min-height: 330px;
 }
 
 .itemContainer>div{

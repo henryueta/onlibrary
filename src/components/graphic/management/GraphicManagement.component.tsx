@@ -11,7 +11,7 @@ interface GraphicManagementProps {
 
 const GraphicManagement = ({management}:GraphicManagementProps) => {
     
-    const {onDrawGraphic,graphicTable,graphicData} = useHandleGraphic(management);
+    const {onDrawGraphic,graphicTable,graphicData,latestData} = useHandleGraphic(management);
     const [selectedButton,setSelectedButton] = useState<number>(0);
     const [graphicManagementList] = useState<GraphicTableType[]>(graphicDataTypeList[management]);
 
@@ -60,14 +60,23 @@ const GraphicManagement = ({management}:GraphicManagementProps) => {
                     </h1>
                 </div>
                 <div className="dataListContainer">
+
+                    {
+                    latestData.map((last_data)=>
                     <div className="itemListContainer">
                        <div className="itemContentContainer">
-                             A névoa da floresta
+                             {
+                                last_data.info
+                             }
                        </div>
                        <div className="itemSituationContainer">
-                            Vencido
+                            {
+                                last_data.situacao
+                            }
                        </div>
                     </div>
+
+                    )}
                 </div>
             </div>
         </section>
