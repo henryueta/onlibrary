@@ -46,14 +46,16 @@ const NavHome = () => {
           
         }} quantity={0}/>
         <div className="userOptionsContainer">
-          <Notification 
-          type="comum"
-          id={
+          {
             authContext.userId
-            ? authContext.userId
-            : ""
+            &&
+            <Notification 
+              type="comum"
+              id={
+                authContext.userId
+              }
+            />
           }
-          />
        
           <UserAccount/>  
         </div>

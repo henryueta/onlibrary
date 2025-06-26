@@ -9,7 +9,7 @@ import { useEffect } from "react";
 
 const Notification = ({type,id}:NotificationProps)=>{
 
-  const {currentPathContext} = useHandlePath()
+  const {currentPathContext} = useHandlePath();
   const {
     notificationState,
     setNotificationState,
@@ -96,6 +96,9 @@ const Notification = ({type,id}:NotificationProps)=>{
             </button>
           {
             type === "admin"
+            &&
+            !notificationState.currentNotification.content?.concluido
+            
             &&
             <button 
               className="acceptButton"
@@ -217,9 +220,9 @@ const Notification = ({type,id}:NotificationProps)=>{
                     <div key={index} className="notificationSituationContainer"></div>
                   }
                   {
-                    (!notification.concluido && !(type === 'admin'))
+                    (!notification.concluido && !!(type === 'admin'))
                     &&
-                    <div>a</div>
+                    <div>x</div>
                   }
                 </div>
                 

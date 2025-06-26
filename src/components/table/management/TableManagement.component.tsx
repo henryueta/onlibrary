@@ -13,6 +13,7 @@ import white_edit_icon from "../../../assets/imgs/icons/white_edit_icon.png";
 import white_delete_icon from "../../../assets/imgs/icons/white_delete_icon.webp";
 import white_add_icon from "../../../assets/imgs/icons/white_add_icon.webp";
 import Communication from "../../communication/Communication.component"
+import NoData from "../../empty/NoData.component"
 
 interface TableManagementProps {
 
@@ -259,9 +260,10 @@ const TableManagement = ({type,management}:TableManagementProps) => {
       </thead>
         </table>
         :
-        <div className="emptyTableDataContainer">
-          <Warn color="black" warning={"Tabela vazia! Adicione novos dados"}></Warn>
-        </div>
+        <NoData
+        dataType="registro"
+        gender="M"
+        />
       }
       </div>
     </section>

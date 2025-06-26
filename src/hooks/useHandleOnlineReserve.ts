@@ -65,9 +65,15 @@ const useHandleOnlineReserve = ()=>{
     const onGetLibraryData = (library_data:object,id:string)=>{
         const current_libraryData = library_data as BookLibrariesProps
          onAxiosQuery("get",{
-            url:"http://localhost:4200/exemplary/get?id_biblioteca="+current_libraryData.fkIdBiblioteca+"&id_livro="+id,
+            url:"https://onlibrary-api.onrender.com/api/exemplar/situacoes",
             type:{
-            get:{}
+              get:{
+                params:{
+                  id_biblioteca:current_libraryData.fkIdBiblioteca,
+                  id_livro:id
+                }
+                            
+              }
             },
             onResolver:{
                 then(result) {

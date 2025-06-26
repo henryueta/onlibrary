@@ -162,14 +162,18 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                                         sobrenome:user_data.sobrenome,
                                         email:user_data.email,
                                         username:user_data.username,
-                                        cpf:user_data.cpf,
+                                        cpf:!!user_data.cpf
+                                        ? new Word(user_data.cpf,"numeric").word
+                                        : "",
                                     },
                                     put:{
                                         nome:user_data.nome,
                                         sobrenome:user_data.sobrenome,
                                         email:user_data.email,
                                         username:user_data.username,
-                                        cpf:user_data.cpf,
+                                        cpf:!!user_data.cpf
+                                        ? new Word(user_data.cpf,"numeric").word
+                                        : "",
                                     }
                                 }
                             }
@@ -350,7 +354,9 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                                     post:{
                                         nome:publisher_data.nome
                                     },
-                                    put:{}
+                                    put:{
+                                        nome:publisher_data.nome
+                                    }
                                 }
                             }
                         )
@@ -364,7 +370,9 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                                     post:{
                                         nome:category_data.nome
                                     },
-                                    put:{}
+                                    put:{
+                                        nome:category_data.nome
+                                    }
                                 }
                             }
                         )
@@ -378,7 +386,9 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                                     post:{
                                         nome:gender_data.nome
                                     },
-                                    put:{}
+                                    put:{
+                                        nome:gender_data.nome
+                                    }
                                 }
                             }
                         )

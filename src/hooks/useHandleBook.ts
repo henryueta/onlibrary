@@ -88,7 +88,7 @@ const {onAxiosQuery} = useAxios()
  useEffect(()=>{
 
     onAxiosQuery("get",{
-      url:"http://localhost:4200/book/get?id="+id,
+      url:"https://onlibrary-api.onrender.com/api/livro/book-page/"+id,
       type:{
         get:{
           
@@ -96,7 +96,8 @@ const {onAxiosQuery} = useAxios()
       },
       onResolver:{
         then(result) {
-          const book_data = result.data as BookTableQueryProps;
+          console.warn(result.data)
+          const book_data = result.data.data as BookTableQueryProps;
           setBookState({
             type:"data",
             value:book_data

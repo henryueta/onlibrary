@@ -125,6 +125,7 @@ const form:FormObjectProps = {
                     type:"text",
                     registerId:"cpf",
                     maskFormat:"###.###.###-##"
+                    
                 },
                 {
                     id:"username_id",

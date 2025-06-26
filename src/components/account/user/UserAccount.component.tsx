@@ -19,7 +19,7 @@ const UserAccount = () => {
         &&
         onAxiosQuery("get",
             {
-                url:"http://localhost:4200/user/get/username?id="+authContext.userId,
+                url:"https://onlibrary-api.onrender.com/api/usuario/dependencies/"+authContext.userId,
                 type:{
                     get:{
 
@@ -27,8 +27,8 @@ const UserAccount = () => {
                 },
                 onResolver:{
                     then(result) {
-                        const username_data = result.data as {username:string}[]
-                        setUsername(username_data[0].username)
+                        const username_data = result.data.data as {username:string}
+                        setUsername(username_data.username)
                     },
                     catch(error) {
                         console.log(error)

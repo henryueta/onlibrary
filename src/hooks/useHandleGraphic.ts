@@ -115,8 +115,11 @@ const useHandleGraphic = ( management:"library" | "global")=>{
         //     ? [1,5,10,22]
         //     : []
         // })
-        !!currentLibraryContext.libraryId
+        !!(management === 'library' && !!currentLibraryContext.libraryId)
+        ||
+        !!(management === 'global')
         &&
+
         onAxiosQuery("get",{
             url:"https://onlibrary-api.onrender.com/api/data/graficos",
             type:{

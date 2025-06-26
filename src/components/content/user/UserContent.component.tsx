@@ -16,7 +16,7 @@ const UserContent = ({id}:{id:string}) => {
     useEffect(()=>{
         
       onAxiosQuery("get",{
-        url:tableRoutes['user'].getById+"?id="+id,
+        url:tableRoutes['user'].getById+"/"+id,
         type:{
           get:{
   
@@ -26,7 +26,7 @@ const UserContent = ({id}:{id:string}) => {
            then(result) {
                !!result.data
                &&
-               setUserContent(result.data)
+               setUserContent(result.data.data)
            },
            catch(error) {
                console.log(error)

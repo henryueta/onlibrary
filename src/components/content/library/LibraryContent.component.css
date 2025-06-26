@@ -28,9 +28,8 @@
     margin-top: 1.5rem;
     display: flex;
     gap: 1rem;
+    min-height: 700px;
 }
-
-
 
 .libraryContentDataSection .dataSection .dataContentContainer>div{
     border: 0.1rem solid var(--grayLine_var);
@@ -67,5 +66,7 @@
     align-items: center;
     justify-content: center;
     padding: 1rem;
+    min-height: 700px;
+
 }
 

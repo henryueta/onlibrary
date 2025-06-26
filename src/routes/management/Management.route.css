@@ -359,3 +359,14 @@ body{
     align-items: center;
     justify-content: center;
 }
+
+
+.tableManagementSection .tableSection .tableContainer{
+    height: 600px;
+
+    overflow-y: auto;
+}
+
+.tableManagementSection .tableSection .noDataContainer{
+    height: 600px;
+}

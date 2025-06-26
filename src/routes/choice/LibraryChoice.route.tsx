@@ -3,46 +3,19 @@ import useHandleLibrary, { LibraryProps } from "../../hooks/useHandleLibrary";
 import "./LibraryChoice.route.css";
 import Load from "../../components/load/Load.component";
 import libraryOpenned_icon from "../../assets/imgs/icons/libraryOpenned_icon.webp"
-import useHandleAuth from "../../hooks/usehandleAuth";
 import useAxios from "../../hooks/useAxios";
 import { Link } from "react-router-dom";
 import white_onlibrary_logo from "../../assets/imgs/logo/white_onlibrary_logo.png";
 import { useNavigate } from "react-router-dom";
 import useHandlePath from "../../hooks/useHandlePath";
+import NoData from "../../components/empty/NoData.component";
 
 const LibraryChoice = () => {
   const {onLibraryId,currentLibraryContext,onQueryLibraries,libraries,queryState} = useHandleLibrary()
   const [currentLibrary,setCurrentLibrary] = useState<LibraryProps | null>(null);
-  const [username,setUsername] = useState<string | null>(null)
-  const {authContext} = useHandleAuth();
  const {onAxiosQuery} = useAxios();
   const onNavigate = useNavigate();
   const {currentPathContext} = useHandlePath();
-
-  useEffect(()=>{
-    !!authContext.userId
-    &&
-    onAxiosQuery("get",
-        {
-            url:"http://localhost:4200/user/get/username?id="+authContext.userId,
-            type:{
-                get:{
-
-                }
-            },
-            onResolver:{
-                then(result) {
-                    const username_data = result.data as {username:string}[]
-                    setUsername(username_data[0].username)
-                },
-                catch(error) {
-                    console.log(error)
-                },
-            }
-        }
-    )
-
-},[authContext.userId])
 
 
   useEffect(()=>{
@@ -107,7 +80,10 @@ const LibraryChoice = () => {
                     </div>
                 }
                 )
-                :<>Nenhuma biblioteca encontrada</>
+                :<NoData
+                dataType="biblioteca"
+                gender="F"
+                />
               }
             </div> 
             <div className="libraryChoiceOptionsContainer">

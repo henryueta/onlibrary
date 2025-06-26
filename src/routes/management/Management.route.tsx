@@ -13,6 +13,7 @@ import useHandleTable from "../../hooks/useHandleTable";
 import useHandleLibrary from "../../hooks/useHandleLibrary";
 import useHandlePath from "../../hooks/useHandlePath";
 import GraphicManagement from "../../components/graphic/management/GraphicManagement.component";
+import useHandlePdf from "../../hooks/useHandlePdf";
 
 type ManagementMode = "default" | "get" | "post" | "put" | "library";
 
@@ -33,6 +34,7 @@ const Management = ({hasGroupTableCard,mode,management}:ManagementProps) => {
   const {currentLibraryContext} = useHandleLibrary()
   const {onQueryTable,table,onQueryCountTable} = useHandleTable(management);
   const {currentPathContext,pathManagement} = useHandlePath(management);
+  const {onQueryLibraryData} = useHandlePdf(management);
   const {type,id} = useParams()
   const onNavigate = useNavigate();
 
@@ -168,7 +170,11 @@ const Management = ({hasGroupTableCard,mode,management}:ManagementProps) => {
             }/>
           )
           }
-
+            <button
+            onClick={()=>{
+              onQueryLibraryData()
+            }}
+            >Click</button>
           {
             mode == "default"
             ? 
@@ -212,6 +218,7 @@ const Management = ({hasGroupTableCard,mode,management}:ManagementProps) => {
                 <div className="formDataContainer">
                   
                   <Form
+                  redirectAfterConclude={true}
                   method={{
                     post:false,
                     put:true

@@ -21,7 +21,8 @@ titulo:string
 interface NotificationStateProps {
 
   userNotifications:UserNotificationProps[],
-  isNotificationsView:boolean
+  isNotificationsView:boolean,
+  isUpdated:boolean,
   currentNotification:{
     isView:boolean,
     content: null | UserNotificationProps
@@ -32,6 +33,7 @@ const initialNotificationState:NotificationStateProps = {
 
   userNotifications:[],
   isNotificationsView:false,
+  isUpdated:false,
   currentNotification:{
     isView:false,
     content:null
@@ -57,6 +59,11 @@ type NotificationActionProps =
     content:UserNotificationProps | null
   }
 }
+|
+{
+  type:"update",
+  value:boolean
+}
 
 
 const handleNotificationState =  (state:NotificationStateProps,action:NotificationActionProps)=>{
@@ -68,6 +75,8 @@ const handleNotificationState =  (state:NotificationStateProps,action:Notificati
           return {...state,isNotificationsView:action.value}
       case "currentNotification":
         return {...state,currentNotification:action.value}
+      case "update":
+        return {...state,isUpdated:action.value}
       default:
         return state
     }
@@ -82,20 +91,32 @@ const useHandleNotification = ({type,id}:NotificationProps)=>{
     
 
     useEffect(()=>{
-        !!currentLibraryContext.libraryId &&
+
+        !!(type.length || notificationState.isUpdated)
+            &&
         (()=>{
+
             const source = axios.CancelToken.source()
+            
         // setInterval(()=>{
             onAxiosQuery("get",{
-            url:"http://localhost:4200/notification/get?id_usuario="+id+"&id_biblioteca="+currentLibraryContext.libraryId+"&type="+type,
+            url:"https://onlibrary-api.onrender.com/api/notificacao",
             type:{
                 get:{
-
+                  params:{
+                    usuarioId: id,
+                    bibliotecaId: !!currentLibraryContext.libraryId?.length 
+                    ? currentLibraryContext.libraryId
+                    : " "
+                    ,
+                    tipo: type
+                  }
                 }
             },
             onResolver:{
                 then:(result)=>{
-                    const notification_data = result.data as UserNotificationProps[];
+                  console.warn(result.data)
+                    const notification_data = result.data.data as UserNotificationProps[];
                     setNotificationState({
                     type:"userNotification",
                     value:notification_data
@@ -105,9 +126,13 @@ const useHandleNotification = ({type,id}:NotificationProps)=>{
             }
             },source.token)
         // },10000)
+            setNotificationState({
+              type:"update",
+              value:false
+            })
         })()
 
-  },[currentLibraryContext.libraryId,type])
+  },[currentLibraryContext.libraryId,type,notificationState.isUpdated])
 
   const onConcludeNotification = (id_notification:string)=>{
 
@@ -152,8 +177,11 @@ const useHandleNotification = ({type,id}:NotificationProps)=>{
         }
       },
       onResolver:{
-        then(result) {
-          console.log(result.data)
+        then() {
+            setNotificationState({
+              type:"update",
+              value:true
+            })
         },
         catch(error) {
           console.log(error)

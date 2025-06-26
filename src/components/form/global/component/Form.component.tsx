@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import Spinner from "../../../spinner/Spinner.component";
 import cube_icon from "../../../../assets/imgs/icons/black_cubeTable_icon.png"
 import Communication from "../../../communication/Communication.component";
+import useHandlePath from "../../../../hooks/useHandlePath";
 
 interface FormProps{
   formSchema:z.ZodObject<ZodRawShape>
@@ -26,6 +27,7 @@ interface FormProps{
     put:boolean
   },
   redirectAfterConclude?:boolean,
+  redirectTo?:string
   buttonRef?:React.RefObject<HTMLButtonElement | null>
 }
 
@@ -84,7 +86,7 @@ const handleFormQueryState = (state:FormQueryStateProps,action:ActionFormType)=>
           }
 }
 
-const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,method,redirectAfterConclude}:FormProps) => {
+const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,method,redirectAfterConclude,redirectTo}:FormProps) => {
   const schemaObject = formSchema
   const [formBase,setFormBase] = useState<InputProps[]>();
   const {currentLibraryContext} = useHandleLibrary();
@@ -127,9 +129,10 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
     reValidateMode:"onSubmit",
     resolver:zodResolver(schemaObject),
   });
-
+  console.log(getValues())
 
   const {onQueryForm,formState} = useHandleForm(typeOfData || "library_management"||"global_management")
+  const {onTransition,currentPathContext} = useHandlePath();
 
   useEffect(()=>{
     buttonRef &&
@@ -173,13 +176,25 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
       })
 
       setIsUpdate(false)
+      !!redirectTo
+      &&
+      setTimeout(()=>{
+        onTransition(redirectTo,{
+          hasReplace:false
+        })
+      },1000)
 
     })()
   },[formState.success])
 
 
   return (
-    <form>
+    <>
+    <Communication
+        formState={formState}
+        // serverState={formQueryState}
+        />
+    <form className={currentPathContext.transitionClass}>
       {
         !!typeOfData
           &&
@@ -250,7 +265,8 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                     name={item_input!.registerId}
                     defaultValue={defaultValueList && defaultValueList[item_input!.registerId].value}
                     control={control}
-                    render={({field})=>
+                    render={()=>
+                      
                       <Select
                      styles={{
                       
@@ -275,17 +291,20 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                     //  {...field}
                      className="selectOptions" 
                      isMulti={
-                      
+                      !!item_input.options
+                      &&
                       item_input.options.isMultiple}
                      options={
-                      
+                      !!item_input.options
+                      ?
                       item_input.options.list.map((item_option)=>{
-                      defaultValueList &&
-                      console.warn(defaultValueList[item_input!.registerId],item_input.options?.isMultiple)
                        return {
                       value:item_option.value,
                       label:item_option.label
-                     }})}
+                     }
+                    })
+                    : []
+                  }
                      onChange={(e)=>setValue(item_input.registerId,
                       item_input.options?.isMultiple
                       ? (()=>{
@@ -491,10 +510,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
           )
 
         }
-        <Communication
-        formState={formState}
-        // serverState={formQueryState}
-        />
+        
         {/* {
            !!formQueryState.isSuccessView
           && <ServerMessage
@@ -607,6 +623,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
         }
 
     </form>
+    </>
   )
 }
 

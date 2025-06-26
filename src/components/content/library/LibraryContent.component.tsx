@@ -5,6 +5,7 @@ import HeaderTitle from "../../header_title/HeaderTitle.component"
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../spinner/Spinner.component";
 import useHandlePath from "../../../hooks/useHandlePath";
+import NoData from "../../empty/NoData.component";
 
 
 const LibraryContent = ({id}:{id:string}) => {
@@ -51,11 +52,16 @@ const LibraryContent = ({id}:{id:string}) => {
               ? <div className="loadLibrariesContainer">
                   <Spinner/>
               </div>
-            : <div className="dataContentContainer">
+            : 
+            <>
+            {
+              !!libraries?.length
+              ?
+              <div className="dataContentContainer">
             {
               
-                !!libraries?.length
-                ? libraries.map((item)=>
+                
+                 libraries.map((item)=>
                 {
                   return <div
                 //   className={
@@ -91,9 +97,14 @@ const LibraryContent = ({id}:{id:string}) => {
                     </div>
                 }
                 )
-                : <>Nenhuma biblioteca encontrada</>
               }
             </div>
+            : <NoData
+            dataType="biblioteca"
+            gender="F"
+            />  
+          }
+            </>
             }
       </section>
     </section>

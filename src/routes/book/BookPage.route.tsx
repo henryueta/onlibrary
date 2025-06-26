@@ -14,6 +14,7 @@ import TitleDescription from "../../components/title_description/TitleDescriptio
 import useHandlePath from "../../hooks/useHandlePath";
 import Dialog from "../../components/dialog/Dialog.component";
 import NoData from "../../components/empty/NoData.component";
+import Load from "../../components/load/Load.component";
 
   interface LibraryStateProps {
       libraryData:BookLibrariesProps | null,
@@ -202,7 +203,7 @@ const BookPage = () => {
              <section className={"bookPageSection "+currentPathContext.transitionClass}>
                   {/* <Load loadState={queryState.isLoading}/> */}
             {  !!bookState.data
-            && 
+            &&
               <>
                 <section className="bookDataSection">
                   <div className="capeContainer">
@@ -288,15 +289,18 @@ const BookPage = () => {
                       const current_libraryData = data as BookLibrariesProps
                       
                       onAxiosQuery("get",{
-                        url:"http://localhost:4200/exemplary/get?id_biblioteca="+current_libraryData.fkIdBiblioteca+"&id_livro="+id,
+                        url:"https://onlibrary-api.onrender.com/api/exemplar/situacoes",
                         type:{
                           get:{
+                            params:{
+                              id_biblioteca:current_libraryData.fkIdBiblioteca,
+                              id_livro:id
+                            }
                             
                           }
                         },
                         onResolver:{
                           then(result) {
-                            console.log(result)
                             const current_exemplaryListData = result.data as Pick<ExemplaryTableQueryProps,'situacao'>[];
                             const current_exemplaryQuantity = current_exemplaryListData.length
                             setReserveExemplaryQuantity(1)

@@ -27,6 +27,7 @@ const LibraryRegisterPage = ()=>{
           </div>
       </div>
          <Form
+         redirectTo="/user/libraries"
           method={{
            post:true,
            put:false

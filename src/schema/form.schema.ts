@@ -172,9 +172,8 @@ const schema = {
             livros_biblioteca:z.string().min(1,{
                 message:"Campo livro inválido"
             }),
-            numero_tombo:z.string().refine((val)=>val.length > 0 && val.length <= 12,{
-                message:"Campo identificador inválido"
-            }),
+            numero_tombo:z.string().refine((val)=>val.length === 13,
+            {message:"Campo identificador inválido"}),
             situacao:z.enum(['disponivel','indisponivel','reservado','emprestado']),
             setor:z.string().optional(),
             prateleira:z.string().optional(),
