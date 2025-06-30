@@ -1,7 +1,6 @@
 import Search from "../../search/Search.component";
 import "./NavHome.component.css";
 import onlibrary_logo from "../../../assets/imgs/logo/onlibrary_logo.png";
-import { Link, useNavigate } from "react-router-dom";
 import UserAccount from "../../account/user/UserAccount.component";
 import Notification from "../../notification/Notification.component";
 import useHandleAuth from "../../../hooks/usehandleAuth";
@@ -39,6 +38,7 @@ const NavHome = () => {
           url:"https://onlibrary-api.onrender.com/api/livro/search/suggestions"
         }}
         onSearch={(value,quantity,filter)=>{
+          console.log(quantity)
           onTransition("/search/"+value+"/"+filter,{
             hasReplace:false
           })

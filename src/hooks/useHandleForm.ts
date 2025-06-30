@@ -206,7 +206,6 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                     },
                     library_user:()=>{
                         const library_user_data = form.data as LibraryUserTableQueryProps
-                        console.log(library_user_data)
                         return (
                             {
                                 url:tableRoutes['library_user'].post,
@@ -458,14 +457,26 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
                 
 
             //   const current_url = checkTables[form.type]().url+"&userId="+current_userId.user_id;
-              !!form.data &&
+              !!form.data 
+              &&
+              form.type !== 'library_book'  
+                    &&
+                    form.type !== 'library_author'
+                    &&
+                    form.type !== 'library_category'
+                    &&
+                    form.type !== 'library_gender'
+                    &&
+                    form.type !== 'library_publisher'
+                    &&
               (()=>{
                 axios.defaults.withCredentials = true
                 onAxiosQuery("post",{
                     hasFormData:(
                         form.type === "book"
                     ),
-                    url:checkTables[form.type]().url,
+                    url:
+                     checkTables[form.type]().url,
                     type:{
                       post:{
                         data:checkTables[form.type]().data.post
@@ -489,7 +500,17 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
               })()
                })()
             },
-            update:()=>{                
+            update:()=>{ 
+                form.type !== 'library_book'  
+                    &&
+                    form.type !== 'library_author'
+                    &&
+                    form.type !== 'library_category'
+                    &&
+                    form.type !== 'library_gender'
+                    &&
+                    form.type !== 'library_publisher'
+                    &&               
                 onAxiosQuery("put",{
                     hasFormData:(
                         form.type === "book"
@@ -534,21 +555,26 @@ const current_userId = JSON.parse(Cookies.get("user_id") || "{}");
     }
 
 useEffect(()=>{
-    const source = axios.CancelToken.source();
+
     !!formObject
     && !!typeOfForm
     && typeOfForm !== "library_management"
     && typeOfForm !== "global_management"
     && currentLibraryContext.libraryId
+    && 
+    (()=>{
+        const source = axios.CancelToken.source();
+        onQueryForm(
+        currentLibraryContext.libraryId,
+        {
+            type:typeOfForm,
+        },"select",false,source.token)
 
-    && onQueryForm(
-    currentLibraryContext.libraryId,
-    {
-        type:typeOfForm,
-    },"select",source.token)
-    return ()=>{
-      source.cancel()
-    }
+        return ()=>{
+        source.cancel()
+        }
+    })()
+    
 },[formObject,typeOfForm,currentLibraryContext.libraryId])
 
 

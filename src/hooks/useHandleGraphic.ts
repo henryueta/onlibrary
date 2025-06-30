@@ -115,18 +115,22 @@ const useHandleGraphic = ( management:"library" | "global")=>{
         //     ? [1,5,10,22]
         //     : []
         // })
-        !!(management === 'library' && !!currentLibraryContext.libraryId)
+        (!!(management === 'library' && !!currentLibraryContext.libraryId)
         ||
-        !!(management === 'global')
+        !!(management === 'global'))
         &&
 
         onAxiosQuery("get",{
             url:"https://onlibrary-api.onrender.com/api/data/graficos",
             type:{
                 get:{
-                    params:{
+                    params:management === 'library'
+                    ? {
                         nome_tabela:checkGraphicType[graphicTable.type].table,
                         id_biblioteca:currentLibraryContext.libraryId
+                    }
+                    : {
+                        nome_tabela:checkGraphicType[graphicTable.type].table,
                     }
                 }
             },

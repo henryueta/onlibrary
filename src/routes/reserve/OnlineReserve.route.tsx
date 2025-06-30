@@ -17,7 +17,7 @@ import NoData from "../../components/empty/NoData.component";
 const OnlineReserve = () => {
 
     const {id} = useParams();
-    const {bookState} = useHandleBook(!!id ? id : '' ,{width:156,height:250});
+    const {bookState} = useHandleBook(!!id ? id : '');
     const {onlineReserveState,onGetLibraryData,onOnlineReserve,reserveQueryState} = useHandleOnlineReserve();
     const [reserveExemplaryQuantity,setReserveExemplaryQuantity] = useState<number>(1);
     const [noLibraryWarn,setNoLibraryWarn] = useState<boolean>(false);

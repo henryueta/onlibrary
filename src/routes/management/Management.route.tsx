@@ -170,15 +170,23 @@ const Management = ({hasGroupTableCard,mode,management}:ManagementProps) => {
             }/>
           )
           }
-            <button
-            onClick={()=>{
-              onQueryLibraryData()
-            }}
-            >Click</button>
+           
           {
             mode == "default"
             ? 
-                <GraphicManagement management={management}/>
+            <>
+              <div className="summaryContainer">
+                <button
+                  className="acceptButton"
+                  onClick={()=>{
+                    onQueryLibraryData()
+                  }}
+                  >Baixar relatório
+                </button>
+              </div>
+              <GraphicManagement management={management}/>
+            </>
+                
             :
             !!type &&
             mode == "get"

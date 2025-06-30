@@ -1,4 +1,4 @@
-import { createContext,Dispatch,SetStateAction,useContext,useState } from "react"
+import { createContext,Dispatch,SetStateAction,useState } from "react"
 
   export type FormDataProps = Record<"nome"|"sobrenome"|"cpf"|"username"|"email"|"senha",string> | null
 

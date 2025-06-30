@@ -24,6 +24,9 @@
    font-size: 1.6rem;
 }
 
+.listBookSection>.spinnerContainer{
+  height: 105px;
+}
 
 .listBookSection .itemListContainer{
   display: flex;

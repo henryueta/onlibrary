@@ -4,17 +4,15 @@ import NavHome from "../../components/nav/home/NavHome.component";
 import "./BookPage.route.css";
 import { useParams } from "react-router-dom";
 import useAxios from "../../hooks/useAxios";
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 import Word from "../../classes/word.class";
 import TableHome from "../../components/table/home/TableHome.component";
 import useHandleBook, { BookLibrariesProps } from "../../hooks/useHandleBook";
 import { ExemplaryTableQueryProps } from "../../objects/table.object";
-import useHandleAuth from "../../hooks/usehandleAuth";
 import TitleDescription from "../../components/title_description/TitleDescription.component";
 import useHandlePath from "../../hooks/useHandlePath";
 import Dialog from "../../components/dialog/Dialog.component";
 import NoData from "../../components/empty/NoData.component";
-import Load from "../../components/load/Load.component";
 
   interface LibraryStateProps {
       libraryData:BookLibrariesProps | null,
@@ -84,10 +82,8 @@ import Load from "../../components/load/Load.component";
 const BookPage = () => {
 
   const {id} = useParams();
-  const {onAxiosQuery,queryState} = useAxios()
- const {bookState} = useHandleBook(!!id ? id : '' ,{width:344,height:550});
-  const [reserveExemplaryQuantity,setReserveExemplaryQuantity] = useState<number>(1);
-  const {authContext} = useHandleAuth();
+  const {onAxiosQuery} = useAxios()
+ const {bookState} = useHandleBook(!!id ? id : '');
 
   const {onTransition,currentPathContext} = useHandlePath();
 
@@ -201,7 +197,6 @@ const BookPage = () => {
         }}>
             
              <section className={"bookPageSection "+currentPathContext.transitionClass}>
-                  {/* <Load loadState={queryState.isLoading}/> */}
             {  !!bookState.data
             &&
               <>
@@ -224,9 +219,6 @@ const BookPage = () => {
                             onTransition("/book/online_reserve/"+id,{
                               hasReplace:false
                             })
-                            // !!authContext.userId
-                            // ? onNavigate("/book/online_reserve/"+id)
-                            // : onNavigate("/login")
                           }}>
                             Reservar
                           </button>
@@ -303,7 +295,6 @@ const BookPage = () => {
                           then(result) {
                             const current_exemplaryListData = result.data as Pick<ExemplaryTableQueryProps,'situacao'>[];
                             const current_exemplaryQuantity = current_exemplaryListData.length
-                            setReserveExemplaryQuantity(1)
                             setLibraryState({
                               type:"exemplary",
                               value:current_exemplaryQuantity

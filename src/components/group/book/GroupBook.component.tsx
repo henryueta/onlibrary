@@ -40,7 +40,6 @@ const GroupBook = ({category,title}:GroupBookProps) => {
           console.log(error)
         },
         then(result) {
-          console.log(result.data)
           const bookList_data = result.data.data as bookCardProps
                 setBooks(bookList_data)
         },

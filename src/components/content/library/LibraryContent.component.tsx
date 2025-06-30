@@ -8,7 +8,7 @@ import useHandlePath from "../../../hooks/useHandlePath";
 import NoData from "../../empty/NoData.component";
 
 
-const LibraryContent = ({id}:{id:string}) => {
+const LibraryContent = () => {
     const {onLibraryId,currentLibraryContext,onQueryLibraries,libraries,queryState} = useHandleLibrary()
     const [currentLibrary,setCurrentLibrary] = useState<LibraryProps | null>(null);
     const onNavigate = useNavigate();

@@ -1,24 +1,11 @@
 import { useContext, useEffect, useReducer } from "react";
 import { AuthContext } from "../context/AuthContext";
 import Cookies from "js-cookie";
-import user_model from "../models/user.json";
 import axios from "axios";
 import {  UserTableQueryProps } from "../objects/table.object";
 import useAxios, { ActionQueryType, QueryStateProps } from "./useAxios";
 
 export type UserProps = Record<'id'|'name'|'lastName'|'cpf'|'username'|'email'|'telephone',string>;
-
-
-
-interface QueryTokenProps {
-    errorResponse:{
-        hasError:boolean,
-        errorValue:string
-    },
-    authResponse:{
-        data:UserProps | null
-    }
-}
 
 type HandleAuthProps = "register" | "login";
 
@@ -97,7 +84,7 @@ const useHandleAuth = ()=>{
                         }
                     },
                     onResolver:{
-                        then:(result)=>console.log(result),
+                        then:()=>{},
                         catch:(error)=>console.log(error),
                     }
                 })
@@ -126,7 +113,6 @@ const useHandleAuth = ()=>{
                             }
                          {
                         }
-                         //b011be5e-4d07-4052-9763-6a6fb76e085a
                             Cookies.set("user_id",JSON.stringify({user_id:auth.data.id}))
                             Cookies.set("library",JSON.stringify({library_id:"",name:""}))
                             Cookies.set("jwt",JSON.stringify({
@@ -161,37 +147,12 @@ const useHandleAuth = ()=>{
         return JSON.parse(Cookies.get("userStatus") || "{}") || null
     }
 
-
-
-    const onHandleToken = (token:string):QueryTokenProps=>{
-        return token.length > 0
-        ?  {
-            errorResponse:{
-                errorValue:"",
-                 hasError:false
-            },
-            authResponse:{
-                data:user_model
-            }
-        }
-        : {
-            errorResponse:{
-                errorValue:"",
-                 hasError:false
-            },
-            authResponse:{
-                data:null
-            }
-        }
-    }
-
 return {
     authContext,
     authState,
     onHandleAuth,
     queryState,
     onHandleStatus,
-    onHandleToken,
 }
 
 

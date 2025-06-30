@@ -148,8 +148,7 @@ const useHandleNotification = ({type,id}:NotificationProps)=>{
         }
       },
       onResolver:{
-        then(result) {
-          console.log(result.data)
+        then() {
         },
         catch(error) {
           console.log(error)

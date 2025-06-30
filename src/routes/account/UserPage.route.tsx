@@ -163,7 +163,7 @@ const UserPage = () => {
                       : 
                       type == "libraries"
                       &&
-                      <LibraryContent id={authContext.userId}/>
+                      <LibraryContent/>
                     }
  
                   </div>

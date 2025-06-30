@@ -99,8 +99,7 @@ const UserContent = ({id}:{id:string}) => {
                             post:false,
                             put:true
                         }}
-                        onSubmit={(data)=>{
-                            console.log(data)
+                        onSubmit={()=>{
                         }}
                         typeOfData="user"
                         />

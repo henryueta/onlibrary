@@ -3,7 +3,6 @@ import { SearchContext } from "../context/SearchContext"
 import useAxios from "./useAxios"
 import useHandleSuggestion from "./useHandleSuggestion"
 import useHandlePath from "./useHandlePath"
-import useHandleLibrary from "./useHandleLibrary"
 import axios from "axios"
 
 
@@ -74,7 +73,6 @@ const useHandleSearch = (suggestion?:{
 })=>{
 
     const {onAxiosQuery} = useAxios();
-    const {currentLibraryContext} = useHandleLibrary();
     const currentSearchContext = useContext(SearchContext)
     const {setSuggestionState,suggestionState} = useHandleSuggestion();
     const {currentPathContext} = useHandlePath();
@@ -108,7 +106,6 @@ const useHandleSearch = (suggestion?:{
             onResolver:{
               then(result) {
                 const result_data = result.data.data as SearchResultProps[]
-                console.log(result)
                 setSearchState({
                   type:"result",
                   value:result_data
@@ -187,7 +184,6 @@ const useHandleSearch = (suggestion?:{
       },
       onResolver:{
         then(result) {
-          console.log(result.data)
           const suggestion_list_data = result.data.data as {
             sugestao:string,
             tipo:string

@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from "react";
-import { ActionQueryType, QueryStateProps } from "./useAxios";
+import { QueryStateProps } from "./useAxios";
 
 export interface CommunicationStateProps {
     isErrorView:boolean,
@@ -44,39 +44,11 @@ export interface CommunicationStateProps {
             }
   }
 
-const initialFormCommunicationState:QueryStateProps = {
-    success:{
-        data:null,
-        message:"",
-        success:false
-    },
-    error:{
-        error:"",
-        message:"",
-        status:0,
-        data:""
-    },
-    isLoading:false
-}
 
-
-const handleFormCommunicationState = (state:QueryStateProps,action: ActionQueryType)=>{
-        switch (action.type) {
-            case "success":
-                return {...state,success:action.value}
-            case "error":
-                return {...state,error:action.value}
-            case "isLoading":
-                return {...state,isLoading:action.value}
-            default:
-                return state
-    }
-}
   
 const useCommunication = (formState:QueryStateProps)=>{
 
    const [communicationState,setCommunicationState] = useReducer(handleCommunicationState,initialCommunicationState);
-   const [formCommunicationState,setFormCommunicationState] = useReducer(handleFormCommunicationState,initialFormCommunicationState)
 
    useEffect(()=>{
     console.log(formState.error)

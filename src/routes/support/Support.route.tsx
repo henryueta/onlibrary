@@ -7,7 +7,6 @@ import Communication from "../../components/communication/Communication.componen
 import Spinner from "../../components/spinner/Spinner.component";
 import useHandleAuth from "../../hooks/usehandleAuth";
 import useHandlePath from "../../hooks/useHandlePath";
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";

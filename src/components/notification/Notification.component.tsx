@@ -155,7 +155,11 @@ const Notification = ({type,id}:NotificationProps)=>{
         <h1>
           {`Notificações (
           ${!!notificationState.userNotifications.length 
-          ? notificationState.userNotifications.filter((item)=>!item.marcado_lido).length.toString() 
+          ? notificationState.userNotifications.filter((item)=>{
+            return type === 'admin'
+            ? !!(!item.marcado_lido || !item.concluido)
+            : !!(!item.marcado_lido)
+          }).length.toString() 
           : "0"}
           )`}
         </h1>

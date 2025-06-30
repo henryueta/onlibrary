@@ -12,7 +12,7 @@ export interface QueryErrorProps {
 }
 
 export interface QuerySuccessProps {
-    data:any,////////mudar tipagem
+    data:any,
     message:string,
     success:boolean
 }
@@ -155,10 +155,6 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
                })()
         },
         put:()=>{
-            // const formData = new FormData();
-            // for(let item in query.type.put?.data){
-            //     formData.append()
-            // }
             (!!query.type.put?.data)
             &&
             (()=>{
@@ -175,6 +171,8 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
                 !!file_data
                 &&
                 formData.append("imagem",file_data)
+
+               
 
             axios.put(query.url,!!query.type.put?.data
                 ? query.type.put?.data
@@ -230,7 +228,6 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
                 })
                 .then((result)=>{
                 const current_success = result.data as QuerySuccessProps
-                console.log(result)
                 setQueryState({
                     type:"success",
                     value:{
@@ -275,10 +272,13 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
                     }
 
                 })
+
                 formData.append("data", new Blob([JSON.stringify(query.type.post.data)], { type: "application/json" }))
+                
                 !!file_data
                 &&
-                formData.append("imagem",file_data)
+                formData.append("capa",file_data)
+
 
             axios.post(query.url,(()=>{
                 return (
@@ -298,7 +298,6 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
                 }
             })
             .then((result)=>{
-                console.log(result.data)
                 const current_success = result.data as QuerySuccessProps
                 setQueryState({
                     type:"success",
@@ -314,7 +313,6 @@ const onAxiosQuery = (type:QueryType,query:AxiosQueryProps<T>,cancelToken?:Cance
                 .catch((error)=>{
                     console.log(error)
                     const current_error = error.response?.data as QueryErrorProps
-                    console.log(error.response.data)
                     setQueryState({
                         type:"error",
                         value:{

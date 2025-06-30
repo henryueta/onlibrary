@@ -57,10 +57,7 @@ const handleBookState = (state:BookStateProps,action:BookActionType)=>{
     }
 }
 
-const useHandleBook = (id:string,imageResize:{
-  width:number,
-  height:number
-})=>{
+const useHandleBook = (id:string)=>{
 
 const [bookState,setBookState] = useReducer(handleBookState,initialBookState);
 
@@ -120,7 +117,6 @@ const {onAxiosQuery} = useAxios()
       },
       onResolver:{
         then(result) {
-          console.log(result.data.data)
           const bookLibraries_data = result.data.data as BookLibrariesProps[]
           setBookState({
             type:"libraries",

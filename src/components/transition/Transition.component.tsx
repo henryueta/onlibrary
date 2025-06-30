@@ -62,7 +62,7 @@ const handleTransitionState = (state:TransitionStateProps,action:TransitionActio
 
 const Transition = ({children}:TransitionProps) => {
 
-    const [transitionState,setTransitionState] = useReducer(handleTransitionState,initialTransitionState);
+    const [transitionState] = useReducer(handleTransitionState,initialTransitionState);
 
 
   return (

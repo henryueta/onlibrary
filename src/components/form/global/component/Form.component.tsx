@@ -31,17 +31,6 @@ interface FormProps{
   buttonRef?:React.RefObject<HTMLButtonElement | null>
 }
 
-// const preference = ["id","nome","idade"]
-
-// const define = Object.entries(defaultValueList);
-
-// preference.map((item,index)=>{
-//   const a = define.find((item2,index2)=>{
-//     return  define[index2][0] == item
-//   })
-// })
-
-
 interface FormQueryStateProps {
   isErrorView:boolean,
   isSuccessView:boolean,
@@ -93,7 +82,6 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
   const [isUpdate,setIsUpdate] = useState<boolean>(false);
   const {form} = useHandleForm(typeOfData || "library_management"||"global_management")
   const {id} = useParams()
-  const [imagePreviewSource,setImagePreviewSource] = useState<string>("");
   
   const [formQueryState,setFormQueryState] = useReducer(handleFormQueryState,initialFormQueryState);
 
@@ -124,12 +112,11 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
     setDefaultValueList(defaultValues)
   },[defaultValues])
 
-  const {register,formState:{errors},handleSubmit,control,setValue,getValues} = useForm<SchemaType>({
+  const {register,formState:{errors},handleSubmit,control,setValue} = useForm<SchemaType>({
     mode:"all",
     reValidateMode:"onSubmit",
     resolver:zodResolver(schemaObject),
   });
-  console.log(getValues())
 
   const {onQueryForm,formState} = useHandleForm(typeOfData || "library_management"||"global_management")
   const {onTransition,currentPathContext} = useHandlePath();
@@ -148,10 +135,6 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
     !!formState.error.message
     &&
       (()=>{
-      //   setFormQueryState({
-      //   type:"error",
-      //   value:true
-      // })
       setFormQueryState({
         type:"submited",
         value:false
@@ -165,10 +148,6 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
     !!formState.success.message
     &&
     (()=>{
-      // setFormQueryState({
-      //   type:"success",
-      //   value:true
-      // })
 
       setFormQueryState({
         type:"submited",
@@ -192,7 +171,6 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
     <>
     <Communication
         formState={formState}
-        // serverState={formQueryState}
         />
     <form className={currentPathContext.transitionClass}>
       {
@@ -224,10 +202,6 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
               
               return item_input.type !== "hidden"
               &&(
-                // ((item_input.forForm.post || !item_input.forForm.put)
-                //   || 
-                //   (item_input.forForm.put || item_input.forForm.post))
-                // &&
               <div 
               className="inputDataContainer"
               style={
@@ -410,23 +384,6 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                       : ""
                     }
                     htmlFor={item_input.id} >
-                      {
-                      item_input.type === 'file'
-                      &&
-                      <div className="imagePreviewInfo">
-                        <p>Clique para escolher a imagem</p>
-                    </div>
-                    }
-                      {item_input.type === 'file'
-                      &&
-                      !!imagePreviewSource.length
-                      &&
-                      <img 
-                      id={item_input!.registerId} 
-                      src={imagePreviewSource}
-                      
-                      alt="image_preview"/>
-                    }
                       <input
                       disabled={
                         ( method.put && !isUpdate)
@@ -439,25 +396,16 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
                         && 
                         !item_input.forForm.put)
                       }
-                      defaultValue={defaultValueList && defaultValueList[item_input!.registerId]}
+                      defaultValue={
+                        defaultValueList
+                        &&
+                        !!(item_input.type !== 'file')
+                        ? defaultValueList[item_input!.registerId]
+                        : ""
+                      }
                       type={item_input!.type}
                       id={item_input!.id}
                       {...register(item_input!.registerId as Path<SchemaType>)}
-                      onChange={(e)=>{
-                        item_input.type === 'file'
-                        &&
-                        e.target.files?.length
-                        &&
-                        (()=>{
-                          const current_file = e.target.files[0]
-                          const reader = new FileReader();
-                          reader.onload = (e_img)=>{
-                            const image_source = e_img.target?.result as string
-                            setImagePreviewSource(image_source)
-                          }
-                          reader.readAsDataURL(current_file)
-                        })()
-                      }}
                       />
                     </label>
                     
@@ -510,37 +458,7 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
           )
 
         }
-        
-        {/* {
-           !!formQueryState.isSuccessView
-          && <ServerMessage
-          message={formState.success.message}
-          type="success"
-          onClose={
-            ()=>{
-              setFormQueryState({
-                type:"success",
-                value:false
-              })
-            }
-          }
-          />
-        }
-        {
-          !!formQueryState.isErrorView
-          &&  <ServerMessage
-          message={formState.error.message}
-          type="error"
-          onClose={
-            ()=>{
-              setFormQueryState({
-                type:"error",
-                value:false
-              })
-            }
-          }
-          />
-        } */}
+
         {
           !!!buttonRef
           &&
@@ -572,12 +490,6 @@ const Form = ({typeOfData,onSubmit,defaultValues,formSchema,fields,buttonRef,met
               disabled={
                 formQueryState.isSent
               }
-              // style={{
-              //   backgroundColor:
-              //   formQueryState.isSent
-              //   ? "var(--selectedBlue_var)"
-              //   : "var(--blue_var)" ,
-              // }}
               onClick={
                 handleSubmit((data:SchemaType)=>
              {

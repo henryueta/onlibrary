@@ -89,13 +89,6 @@ useEffect(()=>{
     
 },[dataFilter])
 
-    useEffect(()=>{
-
-        !!searchState.result
-        &&  
-        console.log(searchState.result)
-
-    },[searchState])
 
   return (
     <>

@@ -28,26 +28,6 @@ const useHandleTable = (management:ManagementType | "none")=>{
 
     },[queryState])
 
-    const onFilterTable = (type:Exclude<TableType,"library_management"|"global_management">,value:string,filter:string)=>{
-        onAxiosQuery("get",{
-            url:"",
-            type:{
-                get:{
-
-                }
-            },
-            onResolver:{
-                then(result) {
-                    console.log(result)
-                },
-                catch(error) {
-                    console.log(error)
-                },
-            }
-        })
-
-    }
-
     const onQueryCountTable = async <T extends any>(management:"global"|"library",type:string,action:(result:any)=>T,cancelToken?:CancelToken)=>{
         (!!currentLibraryContext.libraryId && management === "library"
         ||
@@ -79,10 +59,11 @@ const useHandleTable = (management:ManagementType | "none")=>{
      const onSetTableStructure = (data:any)=>{
         let headers = Object.entries(data[0]);
         setTableData({
-          headerList:headers.map((item,index)=>{
-              return headers[index][0]
+          headerList:headers.map((header_item)=>{
+              return header_item[0]
                }).filter((item)=>
-                 item !== "id" 
+                 item !== "id"
+                 && item !== "Id" 
                  && item !== "fkIdBiblioteca"
                  && item !== "fkIdUsuario"
                ),
@@ -104,26 +85,19 @@ const useHandleTable = (management:ManagementType | "none")=>{
             }
             data?:TableQueryProps
         },
-        //create precisa do tipo de tabela e data {retorna confirmação}()
-        //select(todos) precisa do tipo de tabela {retorna dados específicos}(coloca em tableData)
-        //select(unico) precisa do tipo de tabela e id {retorna todos os dados}(coloca em table)
-        //update precisa do tipo de tabela, id e data {retorna confirmação}()
-        //delete precisa do tipo de tabela e id {retorna confirmação}()
+
         type:QueryType,
         cancelToken?:CancelToken)=>{
             let onThen:((data:AxiosResponse)=>void) = ()=>{}
             const checkQueryType = {
                 create:()=>{
-                    // table.data && (
-                    //     console.log()
-                    // )
+
                 },
                 select:()=>{
                     table.referenceText
                     ? (()=>{
                         onThen = (result)=>{
                             const {data} = result
-                            console.log(data)
                             onSetTableStructure(data)
                         }
                     })()
@@ -144,7 +118,6 @@ const useHandleTable = (management:ManagementType | "none")=>{
                     : (()=>{
                     onThen = (result)=>{
                         const {data} = result;
-                        console.log("data",data)
                         !!data.length ?
                        (()=>{
                         onSetTableStructure(data)
@@ -152,11 +125,6 @@ const useHandleTable = (management:ManagementType | "none")=>{
                        : setTableData(null)
                     }
                     })()
-                    const check_for_managementUrl = (
-                        management === "library"
-                        ? "?id_biblioteca="+currentLibraryContext.libraryId+"&"
-                        : "?"
-                    )
                     !!(table.type !== 'library_management' && table.type !== 'global_management' )
                     &&
                     onAxiosQuery("get",{
@@ -169,8 +137,12 @@ const useHandleTable = (management:ManagementType | "none")=>{
                         type:{
                             get:{
                                 params:!table.referenceText
+                                ? management === 'library'
                                 ? {
                                     id_biblioteca:currentLibraryContext.libraryId,
+                                    type:table.type,
+                                }
+                                : {
                                     type:table.type,
                                 }
                                 : {
@@ -193,9 +165,6 @@ const useHandleTable = (management:ManagementType | "none")=>{
                     cancelToken)
                 },
                 update:()=>{
-                    // table?.id && table.data
-                    // ? console.log("vai atualizar")
-                    // : console.log("nao vai atualizar")
                 },
                 delete:()=>{
                     table.id 
@@ -244,8 +213,7 @@ const useHandleTable = (management:ManagementType | "none")=>{
         onSetTableStructure,
         onQueryCountTable,
         onQueryTableList,
-        onQueryTableListPath,
-        onFilterTable
+        onQueryTableListPath
     }
 
 }

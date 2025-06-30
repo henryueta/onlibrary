@@ -7,7 +7,6 @@ import triangleRetangle_icon from "../../../../src/assets/imgs/icons/triangleRet
 import { path } from "../../../objects/path.object"
 import { useNavigate } from "react-router-dom"
 import useHandleLibrary from "../../../hooks/useHandleLibrary";
-import Warn from "../../warn/Warn.component"
 import axios from "axios"
 import white_edit_icon from "../../../assets/imgs/icons/white_edit_icon.png";
 import white_delete_icon from "../../../assets/imgs/icons/white_delete_icon.webp";
@@ -78,6 +77,7 @@ const TableManagement = ({type,management}:TableManagementProps) => {
             <Search
             onChange={()=>{}}
             onSearch={(value,quantity,filter,cancelToken)=>{
+              console.log(quantity)
               type != "library_management"
               &&
               type != "global_management"
@@ -177,6 +177,7 @@ const TableManagement = ({type,management}:TableManagementProps) => {
                         item.map((item_data,index_data)=>
                         {
                           return Object.values(item_data)[0] !== 'id' 
+                          && Object.values(item_data)[0] !== "Id"
                           && Object.values(item_data)[0] !== "fkIdBiblioteca"
                           && Object.values(item_data)[0] !== "fkIdUsuario"
                            && <td key={index_data}>

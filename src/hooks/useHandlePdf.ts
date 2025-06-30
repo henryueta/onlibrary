@@ -9,13 +9,8 @@ declare module "jspdf" {
   interface jsPDF {
     lastAutoTable: {
       finalY: number;
-      // você pode adicionar outras propriedades se precisar
     };
   }
-}
-
-interface LibraryData {
-  [key: string]: Record<string, any>[]; 
 }
 
 const useHandlePdf = (management:ManagementType)=>{
@@ -81,8 +76,10 @@ const useHandlePdf = (management:ManagementType)=>{
             .map(col => ({ header: col.replace(/_/g, ' ').toUpperCase(), dataKey: col }))
         : [];
 
-      const body = tableData.map(obj =>
-        columns.map(col => obj[col.dataKey]) 
+      const body = tableData.map((obj:any) =>
+      {
+        return columns.map(col => obj[col.dataKey]) 
+      }
       );
 
       autoTable(doc,{

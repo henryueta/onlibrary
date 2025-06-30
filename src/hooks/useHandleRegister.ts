@@ -25,7 +25,7 @@ const initialRegisterState:RegisterStateProps = {
         error:"",
         message:"",
         status:0,
-        // data:null
+        data:""
     },
     isComplete:false,
     currentStep: 0
@@ -162,7 +162,7 @@ const useHandleRegister = ()=>{
                 }
             },
             onResolver:{
-                then:(result)=>console.log(result),
+                then:()=>{},
                 catch:(error)=>console.log(error)
             }
         })

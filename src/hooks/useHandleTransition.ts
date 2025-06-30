@@ -1,11 +1,6 @@
 import { useEffect, useReducer, useState } from "react";
 import { useNavigate } from "react-router-dom"
 
-interface TransitionProps {
-    children:React.ReactElement,
-    state:TransitionStateProps
-}
-
 interface TransitionStateProps {
     isEmerging:boolean,
     isDisappearing:boolean,

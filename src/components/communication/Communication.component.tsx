@@ -3,7 +3,6 @@ import useCommunication from "../../hooks/useHandleCommunication"
 import { QueryStateProps } from "../../hooks/useAxios";
 
 interface CommunicationProps {
-    // serverState:CommunicationStateProps
     formState:QueryStateProps
 }
 

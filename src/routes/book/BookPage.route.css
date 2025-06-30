@@ -9,6 +9,10 @@
    min-height: 1085px;
 }
 
+.bookPageSection  .capeContainer img{
+    width: 400px;
+}
+
 .bookPageSection>dialog{
     position: fixed;
     height: 100vh;

@@ -34,7 +34,7 @@ const LibraryRegisterPage = ()=>{
           }}
            formSchema={form.formList.find((item)=>item.name == "library")!.schema['post']}
           typeOfData={'library'}
-           onSubmit={(data)=>console.log(data)}
+           onSubmit={()=>{}}
            />
     </section>
   )

@@ -28,7 +28,6 @@ const CategoryProvider = ({children}:{children:React.ReactNode}) => {
                     },
                     onResolver:{
                       then(result) {
-                        console.log(result.data)
                         const category_data = result.data.data as CategoryType[]
                         const category_id_list:Set<CategoryType> = new Set([]);
                             const random_limit = (category_data.length);
@@ -42,7 +41,6 @@ const CategoryProvider = ({children}:{children:React.ReactNode}) => {
                             while(category_id_list.size < limit){
                                 const random_id = Math.floor(Math.random()*random_limit+0);
                                 category_id_list.add(id_list[random_id])
-                                console.log(id_list[random_id])
                             }
                             
     

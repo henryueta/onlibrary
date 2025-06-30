@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import useHandleAuth, { UserProps } from "../hooks/usehandleAuth";
+import useHandleAuth from "../hooks/usehandleAuth";
 import Cookies from "js-cookie";
 
 export interface UserStatus{
@@ -16,7 +16,6 @@ export interface UserStatus{
 interface AuthContextProps{
     userStatus:UserStatus | null
     setUserStatus:React.Dispatch<React.SetStateAction<UserStatus | null>>
-    user:UserProps | null,
     userId:string
     onLogout:()=>void
 }
@@ -26,10 +25,9 @@ const AuthContext = createContext({} as AuthContextProps);
 
 const AuthProvider = ({children}:{children:React.ReactNode})=>{
 
-    const {onHandleStatus,onHandleToken} = useHandleAuth();
+    const {onHandleStatus} = useHandleAuth();
     const [userStatus,setUserStatus] = useState<UserStatus | null>(onHandleStatus());
-    const [user,setUSer] = useState<UserProps | null>(null);
-    const [userId,setUserId] = useState<string>("")
+    const [userId,setUserId] = useState<string>("");
 
 
     useEffect(()=>{
@@ -57,14 +55,8 @@ const AuthProvider = ({children}:{children:React.ReactNode})=>{
         })
     }
 
-    // useEffect(()=>{
-    //     userStatus !== null
-    //     ? setUSer(onHandleToken("KJK1").authResponse.data)
-    //     : setUSer(onHandleToken("").authResponse.data);
-    // },[userStatus])
-
 return (
-    <AuthContext.Provider value={{userStatus,setUserStatus,user,userId,onLogout}}>
+    <AuthContext.Provider value={{userStatus,setUserStatus,userId,onLogout}}>
             {children}
     </AuthContext.Provider>
 )

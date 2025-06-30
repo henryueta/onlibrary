@@ -1,5 +1,4 @@
 import Word from "../../../classes/word.class"
-import "../global/Table.component.css"
 
 interface TableHomeProps<T extends object> {
     table:object[]

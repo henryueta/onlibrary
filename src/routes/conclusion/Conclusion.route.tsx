@@ -42,7 +42,7 @@ const Conclusion = ({type}:{type:ConclusionType}) => {
       }
     }
 
-    const [conclusionContent,setConclusionContent] = useState<ConclusionContentProps>
+    const [conclusionContent] = useState<ConclusionContentProps>
     (
       checkConclusionContentType[type]()
   );
